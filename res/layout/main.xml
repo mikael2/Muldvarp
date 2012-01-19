@@ -9,5 +9,12 @@
     android:layout_height="wrap_content"
     android:text="Hello World, MainActivity"
     />
+    
+    <Button android:text="Courses"
+        android:id="@+id/coursesbutton"
+        android:layout_width="250px"
+            android:textSize="18px"
+        android:layout_height="55px">
+    </Button>  
 </LinearLayout>
 
