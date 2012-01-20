@@ -22,9 +22,11 @@
         <activity android:name=".courses.CourseListActivity"
                   android:label="Courses List view">
         </activity>
+        
         <activity android:name=".courses.CourseGridActivity"
                   android:label="Courses Grid view">
         </activity>
+        
         <activity android:name=".courses.CourseDetailActivity"
                   android:label="Course Detail">
         </activity>
