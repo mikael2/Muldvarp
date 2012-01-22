@@ -28,5 +28,16 @@
         <activity android:name=".courses.CourseDetailActivity"
                   android:label="Course Detail">
         </activity>
+        <activity android:name=".library.LIBMainscreen"
+                  android:label="Library">
+        </activity>
+        <fragment android:name=".library.LIBmainAll"
+                  android:label="All">
+        </fragment>
+        <fragment android:name=".library.LIBmainDownloaded"
+                  android:label="Downloaded">
+        </fragment>
+        
+                  
     </application>
 </manifest>

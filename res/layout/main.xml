@@ -16,5 +16,12 @@
             android:textSize="18px"
         android:layout_height="55px">
     </Button>  
+    <Button
+        android:text="Library"
+        android:id="@+id/libraryButton"
+        android:layout_width="250px"
+        android:textSize="18px"
+        android:layout_height="55px">
+        </Button>
 </LinearLayout>
 

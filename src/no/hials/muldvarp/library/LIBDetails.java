@@ -11,7 +11,7 @@ import android.os.Bundle;
  *
  * @author Nospherus
  */
-public class NewActivity1 extends Activity {
+public class LIBDetails extends Activity {
 
     /**
      * Called when the activity is first created.

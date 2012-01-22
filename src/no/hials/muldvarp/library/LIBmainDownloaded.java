@@ -4,14 +4,18 @@
  */
 package no.hials.muldvarp.library;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import no.hials.muldvarp.R;
 
 /**
  *
  * @author Nospherus
  */
-public class NewActivity extends Activity {
+public class LIBmainDownloaded extends Fragment {
 
     /**
      * Called when the activity is first created.
@@ -20,5 +24,10 @@ public class NewActivity extends Activity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         // ToDo add your GUI initialization code here        
+    }
+    
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
+        return inflater.inflate(R.layout.library_downloaded, container, false);
     }
 }
