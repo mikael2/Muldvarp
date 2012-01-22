@@ -10,6 +10,7 @@ import android.widget.Button;
 import no.hials.muldvarp.courses.CourseActivity;
 import no.hials.muldvarp.desktop.SettingsFragment;
 import no.hials.muldvarp.desktop.TabListener;
+import no.hials.muldvarp.library.LIBMainscreen;
 
 public class MainActivity extends Activity
 {
