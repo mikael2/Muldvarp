@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.courses.CourseActivity;
+import no.hials.muldvarp.library.LIBMainscreen;
 
 /**
  *
@@ -29,6 +30,17 @@ public class DesktopFragment extends Fragment {
                 startActivityForResult(myIntent, 0);
             }
         });
+        
+        Button libraryButton = (Button) retVal.findViewById(R.id.libraryButton);
+        libraryButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), LIBMainscreen.class);
+                startActivityForResult(myIntent, 0);
+            }
+
+        });
+
         
         return retVal;
     }
