@@ -1,7 +1,8 @@
-package no.hials.muldvarp;
+package no.hials.muldvarp.desktop;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import no.hials.muldvarp.R;
 
 /**
  *
