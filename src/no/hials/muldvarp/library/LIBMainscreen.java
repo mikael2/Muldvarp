@@ -39,6 +39,10 @@ public class LIBMainscreen extends Activity {
                 .setText("Downloaded")
                 .setTabListener(new TabListener<no.hials.muldvarp.library.LIBmainDownloaded>(
                         this, "downloaded", no.hials.muldvarp.library.LIBmainDownloaded.class)));
+         bar.addTab(bar.newTab()
+                .setText("Favoirites")
+                .setTabListener(new TabListener<no.hials.muldvarp.library.LIBmainFavourites>(
+                        this, "favourites", no.hials.muldvarp.library.LIBmainFavourites.class)));
 
 
         if (savedInstanceState != null) {

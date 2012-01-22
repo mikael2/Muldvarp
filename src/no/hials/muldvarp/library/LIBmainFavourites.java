@@ -15,7 +15,7 @@ import no.hials.muldvarp.R;
  *
  * @author Nospherus
  */
-public class LIBmainDownloaded extends Fragment {
+public class LIBmainFavourites extends Fragment {
 
     /**
      * Called when the activity is first created.
@@ -26,8 +26,7 @@ public class LIBmainDownloaded extends Fragment {
         // ToDo add your GUI initialization code here        
     }
     
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
-        return inflater.inflate(R.layout.library_downloaded, container, false);
+        return inflater.inflate(R.layout.library_favourite, container, false);
     }
 }

@@ -37,6 +37,9 @@
         <fragment android:name=".library.LIBmainDownloaded"
                   android:label="Downloaded">
         </fragment>
+        <fragment android:name=".library.LIBmainFavourites"
+                  android:label="Favourites">
+        </fragment>
         
                   
     </application>
