@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Muldvarp</string>
+    <string name="desktop_name">Desktop</string>
+    <string name="settings_name">Settings</string>
 </resources>

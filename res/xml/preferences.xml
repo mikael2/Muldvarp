@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="first_preferencescreen">
+    <CheckBoxPreference
+        android:key="i am cool"
+        android:title="I Am Cool" />
+    <PreferenceScreen
+        android:key="second_preferencescreen"
+        android:title="Advanced Settings">
+        <CheckBoxPreference
+            android:key="prefer coolness"
+            android:title="Prefer Coolness" />
+    </PreferenceScreen>
+</PreferenceScreen> 
