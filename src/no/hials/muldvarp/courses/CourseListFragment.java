@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import java.util.ArrayList;
 import no.hials.muldvarp.R;
 
 /**
@@ -29,7 +29,19 @@ public class CourseListFragment extends Fragment {
         
         ListView listview = (ListView)fragmentView.findViewById(R.id.listview);
         
-        listview.setAdapter(new ArrayAdapter<String>(this.getActivity().getApplicationContext(), R.layout.course_list_item, R.id.courselisttext, COURSELISTITEMS));
+        // testdata
+        ArrayList array = new ArrayList();
+        Course c = new Course("Name", "Details");
+        array.add(c);
+        
+        listview.setAdapter(
+                new CourseListAdapter(
+                        this.getActivity().getApplicationContext(), 
+                        R.layout.course_list_item, 
+                        R.id.courselisttext, 
+                        array,
+                        true
+                        ));
         listview.setTextFilterEnabled(true);
         
         listview.setOnItemClickListener(new OnItemClickListener() {
@@ -41,8 +53,4 @@ public class CourseListFragment extends Fragment {
         
         return fragmentView;
     }
-    
-    static final String[] COURSELISTITEMS = new String[] {
-        "Test", "test2", "test3", "test4", "test5", "test6", "test7", "test8", "test9", "test10"
-    };
 }
