@@ -10,6 +10,7 @@ import android.widget.Button;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.courses.CourseActivity;
 import no.hials.muldvarp.library.LIBMainscreen;
+import no.hials.muldvarp.video.VideoMain;
 
 /**
  *
@@ -40,7 +41,18 @@ public class DesktopFragment extends Fragment {
             }
 
         });
+        
+        //Define the Video button and add listener.
+        Button videoButton = (Button) retVal.findViewById(R.id.videoButton);
+        libraryButton.setOnClickListener(new View.OnClickListener() {
 
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), VideoMain.class);
+                startActivityForResult(myIntent, 0);
+            }
+
+        });
+        
         
         return retVal;
     }
