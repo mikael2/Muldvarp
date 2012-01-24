@@ -1,30 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <TextView
-        android:text="Fagnavn"
-        android:textSize="15pt"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" 
+     android:layout_height="wrap_content" 
+     android:layout_width="fill_parent"
+     android:layout_weight="1">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-    <TextView
-        android:text="Beskrivelse"
-        android:textSize="15pt"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-    <TextView
-        android:text="Andre ting"
-        android:textSize="15pt"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-    <TextView
-        android:text="blablabla"
-        android:textSize="15pt"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-</LinearLayout>
+        android:spacing="40dip">
+        <TableRow>
+            <TextView
+            android:text="Fagnavn"
+            android:textSize="14pt"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+            android:text="Beskrivelse: "
+            android:textSize="8pt"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+            android:id="@+id/description"
+            android:textSize="7pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+            android:text="Andre ting:"
+            android:textSize="8pt"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        </TableRow>
+         <TableRow>
+            <TextView
+            android:id="@+id/andreting"
+            android:textSize="8pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+            android:text="Fleire ting:"
+            android:textSize="8pt"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        </TableRow>
+    </TableLayout>
+</ScrollView>
