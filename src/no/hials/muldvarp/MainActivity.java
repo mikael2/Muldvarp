@@ -36,23 +36,6 @@ public class MainActivity extends Activity
            .setTabListener(new TabListener<SettingsFragment>(
            this, SETTINGS_FRAGMENT, SettingsFragment.class));
         actionBar.addTab(tab);           
-        
-        /*Button testbutton = (Button) findViewById(R.id.coursesbutton);
-        testbutton.setOnClickListener(new View.OnClickListener() {
-          public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), CourseActivity.class);
-                startActivityForResult(myIntent, 0);
-            }
-
-        });
-        
-        Button libraryButton = (Button) findViewById(R.id.libraryButton);
-        libraryButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), LIBMainscreen.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });*/
 
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));

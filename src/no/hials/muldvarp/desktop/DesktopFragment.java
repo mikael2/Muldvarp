@@ -24,8 +24,8 @@ public class DesktopFragment extends Fragment {
         
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
         
-        Button testbutton = (Button) retVal.findViewById(R.id.coursesbutton);
-        testbutton.setOnClickListener(new View.OnClickListener() {
+        Button courseButton = (Button) retVal.findViewById(R.id.coursesbutton);
+        courseButton.setOnClickListener(new View.OnClickListener() {
           public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), CourseActivity.class);
                 startActivityForResult(myIntent, 0);

@@ -4,37 +4,42 @@
  */
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.R;
-import android.app.ListActivity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import no.hials.muldvarp.R;
 
 /**
  *
  * @author kristoffer
  */
-public class CourseListActivity extends ListActivity {
-    
+public class CourseListFragment extends Fragment {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         
-        setListAdapter(new ArrayAdapter<String>(this, R.layout.course_list_item, R.id.courselisttext, COURSELISTITEMS));
+        View fragmentView = inflater.inflate(R.layout.course_list, container, false);
         
-        ListView lv = getListView();
-        lv.setTextFilterEnabled(true);
+        ListView listview = (ListView)fragmentView.findViewById(R.id.listview);
         
-        lv.setOnItemClickListener(new OnItemClickListener() {
+        listview.setAdapter(new ArrayAdapter<String>(this.getActivity().getApplicationContext(), R.layout.course_list_item, R.id.courselisttext, COURSELISTITEMS));
+        listview.setTextFilterEnabled(true);
+        
+        listview.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                 Intent myIntent = new Intent(view.getContext(), CourseDetailActivity.class);
                 startActivityForResult(myIntent, 0);
             }  
-        });              
+        });  
+        
+        return fragmentView;
     }
     
     static final String[] COURSELISTITEMS = new String[] {
