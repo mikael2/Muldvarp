@@ -44,7 +44,7 @@ public class DesktopFragment extends Fragment {
         
         //Define the Video button and add listener.
         Button videoButton = (Button) retVal.findViewById(R.id.videoButton);
-        libraryButton.setOnClickListener(new View.OnClickListener() {
+        videoButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), VideoMain.class);

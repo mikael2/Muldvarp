@@ -33,16 +33,10 @@
         <activity android:name=".library.LIBMainscreen"
                   android:label="Library">
         </activity>
-        <fragment android:name=".library.LIBmainAll"
-                  android:label="All">
-        </fragment>
-        <fragment android:name=".library.LIBmainDownloaded"
-                  android:label="Downloaded">
-        </fragment>
-        <fragment android:name=".library.LIBmainFavourites"
-                  android:label="Favourites">
-        </fragment>
         
-                  
+        <activity android:name=".video.VideoMain"
+                  android:label="Video">
+        </activity>
+
     </application>
 </manifest>
