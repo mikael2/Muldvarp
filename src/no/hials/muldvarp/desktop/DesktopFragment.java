@@ -1,12 +1,16 @@
 package no.hials.muldvarp.desktop;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.video.VideoActivity;
+import no.hials.muldvarp.news.NewsActivity;
+import no.hials.muldvarp.directory.DirectoryActivity;
 import no.hials.muldvarp.courses.CourseActivity;
 import no.hials.muldvarp.library.LIBMainscreen;
 
@@ -23,12 +27,12 @@ public class DesktopFragment extends Fragment {
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
         
         
-    
-        createButton(retVal,R.id.directorybutton, CourseActivity.class);        
-        createButton(retVal,R.id.newsbutton,      CourseActivity.class);          
+        //Directory, News NYI, redirects to Video for now
+        createButton(retVal,R.id.directorybutton, VideoActivity.class);        
+        createButton(retVal,R.id.newsbutton,      VideoActivity.class);          
         createButton(retVal,R.id.coursesbutton,   CourseActivity.class);        
         createButton(retVal,R.id.libraryButton,   LIBMainscreen.class);        
-        createButton(retVal,R.id.videoButton,     CourseActivity.class);        
+        createButton(retVal,R.id.videoButton,     VideoActivity.class);        
         return retVal;
     }
 

@@ -25,9 +25,13 @@
         <activity android:name=".library.LIBMainscreen"
                   android:label="Library">
         </activity>
-        
-        <activity android:name=".video.VideoMain"
+
+        <activity android:name=".video.VideoActivity"
                   android:label="Video">
+        </activity>
+        
+        <activity android:name=".video.DirectoryActivity"
+                  android:label="Directory">
         </activity>
 
     </application>

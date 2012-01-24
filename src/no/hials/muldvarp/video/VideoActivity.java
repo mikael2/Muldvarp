@@ -17,7 +17,7 @@ import no.hials.muldvarp.R;
  *
  * @author johan
  */
-public class VideoMain extends Activity {
+public class VideoActivity extends Activity {
 
     /** Called when the activity is first created. */
     @Override
