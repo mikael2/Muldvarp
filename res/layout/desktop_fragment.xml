@@ -1,31 +1,30 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button android:id="@+id/coursesbutton"
+<GridLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:useDefaultMargins="true"
+        android:alignmentMode="alignBounds"
+        android:columnOrderPreserved="false"
+        android:columnCount="3">
+            
+    <Button android:id="@+id/directorybutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Courses"/>   
+            android:layout_margin="20dp"
+            android:drawableTop="@drawable/icon_directory"
+            android:background="@android:color/transparent"
+            android:paddingTop="32sp"
+            android:text="Directory"/>   
 
-    <Button android:id="@+id/libraryButton"
+    <Button android:id="@+id/newsbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Library"/>
-
-    <Button android:id="@+id/videoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Video"/>
-    
-=======
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+            android:layout_margin="20dp"
+            android:drawableTop="@drawable/icon_news"
+            android:background="@android:color/transparent"
+            android:paddingTop="32sp"
+            android:text="News"/>   
 
     <Button android:id="@+id/coursesbutton"
             android:layout_width="wrap_content"
@@ -44,5 +43,13 @@
             android:background="@android:color/transparent"
             android:paddingTop="32sp"         
             android:text="Library"/>
->>>>>>> 53eedb1c93bf4101027410420bda7cc2ddd4e104
-</LinearLayout>
+
+    <Button android:id="@+id/videoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:drawableTop="@drawable/icon_video"
+            android:background="@android:color/transparent"
+            android:paddingTop="32sp"         
+            android:text="Video"/>            
+</GridLayout>

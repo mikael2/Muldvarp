@@ -1,7 +1,6 @@
 package no.hials.muldvarp.desktop;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.courses.CourseActivity;
 import no.hials.muldvarp.library.LIBMainscreen;
-import no.hials.muldvarp.video.VideoMain;
 
 /**
  *
@@ -24,36 +22,23 @@ public class DesktopFragment extends Fragment {
         
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
         
-        Button courseButton = (Button) retVal.findViewById(R.id.coursesbutton);
-        courseButton.setOnClickListener(new View.OnClickListener() {
-          public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), CourseActivity.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
         
-        Button libraryButton = (Button) retVal.findViewById(R.id.libraryButton);
-        libraryButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), LIBMainscreen.class);
-                startActivityForResult(myIntent, 0);
-            }
-
-        });
-        
-        //Define the Video button and add listener.
-        Button videoButton = (Button) retVal.findViewById(R.id.videoButton);
-        videoButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), VideoMain.class);
-                startActivityForResult(myIntent, 0);
-            }
-
-        });
-        
-        
+    
+        createButton(retVal,R.id.directorybutton, CourseActivity.class);        
+        createButton(retVal,R.id.newsbutton,      CourseActivity.class);          
+        createButton(retVal,R.id.coursesbutton,   CourseActivity.class);        
+        createButton(retVal,R.id.libraryButton,   LIBMainscreen.class);        
+        createButton(retVal,R.id.videoButton,     CourseActivity.class);        
         return retVal;
+    }
+
+    private void createButton(View view, int buttonid, final Class action) {
+        Button button = (Button) view.findViewById(buttonid);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), action);
+                startActivityForResult(myIntent, 0);
+            }
+        });
     }
 }
