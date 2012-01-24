@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import java.util.ArrayList;
 import no.hials.muldvarp.R;
 
 /**
@@ -27,8 +28,21 @@ public class CourseGridFragment extends Fragment {
         
         View fragmentView = inflater.inflate(R.layout.course_grid, container, false);
    
+        // testdata
+        ArrayList array = new ArrayList();
+        Course c = new Course("Name", "Details");
+        array.add(c);
+        
+        
         GridView gridview=(GridView)fragmentView.findViewById(R.id.gridview);
-        gridview.setAdapter(new ArrayAdapter<String>(this.getActivity().getApplicationContext(),R.layout.course_grid_list_item, R.id.courselisttext,COURSELISTITEMS));
+        gridview.setAdapter(
+                new CourseListAdapter(
+                        this.getActivity().getApplicationContext(),
+                        R.layout.course_grid_list_item,
+                        R.id.courselisttext,
+                        array,
+                        false)
+                );
         
         gridview.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
