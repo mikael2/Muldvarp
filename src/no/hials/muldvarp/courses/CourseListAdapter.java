@@ -5,21 +5,12 @@
 package no.hials.muldvarp.courses;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
 
@@ -33,6 +24,8 @@ public class CourseListAdapter extends ArrayAdapter {
     private Context context;
     private int resource;
     private boolean showdetails;
+    
+    DrawableManager dm = new DrawableManager();
     
     ImageView icon;
     TextView name;
@@ -76,9 +69,7 @@ public class CourseListAdapter extends ArrayAdapter {
             detail.setText(c.getDetail());
         }
         
-        if (c.getImageurl() != null) {
-            DrawableManager dm = new DrawableManager();
-            
+        if (c.getImageurl() != null) {            
 //            Drawable image = dm.fetchDrawable(c.getImageurl());
 //            icon.setImageDrawable(image);
             
@@ -94,39 +85,39 @@ public class CourseListAdapter extends ArrayAdapter {
         return convertView;
     }
 
-    static class ViewHolder {
-        
-    }
-    
-    private Bitmap getImageBitmap(String url) {
-            Bitmap bm = null; 
-            try { 
-                URL aURL = new URL(url); 
-                URLConnection conn = aURL.openConnection(); 
-                conn.connect(); 
-                InputStream is = conn.getInputStream(); 
-                BufferedInputStream bis = new BufferedInputStream(is); 
-                bm = BitmapFactory.decodeStream(bis);
-                if (is != null) {
-                    is.close();
-                }
-                if (bis != null) {
-                    bis.close();
-                }
-           } catch (IOException e) { 
-               Log.e("Error getting image", e.toString()); 
-           } 
-           return bm; 
-        }
-    
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-         protected Bitmap doInBackground(String... urls) {
-             return getImageBitmap(urls[0]);
-         }
-
-         protected void onPostExecute(Bitmap result) {
-             icon.setImageBitmap(result);
-//             setImage(result);
-         }
-    }
+//    static class ViewHolder {
+//        
+//    }
+//    
+//    private Bitmap getImageBitmap(String url) {
+//            Bitmap bm = null; 
+//            try { 
+//                URL aURL = new URL(url); 
+//                URLConnection conn = aURL.openConnection(); 
+//                conn.connect(); 
+//                InputStream is = conn.getInputStream(); 
+//                BufferedInputStream bis = new BufferedInputStream(is); 
+//                bm = BitmapFactory.decodeStream(bis);
+//                if (is != null) {
+//                    is.close();
+//                }
+//                if (bis != null) {
+//                    bis.close();
+//                }
+//           } catch (IOException e) { 
+//               Log.e("Error getting image", e.toString()); 
+//           } 
+//           return bm; 
+//        }
+//    
+//    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+//         protected Bitmap doInBackground(String... urls) {
+//             return getImageBitmap(urls[0]);
+//         }
+//
+//         protected void onPostExecute(Bitmap result) {
+//             icon.setImageBitmap(result);
+////             setImage(result);
+//         }
+//    }
 }

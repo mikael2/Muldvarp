@@ -6,7 +6,9 @@ package no.hials.muldvarp.courses;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,17 +49,25 @@ public class CourseGridFragment extends Fragment {
                         false)
                 );
         
-        gridview.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                Intent myIntent = new Intent(view.getContext(), CourseDetailActivity.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity().getApplicationContext());
+        boolean loggedin = prefs.getBoolean("debugloggedin", false);
+        
+        if(loggedin == false) {
+            gridview.setOnItemClickListener(new OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);
+                    startActivityForResult(myIntent, 0);
+                }  
+            });  
+        } else {
+            gridview.setOnItemClickListener(new OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    Intent myIntent = new Intent(view.getContext(), CourseDetailActivity.class);
+                    startActivityForResult(myIntent, 0);
+                }  
+            });
+        }
         
         return fragmentView;
     }
-
-    static final String[] COURSELISTITEMS = new String[] {
-        "Test", "test2", "test3", "test4", "test5", "test6", "test7", "test8", "test9", "test10"
-    };
 }

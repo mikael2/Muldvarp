@@ -5,6 +5,9 @@
     <CheckBoxPreference
         android:key="i am cool"
         android:title="I Am Cool" />
+    <CheckBoxPreference
+        android:key="debugloggedin"
+        android:title="DEBUG Logged in" />
     <PreferenceScreen
         android:key="second_preferencescreen"
         android:title="Advanced Settings">

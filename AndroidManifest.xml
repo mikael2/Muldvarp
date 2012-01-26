@@ -23,6 +23,11 @@
         <activity android:name=".courses.CourseDetailActivity"
                   android:label="Course Detail">
         </activity>
+        
+        <activity android:name=".courses.CoursePublicDetailActivity"
+                  android:label="Courses">
+        </activity>
+        
         <activity android:name=".library.LIBMainscreen"
                   android:label="Library">
         </activity>
