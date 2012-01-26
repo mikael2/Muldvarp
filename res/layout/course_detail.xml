@@ -10,6 +10,7 @@
         android:spacing="40dip">
         <TableRow>
             <TextView
+            android:id="@+id/name"
             android:text="Fagnavn"
             android:textSize="14pt"
             android:layout_width="fill_parent"
@@ -19,7 +20,7 @@
         <TableRow>
             <TextView
             android:text="Beskrivelse: "
-            android:textSize="8pt"
+            android:textSize="9pt"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
         </TableRow>
@@ -33,14 +34,14 @@
         <TableRow>
             <TextView
             android:text="Andre ting:"
-            android:textSize="8pt"
+            android:textSize="9pt"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
         </TableRow>
          <TableRow>
             <TextView
             android:id="@+id/andreting"
-            android:textSize="8pt"
+            android:textSize="7pt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         </TableRow>

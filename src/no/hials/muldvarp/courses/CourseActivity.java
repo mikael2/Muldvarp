@@ -22,6 +22,7 @@ public class CourseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_main);
         
+        // BUG innhold i fragments henger igjen etter orientation skifte
         
         ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
