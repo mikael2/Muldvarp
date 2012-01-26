@@ -30,7 +30,7 @@ public class VideoActivity extends Activity {
         //Use ActionBar and configure the actionbar
         final ActionBar actionBar = getActionBar();
         //Show the title of the application on top of the ActionBar
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
+        actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
         //Show tabs
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
