@@ -36,6 +36,12 @@
         <activity android:name=".library.LibraryDetail"
                   android:label="LibraryDetails">
          </activity>
+         <activity android:name=".news.NewsActivity"
+                  android:label="NewsActivity">
+         </activity>
+         <activity android:name=".news.NewsCategoryAction"
+                  android:label="NewsCategoryAction">
+         </activity>
 
     </application>
 </manifest>

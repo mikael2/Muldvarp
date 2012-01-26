@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical" >
+    <Button android:id="@+id/sisteNytt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siste Nytt" />
+    <Button android:id="@+id/begivenheter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Begivenheter" />
+    <Button android:id="@+id/hvaSkjer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hva skjer på HiÅ" />
+    <Button android:id="@+id/hiåMedia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HiÅ i media" />
+    <Button android:id="@+id/forskning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forskning" />
+    <Button android:id="@+id/studenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Studenter" />
+    <Button android:id="@+id/ansatte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ansatte" />
+</LinearLayout>
