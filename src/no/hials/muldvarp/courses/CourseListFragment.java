@@ -31,7 +31,12 @@ public class CourseListFragment extends Fragment {
         
         // testdata
         ArrayList array = new ArrayList();
-        Course c = new Course("Name", "Details");
+        Course c = new Course("Longt seriøst fagnavn", "ID10101010");
+        for(int i = 0; i <= 10; i++) {
+           array.add(c); 
+        }
+        
+        c = new Course("Ikontest", "blablabla", "http://developer.android.com/assets/images/bg_logo.png");
         array.add(c);
         
         listview.setAdapter(

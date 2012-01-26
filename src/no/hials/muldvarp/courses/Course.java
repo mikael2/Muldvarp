@@ -14,10 +14,21 @@ public class Course {
     
     String name;
     String detail;
-    Bitmap thumb;
+    Bitmap image;
+    String imageurl;
+    
+    public Course(String name, String detail, String url) {
+        this.name = name;
+        this.detail = detail;
+        this.imageurl = url;
+    }
 
-    public Bitmap getThumb() {
-        return thumb;
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 
     public Course(String name, String detail) {
@@ -25,6 +36,14 @@ public class Course {
         this.detail = detail;
     }
 
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+    
     public String getDetail() {
         return detail;
     }
@@ -40,6 +59,4 @@ public class Course {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
 }
