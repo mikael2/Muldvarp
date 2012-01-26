@@ -22,7 +22,7 @@ public class DesktopFragment extends Fragment {
         // Inflate the layout for this fragment
         
         
-        View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
+        View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);        
         
         
         //Directory, News NYI, redirects to Video for now
