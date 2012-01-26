@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
@@ -30,9 +29,13 @@ public class CourseGridFragment extends Fragment {
    
         // testdata
         ArrayList array = new ArrayList();
-        Course c = new Course("Name", "Details");
-        array.add(c);
+        Course c = new Course("Longt seriøst fagnavn", "Details");
+        for(int i = 0; i <= 10; i++) {
+           array.add(c); 
+        }
         
+        c = new Course("Ikontest", "blablabla", "http://developer.android.com/assets/images/bg_logo.png");
+        array.add(c);
         
         GridView gridview=(GridView)fragmentView.findViewById(R.id.gridview);
         gridview.setAdapter(
