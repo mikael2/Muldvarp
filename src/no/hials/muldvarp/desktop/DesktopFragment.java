@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.video.VideoActivity;
-import no.hials.muldvarp.news.NewsActivity;
-import no.hials.muldvarp.directory.DirectoryActivity;
 import no.hials.muldvarp.courses.CourseActivity;
 import no.hials.muldvarp.library.LIBMainscreen;
+import no.hials.muldvarp.video.VideoActivity;
 
 /**
  *

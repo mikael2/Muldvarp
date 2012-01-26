@@ -33,6 +33,9 @@
         <activity android:name=".video.DirectoryActivity"
                   android:label="Directory">
         </activity>
+        <activity android:name=".library.LibraryDetail"
+                  android:label="LibraryDetails">
+         </activity>
 
     </application>
 </manifest>

@@ -4,21 +4,41 @@
  */
 package no.hials.muldvarp.library;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.graphics.Bitmap;
 
 /**
  *
  * @author Nospherus
  */
-public class LIBDetails extends Activity {
+public class LIBDetails {
 
-    /**
-     * Called when the activity is first created.
-     */
-    @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-        // ToDo add your GUI initialization code here        
+    String name;
+    String info;
+    Bitmap icon;
+    
+    public LIBDetails(String name, String info){
+        this.name = name;
+        this.info = info;
     }
+
+    public Bitmap getIcon() {
+        return icon;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
 }
