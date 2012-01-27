@@ -4,10 +4,11 @@
  */
 package no.hials.muldvarp.courses;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.TextView;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.desktop.TabListener;
 
 /**
  *
@@ -21,11 +22,30 @@ public class CourseDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_detail);
         
-        String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed accumsan mi. Phasellus porta semper nisi vel ultrices. Aenean ullamcorper orci vitae elit commodo ut imperdiet nibh pharetra. Etiam massa lorem, tristique vel ullamcorper sed, elementum et elit. Morbi sit amet urna at sapien consectetur tempor eget nec est. Proin rutrum mauris a turpis interdum at interdum augue mattis. Suspendisse ullamcorper pretium neque, et laoreet enim malesuada at. Pellentesque scelerisque, diam ac vehicula vestibulum, orci justo convallis quam, quis condimentum leo libero eget nisi. Morbi non sem arcu. Sed interdum sodales feugiat. Morbi cursus molestie eros, laoreet posuere sapien dictum sed. Maecenas eget volutpat leo. Fusce vel sapien risus, non placerat nisi. Praesent consectetur venenatis leo vel ultricies. Nullam eu dui lacus, sed vehicula dui. Sed pulvinar posuere fermentum. Praesent ullamcorper mollis malesuada.";
-        TextView t=(TextView)findViewById(R.id.description);
-        t.append(lorem);
+        // BUG innhold i fragments henger igjen etter orientation skifte
         
-        TextView t2=(TextView)findViewById(R.id.andreting);
-        t2.append(lorem);
+        ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowTitleEnabled(false);  
+        actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE); // ??
+
+        ActionBar.Tab tab = actionBar.newTab();
+        tab.setText("Work")
+           .setTabListener(new TabListener<CourseDetailWorkFragment>(
+           this, "Work", CourseDetailWorkFragment.class));
+        actionBar.addTab(tab);        
+
+        tab = actionBar.newTab();
+        tab.setText("Handins")
+           .setTabListener(new TabListener<CourseDetailHandinsFragment>(
+           this, "Handins", CourseDetailHandinsFragment.class));
+        actionBar.addTab(tab);
+        
+        tab = actionBar.newTab();
+        tab.setText("Exam")
+           .setTabListener(new TabListener<CourseDetailExamFragment>(
+           this, "Exam", CourseDetailExamFragment.class));
+        actionBar.addTab(tab);
     }
 }

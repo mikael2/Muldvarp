@@ -3,6 +3,7 @@
       package="no.hials.muldvarp"
       android:versionCode="1"
       android:versionName="1.0">
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-sdk android:minSdkVersion="14"
               android:targetSdkVersion="14" />
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
@@ -22,6 +23,11 @@
         <activity android:name=".courses.CourseDetailActivity"
                   android:label="Course Detail">
         </activity>
+        
+        <activity android:name=".courses.CoursePublicDetailActivity"
+                  android:label="Courses">
+        </activity>
+        
         <activity android:name=".library.LIBMainscreen"
                   android:label="Library">
         </activity>
@@ -35,7 +41,13 @@
         </activity>
         <activity android:name=".library.LibraryDetail"
                   android:label="LibraryDetails">
-        </activity>
+         </activity>
+         <activity android:name=".news.NewsActivity"
+                  android:label="NewsActivity">
+         </activity>
+         <activity android:name=".news.NewsCategoryAction"
+                  android:label="NewsCategoryAction">
+         </activity>
 
-    </application>
+    </application>    
 </manifest>

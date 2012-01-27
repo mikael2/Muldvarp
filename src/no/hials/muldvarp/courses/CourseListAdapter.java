@@ -25,6 +25,12 @@ public class CourseListAdapter extends ArrayAdapter {
     private int resource;
     private boolean showdetails;
     
+    DrawableManager dm = new DrawableManager();
+    
+    ImageView icon;
+    TextView name;
+    TextView detail;
+    
     public CourseListAdapter(Context context, int resource, int textViewResourceId, ArrayList items, boolean showdetails) {
         super(context, textViewResourceId, items);
         mInflater = LayoutInflater.from(context);
@@ -41,36 +47,77 @@ public class CourseListAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        //ViewHolder holder;
 
         if (convertView == null) {
-                convertView = mInflater.inflate(resource, parent, false);
-                holder = new ViewHolder();
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.detail = (TextView) convertView.findViewById(R.id.detail);
+            convertView = mInflater.inflate(resource, parent, false);
+            //holder = new ViewHolder();
+            icon = (ImageView) convertView.findViewById(R.id.icon);
+            name = (TextView) convertView.findViewById(R.id.name);
+            detail = (TextView) convertView.findViewById(R.id.detail);
 
-                convertView.setTag(holder);
+            //convertView.setTag(holder);
         } else {
-                holder = (ViewHolder) convertView.getTag();
+            //holder = (ViewHolder) convertView.getTag();
         }
 
         Course c = (Course)items.get(position);
 
-        holder.name.setText(c.getName());
+        name.setText(c.getName());
         
         if (showdetails == true) {
-            holder.detail.setText(c.getDetail());
+            detail.setText(c.getDetail());
         }
-                
-//        holder.icon.setImageBitmap(c.getThumb());
+        
+        if (c.getImageurl() != null) {            
+//            Drawable image = dm.fetchDrawable(c.getImageurl());
+//            icon.setImageDrawable(image);
+            
+            dm.fetchDrawableOnThread(c.getImageurl(), icon);
+            
+//            new DownloadImageTask().execute(c.getDetail());
+            
+//            holder.icon.setImageURI(c.getIcon());
+        } else {
+            icon.setImageResource(R.drawable.ic_launcher); // default app icon
+        }
         
         return convertView;
     }
 
-    static class ViewHolder {
-        ImageView icon;
-        TextView name;
-        TextView detail;
-    }
+//    static class ViewHolder {
+//        
+//    }
+//    
+//    private Bitmap getImageBitmap(String url) {
+//            Bitmap bm = null; 
+//            try { 
+//                URL aURL = new URL(url); 
+//                URLConnection conn = aURL.openConnection(); 
+//                conn.connect(); 
+//                InputStream is = conn.getInputStream(); 
+//                BufferedInputStream bis = new BufferedInputStream(is); 
+//                bm = BitmapFactory.decodeStream(bis);
+//                if (is != null) {
+//                    is.close();
+//                }
+//                if (bis != null) {
+//                    bis.close();
+//                }
+//           } catch (IOException e) { 
+//               Log.e("Error getting image", e.toString()); 
+//           } 
+//           return bm; 
+//        }
+//    
+//    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+//         protected Bitmap doInBackground(String... urls) {
+//             return getImageBitmap(urls[0]);
+//         }
+//
+//         protected void onPostExecute(Bitmap result) {
+//             icon.setImageBitmap(result);
+////             setImage(result);
+//         }
+//    }
 }
