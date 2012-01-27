@@ -23,10 +23,7 @@ public class DesktopFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        
-        
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);        
-        
         
         //Directory, News NYI, redirects to Video for now
         createButton(retVal,R.id.directorybutton, VideoActivity.class);        

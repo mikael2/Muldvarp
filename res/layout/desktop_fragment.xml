@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:drawableTop="@drawable/icon_video"
-            android:background="@android:color/transparent"
+            android:background="@android:color/white"
             android:paddingTop="32sp"         
-            android:text="Video"/>            
+            android:text="Video"/>   
 </GridLayout>
