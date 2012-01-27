@@ -24,7 +24,7 @@ public class MainActivity extends Activity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(false);  
         actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE); // ??
-
+        
         ActionBar.Tab tab = actionBar.newTab();
         tab.setText(R.string.desktop_name)
            .setTabListener(new TabListener<DesktopFragment>(

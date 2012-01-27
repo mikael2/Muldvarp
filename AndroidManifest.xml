@@ -23,6 +23,11 @@
         <activity android:name=".courses.CourseDetailActivity"
                   android:label="Course Detail">
         </activity>
+        
+        <activity android:name=".courses.CoursePublicDetailActivity"
+                  android:label="Courses">
+        </activity>
+        
         <activity android:name=".library.LIBMainscreen"
                   android:label="Library">
         </activity>
@@ -36,6 +41,12 @@
         </activity>
         <activity android:name=".library.LibraryDetail"
                   android:label="LibraryDetails">
+         </activity>
+         <activity android:name=".news.NewsActivity"
+                  android:label="NewsActivity">
+         </activity>
+         <activity android:name=".news.NewsCategoryAction"
+                  android:label="NewsCategoryAction">
          </activity>
 
     </application>    
