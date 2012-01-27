@@ -41,25 +41,6 @@ public class CourseActivity extends Activity {
            this, "Grid", CourseGridFragment.class));
         actionBar.addTab(tab);
         
-        
-        
-        
-//        Resources res = getResources(); // Resource object to get Drawables
-//        TabHost tabHost = getTabHost();  // The activity TabHost
-//        TabHost.TabSpec spec;  // Resusable TabSpec for each tab
-//        Intent intent;  // Reusable Intent for each tab
-//
-//        // Create an Intent to launch an Activity for the tab (to be reused)
-//        intent = new Intent().setClass(this, CourseListActivity.class);
-//
-//        // Initialize a TabSpec for each tab and add it to the TabHost
-//        spec = tabHost.newTabSpec("list").setIndicator("List").setContent(intent);
-//        tabHost.addTab(spec);
-//
-//        intent = new Intent().setClass(this, CourseGridActivity.class);
-//        spec = tabHost.newTabSpec("grid").setIndicator("Grid").setContent(intent);
-//        tabHost.addTab(spec);
-//
-//        tabHost.setCurrentTab(2);
+
     }
 }

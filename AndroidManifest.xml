@@ -35,7 +35,7 @@
         </activity>
         <activity android:name=".library.LibraryDetail"
                   android:label="LibraryDetails">
-         </activity>
+        </activity>
 
     </application>
 </manifest>
