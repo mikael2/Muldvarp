@@ -11,6 +11,7 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.courses.CourseActivity;
 import no.hials.muldvarp.library.LIBMainscreen;
 import no.hials.muldvarp.news.NewsActivity;
+import no.hials.muldvarp.video.VIdeoMainActivity;
 import no.hials.muldvarp.video.VideoActivity;
 
 /**
@@ -24,7 +25,7 @@ public class DesktopFragment extends Fragment {
         // Inflate the layout for this fragment
         
         
-        View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
+        View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);        
         
         
         //Directory, News NYI, redirects to Video for now

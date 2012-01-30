@@ -5,11 +5,8 @@
 package no.hials.muldvarp.courses;
 
 import android.app.ActionBar;
-import no.hials.muldvarp.desktop.TabListener;
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import no.hials.muldvarp.R;
 
 /**
@@ -23,30 +20,34 @@ public class CourseActivity extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_main);
-        
-        // BUG innhold i fragments henger igjen etter orientation skifte
-        
+                
         ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(false);  
         actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE); // ??
-        
-        
 
         ActionBar.Tab tab = actionBar.newTab();
-        tab.setText("List")
+        tab.setText(R.string.list)
            .setTabListener(new TabListener<CourseListFragment>(
            this, "List", CourseListFragment.class));
         actionBar.addTab(tab);        
 
         tab = actionBar.newTab();
-        tab.setText("Grid")
+        tab.setText(R.string.grid)
            .setTabListener(new TabListener<CourseGridFragment>(
            this, "Grid", CourseGridFragment.class));
         actionBar.addTab(tab);
+        
+        if (savedInstanceState != null) {
+            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
+        }
   
     }
     
-    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+    }
 }

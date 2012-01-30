@@ -3,4 +3,10 @@
     <string name="app_name">Muldvarp</string>
     <string name="desktop_name">Desktop</string>
     <string name="settings_name">Settings</string>
+    <string name="list">List</string>
+    <string name="grid">Grid</string>
+    <string name="course">Course</string>
+    <string name="work">Work</string>
+    <string name="handins">Handins</string>
+    <string name="exam">Exam</string>
 </resources>
