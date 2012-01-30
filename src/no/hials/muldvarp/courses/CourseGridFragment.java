@@ -31,12 +31,12 @@ public class CourseGridFragment extends Fragment {
    
         // testdata
         ArrayList array = new ArrayList();
-        Course c = new Course("Longt seriøst fagnavn", "Details");
-        for(int i = 0; i <= 10; i++) {
+        for(int i = 0; i <= 20; i++) {
+           Course c = new Course("Longt seriøst fagnavn " + i, "ID10101010");
            array.add(c); 
         }
         
-        c = new Course("Ikontest", "blablabla", "http://developer.android.com/assets/images/bg_logo.png");
+        Course c = new Course("Ikontest", "blablabla", "http://developer.android.com/assets/images/bg_logo.png");
         array.add(c);
         
         GridView gridview=(GridView)fragmentView.findViewById(R.id.gridview);

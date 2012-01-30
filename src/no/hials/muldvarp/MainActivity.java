@@ -4,8 +4,8 @@ import no.hials.muldvarp.desktop.DesktopFragment;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
+import no.hials.muldvarp.courses.TabListener; // Denne tablisteneren fikser buggen
 import no.hials.muldvarp.desktop.SettingsFragment;
-import no.hials.muldvarp.desktop.TabListener;
 
 public class MainActivity extends Activity
 {
