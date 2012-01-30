@@ -24,12 +24,14 @@ public class CourseListAdapter extends ArrayAdapter {
     private Context context;
     private int resource;
     private boolean showdetails;
+    private ArrayList orig_items;
     
     DrawableManager dm = new DrawableManager();
     
     public CourseListAdapter(Context context, int resource, int textViewResourceId, ArrayList items, boolean showdetails) {
         super(context, textViewResourceId, items);
         mInflater = LayoutInflater.from(context);
+        this.orig_items = items;
         this.items = items;
         this.context = context;
         this.resource = resource;
@@ -78,5 +80,26 @@ public class CourseListAdapter extends ArrayAdapter {
         ImageView icon;
         TextView name;
         TextView detail;
+    }
+    
+    public void filter(CharSequence filter)
+    {
+        ArrayList filtered = new ArrayList();
+        
+        for (Course c : (ArrayList<Course>)orig_items)
+        {
+            if (c.getName().toLowerCase().contains(filter.toString().toLowerCase()))
+            {
+                filtered.add(c);
+            }
+        }
+        
+        this.items = filtered;
+        
+        if("".equals(filter.toString())) {
+            this.items = this.orig_items;
+        }
+        
+        notifyDataSetChanged();  
     }
 }

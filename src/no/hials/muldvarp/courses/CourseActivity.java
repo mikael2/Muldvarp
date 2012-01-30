@@ -28,13 +28,13 @@ public class CourseActivity extends Activity {
         actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE); // ??
 
         ActionBar.Tab tab = actionBar.newTab();
-        tab.setText("List")
+        tab.setText(R.string.list)
            .setTabListener(new TabListener<CourseListFragment>(
            this, "List", CourseListFragment.class));
         actionBar.addTab(tab);        
 
         tab = actionBar.newTab();
-        tab.setText("Grid")
+        tab.setText(R.string.grid)
            .setTabListener(new TabListener<CourseGridFragment>(
            this, "Grid", CourseGridFragment.class));
         actionBar.addTab(tab);

@@ -61,7 +61,7 @@ public class CourseListFragment extends Fragment {
                         array,
                         true
                         ));
-        //listview.setTextFilterEnabled(true);
+        
         adapter = (CourseListAdapter)listview.getAdapter();
                
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity().getApplicationContext());
@@ -99,7 +99,7 @@ public class CourseListFragment extends Fragment {
 
         public void onTextChanged(CharSequence s, int start, int before,
                 int count) {
-            adapter.getFilter().filter(s);
+            adapter.filter(s);
         }
 
     };
