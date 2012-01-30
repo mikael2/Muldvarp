@@ -54,7 +54,7 @@ public class CustomListView extends ListFragment {
         
         for (int i = 0; i < 10; i++) {
             
-            videoArrayList.add(new Video("Video" + i, "Herf", "Derf", null, "Hurf"));
+            videoArrayList.add(new Video("Video" + i, "test", "test", "test", null, "test"));
             
         }
         

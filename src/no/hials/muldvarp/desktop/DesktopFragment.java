@@ -32,7 +32,7 @@ public class DesktopFragment extends Fragment {
         createButton(retVal,R.id.newsbutton,      NewsActivity.class);          
         createButton(retVal,R.id.coursesbutton,   CourseActivity.class);        
         createButton(retVal,R.id.libraryButton,   LIBMainscreen.class);        
-        createButton(retVal,R.id.videoButton,     VIdeoMainActivity.class);
+        createButton(retVal,R.id.videoButton,     VideoActivity.class);
         
         return retVal;
     }

@@ -19,9 +19,9 @@ public class Video extends ListItem {
     boolean savedLocally;
     
     
-    public Video(String itemName, String itemDescription, String itemType, Bitmap itemThumbnail, String videoURL) {
+    public Video(String itemName, String smallDetail, String itemDescription, String itemType, Bitmap itemThumbnail, String videoURL) {
         
-        super(itemName, itemDescription, itemType, itemThumbnail);
+        super(itemName, smallDetail, itemDescription, itemType, itemThumbnail);
         this.videoURL = videoURL;
         
     }
