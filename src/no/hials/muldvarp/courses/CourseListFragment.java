@@ -18,8 +18,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Space;
-import java.lang.Boolean;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
 
@@ -41,12 +39,12 @@ public class CourseListFragment extends Fragment {
         
         // testdata
         ArrayList array = new ArrayList();
-        Course c = new Course("Longt seriøst fagnavn", "ID10101010");
-        for(int i = 0; i <= 10; i++) {
+        for(int i = 0; i <= 20; i++) {
+           Course c = new Course("Longt seriøst fagnavn " + i, "ID10101010");
            array.add(c); 
         }
         
-        c = new Course("Ikontest", "blablabla", "http://developer.android.com/assets/images/bg_logo.png");
+        Course c = new Course("Ikontest", "blablabla", "http://developer.android.com/assets/images/bg_logo.png");
         array.add(c);
         
         
@@ -63,27 +61,27 @@ public class CourseListFragment extends Fragment {
                         array,
                         true
                         ));
-        listview.setTextFilterEnabled(true);
+        
         adapter = (CourseListAdapter)listview.getAdapter();
                
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity().getApplicationContext());
         boolean loggedin = prefs.getBoolean("debugloggedin", false);
 
         
-        if(loggedin == false) {
-            listview.setOnItemClickListener(new OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                    Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);
-                    startActivityForResult(myIntent, 0);
-                }  
-            });  
-        } else {
+        if(loggedin == true) {
             listview.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                     Intent myIntent = new Intent(view.getContext(), CourseDetailActivity.class);
                     startActivityForResult(myIntent, 0);
                 }  
             });
+        } else {
+            listview.setOnItemClickListener(new OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);
+                    startActivityForResult(myIntent, 0);
+                }  
+            }); 
         }
         
         
@@ -101,7 +99,7 @@ public class CourseListFragment extends Fragment {
 
         public void onTextChanged(CharSequence s, int start, int before,
                 int count) {
-            adapter.getFilter().filter(s);
+            adapter.filter(s);
         }
 
     };
