@@ -9,8 +9,6 @@
         android:columnCount="3">
             
     <Button android:id="@+id/directorybutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:drawableTop="@drawable/icon_directory"
             android:background="@android:color/transparent"
