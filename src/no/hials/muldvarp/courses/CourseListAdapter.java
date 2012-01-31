@@ -50,9 +50,9 @@ public class CourseListAdapter extends ArrayAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(resource, parent, false);
             holder = new ViewHolder();
-            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+            //holder.icon = (ImageView) convertView.findViewById(R.id.icon);
             holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.detail = (TextView) convertView.findViewById(R.id.detail);
+            //holder.detail = (TextView) convertView.findViewById(R.id.detail);
 
             convertView.setTag(holder);
         } else {
@@ -61,17 +61,21 @@ public class CourseListAdapter extends ArrayAdapter {
 
         Course c = (Course)items.get(position);
 
+        
+        //set text from layout
         holder.name.setText(c.getName());
         
-        if (showdetails == true) {
-            holder.detail.setText(c.getDetail());
-        }
+        holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
         
-        if (c.getImageurl() != null) {            
-            dm.fetchDrawableOnThread(c.getImageurl(), holder.icon); 
-        } else {
-            holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
-        }
+//        if (showdetails == true) {
+//            holder.detail.setText(c.getDetail());
+//        }
+        
+//        if (c.getImageurl() != null) {            
+//            dm.fetchDrawableOnThread(c.getImageurl(), holder.icon); 
+//        } else {
+//            holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
+//        }
         
         return convertView;
     }

@@ -36,7 +36,7 @@
                   android:label="Video">
         </activity>
 
-        <activity android:name=".video.VIdeoMainActivity" 
+        <activity android:name=".video.VideoMainActivity" 
                   android:label="VideoMain"/>
         
         <activity android:name=".video.DirectoryActivity"

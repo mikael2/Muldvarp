@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.courses.Course;
+import no.hials.muldvarp.entities.ListItem;
 
 /**
  * Bla bla bla KUSTOM MEGA-ADAPTA
@@ -28,15 +28,30 @@ public class ListViewAdapter extends ArrayAdapter {
     private int resource;
     private boolean showdetails;
     
-    public ListViewAdapter(Context context, int resource, int textViewResourceId, ArrayList items, boolean showdetails) {
-        super(context, textViewResourceId, items);
+    
+    /**
+     * Constructor for the ListViewAdapter class.
+     * 
+     * @param context
+     * @param resource Integer value of the resource ID
+     * @param textViewResourceIdX
+     * @param listItemArray
+     * @param showdetails 
+     */
+    public ListViewAdapter(Context context, int resource, int textViewResourceId, ArrayList listItemArray, boolean showdetails) {
+        super(context, textViewResourceId, listItemArray);
         mInflater = LayoutInflater.from(context);
-        this.items = items;
+        this.items = listItemArray;
         this.context = context;
         this.resource = resource;
         this.showdetails = showdetails;
     }
 
+    /**
+     * Returns int value of the array's size
+     * 
+     * @return Returns int value of the array's size
+     */
     @Override
     public int getCount() {
         return items.size();
@@ -58,12 +73,14 @@ public class ListViewAdapter extends ArrayAdapter {
                 holder = (ViewHolder) convertView.getTag();
         }
 
-        Course c = (Course)items.get(position);
-
-        holder.name.setText(c.getName());
+        //Course c = (Course)items.get(position);
+        ListItem listItem = (Video) items.get(position);
+        
+        
+        holder.name.setText("test+" + listItem.getItemName());
         
         if (showdetails == true) {
-            holder.detail.setText(c.getDetail());
+            holder.detail.setText(listItem.getItemDescription());
         }
                 
 //        holder.icon.setImageBitmap(c.getThumb());

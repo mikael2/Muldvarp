@@ -29,6 +29,14 @@ public class ListItem {
         
     }
 
+    public String getSmallDetail() {
+        return smallDetail;
+    }
+
+    public void setSmallDetail(String smallDetail) {
+        this.smallDetail = smallDetail;
+    }
+
     public String getItemDescription() {
         return itemDescription;
     }

@@ -25,5 +25,23 @@ public class Video extends ListItem {
         this.videoURL = videoURL;
         
     }
+
+    public boolean isSavedLocally() {
+        return savedLocally;
+    }
+
+    public void setSavedLocally(boolean savedLocally) {
+        this.savedLocally = savedLocally;
+    }
+
+    public String getVideoURL() {
+        return videoURL;
+    }
+
+    public void setVideoURL(String videoURL) {
+        this.videoURL = videoURL;
+    }
+    
+    
     
 }

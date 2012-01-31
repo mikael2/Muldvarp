@@ -11,8 +11,7 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.courses.CourseActivity;
 import no.hials.muldvarp.library.LIBMainscreen;
 import no.hials.muldvarp.news.NewsActivity;
-import no.hials.muldvarp.video.VIdeoMainActivity;
-import no.hials.muldvarp.video.VideoActivity;
+import no.hials.muldvarp.video.VideoMainActivity;
 
 /**
  *
@@ -29,11 +28,11 @@ public class DesktopFragment extends Fragment {
         
         
         //Directory, News NYI, redirects to Video for now
-        createButton(retVal,R.id.directorybutton, VideoActivity.class);        
+        createButton(retVal,R.id.directorybutton, VideoMainActivity.class);        
         createButton(retVal,R.id.newsbutton,      NewsActivity.class);          
         createButton(retVal,R.id.coursesbutton,   CourseActivity.class);        
         createButton(retVal,R.id.libraryButton,   LIBMainscreen.class);        
-        createButton(retVal,R.id.videoButton,     VideoActivity.class);
+        createButton(retVal,R.id.videoButton,     VideoMainActivity.class);
         
         return retVal;
     }

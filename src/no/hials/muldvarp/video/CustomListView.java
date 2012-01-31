@@ -9,10 +9,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.utility.ListViewAdapter;
 
 /**
  * Fragment defining a list. 
@@ -55,14 +55,14 @@ public class CustomListView extends ListFragment {
         for (int i = 0; i < 10; i++) {
             
             videoArrayList.add(new Video("Video" + i, "test", "test", "test", null, "test"));
+            System.out.println(videoArrayList.get(i).getItemName()); //TEST
             
-        }
+        }       
         
         
+        setListAdapter(new ListViewAdapter(this.getActivity().getApplicationContext(), R.layout.course_list_item, R.id.courselisttext, videoArrayList, true));  
         
-        
-              
-        setListAdapter(new ArrayAdapter<String>(this.getActivity().getApplicationContext(), R.layout.layout_listitem, testData));
+        //setListAdapter(new ArrayAdapter<String>(this.getActivity().getApplicationContext(), R.layout.layout_listitem, testData));
         
         //Get ListView
         ListView listView = (ListView)returnFragmentView.findViewById(R.id.layoutlistview);       

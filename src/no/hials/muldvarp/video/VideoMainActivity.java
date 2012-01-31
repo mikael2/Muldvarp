@@ -15,7 +15,7 @@ import no.hials.muldvarp.desktop.TabListener;
  * 
  * @author johan
  */
-public class VIdeoMainActivity extends Activity {
+public class VideoMainActivity extends Activity {
     
     //NYI
     private static final String MYVIDEOS_FRAGMENT  = "my";
