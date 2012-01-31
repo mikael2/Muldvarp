@@ -26,7 +26,19 @@ public class LIBmainAll extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         View mainV = inflater.inflate(R.layout.library_all, container, false);
         
-        createButton(mainV,R.id.libraryitem, LibraryDetail.class); 
+        createButton(mainV,R.id.libraryitem1, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem2, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem3, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem4, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem5, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem6, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem7, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem8, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem9, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem10, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem11, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem12, LibraryDetail.class);
+        createButton(mainV,R.id.libraryitem13, LibraryDetail.class);
         return mainV;
     }
     
