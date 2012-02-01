@@ -8,48 +8,28 @@
         android:columnOrderPreserved="false"
         android:columnCount="3">
             
-    <Button android:id="@+id/directorybutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+    <Button style="@style/DesktopButtonStyle"
+            android:id="@+id/directorybutton"            
             android:drawableTop="@drawable/icon_directory"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
             android:text="Directory"/>   
 
-    <Button android:id="@+id/newsbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+    <Button style="@style/DesktopButtonStyle"
+            android:id="@+id/newsbutton"
             android:drawableTop="@drawable/icon_news"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
             android:text="News"/>   
 
-    <Button android:id="@+id/coursesbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+    <Button style="@style/DesktopButtonStyle"
+            android:id="@+id/coursesbutton"
             android:drawableTop="@drawable/icon_course"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
             android:text="Courses"/>   
 
-    <Button android:id="@+id/libraryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+    <Button style="@style/DesktopButtonStyle"
+            android:id="@+id/libraryButton"
             android:drawableTop="@drawable/icon_library"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"         
             android:text="Library"/>
 
-    <Button android:id="@+id/videoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+    <Button style="@style/DesktopButtonStyle"
+            android:id="@+id/videoButton"
             android:drawableTop="@drawable/icon_video"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"         
-            android:text="Video"/>            
+            android:text="Video"/>   
 </GridLayout>

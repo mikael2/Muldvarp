@@ -4,14 +4,18 @@
  */
 package no.hials.muldvarp.library;
 
-import android.app.ActionBar;
+import android.app.*;
 import android.app.ActionBar.Tab;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.desktop.DesktopFragment;
 
 /**
  *
@@ -48,7 +52,34 @@ public class LIBMainscreen extends Activity {
         if (savedInstanceState != null) {
             bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
         }
+        
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) findViewById(R.id.menu_search);
+        //searchView.setIconifiedByDefault(false);
+        
     }
+    
+      
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.library_activity, menu);
+    return true;
+}
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+        case android.R.id.home:
+            // app icon in action bar clicked; go home
+            Intent intent = new Intent(this, DesktopFragment.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+            default:
+            return super.onOptionsItemSelected(item);
+    }
+}
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

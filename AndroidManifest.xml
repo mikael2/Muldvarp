@@ -6,10 +6,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-sdk android:minSdkVersion="14"
               android:targetSdkVersion="14" />
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
-                 android:uiOptions="splitActionBarWhenNarrow" android:debuggable="true">
+    <application android:label="@string/app_name" android:icon="@drawable/mole_icon"
+                  android:debuggable="true">
         <activity android:name="MainActivity"
-                  android:label="@string/app_name">
+                  android:label="@string/app_name"
+                  android:theme="@style/MuldvarpTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -17,6 +18,7 @@
         </activity>
         
         <activity android:name=".courses.CourseActivity"
+                  android:configChanges="orientation|keyboardHidden"
                   android:label="Courses">
         </activity>     
         

@@ -3,7 +3,11 @@ package no.hials.muldvarp;
 import no.hials.muldvarp.desktop.DesktopFragment;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import no.hials.muldvarp.courses.TabListener; // Denne tablisteneren fikser buggen
 import no.hials.muldvarp.desktop.SettingsFragment;
 
@@ -23,7 +27,6 @@ public class MainActivity extends Activity
         actionBar.setHomeButtonEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(false);  
-        actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE); // ??
         
         ActionBar.Tab tab = actionBar.newTab();
         tab.setText(R.string.desktop_name)
@@ -47,4 +50,25 @@ public class MainActivity extends Activity
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }        
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }     
 }
