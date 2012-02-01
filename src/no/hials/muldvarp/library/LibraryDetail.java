@@ -36,6 +36,7 @@ public class LibraryDetail extends Activity {
         setContentView(R.layout.library_detail);
         final Activity mActivity = this;
         final Button button = (Button) findViewById(R.id.readbutton);
+        final Button button2 = (Button) findViewById(R.id.dlbutton);
         TextView t1 = (TextView)findViewById(R.id.texttitle);
         t1.setText("Dette er en beskrivende tittel");
         TextView t2 = (TextView)findViewById(R.id.textalternatetitle);
@@ -52,12 +53,22 @@ public class LibraryDetail extends Activity {
         t7.setText("Uploaded: 30.01.2012");
         TextView t8 = (TextView)findViewById(R.id.textsummary);
         t8.setText("Summary: The Revelation of Jesus Christ, which God gave unto him, to shew unto his servants things which must shortly come to pass; and he sent and signified it by his angel unto his servant John: Who bare record of the word of God, and of the testimony of Jesus Christ, and of all things that he saw. Blessed is he that readeth, and they that hear the words of this prophecy, and keep those things which are written therein: for the time is at hand.");
-         button.setOnClickListener(new View.OnClickListener() {
+         
+        button.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
                 String url = "http://www.hials.no/nor/content/download/49530/977307/file/PB01%20ETABLERING%20AV%20NYE%20STUDIETILBUD%20TIL%20OG%20MED%2030%20STUDIEPOENG.pdf";
                 final String googleDocsUrl = "http://docs.google.com/viewer?url=";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(Uri.parse(googleDocsUrl + url), "text/html");
+                startActivity(i);
+             }
+         });
+        
+        button2.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+                String url = "http://www.hials.no/nor/content/download/49530/977307/file/PB01%20ETABLERING%20AV%20NYE%20STUDIETILBUD%20TIL%20OG%20MED%2030%20STUDIEPOENG.pdf";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setDataAndType(Uri.parse(url), "text/html");
                 startActivity(i);
              }
          });
