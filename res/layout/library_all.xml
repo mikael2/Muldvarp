@@ -6,6 +6,7 @@
 <ScrollView android:id="@+id/ScrollView01"
             android:layout_width="fill_parent" 
             android:layout_height="fill_parent">
+
                 
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -28,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -46,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -55,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -64,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -73,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -82,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -91,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -100,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -109,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -118,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
@@ -127,7 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
             android:text="Item"/>
