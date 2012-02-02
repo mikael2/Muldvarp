@@ -5,6 +5,8 @@
 package no.hials.muldvarp.courses;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -15,10 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.TextView;
-import android.widget.Toast;
+import java.util.ArrayList;
 import no.hials.muldvarp.R;
 
 /**
@@ -26,7 +29,8 @@ import no.hials.muldvarp.R;
  * @author kristoffer
  */
 public class CourseDetailWorkFragment extends Fragment {
-    MyExpandableListAdapter adapter = null;
+    //MyExpandableListAdapter adapter = null;
+    
     ExpandableListView listview;
     
     @Override
@@ -35,7 +39,41 @@ public class CourseDetailWorkFragment extends Fragment {
         
         listview = (ExpandableListView)fragmentView.findViewById(R.id.listview);
         
-        adapter = new MyExpandableListAdapter();
+        //testdata
+        ArrayList<String> groupNames = new ArrayList<String>();
+        groupNames.add( "Tema 1" );
+	    groupNames.add( "Tema 2" );
+	    groupNames.add( "Tema 3" );
+	    groupNames.add( "Tema 4" );
+        ArrayList<ArrayList<Task>> tasks = new ArrayList<ArrayList<Task>>();
+        
+        ArrayList<Task> task = new ArrayList<Task>();
+                task.add( new Task( "eBook", true) ); 
+		task.add( new Task( "Video") ); 
+		task.add( new Task( "Tutorial") );
+        tasks.add( task );
+        
+        task = new ArrayList<Task>();
+                task.add( new Task( "eBook", true) ); 
+		task.add( new Task( "Video") ); 
+		task.add( new Task( "Tutorial") );
+        tasks.add( task );
+        
+        task = new ArrayList<Task>();
+                task.add( new Task( "eBook", true) ); 
+		task.add( new Task( "Video") ); 
+		task.add( new Task( "Tutorial") );
+        tasks.add( task );
+        
+        task = new ArrayList<Task>();
+                task.add( new Task( "eBook", true) ); 
+		task.add( new Task( "Video") ); 
+		task.add( new Task( "Tutorial") );
+        tasks.add( task );
+        
+        
+        //adapter = new MyExpandableListAdapter();
+        TaskAdapter adapter = new TaskAdapter(this.getActivity().getApplicationContext(), groupNames, tasks);
         listview.setAdapter(adapter);
         
         registerForContextMenu(listview);
@@ -142,6 +180,89 @@ public class CourseDetailWorkFragment extends Fragment {
         public boolean hasStableIds() {
             return true;
         }
+
+    }
+    
+    public class TaskAdapter extends BaseExpandableListAdapter {
+
+    private Context context;
+    private ArrayList<String> themes;
+    private ArrayList<ArrayList<Task>> tasks;
+    private LayoutInflater inflater;
+
+    public TaskAdapter(Context context, 
+                        ArrayList<String> themes,
+			ArrayList<ArrayList<Task>> tasks ) { 
+        this.context = context;
+		this.themes = themes;
+        this.tasks = tasks;
+        inflater = LayoutInflater.from( context );
+    }
+
+    public Object getChild(int groupPosition, int childPosition) {
+        return tasks.get( groupPosition ).get( childPosition );
+    }
+
+    public long getChildId(int groupPosition, int childPosition) {
+        return (long)( groupPosition*1024+childPosition );  // Max 1024 children per group
+    }
+
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        View v = null;
+        if( convertView != null )
+            v = convertView;
+        else
+            v = inflater.inflate(R.layout.course_work_child, parent, false); 
+        Task t = (Task)getChild( groupPosition, childPosition );
+		TextView name = (TextView)v.findViewById( R.id.childname );
+		if( name != null ) {
+                    name.setText(t.getName());
+                }		
+		CheckBox cb = (CheckBox)v.findViewById( R.id.checkbox );
+        cb.setChecked( t.getDone() );
+        return v;
+    }
+
+    public int getChildrenCount(int groupPosition) {
+        return tasks.get( groupPosition ).size();
+    }
+
+    public Object getGroup(int groupPosition) {
+        return themes.get( groupPosition );        
+    }
+
+    public int getGroupCount() {
+        return themes.size();
+    }
+
+    public long getGroupId(int groupPosition) {
+        return (long)( groupPosition*1024 );  // To be consistent with getChildId
+    } 
+
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        View v = null;
+        if( convertView != null )
+            v = convertView;
+        else
+            v = inflater.inflate(R.layout.course_work_group, parent, false); 
+        String gt = (String)getGroup( groupPosition );
+		TextView colorGroup = (TextView)v.findViewById( R.id.childname );
+		if( gt != null )
+			colorGroup.setText( gt );
+        return v;
+    }
+
+    public boolean hasStableIds() {
+        return true;
+    }
+
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    } 
+
+    public void onGroupCollapsed (int groupPosition) {} 
+    public void onGroupExpanded(int groupPosition) {}
+
 
     }
 }
