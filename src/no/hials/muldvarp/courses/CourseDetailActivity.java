@@ -30,19 +30,19 @@ public class CourseDetailActivity extends Activity {
         ActionBar.Tab tab = actionBar.newTab();
         tab.setText(R.string.work)
            .setTabListener(new TabListener<CourseDetailWorkFragment>(
-           this, "Work", CourseDetailWorkFragment.class));
+           this, "Tema", CourseDetailWorkFragment.class));
         actionBar.addTab(tab);        
 
         tab = actionBar.newTab();
         tab.setText(R.string.handins)
            .setTabListener(new TabListener<CourseDetailHandinsFragment>(
-           this, "Handins", CourseDetailHandinsFragment.class));
+           this, "Obligatorisk", CourseDetailHandinsFragment.class));
         actionBar.addTab(tab);
         
         tab = actionBar.newTab();
         tab.setText(R.string.exam)
            .setTabListener(new TabListener<CourseDetailExamFragment>(
-           this, "Exam", CourseDetailExamFragment.class));
+           this, "Eksamen", CourseDetailExamFragment.class));
         actionBar.addTab(tab);
     }
     

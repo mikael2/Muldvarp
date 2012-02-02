@@ -18,7 +18,6 @@
         </activity>
         
         <activity android:name=".courses.CourseActivity"
-                  android:configChanges="orientation|keyboardHidden"
                   android:label="Courses">
         </activity>     
         

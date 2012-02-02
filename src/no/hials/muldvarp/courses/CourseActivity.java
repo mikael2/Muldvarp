@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,22 +50,16 @@ public class CourseActivity extends Activity {
 //           .setTabListener(new TabListener<CourseGridFragment>(
 //           this, "Grid", CourseGridFragment.class));
 //        actionBar.addTab(tab);
-        
-        if (savedInstanceState != null) {
-            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("course", 0));
-        }
+//        
+//        if (savedInstanceState != null) {
+//            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("course", 0));
+//        }
     }
     
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("course", getActionBar().getSelectedNavigationIndex());
-    }
-    
-    
-    @Override
-    public void onConfigurationChanged(Configuration c) {
-        
     }
     
     @Override
