@@ -17,8 +17,15 @@ import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import com.google.gson.Gson;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URI;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 /**
  *
@@ -45,6 +52,25 @@ public class CourseListFragment extends Fragment {
         
         Course c = new Course("Ikontest", "blablabla", "http://developer.android.com/assets/images/bg_logo.png");
         array.add(c);
+        
+        //Gson
+        
+        String url = "";
+        
+        try{
+            Gson gson = new Gson();
+            Reader json = new InputStreamReader(getJSONData(url));
+            ArrayList<Course> items = gson.fromJson(json, ArrayList.class);
+            for(Course course : items){
+                Course newCourse = new Course(course.getName(),course.getDetail());
+                if(course.getImageurl() != null) {
+                    newCourse.setImageurl(course.getImageurl());
+                }
+                array.add(newCourse);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
         
         Gson gson = new Gson();
         c = new Course("Gson test", "blablabla");
@@ -98,6 +124,22 @@ public class CourseListFragment extends Fragment {
         
         
         return fragmentView;
+    }
+    
+    public InputStream getJSONData(String url){
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        URI uri;
+        InputStream data = null;
+        try {
+            uri = new URI(url);
+            HttpGet method = new HttpGet(uri);
+            HttpResponse response = httpClient.execute(method);
+            data = response.getEntity().getContent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return data;
     }
     
     private TextWatcher filterTextWatcher = new TextWatcher() {
