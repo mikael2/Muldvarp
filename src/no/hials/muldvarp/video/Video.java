@@ -15,15 +15,25 @@ import no.hials.muldvarp.entities.ListItem;
 public class Video extends ListItem {
     
     //Class variables
+    String videoID;
     String videoURL;
     boolean savedLocally;
     
     
-    public Video(String itemName, String smallDetail, String itemDescription, String itemType, Bitmap itemThumbnail, String videoURL) {
+    public Video(String videoID, String itemName, String smallDetail, String itemDescription, String itemType, Bitmap itemThumbnail, String videoURL) {
         
         super(itemName, smallDetail, itemDescription, itemType, itemThumbnail);
+        this.videoID = videoID;
         this.videoURL = videoURL;
         
+    }
+
+    public String getVideoID() {
+        return videoID;
+    }
+
+    public void setVideoID(String videoID) {
+        this.videoID = videoID;
     }
 
     public boolean isSavedLocally() {

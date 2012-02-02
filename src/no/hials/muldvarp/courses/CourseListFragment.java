@@ -14,10 +14,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
-import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
 
@@ -78,6 +76,12 @@ public class CourseListFragment extends Fragment {
         } else {
             listview.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    
+                    
+                    Toast.makeText(getActivity().getApplicationContext(), ((TextView) view).getText(),
+                    Toast.LENGTH_SHORT).show();
+                    
+                    
                     Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);
                     startActivityForResult(myIntent, 0);
                 }  

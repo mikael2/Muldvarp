@@ -50,9 +50,9 @@ public class CourseListAdapter extends ArrayAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(resource, parent, false);
             holder = new ViewHolder();
-            //holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
             holder.name = (TextView) convertView.findViewById(R.id.name);
-            //holder.detail = (TextView) convertView.findViewById(R.id.detail);
+            holder.detail = (TextView) convertView.findViewById(R.id.detail);
 
             convertView.setTag(holder);
         } else {

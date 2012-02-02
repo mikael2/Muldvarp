@@ -77,7 +77,8 @@ public class ListViewAdapter extends ArrayAdapter {
         ListItem listItem = (Video) items.get(position);
         
         
-        holder.name.setText("test+" + listItem.getItemName());
+        //Set ListItem name
+        holder.name.setText(listItem.getItemName());
         
         if (showdetails == true) {
             holder.detail.setText(listItem.getItemDescription());
@@ -93,5 +94,7 @@ public class ListViewAdapter extends ArrayAdapter {
         TextView name;
         TextView detail;
     }
+    
+    
 }
 

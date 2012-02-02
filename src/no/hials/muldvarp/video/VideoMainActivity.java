@@ -5,8 +5,12 @@
 package no.hials.muldvarp.video;
 
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.widget.FrameLayout;
+import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.TabListener;
 
@@ -15,13 +19,9 @@ import no.hials.muldvarp.desktop.TabListener;
  * 
  * @author johan
  */
-public class VideoMainActivity extends Activity {
+public class VideoMainActivity extends Activity implements ActionBar.TabListener {
     
-    //NYI
-    private static final String MYVIDEOS_FRAGMENT  = "my";
-    private static final String COURSEVIDEOS_FRAGMENT = "settings";
-    private static final String STUDENTVIDEOS_FRAGMENT = "studentvideos";
-
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,19 +39,16 @@ public class VideoMainActivity extends Activity {
         
         
         
-        //Add entries to the bar
-        actionBar.addTab(actionBar.newTab()
+
+          actionBar.addTab(actionBar.newTab()
                 .setText("My Videos")
-                .setTabListener(new TabListener<VideoMyFragment>(
-                        this, "my", VideoMyFragment.class)));
-        actionBar.addTab(actionBar.newTab()
+                .setTabListener(this));
+          actionBar.addTab(actionBar.newTab()
                 .setText("Courses")
-                .setTabListener(new TabListener<VideoCoursesFragment>(
-                        this, "videocourses", VideoCoursesFragment.class)));
-        actionBar.addTab(actionBar.newTab()
-                .setText("ListView")
-                .setTabListener(new TabListener<CustomListView>(
-                        this, "listfragment", CustomListView.class)));
+                .setTabListener(this));
+          actionBar.addTab(actionBar.newTab()
+                .setText("Student")
+                .setTabListener(this));
         
 
         if (savedInstanceState != null) {
@@ -67,5 +64,64 @@ public class VideoMainActivity extends Activity {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
+    
+    //Simulate data input
+    public ArrayList getData(int type) {
+        
+        //Just to get different arrays
+        String vidString = "";
+        
+        switch (type) {
+            
+            case 0: vidString = "AVID";
+                    break;
+            case 1: vidString = "DIV";
+                    break;
+            case 2: vidString = "IVD";
+                    break;
+            case 3: vidString = "AIVD";
+                    break;
+            default: break;
+            
+            
+        }        
+        
+        //Array of vidya
+        //Simulates a list of Videos generated from an external resource
+        ArrayList<Video> videoArrayList = new ArrayList<Video>();
+        
+        for (int i = 0; i < 30; i++) {
+            
+            videoArrayList.add(new Video("VID" + (1000 + i), vidString + "Video" + i, "test", "test", "test", null, "test"));
+            System.out.println(videoArrayList.get(i).getItemName()); //TEST
+            
+        }       
+        
+        return videoArrayList;
+    }
+    
+    
+    //Below are abastract methods from Tablisteenr.
+    
+    
+
+    public void onTabSelected(Tab tab, FragmentTransaction arg1) {
+        
+        CustomListView customListView = (CustomListView) getFragmentManager().findFragmentById(R.id.customlistview);
+        customListView.getAdapter(getData(tab.getPosition()));
+        
+    }
+
+    
+    //NYI
+    public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
+        
+    }
+
+    public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
+        
+    }
+    
+    
 
 }
