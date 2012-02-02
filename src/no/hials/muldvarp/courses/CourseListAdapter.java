@@ -67,15 +67,15 @@ public class CourseListAdapter extends ArrayAdapter {
         
         holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
         
-//        if (showdetails == true) {
-//            holder.detail.setText(c.getDetail());
-//        }
+        if (showdetails == true) {
+            holder.detail.setText(c.getDetail());
+        }
         
-//        if (c.getImageurl() != null) {            
-//            dm.fetchDrawableOnThread(c.getImageurl(), holder.icon); 
-//        } else {
-//            holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
-//        }
+        if (c.getImageurl() != null) {            
+            dm.fetchDrawableOnThread(c.getImageurl(), holder.icon); 
+        } else {
+            holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
+        }
         
         return convertView;
     }

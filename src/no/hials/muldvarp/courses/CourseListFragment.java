@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
 
@@ -44,6 +45,13 @@ public class CourseListFragment extends Fragment {
         
         Course c = new Course("Ikontest", "blablabla", "http://developer.android.com/assets/images/bg_logo.png");
         array.add(c);
+        
+        Gson gson = new Gson();
+        c = new Course("Gson test", "blablabla");
+        String json = gson.toJson(c);
+        
+        Course c2 = gson.fromJson(json, Course.class);
+        array.add(c2);
         
         
         filterText = (EditText)fragmentView.findViewById(R.id.search_box);
