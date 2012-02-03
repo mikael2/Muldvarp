@@ -110,17 +110,6 @@ public class CourseListFragment extends Fragment {
         } else {
             listview.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                    
-                    
-                    if(view instanceof TextView) {
-                        Toast.makeText(getActivity().getApplicationContext(), ((TextView) view).getText(),
-                        Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity().getApplicationContext(), "Not TextView",
-                        Toast.LENGTH_SHORT).show();
-                    }
-                    
-                    
                     Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);
                     startActivityForResult(myIntent, 0);
                 }  
