@@ -61,7 +61,11 @@ public class CourseListAdapter extends ArrayAdapter {
 
         Course c = (Course)items.get(position);
 
+        
+        //set text from layout
         holder.name.setText(c.getName());
+        
+        holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
         
         if (showdetails == true) {
             holder.detail.setText(c.getDetail());

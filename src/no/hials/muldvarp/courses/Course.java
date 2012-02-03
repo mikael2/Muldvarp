@@ -17,6 +17,10 @@ public class Course {
     Bitmap image;
     String imageurl;
     
+    public Course() {
+        
+    }
+    
     public Course(String name, String detail, String url) {
         this.name = name;
         this.detail = detail;

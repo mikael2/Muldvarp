@@ -14,17 +14,27 @@ import android.graphics.Bitmap;
 public class ListItem {
     
     public String itemName;
+    public String smallDetail;
     public String itemDescription;
     public String itemType;
     public Bitmap itemThumbnail;
     
-    public ListItem(String itemName, String itemDescription, String itemType, Bitmap itemThumbnail) {
+    public ListItem(String itemName, String smallDetail, String itemDescription, String itemType, Bitmap itemThumbnail) {
         
         this.itemName = itemName;
+        this.smallDetail = smallDetail;
         this.itemDescription = itemDescription;
         this.itemType = itemType;
         this.itemThumbnail = itemThumbnail;
         
+    }
+
+    public String getSmallDetail() {
+        return smallDetail;
+    }
+
+    public void setSmallDetail(String smallDetail) {
+        this.smallDetail = smallDetail;
     }
 
     public String getItemDescription() {
