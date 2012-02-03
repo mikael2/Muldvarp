@@ -112,8 +112,13 @@ public class CourseListFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                     
                     
-                    Toast.makeText(getActivity().getApplicationContext(), ((TextView) view).getText(),
-                    Toast.LENGTH_SHORT).show();
+                    if(view instanceof TextView) {
+                        Toast.makeText(getActivity().getApplicationContext(), ((TextView) view).getText(),
+                        Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity().getApplicationContext(), "Not TextView",
+                        Toast.LENGTH_SHORT).show();
+                    }
                     
                     
                     Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);

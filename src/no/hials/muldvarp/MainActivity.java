@@ -1,6 +1,5 @@
 package no.hials.muldvarp;
 
-import no.hials.muldvarp.desktop.DesktopFragment;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import no.hials.muldvarp.courses.TabListener; // Denne tablisteneren fikser buggen
+import no.hials.muldvarp.courses.TabListener;
+import no.hials.muldvarp.desktop.DesktopFragment;
+import no.hials.muldvarp.desktop.MainPreferenceActivity;
 import no.hials.muldvarp.desktop.SettingsFragment;
 
 public class MainActivity extends Activity
@@ -25,10 +26,10 @@ public class MainActivity extends Activity
         
         ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(false);  
         
-        ActionBar.Tab tab = actionBar.newTab();
+        /*ActionBar.Tab tab = actionBar.newTab();
         tab.setText(R.string.desktop_name)
            .setTabListener(new TabListener<DesktopFragment>(
            this, DESKTOP_FRAGMENT, DesktopFragment.class));
@@ -38,11 +39,11 @@ public class MainActivity extends Activity
         tab.setText(R.string.settings_name)
            .setTabListener(new TabListener<SettingsFragment>(
            this, SETTINGS_FRAGMENT, SettingsFragment.class));
-        actionBar.addTab(tab);           
+        actionBar.addTab(tab);
 
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
-        }        
+        } */       
     }
     
     @Override
@@ -66,6 +67,12 @@ public class MainActivity extends Activity
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                return true;
+                
+            case R.id.menu_settings:
+                Intent prefs = new Intent(this, MainPreferenceActivity.class);
+                prefs.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(prefs);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
