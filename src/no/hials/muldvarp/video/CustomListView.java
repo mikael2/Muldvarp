@@ -16,6 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.entities.ListItem;
 import no.hials.muldvarp.utility.ListViewAdapter;
 
 /**
@@ -85,9 +86,12 @@ public class CustomListView extends Fragment {
 
             public void onItemClick(AdapterView<?> arg0, View view, int itemPosition, long id) {
                 
+                Video selectedItem = (Video) currentListItems.get(itemPosition);
+                
+                
                 //Create new Intent along with data to be passed on
                 Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
-                newIntent.putExtra("videoID", itemPosition);
+                newIntent.putExtra("videoID", selectedItem.getVideoID());
                 
                 //Start Activity
                 startActivityForResult(newIntent, 0);
@@ -105,7 +109,7 @@ public class CustomListView extends Fragment {
     
     public void getAdapter(ArrayList itemList) {
         
-        
+        currentListItems = itemList;
                         
         ListViewAdapter listViewAdapter = new ListViewAdapter(this.getActivity().getApplicationContext(),
                                                               R.layout.course_list_item,

@@ -9,10 +9,8 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.desktop.TabListener;
 
 /**
  * Class defining the Video-activity.
@@ -92,7 +90,7 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
         
         for (int i = 0; i < 30; i++) {
             
-            videoArrayList.add(new Video("VID" + (1000 + i), vidString + "Video" + i, "test", "test", "test", null, "test"));
+            videoArrayList.add(new Video(vidString + (1000 + i), vidString + "Video" + i, "test", "test", "test", null, "test"));
             System.out.println(videoArrayList.get(i).getItemName()); //TEST
             
         }       

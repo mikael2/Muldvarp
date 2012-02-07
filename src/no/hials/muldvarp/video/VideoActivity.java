@@ -23,16 +23,24 @@ public class VideoActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         //Set layout
-        setContentView(R.layout.library_detail);
+        setContentView(R.layout.video_detail);
         
         //Get extras from previous activity
         //Gets data based on a key represented by a string
         Bundle extras = getIntent().getExtras();
-        int videoID = extras.getInt("videoID");
+        String videoID = extras.getString("videoID");
+        System.out.println(videoID);
         
         //Print some stuff based on extras from previous activity
-        //TextView t1 = (TextView)findViewById(R.id.texttitle);
-        //t1.setText(Integer.toString(videoID));
+        
+        //Video ID
+        TextView textVideoID = (TextView) findViewById(R.id.videoID);
+        textVideoID.setText(videoID);
+        
+        //Video Title
+        TextView textVideoTitle = (TextView) findViewById(R.id.videotitle);
+        textVideoTitle.setText("Test Title");
+                
         
         
     }
