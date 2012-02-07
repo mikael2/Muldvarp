@@ -11,18 +11,15 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.courses.Course;
 
 /**
- * Class defining the Video-activity.
+ * Class defining the VideoCCourse-activity.
  * 
  * @author johan
  */
-public class VideoMainActivity extends Activity implements ActionBar.TabListener {
+public class VideoCourseActivity extends Activity implements ActionBar.TabListener {
     
-    
-    static String TAB1 = "My Videos";
-    static String TAB2 = "Courses";
-    static String TAB3 = "Student";
     
     /** Called when the activity is first created. */
     @Override
@@ -37,20 +34,17 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
         //Show the title of the application on top of the ActionBar
         actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
         //Show tabs
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        
-        
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);       
         
 
-        //Add tabs to actionbar
           actionBar.addTab(actionBar.newTab()
-                .setText(TAB1)
+                .setText("My Videos")
                 .setTabListener(this));
           actionBar.addTab(actionBar.newTab()
-                .setText(TAB2)
+                .setText("Courses")
                 .setTabListener(this));
           actionBar.addTab(actionBar.newTab()
-                .setText(TAB3)
+                .setText("Student")
                 .setTabListener(this));
         
 
@@ -69,38 +63,20 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
     }
     
     //Simulate data input
-    public ArrayList getData(int type) {
+    public ArrayList getData(int type) {      
         
-        //Just to get different arrays
-        String vidString = "";
-        
-        switch (type) {
-            
-            case 0: vidString = "AVID";
-                    break;
-            case 1: vidString = "DIV";
-                    break;
-            case 2: vidString = "IVD";
-                    break;
-            case 3: vidString = "AIVD";
-                    break;
-            default: break;
-            
-            
-        }        
-        
-        //Array of vidya
-        //Simulates a list of Videos generated from an external resource
-        ArrayList<Video> videoArrayList = new ArrayList<Video>();
+//        Array of vidya
+//        Simulates a list of Videos generated from an external resource
+//        Test array of courses
+        ArrayList<Course> courseArrayList = new ArrayList<Course>();
         
         for (int i = 0; i < 30; i++) {
             
-            videoArrayList.add(new Video(vidString + (1000 + i), vidString + "Video" + i, "test", "test", "test", null, "test"));
-            System.out.println(videoArrayList.get(i).getItemName()); //TEST
+            courseArrayList.add(new Course("COR" + (1000 + i), "Coursename"));
             
-        }       
+        }
         
-        return videoArrayList;
+        return courseArrayList;
     }
     
     
@@ -114,19 +90,10 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
      * @param arg1 
      */
     public void onTabSelected(Tab tab, FragmentTransaction arg1) {
+                        
         
-        //Get name of tab
-        String tabName = tab.getText().toString();
-        
-        //Get listView
-        CustomListView customListView = (CustomListView) getFragmentManager().findFragmentById(R.id.customlistview);
-        
-        //Set view name with data from tab
-        customListView.setViewName(tabName);
-        
-        
-        //Get data
-        customListView.getAdapter(getData(tab.getPosition()));
+//        CustomListView customListView = (CustomListView) getFragmentManager().findFragmentById(R.id.customlistview);
+//        customListView.getAdapter(getData(tab.getPosition()));
         
     }
 

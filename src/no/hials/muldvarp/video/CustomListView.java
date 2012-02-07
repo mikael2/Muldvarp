@@ -14,9 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import java.util.ArrayList;
-import java.util.Arrays;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.entities.ListItem;
 import no.hials.muldvarp.utility.ListViewAdapter;
 
 /**
@@ -27,6 +25,7 @@ import no.hials.muldvarp.utility.ListViewAdapter;
 public class CustomListView extends Fragment {
     
     //Global variables
+    String viewName = "";
     public String fragmentName = "";
     ListView listView;
     ArrayList<Object> currentListItems;
@@ -53,31 +52,7 @@ public class CustomListView extends Fragment {
         
          //Get ListView
         listView = (ListView)returnFragmentView.findViewById(R.id.layoutlistview);  
-        
-        
-        //Create test data array of strings
-        //String[] testData = new String[]{"item 1", "item 2 ", "list", "android", "item 3", "foobar", "bar" }; 
-        //setListAdapter(new ArrayAdapter<String>(this.getActivity().getApplicationContext(), R.layout.layout_listitem, testData));
-        
-        
-        //Array of vidya
-        //Simulates a list of Videos generated from an external resource
-        ArrayList<Video> videoArrayList = new ArrayList<Video>();
-        
-        for (int i = 0; i < 30; i++) {
-            
-            videoArrayList.add(new Video("VID" + (1000 + i),"Video" + i, "test", "test", "test", null, "test"));
-            System.out.println(videoArrayList.get(i).getItemName()); //TEST
-            
-        }       
-        
-        
-        //Set ListViewAdapter
-        //currently using test data
-        getAdapter(videoArrayList);
-        
-        
-        
+               
         
         //Set onItemClickListener
         //Defines what happens when an item in the list is "clicked"
@@ -86,15 +61,29 @@ public class CustomListView extends Fragment {
 
             public void onItemClick(AdapterView<?> arg0, View view, int itemPosition, long id) {
                 
+                if (viewName.equalsIgnoreCase("Courses")) {
+                    
+                    Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoCourseActivity.class);
+                    startActivityForResult(newIntent, 0);
+                    
+                    
+                } else {
+                
+                
                 Video selectedItem = (Video) currentListItems.get(itemPosition);
                 
                 
                 //Create new Intent along with data to be passed on
                 Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
                 newIntent.putExtra("videoID", selectedItem.getVideoID());
+                newIntent.putExtra("videoName", selectedItem.getItemType());
+                newIntent.putExtra("smallDetail", selectedItem.getSmallDetail());
+                newIntent.putExtra("itemDescription", selectedItem.getItemDescription());
                 
                 //Start Activity
                 startActivityForResult(newIntent, 0);
+                
+                }
             }
         });
                  
@@ -106,6 +95,18 @@ public class CustomListView extends Fragment {
         return returnFragmentView;
         
     }
+    
+    /**
+     * Set the name of the view.
+     * 
+     * @param tabViewName String value of the view's name.
+     */
+    public void setViewName(String viewName) {
+        
+        this.viewName = viewName;
+    }
+    
+    
     
     public void getAdapter(ArrayList itemList) {
         

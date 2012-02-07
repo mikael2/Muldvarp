@@ -73,8 +73,7 @@ public class ListViewAdapter extends ArrayAdapter {
                 holder = (ViewHolder) convertView.getTag();
         }
 
-        //Course c = (Course)items.get(position);
-        ListItem listItem = (Video) items.get(position);
+        ListItem listItem = (ListItem) items.get(position);
         
         
         //Set ListItem name
