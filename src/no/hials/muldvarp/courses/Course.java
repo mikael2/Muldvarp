@@ -4,7 +4,7 @@
  */
 package no.hials.muldvarp.courses;
 
-import android.graphics.Bitmap;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,8 +14,10 @@ public class Course {
     
     String name;
     String detail;
-    Bitmap image;
     String imageurl;
+    
+    Integer revision;
+    ArrayList themes;
     
     public Course() {
         
@@ -38,14 +40,6 @@ public class Course {
     public Course(String name, String detail) {
         this.name = name;
         this.detail = detail;
-    }
-
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
     }
     
     public String getDetail() {

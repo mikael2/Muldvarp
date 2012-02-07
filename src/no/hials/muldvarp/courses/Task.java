@@ -12,6 +12,9 @@ public class Task {
     String name;
     Boolean done = false;
     
+    String themes;
+    String content;
+    
     public Task(String name) {
         this.name = name;
     }

@@ -5,8 +5,10 @@
 package no.hials.muldvarp.courses;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -34,6 +36,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class CourseListFragment extends Fragment {
     private EditText filterText = null;
     CourseListAdapter adapter = null;
+    ArrayList<Course> array = new ArrayList<Course>();
+    String url = "http://master.uials.no:8080/muldvarp/resources/course";
+    ListView listview;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,60 +46,12 @@ public class CourseListFragment extends Fragment {
         
         View fragmentView = inflater.inflate(R.layout.course_list, container, false);
         
-        ListView listview = (ListView)fragmentView.findViewById(R.id.listview);
+        listview = (ListView)fragmentView.findViewById(R.id.listview);
         
-        // testdata
-        ArrayList array = new ArrayList();
-        for(int i = 0; i <= 20; i++) {
-           Course c = new Course("Longt seriøst fagnavn " + i, "ID10101010");
-           array.add(c); 
-        }
-        
-        Course c = new Course("Ikontest", "blablabla", "http://developer.android.com/assets/images/bg_logo.png");
-        array.add(c);
-        
-        //Gson
-        
-        String url = "";
-        
-        try{
-            Gson gson = new Gson();
-            Reader json = new InputStreamReader(getJSONData(url));
-            ArrayList<Course> items = gson.fromJson(json, ArrayList.class);
-            for(Course course : items){
-                Course newCourse = new Course(course.getName(),course.getDetail());
-                if(course.getImageurl() != null) {
-                    newCourse.setImageurl(course.getImageurl());
-                }
-                array.add(newCourse);
-            }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        
-        Gson gson = new Gson();
-        c = new Course("Gson test", "blablabla");
-        String json = gson.toJson(c);
-        
-        Course c2 = gson.fromJson(json, Course.class);
-        array.add(c2);
-        
+        new DownloadItems().execute(url);
         
         filterText = (EditText)fragmentView.findViewById(R.id.search_box);
         filterText.addTextChangedListener(filterTextWatcher);
-
-        
-        
-        listview.setAdapter(
-                new CourseListAdapter(
-                        this.getActivity().getApplicationContext(), 
-                        R.layout.course_list_item, 
-                        R.id.courselisttext, 
-                        array,
-                        true
-                        ));
-        
-        adapter = (CourseListAdapter)listview.getAdapter();
                
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity().getApplicationContext());
         boolean loggedin = prefs.getBoolean("debugloggedin", false);
@@ -134,6 +91,58 @@ public class CourseListFragment extends Fragment {
         }
         
         return data;
+    }
+    
+    private class DownloadItems extends AsyncTask<String, Void, ArrayList<Course>> {
+        protected ArrayList<Course> doInBackground(String... urls) {
+            ArrayList<Course> items = new ArrayList<Course>();
+            try{
+                Reader json = new InputStreamReader(getJSONData(urls[0]));
+                Gson gson = new Gson();
+                SearchResults result = gson.fromJson(json, SearchResults.class);
+                items = (ArrayList<Course>)result.course;
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+            return items;
+        }
+
+        ProgressDialog dialog;
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(CourseListFragment.this.getActivity());
+            dialog.setMessage(getString(R.string.loading));
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+        
+        @Override
+        protected void onPostExecute(ArrayList<Course> items) {
+            if(items == null) {
+                System.out.println("No items :(");
+            } else {
+                array.clear(); // temp fix for stacking blablabla
+                for(Course course : items){
+                    Course newCourse = new Course(course.getName(),course.getDetail());
+                    if(course.getImageurl() != null) {
+                        newCourse.setImageurl(course.getImageurl());
+                    }
+                    array.add(newCourse);
+                }
+            }
+            listview.setAdapter(
+                new CourseListAdapter(
+                        CourseListFragment.this.getActivity().getApplicationContext(), 
+                        R.layout.course_list_item, 
+                        R.id.courselisttext, 
+                        array,
+                        true
+                        ));
+        
+            adapter = (CourseListAdapter)listview.getAdapter();
+            dialog.dismiss();
+        }
     }
     
     private TextWatcher filterTextWatcher = new TextWatcher() {
