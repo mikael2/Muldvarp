@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.video.VideoActivity;
 
 /**
  *
@@ -25,7 +24,13 @@ public class NewsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news);
         // ToDo add your GUI initialization code here  
-        createButton(R.id.forskning, NewsCategoryAction.class,"http://blade?category"); 
+        createButton(R.id.forskning, NewsCategoryAction.class,"http://m.db.no/?www=1"); 
+        createButton(R.id.studenter, NewsCategoryAction.class,"http://touch.vg.no");
+        createButton(R.id.ansatte, NewsCategoryAction.class,"http://touch.vg.no");
+        createButton(R.id.hiåMedia, NewsCategoryAction.class,"http://touch.vg.no");
+        createButton(R.id.hvaSkjer, NewsCategoryAction.class,"http://touch.vg.no");
+        createButton(R.id.begivenheter, NewsCategoryAction.class,"http://touch.vg.no");
+        createButton(R.id.sisteNytt, NewsCategoryAction.class,"http://touch.vg.no");
     }
     
     private void createButton(int buttonid, final Class action, final String uri) {

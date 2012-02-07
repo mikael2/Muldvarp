@@ -6,6 +6,7 @@ package no.hials.muldvarp.news;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.webkit.WebView;
 
 /**
  *
@@ -19,10 +20,14 @@ public class NewsCategoryAction extends Activity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        // ToDo add your GUI initialization code here   
+        //GUI initialization code
+        WebView webview = new WebView(this);
+        setContentView(webview);
+        
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String value = extras.getString("url");
+            String value = extras.getString("uri");
+            webview.loadUrl(value);
         }
 
     }
