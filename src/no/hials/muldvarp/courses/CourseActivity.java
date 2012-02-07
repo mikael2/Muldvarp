@@ -10,6 +10,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,13 +32,14 @@ public class CourseActivity extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_main);
-        addDynamicFragment(CourseListFragment); // default view
                 
         ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(false);  
         actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE); // ??
+
+        addDynamicFragment(CourseListFragment); // default view
 
 //        ActionBar.Tab tab = actionBar.newTab();
 //        tab.setText(R.string.list)
@@ -117,6 +119,6 @@ public class CourseActivity extends Activity {
         ft.attach(fg);
         ft.add(R.id.course_layout, fg).commit();
         
-        currentFragment = fg;
+        currentFragment = fg;        
     }
 }

@@ -5,20 +5,18 @@
 package no.hials.muldvarp.courses;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.TextView;
-import android.widget.Toast;
+import java.util.ArrayList;
 import no.hials.muldvarp.R;
 
 /**
@@ -26,7 +24,8 @@ import no.hials.muldvarp.R;
  * @author kristoffer
  */
 public class CourseDetailWorkFragment extends Fragment {
-    MyExpandableListAdapter adapter = null;
+    //MyExpandableListAdapter adapter = null;
+    
     ExpandableListView listview;
     
     @Override
@@ -35,113 +34,176 @@ public class CourseDetailWorkFragment extends Fragment {
         
         listview = (ExpandableListView)fragmentView.findViewById(R.id.listview);
         
-        adapter = new MyExpandableListAdapter();
+        //testdata
+        ArrayList<String> groupNames = new ArrayList<String>();
+        groupNames.add( "Tema 1" );
+	    groupNames.add( "Tema 2" );
+	    groupNames.add( "Tema 3" );
+	    groupNames.add( "Tema 4" );
+        ArrayList<ArrayList<Task>> tasks = new ArrayList<ArrayList<Task>>();
+        
+        ArrayList<Task> task = new ArrayList<Task>();
+                task.add( new Task( "eBook", true) ); 
+		task.add( new Task( "Video") ); 
+		task.add( new Task( "Tutorial") );
+        tasks.add( task );
+        
+        task = new ArrayList<Task>();
+                task.add( new Task( "eBook", true) ); 
+		task.add( new Task( "Video") ); 
+		task.add( new Task( "Tutorial") );
+        tasks.add( task );
+        
+        task = new ArrayList<Task>();
+                task.add( new Task( "eBook", true) ); 
+		task.add( new Task( "Video") ); 
+		task.add( new Task( "Tutorial") );
+        tasks.add( task );
+        
+        task = new ArrayList<Task>();
+                task.add( new Task( "eBook", true) ); 
+		task.add( new Task( "Video") ); 
+		task.add( new Task( "Tutorial") );
+        tasks.add( task );
+        
+        
+        TaskAdapter adapter = new TaskAdapter(this.getActivity().getApplicationContext(), groupNames, tasks);
         listview.setAdapter(adapter);
         
-        registerForContextMenu(listview);
+//        registerForContextMenu(listview);
         
         return fragmentView;
     }
     
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        menu.setHeaderTitle("Sample menu");
-        menu.add(0, 0, 0, "Test");
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-
-        String title = ((TextView) info.targetView).getText().toString();
-
-        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition); 
-            int childPos = ExpandableListView.getPackedPositionChild(info.packedPosition); 
-//            Toast.makeText(this, title + ": Child " + childPos + " clicked in group " + groupPos,
+//    
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+//        menu.setHeaderTitle("Sample menu");
+//        menu.add(0, 0, 0, "Test");
+//    }
+//
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
+//
+//        String title = ((TextView) info.targetView).getText().toString();
+//
+//        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+//        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+//            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition); 
+//            int childPos = ExpandableListView.getPackedPositionChild(info.packedPosition); 
+//            Toast.makeText(this.getActivity().getApplicationContext(), title + ": Child " + childPos + " clicked in group " + groupPos,
 //                    Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition); 
-//            Toast.makeText(this, title + ": Group " + groupPos + " clicked", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        return false;
-    }
+//            return true;
+//        } else if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+//            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition); 
+//            Toast.makeText(this.getActivity().getApplicationContext(), title + ": Group " + groupPos + " clicked", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
+//
+//        return false;
+//    }
     
-    public class MyExpandableListAdapter extends BaseExpandableListAdapter {
-        // Sample data set.  children[i] contains the children (String[]) for groups[i].
-        private String[] groups = { "Tema 1", "Tema 2", "Tema 3", "Tema 4" };
-        private String[][] children = {
-                { "Les eBook blabla", "Se video blabla", "Gjør tutorial blabla" },
-                { "Les eBook blabla", "Se video blabla", "Gjør tutorial blabla" },
-                { "Les eBook blabla", "Se video blabla", "Gjør tutorial blabla" },
-                { "Les eBook blabla", "Se video blabla", "Gjør tutorial blabla" }
-        };
+    public class TaskAdapter extends BaseExpandableListAdapter {
 
-        public Object getChild(int groupPosition, int childPosition) {
-            return children[groupPosition][childPosition];
-        }
+    private Context context;
+    private ArrayList<String> themes;
+    private ArrayList<ArrayList<Task>> tasks;
+    private LayoutInflater inflater;
 
-        public long getChildId(int groupPosition, int childPosition) {
-            return childPosition;
-        }
+    public TaskAdapter(Context context, 
+                        ArrayList<String> themes,
+			ArrayList<ArrayList<Task>> tasks ) { 
+        this.context = context;
+		this.themes = themes;
+        this.tasks = tasks;
+        inflater = LayoutInflater.from( context );
+    }
 
-        public int getChildrenCount(int groupPosition) {
-            return children[groupPosition].length;
-        }
+    public Object getChild(int groupPosition, int childPosition) {
+        return tasks.get( groupPosition ).get( childPosition );
+    }
 
-        public TextView getGenericView() {
-            // Layout parameters for the ExpandableListView
-            AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 64);
+    public long getChildId(int groupPosition, int childPosition) {
+        return (long)( groupPosition*1024+childPosition );  // Max 1024 children per group
+    }
 
-            TextView textView = new TextView(getActivity().getApplicationContext());
-            textView.setLayoutParams(lp);
-            // Center the text vertically
-            textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-            // Set the text starting position
-            textView.setPadding(66, 0, 0, 0);
-            return textView;
-        }
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        View v = null;
+        if( convertView != null )
+            v = convertView;
+        else
+            v = inflater.inflate(R.layout.course_work_child, parent, false); 
+        final Task t = (Task)getChild( groupPosition, childPosition );
+		TextView name = (TextView)v.findViewById( R.id.childname );
+		if( name != null ) {
+                    name.setText(t.getName());
+                }		
+		CheckBox cb = (CheckBox)v.findViewById( R.id.checkbox );
+                cb.setChecked(t.getDone());
+                
+                v.setOnClickListener(new OnClickListener() {
 
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
-                View convertView, ViewGroup parent) {
-            
-            TextView textView = getGenericView();
-            textView.setText(getChild(groupPosition, childPosition).toString());
-            return textView;
-        }
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(v.getContext(), CoursePublicDetailActivity.class);
+                    startActivityForResult(myIntent, 0);
+                }
+            });
+                
+            cb.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    // Perform action on clicks, depending on whether it's now checked
+                    if (((CheckBox) v).isChecked()) {
+                        t.setDone(true);
+                    } else {
+                        t.setDone(false);
+                    }
+                }
+            });
+        
+        return v;
+    }
 
-        public Object getGroup(int groupPosition) {
-            return groups[groupPosition];
-        }
+    public int getChildrenCount(int groupPosition) {
+        return tasks.get( groupPosition ).size();
+    }
 
-        public int getGroupCount() {
-            return groups.length;
-        }
+    public Object getGroup(int groupPosition) {
+        return themes.get( groupPosition );        
+    }
 
-        public long getGroupId(int groupPosition) {
-            return groupPosition;
-        }
+    public int getGroupCount() {
+        return themes.size();
+    }
 
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
-                ViewGroup parent) {
-            
-            TextView textView = getGenericView();
-            textView.setText(getGroup(groupPosition).toString());
-            return textView;
-        }
+    public long getGroupId(int groupPosition) {
+        return (long)( groupPosition*1024 );  // To be consistent with getChildId
+    } 
 
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
-        }
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        View v = null;
+        if( convertView != null )
+            v = convertView;
+        else
+            v = inflater.inflate(R.layout.course_work_group, parent, false); 
+        String gt = (String)getGroup( groupPosition );
+		TextView colorGroup = (TextView)v.findViewById( R.id.childname );
+		if( gt != null )
+			colorGroup.setText( gt );
+        return v;
+    }
 
-        public boolean hasStableIds() {
-            return true;
-        }
+    public boolean hasStableIds() {
+        return true;
+    }
+
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    } 
+
+    public void onGroupCollapsed (int groupPosition) {} 
+    public void onGroupExpanded(int groupPosition) {}
+
 
     }
 }
