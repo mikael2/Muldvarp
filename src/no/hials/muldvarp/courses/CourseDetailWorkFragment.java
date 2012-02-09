@@ -5,8 +5,10 @@
 package no.hials.muldvarp.courses;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +18,16 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import com.google.gson.Gson;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URI;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 /**
  *
@@ -34,41 +44,44 @@ public class CourseDetailWorkFragment extends Fragment {
         
         listview = (ExpandableListView)fragmentView.findViewById(R.id.listview);
         
-        //testdata
-        ArrayList<String> groupNames = new ArrayList<String>();
-        groupNames.add( "Tema 1" );
-	    groupNames.add( "Tema 2" );
-	    groupNames.add( "Tema 3" );
-	    groupNames.add( "Tema 4" );
-        ArrayList<ArrayList<Task>> tasks = new ArrayList<ArrayList<Task>>();
+//        //testdata
+//        ArrayList<Theme> themes = new ArrayList<Theme>();
+//        themes.add( new Theme("Tema 1") );
+//	    themes.add( new Theme("Tema 2") );
+//	    themes.add( new Theme("Tema 3") );
+//	    themes.add( new Theme("Tema 4") );
+//        ArrayList<ArrayList<Task>> tasks = new ArrayList<ArrayList<Task>>();
+//        
+//        ArrayList<Task> task = new ArrayList<Task>();
+//                task.add( new Task( "eBook", true) ); 
+//		task.add( new Task( "Video") ); 
+//		task.add( new Task( "Tutorial") );
+//        tasks.add( task );
+//        
+//        task = new ArrayList<Task>();
+//                task.add( new Task( "eBook", true) ); 
+//		task.add( new Task( "Video") ); 
+//		task.add( new Task( "Tutorial") );
+//        tasks.add( task );
+//        
+//        task = new ArrayList<Task>();
+//                task.add( new Task( "eBook", true) ); 
+//		task.add( new Task( "Video") ); 
+//		task.add( new Task( "Tutorial") );
+//        tasks.add( task );
+//        
+//        task = new ArrayList<Task>();
+//                task.add( new Task( "eBook", true) ); 
+//		task.add( new Task( "Video") ); 
+//		task.add( new Task( "Tutorial") );
+//        tasks.add( task );
         
-        ArrayList<Task> task = new ArrayList<Task>();
-                task.add( new Task( "eBook", true) ); 
-		task.add( new Task( "Video") ); 
-		task.add( new Task( "Tutorial") );
-        tasks.add( task );
         
-        task = new ArrayList<Task>();
-                task.add( new Task( "eBook", true) ); 
-		task.add( new Task( "Video") ); 
-		task.add( new Task( "Tutorial") );
-        tasks.add( task );
+        String id = "1"; // temp greie
+        System.out.println("Getting course with id " + id);
         
-        task = new ArrayList<Task>();
-                task.add( new Task( "eBook", true) ); 
-		task.add( new Task( "Video") ); 
-		task.add( new Task( "Tutorial") );
-        tasks.add( task );
-        
-        task = new ArrayList<Task>();
-                task.add( new Task( "eBook", true) ); 
-		task.add( new Task( "Video") ); 
-		task.add( new Task( "Tutorial") );
-        tasks.add( task );
-        
-        
-        TaskAdapter adapter = new TaskAdapter(this.getActivity().getApplicationContext(), groupNames, tasks);
-        listview.setAdapter(adapter);
+        String url = "http://master.uials.no:8080/muldvarp/resources/course/" + id;
+        new DownloadCourse().execute(url);
         
 //        registerForContextMenu(listview);
         
@@ -104,15 +117,72 @@ public class CourseDetailWorkFragment extends Fragment {
 //        return false;
 //    }
     
+    public InputStream getJSONData(String url){
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        URI uri;
+        InputStream data = null;
+        try {
+            uri = new URI(url);
+            HttpGet method = new HttpGet(uri);
+            HttpResponse response = httpClient.execute(method);
+            data = response.getEntity().getContent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return data;
+    }
+    
+    private class DownloadCourse extends AsyncTask<String, Void, Course> {
+        ProgressDialog dialog;
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(CourseDetailWorkFragment.this.getActivity());
+            dialog.setMessage(getString(R.string.loading));
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+        
+        protected Course doInBackground(String... urls) {
+            Course c = new Course();
+            try{
+                Reader json = new InputStreamReader(getJSONData(urls[0]));
+                Gson gson = new Gson();
+                c = gson.fromJson(json, Course.class);
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+            return c;
+        }        
+        
+        @Override
+        protected void onPostExecute(Course c) {
+            ArrayList<Theme> themes = c.getThemes();
+            ArrayList<ArrayList<Task>> allTasks = new ArrayList<ArrayList<Task>>();
+            for(Theme theme : themes){
+                ArrayList<Task> tasks = new ArrayList<Task>();
+                for(Task task : theme.getTasks()) {
+                    tasks.add(task);
+                }
+                allTasks.add(tasks);
+            }
+            
+            TaskAdapter adapter = new TaskAdapter(CourseDetailWorkFragment.this.getActivity().getApplicationContext(), themes, allTasks);
+            listview.setAdapter(adapter);
+            dialog.dismiss();
+        }
+    }
+    
     public class TaskAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<String> themes;
+    private ArrayList<Theme> themes;
     private ArrayList<ArrayList<Task>> tasks;
     private LayoutInflater inflater;
 
     public TaskAdapter(Context context, 
-                        ArrayList<String> themes,
+                        ArrayList<Theme> themes,
 			ArrayList<ArrayList<Task>> tasks ) { 
         this.context = context;
 		this.themes = themes;
@@ -186,10 +256,10 @@ public class CourseDetailWorkFragment extends Fragment {
             v = convertView;
         else
             v = inflater.inflate(R.layout.course_work_group, parent, false); 
-        String gt = (String)getGroup( groupPosition );
+        Theme gt = (Theme)getGroup( groupPosition );
 		TextView colorGroup = (TextView)v.findViewById( R.id.childname );
 		if( gt != null )
-			colorGroup.setText( gt );
+			colorGroup.setText( gt.getName() );
         return v;
     }
 

@@ -11,7 +11,6 @@
         <TableRow>
             <TextView
             android:id="@+id/name"
-            android:text="Fagnavn"
             android:textSize="14pt"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>

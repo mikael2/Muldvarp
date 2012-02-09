@@ -4,11 +4,22 @@
  */
 package no.hials.muldvarp.courses;
 
+import android.R.array;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
 import com.google.gson.Gson;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URI;
+import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 /**
  *
@@ -21,22 +32,67 @@ public class CoursePublicDetailActivity extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_public_detail);
+
+        Bundle extras = getIntent().getExtras();
+        String id = extras.getString("id");
+        id = "1"; // temp greie
+        System.out.println("Getting course with id " + id);
         
-        // testdata
-        Gson gson = new Gson();
-        String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed accumsan mi. Phasellus porta semper nisi vel ultrices. Aenean ullamcorper orci vitae elit commodo ut imperdiet nibh pharetra. Etiam massa lorem, tristique vel ullamcorper sed, elementum et elit. Morbi sit amet urna at sapien consectetur tempor eget nec est. Proin rutrum mauris a turpis interdum at interdum augue mattis. Suspendisse ullamcorper pretium neque, et laoreet enim malesuada at. Pellentesque scelerisque, diam ac vehicula vestibulum, orci justo convallis quam, quis condimentum leo libero eget nisi. Morbi non sem arcu. Sed interdum sodales feugiat. Morbi cursus molestie eros, laoreet posuere sapien dictum sed. Maecenas eget volutpat leo. Fusce vel sapien risus, non placerat nisi. Praesent consectetur venenatis leo vel ultricies. Nullam eu dui lacus, sed vehicula dui. Sed pulvinar posuere fermentum. Praesent ullamcorper mollis malesuada.";
-        Course c = new Course("Working with Gson", lorem);
-        String json = gson.toJson(c);
+        String url = "http://master.uials.no:8080/muldvarp/resources/course/" + id;
+        new DownloadCourse().execute(url);
         
-        Course c2 = gson.fromJson(json, Course.class);
+    }
+    
+    public InputStream getJSONData(String url){
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        URI uri;
+        InputStream data = null;
+        try {
+            uri = new URI(url);
+            HttpGet method = new HttpGet(uri);
+            HttpResponse response = httpClient.execute(method);
+            data = response.getEntity().getContent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
-        TextView name=(TextView)findViewById(R.id.name);
-        name.setText(c2.getName());
+        return data;
+    }
+    
+    private class DownloadCourse extends AsyncTask<String, Void, Course> {
+        protected Course doInBackground(String... urls) {
+            Course c = new Course();
+            try{
+                Reader json = new InputStreamReader(getJSONData(urls[0]));
+                Gson gson = new Gson();
+                c = gson.fromJson(json, Course.class);
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+            return c;
+        }
+
+        ProgressDialog dialog;
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(CoursePublicDetailActivity.this);
+            dialog.setMessage(getString(R.string.loading));
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
         
-        TextView desc =(TextView)findViewById(R.id.description);
-        desc.append(c2.getDetail());
+        @Override
+        protected void onPostExecute(Course c) {
+            TextView name=(TextView)findViewById(R.id.name);
+            name.setText(c.getName());
         
-        TextView t2 =(TextView)findViewById(R.id.andreting);
-        t2.append(c2.getDetail());
+            TextView desc =(TextView)findViewById(R.id.description);
+            desc.append(c.getDetail());
+        
+            TextView t2 =(TextView)findViewById(R.id.andreting);
+            t2.append(c.getDetail());
+            dialog.dismiss();
+        }
     }
 }

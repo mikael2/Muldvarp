@@ -42,10 +42,8 @@ public class CourseListFragment extends Fragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         
         View fragmentView = inflater.inflate(R.layout.course_list, container, false);
-        
         listview = (ListView)fragmentView.findViewById(R.id.listview);
         
         new DownloadItems().execute(url);
@@ -55,24 +53,26 @@ public class CourseListFragment extends Fragment {
                
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity().getApplicationContext());
         boolean loggedin = prefs.getBoolean("debugloggedin", false);
-
         
         if(loggedin == true) {
             listview.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    Course selectedItem = (Course)array.get(position);
                     Intent myIntent = new Intent(view.getContext(), CourseDetailActivity.class);
+                    myIntent.putExtra("id", selectedItem.getName());
                     startActivityForResult(myIntent, 0);
                 }  
             });
         } else {
             listview.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    Course selectedItem = (Course)array.get(position);
                     Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);
+                    myIntent.putExtra("id", selectedItem.getName());
                     startActivityForResult(myIntent, 0);
                 }  
             }); 
         }
-        
         
         return fragmentView;
     }
@@ -94,19 +94,6 @@ public class CourseListFragment extends Fragment {
     }
     
     private class DownloadItems extends AsyncTask<String, Void, ArrayList<Course>> {
-        protected ArrayList<Course> doInBackground(String... urls) {
-            ArrayList<Course> items = new ArrayList<Course>();
-            try{
-                Reader json = new InputStreamReader(getJSONData(urls[0]));
-                Gson gson = new Gson();
-                SearchResults result = gson.fromJson(json, SearchResults.class);
-                items = (ArrayList<Course>)result.course;
-            }catch(Exception ex){
-                ex.printStackTrace();
-            }
-            return items;
-        }
-
         ProgressDialog dialog;
         @Override
         protected void onPreExecute() {
@@ -117,12 +104,27 @@ public class CourseListFragment extends Fragment {
             dialog.show();
         }
         
+        protected ArrayList<Course> doInBackground(String... urls) {
+            ArrayList<Course> items = new ArrayList<Course>();
+            try{
+                Reader json = new InputStreamReader(getJSONData(urls[0]));
+                Gson gson = new Gson();
+                SearchResults result = gson.fromJson(json, SearchResults.class);
+                items = (ArrayList<Course>)result.course;
+            }catch(Exception ex){
+                ex.printStackTrace();
+                dialog.setCancelable(true);
+                dialog.setMessage(getString(R.string.cannot_connect));
+            }
+            return items;
+        } 
+        
         @Override
         protected void onPostExecute(ArrayList<Course> items) {
             if(items == null) {
-                System.out.println("No items :(");
+                System.out.println("No items");
             } else {
-                array.clear(); // temp fix for stacking blablabla
+                array.clear(); // kb note erstatt med lokal array variabel?
                 for(Course course : items){
                     Course newCourse = new Course(course.getName(),course.getDetail());
                     if(course.getImageurl() != null) {
@@ -130,6 +132,7 @@ public class CourseListFragment extends Fragment {
                     }
                     array.add(newCourse);
                 }
+                dialog.dismiss();
             }
             listview.setAdapter(
                 new CourseListAdapter(
@@ -141,7 +144,7 @@ public class CourseListFragment extends Fragment {
                         ));
         
             adapter = (CourseListAdapter)listview.getAdapter();
-            dialog.dismiss();
+            
         }
     }
     
