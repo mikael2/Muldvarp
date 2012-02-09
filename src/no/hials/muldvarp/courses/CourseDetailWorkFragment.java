@@ -258,9 +258,15 @@ public class CourseDetailWorkFragment extends Fragment {
         else
             v = inflater.inflate(R.layout.course_work_group, parent, false); 
         Theme gt = (Theme)getGroup( groupPosition );
-		TextView colorGroup = (TextView)v.findViewById( R.id.childname );
-		if( gt != null )
-			colorGroup.setText( gt.getName() + " " + gt.getCompletion() + "%" );
+		TextView themeGroup = (TextView)v.findViewById( R.id.childname );
+		if( gt != null ) {
+                    themeGroup.setText( gt.getName() + " " + gt.getCompletion() + "%" );
+                        if( gt.getCompletion() == 100) {
+                            themeGroup.setAlpha((float)0.5);
+                        } else {
+                            themeGroup.setAlpha(1);
+                        }
+                }           
         return v;
     }
 

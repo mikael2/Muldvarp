@@ -10,10 +10,9 @@ package no.hials.muldvarp.courses;
  */
 public class Task {
     String name;
+    public enum content {EXTERNAL,VIDEO,PDF}
     Boolean done = false;
-    
-    String themes;
-    String content;
+    String content_url;
     
     public Task(String name) {
         this.name = name;
@@ -38,6 +37,14 @@ public class Task {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getContent_url() {
+        return content_url;
+    }
+
+    public void setContent_url(String content_url) {
+        this.content_url = content_url;
     }
     
 }
