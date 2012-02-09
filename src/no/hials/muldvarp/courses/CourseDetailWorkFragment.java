@@ -208,6 +208,11 @@ public class CourseDetailWorkFragment extends Fragment {
 		TextView name = (TextView)v.findViewById( R.id.childname );
 		if( name != null ) {
                     name.setText(t.getName());
+                    if(t.getDone() == true) {
+                        name.setAlpha((float)0.5);
+                    } else {
+                        name.setAlpha(1);
+                    }
                 }		
 		CheckBox cb = (CheckBox)v.findViewById( R.id.checkbox );
                 cb.setChecked(t.getDone());
@@ -225,10 +230,11 @@ public class CourseDetailWorkFragment extends Fragment {
                 public void onClick(View v) {
                     // Perform action on clicks, depending on whether it's now checked
                     if (((CheckBox) v).isChecked()) {
-                        t.setDone(true);
+                        t.setDone(true);                        
                     } else {
                         t.setDone(false);
                     }
+                    notifyDataSetChanged();
                 }
             });
         
