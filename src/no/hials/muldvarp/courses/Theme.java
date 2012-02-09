@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class Theme {
     String name;
     ArrayList<Task> tasks;
-    Integer completion;
     
     public Theme() {
         
@@ -24,11 +23,16 @@ public class Theme {
     }
 
     public Integer getCompletion() {
+        Integer numberOfTasks = 0;
+        Integer completedTasks = 0;
+        for(Task task : tasks) {
+            numberOfTasks++;
+            if(task.getDone() == true) {
+                completedTasks++;
+            }
+        }
+        Integer completion = (completedTasks*100)/numberOfTasks;
         return completion;
-    }
-
-    public void setCompletion(Integer completion) {
-        this.completion = completion;
     }
 
     public String getName() {

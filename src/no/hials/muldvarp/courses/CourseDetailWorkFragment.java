@@ -216,6 +216,7 @@ public class CourseDetailWorkFragment extends Fragment {
 
                 public void onClick(View v) {
                     Intent myIntent = new Intent(v.getContext(), CoursePublicDetailActivity.class);
+                    myIntent.putExtra("id", t.getName());
                     startActivityForResult(myIntent, 0);
                 }
             });
@@ -259,7 +260,7 @@ public class CourseDetailWorkFragment extends Fragment {
         Theme gt = (Theme)getGroup( groupPosition );
 		TextView colorGroup = (TextView)v.findViewById( R.id.childname );
 		if( gt != null )
-			colorGroup.setText( gt.getName() );
+			colorGroup.setText( gt.getName() + " " + gt.getCompletion() + "%" );
         return v;
     }
 
