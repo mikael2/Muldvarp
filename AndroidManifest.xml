@@ -46,8 +46,14 @@
         <activity android:name=".video.VideoCourseActivity" 
         android:label="VideoCourse"/>
         
-        <activity android:name=".video.DirectoryActivity"
+        <activity android:name=".directory.DirectoryActivity"
                   android:label="Directory">
+        </activity>
+        <activity android:name=".directory.DirectoryCampus"
+                  android:label="DirectoryCampus">
+        </activity>
+        <activity android:name=".directory.DirectoryPeople"
+                  android:label="DirectoryPeople">
         </activity>
         <activity android:name=".library.LibraryDetail"
                   android:label="LibraryDetails">
