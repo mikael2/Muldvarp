@@ -55,8 +55,7 @@ public class CustomListView extends Fragment {
                
         
         //Set onItemClickListener
-        //Defines what happens when an item in the list is "clicked"
-        
+        //Defines what happens when an item in the list is "clicked"        
         listView.setOnItemClickListener(new OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> arg0, View view, int itemPosition, long id) {

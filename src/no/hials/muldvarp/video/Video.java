@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import no.hials.muldvarp.entities.ListItem;
 
 /**
- * Class defining a item item
+ * Class defining a Video ListItem.
  * 
  * @author johan
  */
