@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package no.hials.muldvarp.courses;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -161,7 +156,8 @@ public class CourseActivity extends Activity {
         
         @Override
         protected void onPostExecute(ArrayList<Course> items) {
-            courseList = items;
+            courseList.clear();
+            courseList.addAll(items);
             addDynamicFragment(CourseListFragment); // default view
             dialog.dismiss();
         }
