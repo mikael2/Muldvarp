@@ -18,9 +18,12 @@ public class Task {
         this.name = name;
     }
     
-    public Task(String name, Boolean done) {
-        this.name = name;
-        this.done = done;
+    public Task() {
+        
+    }
+    
+    public void acceptTask() {
+        done = true;
     }
 
     public Boolean getDone() {

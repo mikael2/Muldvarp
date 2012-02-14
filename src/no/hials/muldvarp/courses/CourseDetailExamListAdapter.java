@@ -17,13 +17,13 @@ import no.hials.muldvarp.R;
  *
  * @author kristoffer
  */
-public class CourseDetailHandinListAdapter extends ArrayAdapter {
+public class CourseDetailExamListAdapter extends ArrayAdapter {
     private LayoutInflater mInflater;
     private ArrayList items;
     private Context context;
     private int resource;
     
-    public CourseDetailHandinListAdapter(Context context, int resource, int textViewResourceId, ArrayList items) {
+    public CourseDetailExamListAdapter(Context context, int resource, int textViewResourceId, ArrayList items) {
         super(context, textViewResourceId, items);
         mInflater = LayoutInflater.from(context);
         this.items = items;
@@ -50,9 +50,9 @@ public class CourseDetailHandinListAdapter extends ArrayAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ObligatoryTask h = (ObligatoryTask)items.get(position);
+        Exam e = (Exam)items.get(position);
 
-        holder.name.setText(h.getName());
+        holder.name.setText(e.getName());
         
         return convertView;
     }

@@ -8,14 +8,24 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import com.google.gson.Gson;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URI;
+import java.util.ArrayList;
 import no.hials.muldvarp.MainActivity;
 import no.hials.muldvarp.R;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 /**
  *
@@ -26,36 +36,17 @@ public class CourseActivity extends Activity {
     private Fragment CourseListFragment = new CourseListFragment();
     private Fragment CourseGridFragment = new CourseGridFragment();
     private Fragment currentFragment;
+    ArrayList<Course> courseList = new ArrayList<Course>();
     
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.course_main);
-                
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(false);  
-        actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE); // ??
-
-        addDynamicFragment(CourseListFragment); // default view
-
-//        ActionBar.Tab tab = actionBar.newTab();
-//        tab.setText(R.string.list)
-//           .setTabListener(new TabListener<CourseListFragment>(
-//           this, "List", CourseListFragment.class));
-//        actionBar.addTab(tab);        
-//
-//        tab = actionBar.newTab();
-//        tab.setText(R.string.grid)
-//           .setTabListener(new TabListener<CourseGridFragment>(
-//           this, "Grid", CourseGridFragment.class));
-//        actionBar.addTab(tab);
-//        
-//        if (savedInstanceState != null) {
-//            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("course", 0));
-//        }
+        
+        String url = "http://master.uials.no:8080/muldvarp/resources/course";
+        new DownloadItems().execute(url);
     }
     
     @Override
@@ -96,12 +87,15 @@ public class CourseActivity extends Activity {
                 startActivity(intent);
                 return true;
             case R.id.showgrid:
+                System.out.println("Fragment change button pressed");
                 if(showGrid == false) {
-                    showGrid = true;
                     addDynamicFragment(CourseGridFragment);
+                    showGrid = true;
+                    System.out.println("Showing grid");
                 } else {
-                    showGrid = false;
                     addDynamicFragment(CourseListFragment);
+                    showGrid = false;
+                    System.out.println("Showing list");
                 }
                 return true;
             default:
@@ -119,6 +113,61 @@ public class CourseActivity extends Activity {
         ft.attach(fg);
         ft.add(R.id.course_layout, fg).commit();
         
-        currentFragment = fg;        
+        currentFragment = fg;
+        System.out.println("Fragment changed");
+    }
+    
+    public InputStream getJSONData(String url){
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        URI uri;
+        InputStream data = null;
+        try {
+            uri = new URI(url);
+            HttpGet method = new HttpGet(uri);
+            HttpResponse response = httpClient.execute(method);
+            data = response.getEntity().getContent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return data;
+    }
+    
+    private class DownloadItems extends AsyncTask<String, Void, ArrayList<Course>> {
+        ProgressDialog dialog;
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(CourseActivity.this);
+            dialog.setMessage(getString(R.string.loading));
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+        
+        protected ArrayList<Course> doInBackground(String... urls) {
+            ArrayList<Course> items = new ArrayList<Course>();
+            try{
+                Reader json = new InputStreamReader(getJSONData(urls[0]));
+                Gson gson = new Gson();
+                SearchResults result = gson.fromJson(json, SearchResults.class);
+                items = (ArrayList<Course>)result.course;
+            }catch(Exception ex){
+                ex.printStackTrace();
+                dialog.setCancelable(true);
+                dialog.setMessage(getString(R.string.cannot_connect));
+            }
+            return items;
+        } 
+        
+        @Override
+        protected void onPostExecute(ArrayList<Course> items) {
+            courseList = items;
+            addDynamicFragment(CourseListFragment); // default view
+            dialog.dismiss();
+        }
+    }
+
+    public ArrayList<Course> getCourseList() {
+        return courseList;
     }
 }

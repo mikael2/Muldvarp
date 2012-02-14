@@ -18,6 +18,8 @@ public class Course {
     
     Integer revision;
     ArrayList<Theme> themes;
+    ArrayList<ObligatoryTask> obligatoryTasks;
+    ArrayList<Exam> exams;
     
     public Course() {
         
@@ -76,5 +78,21 @@ public class Course {
 
     public void setThemes(ArrayList<Theme> themes) {
         this.themes = themes;
+    }
+
+    public ArrayList<ObligatoryTask> getObligatoryTasks() {
+        return obligatoryTasks;
+    }
+
+    public void setObligatoryTasks(ArrayList<ObligatoryTask> obligatoryTasks) {
+        this.obligatoryTasks = obligatoryTasks;
+    }
+
+    public ArrayList<Exam> getExams() {
+        return exams;
+    }
+
+    public void setExams(ArrayList<Exam> exams) {
+        this.exams = exams;
     }
 }
