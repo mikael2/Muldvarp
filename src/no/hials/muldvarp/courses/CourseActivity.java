@@ -17,6 +17,7 @@ import java.io.Reader;
 import java.net.URI;
 import java.util.ArrayList;
 import no.hials.muldvarp.MainActivity;
+import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -32,6 +33,7 @@ public class CourseActivity extends Activity {
     private Fragment CourseGridFragment = new CourseGridFragment();
     private Fragment currentFragment;
     ArrayList<Course> courseList = new ArrayList<Course>();
+    String url = "http://master.uials.no:8080/muldvarp/resources/course";
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -40,14 +42,15 @@ public class CourseActivity extends Activity {
         
         setContentView(R.layout.course_main);
         
-        String url = "http://master.uials.no:8080/muldvarp/resources/course";
-        new DownloadItems().execute(url);
+        Intent intent = new Intent(this, MuldvarpService.class);
+        intent.putExtra("whatToDo", 1);
+        startService(intent);
+        //new DownloadItems().execute(url);
     }
     
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("course", getActionBar().getSelectedNavigationIndex());
     }
     
     @Override

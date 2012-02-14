@@ -11,7 +11,7 @@ import java.util.List;
  * @author kristoffer
  */
 public class SearchResults {
-    List<Course> course;
+    public List<Course> course;
 
     public List getResults() {
         return course;

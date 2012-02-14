@@ -17,11 +17,12 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".MuldvarpService" />
+        
         <activity android:name=".desktop.MainPreferenceActivity"
                   android:label="Preferences"/>
 
         <activity android:name=".courses.CourseActivity"
-                  android:configChanges="orientation|keyboardHidden"
                   android:label="Courses">
         </activity>     
         
