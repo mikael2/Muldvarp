@@ -4,6 +4,8 @@
  */
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.domain.Exam;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;

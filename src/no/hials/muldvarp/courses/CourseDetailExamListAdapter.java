@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.domain.Exam;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Date;
 import no.hials.muldvarp.R;
 
 /**
@@ -52,7 +54,7 @@ public class CourseDetailExamListAdapter extends ArrayAdapter {
 
         Exam e = (Exam)items.get(position);
 
-        holder.name.setText(e.getName());
+        holder.name.setText(e.getName() + " Tid: " + e.getExamDate().getDay() + "." + e.getExamDate().getMonth() + " kl: " + e.getExamDate().getHours() + ":" + e.getExamDate().getMinutes());
         
         return convertView;
     }

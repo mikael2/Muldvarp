@@ -4,20 +4,19 @@
  */
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.utility.TabListener;
+import no.hials.muldvarp.domain.Course;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import com.google.gson.Gson;
-import java.io.InputStream;
+import com.google.gson.GsonBuilder;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.URI;
 import no.hials.muldvarp.R;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**
  *
@@ -44,29 +43,12 @@ public class CourseDetailActivity extends Activity {
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
     
-    public InputStream getJSONData(String url){
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        URI uri;
-        InputStream data = null;
-        try {
-            uri = new URI(url);
-            HttpGet method = new HttpGet(uri);
-            HttpResponse response = httpClient.execute(method);
-            data = response.getEntity().getContent();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return data;
-    }
-    
     private class DownloadCourse extends AsyncTask<String, Void, Course> {
         protected Course doInBackground(String... urls) {
             Course c = new Course();
             try{
-                Reader json = new InputStreamReader(getJSONData(urls[0]));
-                Gson gson = new Gson();
-                c = gson.fromJson(json, Course.class);
+                Reader json = new InputStreamReader(DownloadUtilities.getJSONData(urls[0]));
+                c = DownloadUtilities.buildGson().fromJson(json, Course.class);
             }catch(Exception ex){
                 ex.printStackTrace();
             }

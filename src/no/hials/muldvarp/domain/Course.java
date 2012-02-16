@@ -2,8 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.courses;
+package no.hials.muldvarp.domain;
 
+import no.hials.muldvarp.domain.ObligatoryTask;
+import no.hials.muldvarp.domain.Exam;
+import no.hials.muldvarp.domain.Theme;
 import java.util.ArrayList;
 
 /**

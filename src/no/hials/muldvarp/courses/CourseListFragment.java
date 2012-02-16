@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.domain.Course;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;

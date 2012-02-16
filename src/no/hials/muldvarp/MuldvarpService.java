@@ -7,15 +7,26 @@ package no.hials.muldvarp;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+<<<<<<< HEAD
 import android.os.*;
 import android.support.v4.content.LocalBroadcastManager;
 import java.io.*;
 import java.net.URI;
+=======
+import android.os.AsyncTask;
+import android.os.Binder;
+import android.os.Bundle;
+import android.os.IBinder;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+>>>>>>> Moved all course related data classes to domain, moved course related utility classes to utility, made downloadUtility class which deals with all static methods related to downloading from the REST service
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**
  *
@@ -93,7 +104,6 @@ public class MuldvarpService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // The service is starting, due to a call to startService()
         
-        
         Bundle extra = intent.getExtras();
         if(extra != null){
             switch (extra.getInt("whatToDo")) {
@@ -103,7 +113,6 @@ public class MuldvarpService extends Service {
                 case 2: // get single course
                     break;
             }
-            
         }
 
         return mStartMode;
@@ -143,28 +152,12 @@ public class MuldvarpService extends Service {
         mHandler.removeMessages(MSG_UPDATE);
     }
     
-    private InputStream getJSONData(String url){
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        URI uri;
-        InputStream data = null;
-        try {
-            uri = new URI(url);
-            HttpGet method = new HttpGet(uri);
-            HttpResponse response = httpClient.execute(method);
-            data = response.getEntity().getContent();
-        } catch (Exception ex) {
-            Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return data;
-    }
-    
     private class DownloadCourses extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... urls) {
             try{
                 cacheThis(
-                        new InputStreamReader(getJSONData(urls[0])), 
+                        new InputStreamReader(DownloadUtilities.getJSONData(urls[0])), 
                         new File(getCacheDir(), courseCache));
                 return true;
             }catch(Exception ex){

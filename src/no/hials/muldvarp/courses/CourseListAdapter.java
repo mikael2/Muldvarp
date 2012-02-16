@@ -4,6 +4,8 @@
  */
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.utility.DrawableManager;
+import no.hials.muldvarp.domain.Course;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

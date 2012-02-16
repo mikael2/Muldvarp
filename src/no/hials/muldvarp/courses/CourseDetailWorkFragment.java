@@ -4,6 +4,9 @@
  */
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.domain.Task;
+import no.hials.muldvarp.domain.Theme;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;

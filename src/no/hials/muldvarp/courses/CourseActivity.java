@@ -1,5 +1,7 @@
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.domain.SearchResults;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -18,8 +20,6 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,9 +27,6 @@ import no.hials.muldvarp.MainActivity;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 /**
  *
@@ -135,22 +132,6 @@ public class CourseActivity extends Activity {
         
         currentFragment = fg;
         System.out.println("Fragment changed");
-    }
-    
-    public InputStream getJSONData(String url){
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        URI uri;
-        InputStream data = null;
-        try {
-            uri = new URI(url);
-            HttpGet method = new HttpGet(uri);
-            HttpResponse response = httpClient.execute(method);
-            data = response.getEntity().getContent();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return data;
     }
     
     private class getItemsFromCache extends AsyncTask<String, Void, ArrayList<Course>> {
