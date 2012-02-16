@@ -4,20 +4,28 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.google.gson.Gson;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import no.hials.muldvarp.MainActivity;
 import no.hials.muldvarp.MuldvarpService;
+import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -29,11 +37,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
  */
 public class CourseActivity extends Activity {
     private boolean showGrid;
-    private Fragment CourseListFragment = new CourseListFragment();
-    private Fragment CourseGridFragment = new CourseGridFragment();
     private Fragment currentFragment;
-    ArrayList<Course> courseList = new ArrayList<Course>();
+    Fragment CourseListFragment;
+    Fragment CourseGridFragment;
+    ArrayList<Course> courseList;
     String url = "http://master.uials.no:8080/muldvarp/resources/course";
+    
+    MuldvarpService mService;
+    boolean mBound = false;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -42,10 +53,21 @@ public class CourseActivity extends Activity {
         
         setContentView(R.layout.course_main);
         
+        courseList = new ArrayList<Course>();
+        CourseListFragment = new CourseListFragment();
+        CourseGridFragment = new CourseGridFragment();
+        
         Intent intent = new Intent(this, MuldvarpService.class);
         intent.putExtra("whatToDo", 1);
-        startService(intent);
-        //new DownloadItems().execute(url);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        
+        //if (mBound) {
+            new getItemsFromCache().execute("CourseCache");
+        //}
+    }
+    
+    public void calledBack() {
+        
     }
     
     @Override
@@ -131,7 +153,7 @@ public class CourseActivity extends Activity {
         return data;
     }
     
-    private class DownloadItems extends AsyncTask<String, Void, ArrayList<Course>> {
+    private class getItemsFromCache extends AsyncTask<String, Void, ArrayList<Course>> {
         ProgressDialog dialog;
         @Override
         protected void onPreExecute() {
@@ -144,15 +166,12 @@ public class CourseActivity extends Activity {
         
         protected ArrayList<Course> doInBackground(String... urls) {
             ArrayList<Course> items = new ArrayList<Course>();
-            try{
-                Reader json = new InputStreamReader(getJSONData(urls[0]));
-                Gson gson = new Gson();
-                SearchResults result = gson.fromJson(json, SearchResults.class);
+            try {
+                File f = new File(getCacheDir(), urls[0]);
+                SearchResults result = new Gson().fromJson(new FileReader(f), SearchResults.class);
                 items = (ArrayList<Course>)result.course;
-            }catch(Exception ex){
-                ex.printStackTrace();
-                dialog.setCancelable(true);
-                dialog.setMessage(getString(R.string.cannot_connect));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(CourseActivity.class.getName()).log(Level.SEVERE, null, ex);
             }
             return items;
         } 
@@ -168,5 +187,33 @@ public class CourseActivity extends Activity {
 
     public ArrayList<Course> getCourseList() {
         return courseList;
+    }
+    
+    /** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            LocalBinder binder = (LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
+    
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Unbind from the service
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
     }
 }
