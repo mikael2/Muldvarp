@@ -7,16 +7,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import no.hials.muldvarp.courses.TabListener;
-import no.hials.muldvarp.desktop.DesktopFragment;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
-import no.hials.muldvarp.desktop.SettingsFragment;
 
 public class MainActivity extends Activity
 {
     private static final String DESKTOP_FRAGMENT  = "desktop";
     private static final String SETTINGS_FRAGMENT = "settings";
     
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
