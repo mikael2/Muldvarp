@@ -7,17 +7,9 @@ package no.hials.muldvarp;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Binder;
-import android.os.Bundle;
-import android.os.IBinder;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import android.os.*;
+import android.support.v4.content.LocalBroadcastManager;
+import java.io.*;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +22,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
  * @author kristoffer
  */
 public class MuldvarpService extends Service {
+    public static final String ACTION_PEOPLE_UPDATE = "no.hials.muldvarp.ACTION_PEOPLE_UPDATE";
+    
     int mStartMode;       // indicates how to behave if the service is killed
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -41,9 +35,59 @@ public class MuldvarpService extends Service {
         
     SharedPreferences preferences;
     
+    LocalBroadcastManager mLocalBroadcastManager;
+    static final int MSG_UPDATE = 1;
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_UPDATE: {
+                    Intent intent = new Intent(ACTION_PEOPLE_UPDATE);
+                    intent.putExtra("value", "people");
+                    mLocalBroadcastManager.sendBroadcast(intent);
+                    Message nmsg = mHandler.obtainMessage(MSG_UPDATE);
+                    mHandler.sendMessageDelayed(nmsg, 1000);
+                }
+                break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    };
+    
     @Override
     public void onCreate() {
         // The service is being created
+        super.onCreate();
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+                       
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... arg0) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+            
+            @Override
+            protected void onPostExecute(Void retVal) {
+                System.out.println("Sending message");
+                // Tell any local interested parties about the start.
+                mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_PEOPLE_UPDATE));
+
+                // Prepare to do update reports.
+                /*mHandler.removeMessages(MSG_UPDATE);
+                Message msg = mHandler.obtainMessage(MSG_UPDATE);
+                mHandler.sendMessageDelayed(msg, 1000);*/
+            }
+            
+        }.execute();
+        
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -94,6 +138,9 @@ public class MuldvarpService extends Service {
     @Override
     public void onDestroy() {
         // The service is no longer used and is being destroyed
+         
+        // Stop doing updates.
+        mHandler.removeMessages(MSG_UPDATE);
     }
     
     private InputStream getJSONData(String url){
