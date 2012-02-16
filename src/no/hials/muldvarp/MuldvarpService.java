@@ -7,12 +7,8 @@ package no.hials.muldvarp;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-<<<<<<< HEAD
 import android.os.*;
 import android.support.v4.content.LocalBroadcastManager;
-import java.io.*;
-import java.net.URI;
-=======
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Bundle;
@@ -23,7 +19,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
->>>>>>> Moved all course related data classes to domain, moved course related utility classes to utility, made downloadUtility class which deals with all static methods related to downloading from the REST service
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.utility.DownloadUtilities;
