@@ -6,17 +6,20 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import com.google.gson.Gson;
+import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -27,6 +30,7 @@ import no.hials.muldvarp.MainActivity;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**
  *
@@ -41,7 +45,11 @@ public class CourseActivity extends Activity {
     String url = "http://master.uials.no:8080/muldvarp/resources/course";
     
     MuldvarpService mService;
+    LocalBroadcastManager mLocalBroadcastManager;
+    BroadcastReceiver     mReceiver;
     boolean mBound = false;
+    ProgressDialog dialog;
+    String CourseCache = "CourseCache";
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -54,17 +62,34 @@ public class CourseActivity extends Activity {
         CourseListFragment = new CourseListFragment();
         CourseGridFragment = new CourseGridFragment();
         
+        dialog = new ProgressDialog(CourseActivity.this);
+        dialog.setMessage(getString(R.string.loading));
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.show();
+        
+        // We use this to send broadcasts within our local process.
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+         // We are going to watch for interesting local broadcasts.
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
+                if (intent.getAction().compareTo(MuldvarpService.ACTION_COURSE_UPDATE) == 0) {                    
+                    System.out.println("Toasting" + intent.getAction());
+                    Toast.makeText(context, "Courses updated", Toast.LENGTH_LONG).show();
+                    new getItemsFromCache().execute(CourseCache);
+                } 
+            }
+        };
+        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+        
         Intent intent = new Intent(this, MuldvarpService.class);
         intent.putExtra("whatToDo", 1);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        
-        //if (mBound) {
-            new getItemsFromCache().execute("CourseCache");
-        //}
-    }
-    
-    public void calledBack() {
-        
+        //bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        startService(intent);
     }
     
     @Override
@@ -134,22 +159,13 @@ public class CourseActivity extends Activity {
         System.out.println("Fragment changed");
     }
     
-    private class getItemsFromCache extends AsyncTask<String, Void, ArrayList<Course>> {
-        ProgressDialog dialog;
-        @Override
-        protected void onPreExecute() {
-            dialog = new ProgressDialog(CourseActivity.this);
-            dialog.setMessage(getString(R.string.loading));
-            dialog.setIndeterminate(true);
-            dialog.setCancelable(false);
-            dialog.show();
-        }
+    private class getItemsFromCache extends AsyncTask<String, Void, ArrayList<Course>> {       
         
         protected ArrayList<Course> doInBackground(String... urls) {
             ArrayList<Course> items = new ArrayList<Course>();
             try {
                 File f = new File(getCacheDir(), urls[0]);
-                SearchResults result = new Gson().fromJson(new FileReader(f), SearchResults.class);
+                SearchResults result = DownloadUtilities.buildGson().fromJson(new FileReader(f), SearchResults.class);
                 items = (ArrayList<Course>)result.course;
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(CourseActivity.class.getName()).log(Level.SEVERE, null, ex);

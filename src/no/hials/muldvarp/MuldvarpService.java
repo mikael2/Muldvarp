@@ -29,15 +29,20 @@ import no.hials.muldvarp.utility.DownloadUtilities;
  */
 public class MuldvarpService extends Service {
     public static final String ACTION_PEOPLE_UPDATE = "no.hials.muldvarp.ACTION_PEOPLE_UPDATE";
+    public static final String ACTION_COURSE_UPDATE = "no.hials.muldvarp.ACTION_COURSE_UPDATE";
+    public static final String ACTION_SINGLECOURSE_UPDATE = "no.hials.muldvarp.ACTION_SINGLECOURSE_UPDATE";
     
     int mStartMode;       // indicates how to behave if the service is killed
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
     boolean mAllowRebind; // indicates whether onRebind should be used
-        
+    
+    Integer courseId;
     String server = "http://master.uials.no:8080/muldvarp/";
-    String course = server + "resources/course";
+    String course = server + "resources/course/";
     String courseCache = "CourseCache";
+    String singleCourseCache = "SingleCourseCache";
+    Integer cacheTime = 3600000;
         
     SharedPreferences preferences;
     
@@ -68,31 +73,31 @@ public class MuldvarpService extends Service {
         super.onCreate();
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
                        
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... arg0) {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return null;
-            }
-            
-            @Override
-            protected void onPostExecute(Void retVal) {
-                System.out.println("Sending message");
-                // Tell any local interested parties about the start.
-                mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_PEOPLE_UPDATE));
-
-                // Prepare to do update reports.
-                /*mHandler.removeMessages(MSG_UPDATE);
-                Message msg = mHandler.obtainMessage(MSG_UPDATE);
-                mHandler.sendMessageDelayed(msg, 1000);*/
-            }
-            
-        }.execute();
+//        new AsyncTask<Void, Void, Void>() {
+//
+//            @Override
+//            protected Void doInBackground(Void... arg0) {
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                return null;
+//            }
+//            
+//            @Override
+//            protected void onPostExecute(Void retVal) {
+//                System.out.println("Sending message");
+//                // Tell any local interested parties about the start.
+//                mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_PEOPLE_UPDATE));
+//
+//                // Prepare to do update reports.
+//                /*mHandler.removeMessages(MSG_UPDATE);
+//                Message msg = mHandler.obtainMessage(MSG_UPDATE);
+//                mHandler.sendMessageDelayed(msg, 1000);*/
+//            }
+//            
+//        }.execute();
         
     }
     @Override
@@ -106,6 +111,9 @@ public class MuldvarpService extends Service {
                     new DownloadCourses().execute(course);
                     break;
                 case 2: // get single course
+                    courseId = extra.getInt("id");
+                    String singleCourse = course + courseId.toString();
+                    new DownloadCourse().execute(singleCourse);
                     break;
             }
         }
@@ -147,23 +155,47 @@ public class MuldvarpService extends Service {
         mHandler.removeMessages(MSG_UPDATE);
     }
     
-    private class DownloadCourses extends AsyncTask<String, Void, Boolean> {
+    private class DownloadCourses extends AsyncTask<String, Void, Void> {
         @Override
-        protected Boolean doInBackground(String... urls) {
-            try{
+        protected Void doInBackground(String... urls) {
+            File f = new File(getCacheDir(), courseCache);
+            if(System.currentTimeMillis() - f.lastModified() > cacheTime) {
+                try{
                 cacheThis(
-                        new InputStreamReader(DownloadUtilities.getJSONData(urls[0])), 
-                        new File(getCacheDir(), courseCache));
-                return true;
-            }catch(Exception ex){
-                Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
+                        new InputStreamReader(DownloadUtilities.getJSONData(urls[0])),
+                        f);
+                }catch(Exception ex){
+                    Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            return false;
+            return null;
         } 
         
         @Override
-        protected void onPostExecute(Boolean retVal) {
-            // callback here
+        protected void onPostExecute(Void retVal) {
+            mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_COURSE_UPDATE));
+        }
+    }
+    
+    private class DownloadCourse extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... urls) {
+            File f = new File(getCacheDir(), singleCourseCache);
+            if(System.currentTimeMillis() - f.lastModified() > cacheTime) {
+                try{
+                cacheThis(
+                        new InputStreamReader(DownloadUtilities.getJSONData(urls[0])),
+                        f);
+                }catch(Exception ex){
+                    Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            return null;
+        } 
+        
+        @Override
+        protected void onPostExecute(Void retVal) {
+            mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_SINGLECOURSE_UPDATE));
         }
     }
     
