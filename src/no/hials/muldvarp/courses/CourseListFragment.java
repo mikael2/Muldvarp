@@ -30,16 +30,40 @@ public class CourseListFragment extends Fragment {
     ListView listview;
     View fragmentView;
     ArrayList<Course> items;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        
+        System.out.println("CourseListFragment onCreateView()");
         fragmentView = inflater.inflate(R.layout.course_list, container, false);
         listview = (ListView)fragmentView.findViewById(R.id.listview);
         
-        CourseActivity activity = (CourseActivity)getActivity();
-        items = activity.getCourseList();
-
+        
+        
+        return fragmentView;
+    }
+    
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+    
+    public void itemsReady() {
+        
+        if(items == null) {
+            CourseActivity activity = (CourseActivity)getActivity();
+            items = activity.getCourseList();
+        }
+        
+        if(items == null) {
+            System.out.println("items null");
+        }
+        
         listview.setAdapter(
             new CourseListAdapter(
                     CourseListFragment.this.getActivity().getApplicationContext(), 
@@ -76,8 +100,6 @@ public class CourseListFragment extends Fragment {
                 }  
             }); 
         }
-        
-        return fragmentView;
     }
     
     private TextWatcher filterTextWatcher = new TextWatcher() {
@@ -95,4 +117,11 @@ public class CourseListFragment extends Fragment {
         }
 
     };
+    
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        System.out.println("CourseListFragment onStop()");
+//        getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+//    }
 }

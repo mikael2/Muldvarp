@@ -37,8 +37,8 @@ import no.hials.muldvarp.utility.DownloadUtilities;
  * @author kristoffer
  */
 public class CourseActivity extends Activity {
-    private boolean showGrid;
     private Fragment currentFragment;
+    String listform = "list";
     Fragment CourseListFragment;
     Fragment CourseGridFragment;
     ArrayList<Course> courseList;
@@ -46,48 +46,65 @@ public class CourseActivity extends Activity {
     MuldvarpService mService;
     LocalBroadcastManager mLocalBroadcastManager;
     BroadcastReceiver     mReceiver;
-    boolean mBound = false;
+    boolean mBound;
     ProgressDialog dialog;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
+        if(getIntent().getStringExtra("listform") != null) {
+            listform = getIntent().getStringExtra("listform");
+        }
+        System.out.println("CourseActivity onCreate()");
         setContentView(R.layout.course_main);
+            CourseListFragment = new CourseListFragment();
+            CourseGridFragment = new CourseGridFragment();
         
-        courseList = new ArrayList<Course>();
-        CourseListFragment = new CourseListFragment();
-        CourseGridFragment = new CourseGridFragment();
-        
-        dialog = new ProgressDialog(CourseActivity.this);
-        dialog.setMessage(getString(R.string.loading));
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(false);
-        dialog.show();
-        
-        // We use this to send broadcasts within our local process.
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
-         // We are going to watch for interesting local broadcasts.
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
-        mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
-                if (intent.getAction().compareTo(MuldvarpService.ACTION_COURSE_UPDATE) == 0) {                    
-                    System.out.println("Toasting" + intent.getAction());
-                    Toast.makeText(context, "Courses updated", Toast.LENGTH_LONG).show();
-                    new getItemsFromCache().execute(getString(R.string.cacheCourseList));
-                } 
+        if(listform.equals("list")) {
+                addDynamicFragment(CourseListFragment);
+            } else if(listform.equals("grid")) {
+                addDynamicFragment(CourseGridFragment);
             }
-        };
-        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         
-        Intent intent = new Intent(this, MuldvarpService.class);
-//        intent.putExtra("whatToDo", 1);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        //startService(intent);
+       // if(savedInstanceState == null) {
+            
+            dialog = new ProgressDialog(CourseActivity.this);
+            dialog.setMessage(getString(R.string.loading));
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+
+            // We use this to send broadcasts within our local process.
+            mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+             // We are going to watch for interesting local broadcasts.
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+            mReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
+                    if (intent.getAction().compareTo(MuldvarpService.ACTION_COURSE_UPDATE) == 0) {                    
+                        System.out.println("Toasting" + intent.getAction());
+                        Toast.makeText(context, "Courses updated", Toast.LENGTH_LONG).show();
+                        new getItemsFromCache().execute(getString(R.string.cacheCourseList));
+                    } 
+                }
+            };
+            mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+
+            Intent intent = new Intent(this, MuldvarpService.class);
+    //        intent.putExtra("whatToDo", 1);
+            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            //startService(intent);
+        //}
+        
+    }
+    
+    @Override
+    public void onStart() {
+        super.onStart();
+        System.out.println("CourseActivity onStart()");
     }
     
     @Override
@@ -128,15 +145,16 @@ public class CourseActivity extends Activity {
                 return true;
             case R.id.showgrid:
                 System.out.println("Fragment change button pressed");
-                if(showGrid == false) {
-                    addDynamicFragment(CourseGridFragment);
-                    showGrid = true;
+                intent = new Intent(this, CourseActivity.class);
+                if(listform.equals("list")) {
+                    intent.putExtra("listform", "grid");
                     System.out.println("Showing grid");
-                } else {
-                    addDynamicFragment(CourseListFragment);
-                    showGrid = false;
+                } else if(listform.equals("grid")) {
+                    intent.putExtra("listform", "list");
                     System.out.println("Showing list");
                 }
+                finish();
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -145,13 +163,15 @@ public class CourseActivity extends Activity {
     
     private void addDynamicFragment(Fragment fg) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        
+        System.out.println("Changing fragment to " + fg.toString());
         if (currentFragment != null) {
             ft.detach(currentFragment);
+            //ft.addToBackStack(null);
         }
 
         ft.attach(fg);
-        ft.add(R.id.course_layout, fg).commit();
+        ft.add(R.id.course_layout, fg);
+        ft.commit();
         
         currentFragment = fg;
         System.out.println("Fragment changed");
@@ -173,9 +193,18 @@ public class CourseActivity extends Activity {
         
         @Override
         protected void onPostExecute(ArrayList<Course> items) {
-            courseList.clear();
-            courseList.addAll(items);
-            addDynamicFragment(CourseListFragment); // default view
+//            courseList = new ArrayList<Course>();
+//            courseList.addAll(items);
+            courseList = items;
+            if(listform.equals("list")) {
+                CourseListFragment fragment = (CourseListFragment) getFragmentManager().findFragmentById(R.id.course_layout);
+                fragment.itemsReady();
+            } else if(listform.equals("grid")) {
+                CourseGridFragment fragment = (CourseGridFragment) getFragmentManager().findFragmentById(R.id.course_layout);
+                //fragment.itemsReady();
+            }
+            
+            
             dialog.dismiss();
         }
     }
@@ -199,6 +228,7 @@ public class CourseActivity extends Activity {
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
+            mService = null;
             mBound = false;
         }
     };
@@ -206,6 +236,7 @@ public class CourseActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
+        System.out.println("CourseActivity onStop()");
         // Unbind from the service
         if (mBound) {
             unbindService(mConnection);
