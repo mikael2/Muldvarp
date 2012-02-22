@@ -42,14 +42,12 @@ public class CourseActivity extends Activity {
     Fragment CourseListFragment;
     Fragment CourseGridFragment;
     ArrayList<Course> courseList;
-    String url = "http://master.uials.no:8080/muldvarp/resources/course";
     
     MuldvarpService mService;
     LocalBroadcastManager mLocalBroadcastManager;
     BroadcastReceiver     mReceiver;
     boolean mBound = false;
     ProgressDialog dialog;
-    String CourseCache = "CourseCache";
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -80,16 +78,16 @@ public class CourseActivity extends Activity {
                 if (intent.getAction().compareTo(MuldvarpService.ACTION_COURSE_UPDATE) == 0) {                    
                     System.out.println("Toasting" + intent.getAction());
                     Toast.makeText(context, "Courses updated", Toast.LENGTH_LONG).show();
-                    new getItemsFromCache().execute(CourseCache);
+                    new getItemsFromCache().execute(getString(R.string.cacheCourseList));
                 } 
             }
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         
         Intent intent = new Intent(this, MuldvarpService.class);
-        intent.putExtra("whatToDo", 1);
-        //bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        startService(intent);
+//        intent.putExtra("whatToDo", 1);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        //startService(intent);
     }
     
     @Override
@@ -196,6 +194,7 @@ public class CourseActivity extends Activity {
             LocalBinder binder = (LocalBinder) service;
             mService = binder.getService();
             mBound = true;
+            mService.giveMeCourses();
         }
 
         @Override

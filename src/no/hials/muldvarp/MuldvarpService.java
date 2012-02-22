@@ -38,11 +38,6 @@ public class MuldvarpService extends Service {
     boolean mAllowRebind; // indicates whether onRebind should be used
     
     Integer courseId;
-    String server = "http://master.uials.no:8080/muldvarp/";
-    String course = server + "resources/course/";
-    String courseCache = "CourseCache";
-    String singleCourseCache = "SingleCourseCache";
-    Integer cacheTime = 3600000;
         
     SharedPreferences preferences;
     
@@ -100,26 +95,26 @@ public class MuldvarpService extends Service {
 //        }.execute();
         
     }
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        // The service is starting, due to a call to startService()
-        
-        Bundle extra = intent.getExtras();
-        if(extra != null){
-            switch (extra.getInt("whatToDo")) {
-                case 1: // get all courses
-                    new DownloadCourses().execute(course);
-                    break;
-                case 2: // get single course
-                    courseId = extra.getInt("id");
-                    String singleCourse = course + courseId.toString();
-                    new DownloadCourse().execute(singleCourse);
-                    break;
-            }
-        }
-
-        return mStartMode;
-    }
+//    @Override
+//    public int onStartCommand(Intent intent, int flags, int startId) {
+//        // The service is starting, due to a call to startService()
+//        
+//        Bundle extra = intent.getExtras();
+//        if(extra != null){
+//            switch (extra.getInt("whatToDo")) {
+//                case 1: // get all courses
+//                    new DownloadCourses().execute(course);
+//                    break;
+//                case 2: // get single course
+//                    courseId = extra.getInt("id");
+//                    String singleCourse = course + courseId.toString();
+//                    new DownloadCourse().execute(singleCourse);
+//                    break;
+//            }
+//        }
+//
+//        return mStartMode;
+//    }
     
     /**
      * Class for clients to access.  Because we know this service always
@@ -158,8 +153,8 @@ public class MuldvarpService extends Service {
     private class DownloadCourses extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... urls) {
-            File f = new File(getCacheDir(), courseCache);
-            if(System.currentTimeMillis() - f.lastModified() > cacheTime) {
+            File f = new File(getCacheDir(), getString(R.string.cacheCourseList));
+            if(System.currentTimeMillis() - f.lastModified() > getResources().getInteger(R.integer.cacheTime)) { // funka ditta skikkelig?
                 try{
                 cacheThis(
                         new InputStreamReader(DownloadUtilities.getJSONData(urls[0])),
@@ -180,8 +175,8 @@ public class MuldvarpService extends Service {
     private class DownloadCourse extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... urls) {
-            File f = new File(getCacheDir(), singleCourseCache);
-            if(System.currentTimeMillis() - f.lastModified() > cacheTime) {
+            File f = new File(getCacheDir(), getString(R.string.cacheCourseSingle));
+            if(System.currentTimeMillis() - f.lastModified() > getResources().getInteger(R.integer.cacheTime)) {
                 try{
                 cacheThis(
                         new InputStreamReader(DownloadUtilities.getJSONData(urls[0])),
@@ -197,6 +192,14 @@ public class MuldvarpService extends Service {
         protected void onPostExecute(Void retVal) {
             mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_SINGLECOURSE_UPDATE));
         }
+    }
+    
+    public void giveMeCourses() {
+        new DownloadCourses().execute(getString(R.string.serverPath) + getString(R.string.courseResPath));
+    }
+    
+    public void giveMeOneCourse(Integer id) {
+        new DownloadCourse().execute(getString(R.string.serverPath) + getString(R.string.courseResPath) + id.toString());
     }
     
     private void cacheThis(Reader json, File f) {

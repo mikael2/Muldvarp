@@ -10,16 +10,20 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileReader;
 import no.hials.muldvarp.MuldvarpService;
+import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.utility.DownloadUtilities;
 
@@ -29,10 +33,11 @@ import no.hials.muldvarp.utility.DownloadUtilities;
  */
 public class CourseDetailActivity extends Activity {
     Course activeCourse;
-    ProgressDialog dialog;
+    MuldvarpService mService;
     LocalBroadcastManager mLocalBroadcastManager;
     BroadcastReceiver     mReceiver;
-    String SingleCourseCache = "SingleCourseCache";
+    boolean mBound = false;
+    ProgressDialog dialog;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -58,19 +63,19 @@ public class CourseDetailActivity extends Activity {
                 if (intent.getAction().compareTo(MuldvarpService.ACTION_SINGLECOURSE_UPDATE) == 0) {                    
                     System.out.println("Toasting" + intent.getAction());
                     Toast.makeText(context, "Course updated", Toast.LENGTH_LONG).show();
-                    new getCourseFromCache().execute(SingleCourseCache);
+                    new getCourseFromCache().execute(getString(R.string.cacheCourseSingle));
                 } 
             }
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         
         Intent intent = new Intent(this, MuldvarpService.class);
-        Integer id = 1; // temp greie
-        System.out.println("Getting course with id " + id);
-        intent.putExtra("id", id);
-        intent.putExtra("whatToDo", 2);
-        //bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        startService(intent);
+//        Integer id = 1; // temp greie
+//        System.out.println("Getting course with id " + id);
+//        intent.putExtra("id", id);
+//        intent.putExtra("whatToDo", 2);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        //startService(intent);
     }
     
     @Override
@@ -127,5 +132,34 @@ public class CourseDetailActivity extends Activity {
 
     public Course getActiveCourse() {
         return activeCourse;
+    }
+    
+    /** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            LocalBinder binder = (LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+            mService.giveMeOneCourse(1);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
+    
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Unbind from the service
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
     }
 }
