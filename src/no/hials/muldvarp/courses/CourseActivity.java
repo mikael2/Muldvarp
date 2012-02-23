@@ -39,8 +39,8 @@ import no.hials.muldvarp.utility.DownloadUtilities;
 public class CourseActivity extends Activity {
     private Fragment currentFragment;
     String listform = "list";
-    Fragment CourseListFragment;
-    Fragment CourseGridFragment;
+    CourseListFragment CourseListFragment;
+    CourseGridFragment CourseGridFragment;
     ArrayList<Course> courseList;
     
     MuldvarpService mService;
@@ -58,17 +58,16 @@ public class CourseActivity extends Activity {
         }
         System.out.println("CourseActivity onCreate()");
         setContentView(R.layout.course_main);
-            CourseListFragment = new CourseListFragment();
-            CourseGridFragment = new CourseGridFragment();
+        CourseListFragment = new CourseListFragment();
+        CourseGridFragment = new CourseGridFragment();
         
         if(listform.equals("list")) {
-                addDynamicFragment(CourseListFragment);
-            } else if(listform.equals("grid")) {
-                addDynamicFragment(CourseGridFragment);
-            }
+            addDynamicFragment(CourseListFragment);
+        } else if(listform.equals("grid")) {
+            addDynamicFragment(CourseGridFragment);
+        }
         
-       // if(savedInstanceState == null) {
-            
+        if(savedInstanceState == null) {
             dialog = new ProgressDialog(CourseActivity.this);
             dialog.setMessage(getString(R.string.loading));
             dialog.setIndeterminate(true);
@@ -97,14 +96,8 @@ public class CourseActivity extends Activity {
     //        intent.putExtra("whatToDo", 1);
             bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
             //startService(intent);
-        //}
+        }
         
-    }
-    
-    @Override
-    public void onStart() {
-        super.onStart();
-        System.out.println("CourseActivity onStart()");
     }
     
     @Override
@@ -197,13 +190,10 @@ public class CourseActivity extends Activity {
 //            courseList.addAll(items);
             courseList = items;
             if(listform.equals("list")) {
-                CourseListFragment fragment = (CourseListFragment) getFragmentManager().findFragmentById(R.id.course_layout);
-                fragment.itemsReady();
+                CourseListFragment.itemsReady();
             } else if(listform.equals("grid")) {
-                CourseGridFragment fragment = (CourseGridFragment) getFragmentManager().findFragmentById(R.id.course_layout);
-                //fragment.itemsReady();
+                //NYI
             }
-            
             
             dialog.dismiss();
         }

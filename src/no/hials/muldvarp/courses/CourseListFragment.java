@@ -40,10 +40,10 @@ public class CourseListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("CourseListFragment onCreateView()");
-        fragmentView = inflater.inflate(R.layout.course_list, container, false);
-        listview = (ListView)fragmentView.findViewById(R.id.listview);
-        
-        
+        if(fragmentView == null) {
+            fragmentView = inflater.inflate(R.layout.course_list, container, false);
+            listview = (ListView)fragmentView.findViewById(R.id.listview);
+        }
         
         return fragmentView;
     }
@@ -56,17 +56,14 @@ public class CourseListFragment extends Fragment {
     public void itemsReady() {
         
         if(items == null) {
-            CourseActivity activity = (CourseActivity)getActivity();
+            CourseActivity activity = (CourseActivity)CourseListFragment.this.getActivity();
             items = activity.getCourseList();
         }
         
-        if(items == null) {
-            System.out.println("items null");
-        }
-        
+        //listview = (ListView)fragmentView.findViewById(R.id.listview);
         listview.setAdapter(
             new CourseListAdapter(
-                    CourseListFragment.this.getActivity().getApplicationContext(), 
+                    fragmentView.getContext(), 
                     R.layout.course_list_item, 
                     R.id.courselisttext, 
                     items,
@@ -78,7 +75,7 @@ public class CourseListFragment extends Fragment {
         filterText = (EditText)fragmentView.findViewById(R.id.search_box);
         filterText.addTextChangedListener(filterTextWatcher);
                
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity().getApplicationContext());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(fragmentView.getContext());
         boolean loggedin = prefs.getBoolean("debugloggedin", false);
         
         if(loggedin == true) {
