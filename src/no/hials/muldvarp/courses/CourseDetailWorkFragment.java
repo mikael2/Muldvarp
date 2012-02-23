@@ -28,15 +28,29 @@ import no.hials.muldvarp.R;
  */
 public class CourseDetailWorkFragment extends Fragment {
     ExpandableListView listview;
+    View fragmentView;
+    Course c;
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.course_work, container, false);
-        
-        listview = (ExpandableListView)fragmentView.findViewById(R.id.listview);
-        
-        CourseDetailActivity activity = (CourseDetailActivity)getActivity();
-        Course c = activity.getActiveCourse();
+        if(fragmentView == null) {
+            fragmentView = inflater.inflate(R.layout.course_work, container, false);
+            listview = (ExpandableListView)fragmentView.findViewById(R.id.listview);
+        }
+        return fragmentView;
+    }
+    
+    public void ready() {
+        if(c == null) {
+            CourseDetailActivity activity = (CourseDetailActivity)CourseDetailWorkFragment.this.getActivity();
+            c = activity.getActiveCourse();
+        }
         
         ArrayList<Theme> themes = c.getThemes();
         ArrayList<ArrayList<Task>> allTasks = new ArrayList<ArrayList<Task>>();
@@ -48,14 +62,11 @@ public class CourseDetailWorkFragment extends Fragment {
             allTasks.add(tasks);
         }
 
-        TaskAdapter adapter = new TaskAdapter(CourseDetailWorkFragment.this.getActivity().getApplicationContext(), themes, allTasks);
+        TaskAdapter adapter = new TaskAdapter(fragmentView.getContext(), themes, allTasks);
         listview.setAdapter(adapter);
         
 //        registerForContextMenu(listview);
-        
-        return fragmentView;
     }
-    
 //    
 //    @Override
 //    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {

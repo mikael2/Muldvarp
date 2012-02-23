@@ -22,6 +22,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
@@ -38,6 +40,11 @@ public class CourseDetailActivity extends Activity {
     BroadcastReceiver     mReceiver;
     boolean mBound = false;
     ProgressDialog dialog;
+    Integer id = 1;
+    ActionBar actionBar;
+    TabListener cdwf;
+    TabListener cdhf;
+    TabListener cdef;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -45,37 +52,68 @@ public class CourseDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_detail);
         
-        dialog = new ProgressDialog(CourseDetailActivity.this);
-        dialog.setMessage(getString(R.string.loading));
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(false);
-        dialog.show();
-                
-        // We use this to send broadcasts within our local process.
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
-         // We are going to watch for interesting local broadcasts.
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MuldvarpService.ACTION_SINGLECOURSE_UPDATE);
-        mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
-                if (intent.getAction().compareTo(MuldvarpService.ACTION_SINGLECOURSE_UPDATE) == 0) {                    
-                    System.out.println("Toasting" + intent.getAction());
-                    Toast.makeText(context, "Course updated", Toast.LENGTH_LONG).show();
-                    new getCourseFromCache().execute(getString(R.string.cacheCourseSingle));
-                } 
-            }
-        };
-        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
-        
-        Intent intent = new Intent(this, MuldvarpService.class);
-//        Integer id = 1; // temp greie
-//        System.out.println("Getting course with id " + id);
-//        intent.putExtra("id", id);
-//        intent.putExtra("whatToDo", 2);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        //startService(intent);
+        if(savedInstanceState == null) {
+            dialog = new ProgressDialog(CourseDetailActivity.this);
+            dialog.setMessage(getString(R.string.loading));
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+
+            // We use this to send broadcasts within our local process.
+            mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+             // We are going to watch for interesting local broadcasts.
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(MuldvarpService.ACTION_SINGLECOURSE_UPDATE);
+            mReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
+                    if (intent.getAction().compareTo(MuldvarpService.ACTION_SINGLECOURSE_UPDATE) == 0) {                    
+                        System.out.println("Toasting" + intent.getAction());
+                        Toast.makeText(context, "Course updated", Toast.LENGTH_LONG).show();
+                        new getCourseFromCache().execute(getString(R.string.cacheCourseSingle));
+                    } 
+                }
+            };
+            mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+
+            Intent intent = new Intent(this, MuldvarpService.class);
+    //        Integer id = 1; // temp greie
+    //        System.out.println("Getting course with id " + id);
+    //        intent.putExtra("id", id);
+    //        intent.putExtra("whatToDo", 2);
+            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            //startService(intent);
+        }
+        if(actionBar == null) {
+            cdwf = new TabListener<CourseDetailWorkFragment>(
+               CourseDetailActivity.this, "Tema", CourseDetailWorkFragment.class);
+            cdhf = new TabListener<CourseDetailHandinsFragment>(
+               CourseDetailActivity.this, "Obligatorisk", CourseDetailHandinsFragment.class);
+            cdef = new TabListener<CourseDetailExamFragment>(
+               CourseDetailActivity.this, "Eksamen", CourseDetailExamFragment.class);
+            
+            actionBar = getActionBar();
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            actionBar.setDisplayShowTitleEnabled(false);  
+            actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE); // ??
+
+            ActionBar.Tab tab = actionBar.newTab();
+            tab.setText(R.string.work)
+               .setTabListener(cdwf);
+            actionBar.addTab(tab);        
+
+            tab = actionBar.newTab();
+            tab.setText(R.string.handins)
+               .setTabListener(cdhf);
+            actionBar.addTab(tab);
+
+            tab = actionBar.newTab();
+            tab.setText(R.string.exam)
+               .setTabListener(cdef);
+            actionBar.addTab(tab);
+        }
     }
     
     @Override
@@ -95,7 +133,7 @@ public class CourseDetailActivity extends Activity {
                 File f = new File(getCacheDir(), urls[0]);
                 c = DownloadUtilities.buildGson().fromJson(new FileReader(f), Course.class);
             }catch(Exception ex){
-                ex.printStackTrace();
+                Logger.getLogger(CourseDetailActivity.class.getName()).log(Level.SEVERE, null, ex);
             }
             return c;
         }
@@ -103,29 +141,10 @@ public class CourseDetailActivity extends Activity {
         @Override
         protected void onPostExecute(Course c) {            
             activeCourse = c;
-            ActionBar actionBar = getActionBar();
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-            actionBar.setDisplayShowTitleEnabled(false);  
-            actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE); // ??
-
-            ActionBar.Tab tab = actionBar.newTab();
-            tab.setText(R.string.work)
-               .setTabListener(new TabListener<CourseDetailWorkFragment>(
-               CourseDetailActivity.this, "Tema", CourseDetailWorkFragment.class));
-            actionBar.addTab(tab);        
-
-            tab = actionBar.newTab();
-            tab.setText(R.string.handins)
-               .setTabListener(new TabListener<CourseDetailHandinsFragment>(
-               CourseDetailActivity.this, "Obligatorisk", CourseDetailHandinsFragment.class));
-            actionBar.addTab(tab);
-
-            tab = actionBar.newTab();
-            tab.setText(R.string.exam)
-               .setTabListener(new TabListener<CourseDetailExamFragment>(
-               CourseDetailActivity.this, "Eksamen", CourseDetailExamFragment.class));
-            actionBar.addTab(tab);
+            
+            CourseDetailWorkFragment workFragment = (CourseDetailWorkFragment)cdwf.getFragment();
+            workFragment.ready();
+            
             dialog.dismiss();
         }
     }
@@ -144,7 +163,7 @@ public class CourseDetailActivity extends Activity {
             LocalBinder binder = (LocalBinder) service;
             mService = binder.getService();
             mBound = true;
-            mService.giveMeOneCourse(1);
+            mService.giveMeOneCourse(id);
         }
 
         @Override
