@@ -1,7 +1,6 @@
 package no.hials.muldvarp.courses;
 
 import no.hials.muldvarp.domain.Course;
-import no.hials.muldvarp.domain.SearchResults;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -20,10 +19,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.MainActivity;
@@ -41,7 +43,7 @@ public class CourseActivity extends Activity {
     String listform = "list";
     CourseListFragment CourseListFragment;
     CourseGridFragment CourseGridFragment;
-    ArrayList<Course> courseList;
+    List<Course> courseList;
     
     MuldvarpService mService;
     LocalBroadcastManager mLocalBroadcastManager;
@@ -170,14 +172,16 @@ public class CourseActivity extends Activity {
         System.out.println("Fragment changed");
     }
     
-    private class getItemsFromCache extends AsyncTask<String, Void, ArrayList<Course>> {       
+    private class getItemsFromCache extends AsyncTask<String, Void, List<Course>> {       
         
-        protected ArrayList<Course> doInBackground(String... urls) {
-            ArrayList<Course> items = new ArrayList<Course>();
+        protected List<Course> doInBackground(String... urls) {
+            //ArrayList<Course> items = new ArrayList<Course>();
+            List<Course> items = null;
             try {
                 File f = new File(getCacheDir(), urls[0]);
-                SearchResults result = DownloadUtilities.buildGson().fromJson(new FileReader(f), SearchResults.class);
-                items = (ArrayList<Course>)result.course;
+                Type collectionType = new TypeToken<List<Course>>(){}.getType();
+                items = DownloadUtilities.buildGson().fromJson(new FileReader(f), collectionType);
+                //items = (ArrayList<Course>)result.course;
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(CourseActivity.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -185,7 +189,7 @@ public class CourseActivity extends Activity {
         } 
         
         @Override
-        protected void onPostExecute(ArrayList<Course> items) {
+        protected void onPostExecute(List<Course> items) {
 //            courseList = new ArrayList<Course>();
 //            courseList.addAll(items);
             courseList = items;
@@ -199,7 +203,7 @@ public class CourseActivity extends Activity {
         }
     }
 
-    public ArrayList<Course> getCourseList() {
+    public List<Course> getCourseList() {
         return courseList;
     }
     

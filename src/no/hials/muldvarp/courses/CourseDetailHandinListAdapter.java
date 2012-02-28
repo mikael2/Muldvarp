@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Date;
 import no.hials.muldvarp.R;
 
 /**
@@ -45,6 +47,7 @@ public class CourseDetailHandinListAdapter extends ArrayAdapter {
             convertView = mInflater.inflate(resource, parent, false);
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
 
             convertView.setTag(holder);
         } else {
@@ -52,13 +55,17 @@ public class CourseDetailHandinListAdapter extends ArrayAdapter {
         }
 
         ObligatoryTask h = (ObligatoryTask)items.get(position);
+        Date dueDate = new Date(h.getDueDate());
+        
+        holder.checkbox.setChecked(h.getDone());
 
-        holder.name.setText(h.getName());
+        holder.name.setText(h.getName() + dueDate.getMonth() + dueDate.getDay() + dueDate.getHours() + dueDate.getMinutes());
         
         return convertView;
     }
 
     static class ViewHolder {
         TextView name;
+        CheckBox checkbox;
     }
 }

@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import java.util.ArrayList;
+import java.util.List;
 import no.hials.muldvarp.R;
 
 /**
@@ -29,7 +29,7 @@ public class CourseListFragment extends Fragment {
     CourseListAdapter adapter;
     ListView listview;
     View fragmentView;
-    ArrayList<Course> items;
+    List<Course> items;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
