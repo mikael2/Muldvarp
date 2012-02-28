@@ -44,14 +44,11 @@ public class DownloadUtilities {
     }
     
     public static Gson buildGson() {
-        GsonBuilder b = new GsonBuilder();
-        //b.setDateFormat("yyyy-mm-dd'T'HH:mm:ss");
-        b.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() { 
-            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                return new Date(json.getAsJsonPrimitive().getAsLong()); 
-            } 
-        });
-        Gson gson = b.create();
-        return gson;
+        GsonBuilder builder = new GsonBuilder();
+        
+        // Register an adapter to manage the date types as long values 
+        builder.registerTypeAdapter(Date.class, new DateAdapter());
+
+        return builder.create();
     }
 }

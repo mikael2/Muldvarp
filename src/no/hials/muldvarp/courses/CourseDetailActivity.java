@@ -1,20 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.utility.TabListener;
-import no.hials.muldvarp.domain.Course;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
+import android.content.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -27,7 +16,9 @@ import java.util.logging.Logger;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.domain.Course;
 import no.hials.muldvarp.utility.DownloadUtilities;
+import no.hials.muldvarp.utility.TabListener;
 
 /**
  *
@@ -71,7 +62,7 @@ public class CourseDetailActivity extends Activity {
                     if (intent.getAction().compareTo(MuldvarpService.ACTION_SINGLECOURSE_UPDATE) == 0) {                    
                         System.out.println("Toasting" + intent.getAction());
                         Toast.makeText(context, "Course updated", Toast.LENGTH_LONG).show();
-                        new getCourseFromCache().execute(getString(R.string.cacheCourseSingle));
+                        new GetCourseFromCache().execute(getString(R.string.cacheCourseSingle));
                     } 
                 }
             };
@@ -122,7 +113,7 @@ public class CourseDetailActivity extends Activity {
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
     
-    private class getCourseFromCache extends AsyncTask<String, Void, Course> {
+    private class GetCourseFromCache extends AsyncTask<String, Void, Course> {
         protected Course doInBackground(String... urls) {
             Course c = new Course();
             try{
