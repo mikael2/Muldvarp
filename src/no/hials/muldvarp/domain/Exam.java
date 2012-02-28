@@ -14,7 +14,8 @@ public class Exam {
     String name;
     String room;
     String info;
-    Date examDate;
+    //Date examDate;
+    Long examDate;
 
     public Exam(String name) {
         this.name = name;
@@ -24,13 +25,21 @@ public class Exam {
         
     }
 
-    public Date getExamDate() {
+    public Long getExamDate() {
         return examDate;
     }
 
-    public void setExamDate(Date examDate) {
+    public void setExamDate(Long examDate) {
         this.examDate = examDate;
     }
+
+//    public Date getExamDate() {
+//        return examDate;
+//    }
+//
+//    public void setExamDate(Date examDate) {
+//        this.examDate = examDate;
+//    }
 
     public String getInfo() {
         return info;
