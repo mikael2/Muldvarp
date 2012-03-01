@@ -29,6 +29,12 @@ public class AsyncHTTPRequest implements Runnable{
     public static final int CON_ERROR = 1; //In case of error
     public static final int CON_SUCCEED = 2; //Success!
     
+    //Useful states
+    public static final int CON_404 = 3; // NOT FOUND
+    public static final int CON_200 = 4; // OK
+    public static final int CON_500 = 5; // INTERNAL ERROR
+    public static final int CON_403 = 6; // ACCESS RESTRICTED
+    
     //Request methods
     private static final int GET = 0;
     private static final int POST = 1;

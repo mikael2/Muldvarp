@@ -4,7 +4,6 @@
  */
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.domain.Course;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,10 +14,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.ListView;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.domain.Course;
 
 /**
  *
