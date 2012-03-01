@@ -147,8 +147,7 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
         ArrayList itemList = new ArrayList();
 
         try {
-            JSONArray jArray = new JSONArray(jsonString);
-            
+            JSONArray jArray = new JSONArray(jsonString);            
                        
 
             if (getType == 0) {
