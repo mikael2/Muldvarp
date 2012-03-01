@@ -33,6 +33,9 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
     private Handler handler;
     //UI stuff
     ProgressDialog progressDialog;
+    
+    //HAT
+    int getType = 0;
 
     /**
      * Called when the activity is first created.
@@ -78,23 +81,27 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
     }
 
     public void getItemsFromWebResource(int itemType) {
-
+        
+        
         //Define handler
         //Defines what should happen depending on the returned message.
         Handler handler = new Handler() {
 
             public void handleMessage(Message message) {
+                
+                //TODO: Comment
                 switch (message.what) {
                     case AsyncHTTPRequest.CON_START: {
 
                         System.out.println("Handler: Connection Started");
+                        //TODO: Loading
 
                         break;
                     }
                     case AsyncHTTPRequest.CON_SUCCEED: {
 
                         String response = (String) message.obj;
-                        createListItems(response);
+//                      createListItems(response);
 
                         //Get listView
                         CustomListView customListView = (CustomListView) getFragmentManager().findFragmentById(R.id.customlistview);
@@ -104,6 +111,8 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
                         break;
                     }
                     case AsyncHTTPRequest.CON_ERROR: {
+                        
+                        //TODO: Create Dialogbox 
 
                         break;
                     }
@@ -112,7 +121,6 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
         };
 
 
-        System.out.println(itemType);
 
         //Create new GET request with handler
         switch (itemType) {
@@ -134,17 +142,18 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
 
     }
 
-
+    //Midlertidig testversjon
     public ArrayList createListItems(String jsonString) {
         ArrayList itemList = new ArrayList();
 
         try {
-            JSONObject jObject = new JSONObject(jsonString);
-            JSONArray jArray;
+            JSONArray jArray = new JSONArray(jsonString);
+            
+                       
 
-            if (jObject.optJSONArray("video") != null) {
-                jArray = jObject.getJSONArray("video");
-
+            if (getType == 0) {
+                
+                //Video BS her
                 for (int i = 0; i < jArray.length(); i++) {
 
                     JSONObject currentObject = jArray.getJSONObject(i);
@@ -159,9 +168,9 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
 
                 }
 
-            } else if (jObject.optJSONArray("course") != null) {
+            } else if (getType == 1) {
 
-                jArray = jObject.getJSONArray("course");
+                //Course BS her
                 for (int i = 0; i < jArray.length(); i++) {
 
                     JSONObject currentObject = jArray.getJSONObject(i);
@@ -175,7 +184,7 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
                 }
             } else {
 
-                System.out.println("It was null :<");
+                System.out.println("It was null. or unrelevant :<");
             }
         } catch (Exception ex) {
 
@@ -184,47 +193,63 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
 
         return itemList;
     }
-
-    //Simulate data input
-    public ArrayList getFakeData(int type) {
-
-        //Just to get different arrays
-        String vidString = "";
-
-        switch (type) {
-
-            case 0:
-                vidString = "AVID";
-                break;
-            case 1:
-                vidString = "DIV";
-                break;
-            case 2:
-                vidString = "IVD";
-                break;
-            case 3:
-                vidString = "AIVD";
-                break;
-            default:
-                break;
-
-
-        }
-
-        //Array of vidya
-        //Simulates a list of Videos generated from an external resource
-        ArrayList<Video> videoArrayList = new ArrayList<Video>();
-
-        for (int i = 0; i < 30; i++) {
-
-            videoArrayList.add(new Video(vidString + (1000 + i), vidString + "Video" + i, "test", "test", "test", null, "test"));
-
-        }
-
-        return videoArrayList;
-    }
-
     
+        
+        //Kommentert ut for nå.
+
+//    public ArrayList createListItems(String jsonString) {
+//        ArrayList itemList = new ArrayList();
+//
+//        try {
+//            JSONObject jObject = new JSONObject(jsonString);
+//            JSONArray jArray;
+//            
+//                       
+//
+//            if (jObject.optJSONArray("video") != null) {
+//                jArray = jObject.getJSONArray("video");
+//
+//                for (int i = 0; i < jArray.length(); i++) {
+//
+//                    JSONObject currentObject = jArray.getJSONObject(i);
+//
+//                    itemList.add(new Video(currentObject.getString("id"),
+//                            currentObject.getString("videoName"),
+//                            currentObject.getString("videoDetail"),
+//                            currentObject.getString("videoDescription"),
+//                            "Video",
+//                            null,
+//                            currentObject.getString("videoThumbURL")));
+//
+//                }
+//
+//            } else if (jObject.optJSONArray("course") != null) {
+//
+//                jArray = jObject.getJSONArray("course");
+//                for (int i = 0; i < jArray.length(); i++) {
+//
+//                    JSONObject currentObject = jArray.getJSONObject(i);
+//
+//                    itemList.add(new Course(currentObject.getString("name"),
+//                            null,
+//                            null,
+//                            null,
+//                            null));
+//
+//                }
+//            } else {
+//
+//                System.out.println("It was null. or unrelevant :<");
+//            }
+//        } catch (Exception ex) {
+//
+//            ex.printStackTrace();
+//        }
+//
+//        return itemList;
+//    }
+
+        
     //Below are abastract methods from Tablistener
     /**
      *
@@ -243,6 +268,7 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
         //Set view name with data from tab
         customListView.setViewName(tabName);
 
+        getType = tab.getPosition();
         getItemsFromWebResource(tab.getPosition());
 
         //Get data and update the ListView
