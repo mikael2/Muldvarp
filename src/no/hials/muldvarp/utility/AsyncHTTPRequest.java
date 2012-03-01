@@ -17,7 +17,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 /**
  * This class provides asynchronous HTTP-request functionality using android.os.Handler and threads.
  * 
- * A handler must be implemented for each of the cases: CON_START, CON_ERROR and CON_SUCCEED.
+ * A handler must be implemented for each of the cases: CON_START, CON_ERROR and CON_SUCCEED. 
+ * Instantiate this class with the implemented handler, and call the methods in the class.
  * 
  * @author johan
  */
@@ -57,6 +58,7 @@ public class AsyncHTTPRequest implements Runnable{
     
     /**
      * Constructor for the AsynchHTTPRequest class. This does not use Handler.
+     * Not yet implemented.
      * 
      */
     public AsyncHTTPRequest() {
@@ -135,6 +137,9 @@ public class AsyncHTTPRequest implements Runnable{
         Message message = Message.obtain(handler, CON_SUCCEED, result);
         //Send finished string
         handler.sendMessage(message);        
+        } else {
+            
+            //TODO: Implement non-handler functionality.
         }
         
         

@@ -36,9 +36,6 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
     String videoURL = "http://master.uials.no:8080/muldvarp/resources/video";
     String courseURL = "http://master.uials.no:8080/muldvarp/resources/course";
     
-    //Global variables
-    private Handler handler;
-    
     //UI stuff
     ProgressDialog progressDialog;
     
@@ -95,32 +92,33 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
         //Define handler
         //Defines what should happen depending on the returned message.
         Handler handler = new Handler() {
-			public void handleMessage(Message message) {
-				switch (message.what) {
-				case AsyncHTTPRequest.CON_START: {
-					
-                                        System.out.println("Handler: Connection Started");
-                                    
-					break;
-				}
-				case AsyncHTTPRequest.CON_SUCCEED: {
-                                    
-					String response = (String) message.obj;
-                                        createListItems(response);
-                                        
-                                        //Get listView
-                                        CustomListView customListView = (CustomListView) getFragmentManager().findFragmentById(R.id.customlistview);
-        
-                                        customListView.getAdapter(createListItems(response));
-					
-					break;
-				}
-				case AsyncHTTPRequest.CON_ERROR: {
-					
-					break;
-				}
-				}
-			}
+            @Override
+            public void handleMessage(Message message) {
+                    switch (message.what) {
+                        case AsyncHTTPRequest.CON_START: {
+
+                                System.out.println("Handler: Connection Started");
+
+                                break;
+                        }
+                        case AsyncHTTPRequest.CON_SUCCEED: {
+
+                                String response = (String) message.obj;
+                                createListItems(response);
+
+                                //Get listView
+                                CustomListView customListView = (CustomListView) getFragmentManager().findFragmentById(R.id.customlistview);
+
+                                customListView.getAdapter(createListItems(response));
+
+                                break;
+                        }
+                        case AsyncHTTPRequest.CON_ERROR: {
+
+                                break;
+                        }
+                    }
+                    }
 		};
         
         
