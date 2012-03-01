@@ -58,6 +58,7 @@ public class CourseDetailHandinListAdapter extends ArrayAdapter {
         Date dueDate = new Date(h.getDueDate());
         
         holder.checkbox.setChecked(h.getDone());
+        holder.checkbox.setClickable(false);
 
         holder.name.setText(h.getName() + dueDate.getMonth() + dueDate.getDay() + dueDate.getHours() + dueDate.getMinutes());
         

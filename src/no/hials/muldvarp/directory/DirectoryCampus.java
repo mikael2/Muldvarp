@@ -1,7 +1,7 @@
 package no.hials.muldvarp.directory;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,4 +27,10 @@ public class DirectoryCampus extends Fragment {
         return inflater.inflate(R.layout.directory_campus, container, false);
     }
     
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        setUserVisibleHint(true);
+    }
+
 }
