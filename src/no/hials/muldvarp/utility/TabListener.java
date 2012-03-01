@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.courses;
+package no.hials.muldvarp.utility;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -61,5 +61,9 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
 
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
         Toast.makeText(mActivity, "Reselected!", Toast.LENGTH_SHORT).show();
+    }
+    
+    public Fragment getFragment() {
+        return mFragment;
     }
 }

@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.domain.Course;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import java.util.ArrayList;
+import java.util.List;
 import no.hials.muldvarp.R;
 
 /**
@@ -28,20 +29,41 @@ public class CourseListFragment extends Fragment {
     CourseListAdapter adapter;
     ListView listview;
     View fragmentView;
-    ArrayList<Course> items;
+    List<Course> items;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("CourseListFragment onCreateView()");
+        if(fragmentView == null) {
+            fragmentView = inflater.inflate(R.layout.course_list, container, false);
+            listview = (ListView)fragmentView.findViewById(R.id.listview);
+        }
         
-        fragmentView = inflater.inflate(R.layout.course_list, container, false);
-        listview = (ListView)fragmentView.findViewById(R.id.listview);
+        return fragmentView;
+    }
+    
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+    
+    public void itemsReady() {
         
-        CourseActivity activity = (CourseActivity)getActivity();
-        items = activity.getCourseList();
-
+        if(items == null) {
+            CourseActivity activity = (CourseActivity)CourseListFragment.this.getActivity();
+            items = activity.getCourseList();
+        }
+        
+        //listview = (ListView)fragmentView.findViewById(R.id.listview);
         listview.setAdapter(
             new CourseListAdapter(
-                    CourseListFragment.this.getActivity().getApplicationContext(), 
+                    fragmentView.getContext(), 
                     R.layout.course_list_item, 
                     R.id.courselisttext, 
                     items,
@@ -53,7 +75,7 @@ public class CourseListFragment extends Fragment {
         filterText = (EditText)fragmentView.findViewById(R.id.search_box);
         filterText.addTextChangedListener(filterTextWatcher);
                
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity().getApplicationContext());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(fragmentView.getContext());
         boolean loggedin = prefs.getBoolean("debugloggedin", false);
         
         if(loggedin == true) {
@@ -75,8 +97,6 @@ public class CourseListFragment extends Fragment {
                 }  
             }); 
         }
-        
-        return fragmentView;
     }
     
     private TextWatcher filterTextWatcher = new TextWatcher() {
@@ -94,4 +114,11 @@ public class CourseListFragment extends Fragment {
         }
 
     };
+    
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        System.out.println("CourseListFragment onStop()");
+//        getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+//    }
 }

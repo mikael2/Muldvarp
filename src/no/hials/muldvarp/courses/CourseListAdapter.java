@@ -4,6 +4,8 @@
  */
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.utility.DrawableManager;
+import no.hials.muldvarp.domain.Course;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.List;
 import no.hials.muldvarp.R;
 
 /**
@@ -20,15 +23,15 @@ import no.hials.muldvarp.R;
  */
 public class CourseListAdapter extends ArrayAdapter {
     private LayoutInflater mInflater;
-    private ArrayList items;
+    private List items;
     private Context context;
     private int resource;
     private boolean showdetails;
-    private ArrayList orig_items;
+    private List orig_items;
     
     DrawableManager dm = new DrawableManager();
     
-    public CourseListAdapter(Context context, int resource, int textViewResourceId, ArrayList items, boolean showdetails) {
+    public CourseListAdapter(Context context, int resource, int textViewResourceId, List items, boolean showdetails) {
         super(context, textViewResourceId, items);
         mInflater = LayoutInflater.from(context);
         this.orig_items = items;

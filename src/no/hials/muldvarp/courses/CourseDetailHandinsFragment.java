@@ -4,6 +4,8 @@
  */
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.domain.ObligatoryTask;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,25 +21,40 @@ import no.hials.muldvarp.R;
  */
 public class CourseDetailHandinsFragment extends Fragment {
     ListView listview;
+    Course c;
+    View fragmentView;
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.course_handin, container, false);
+        fragmentView = inflater.inflate(R.layout.course_handin, container, false);
         
         listview = (ListView)fragmentView.findViewById(R.id.listview);
         
-        CourseDetailActivity activity = (CourseDetailActivity)getActivity();
-        Course c = activity.getActiveCourse();
+        if(c == null) {
+            CourseDetailActivity activity = (CourseDetailActivity)CourseDetailHandinsFragment.this.getActivity();
+            c = activity.getActiveCourse();
+        }
         
         ArrayList<ObligatoryTask> tasks = c.getObligatoryTasks();
             
-            listview.setAdapter(
-                new CourseDetailHandinListAdapter(
-                        CourseDetailHandinsFragment.this.getActivity().getApplicationContext(),
-                        R.layout.course_handin_list_item,
-                        R.id.name,
-                        tasks));
+        listview.setAdapter(
+            new CourseDetailHandinListAdapter(
+                    fragmentView.getContext(),
+                    R.layout.course_handin_list_item,
+                    R.id.name,
+                    tasks));
         
         return fragmentView;
+    }
+    
+    public void ready() {
+        
     }
 }
 

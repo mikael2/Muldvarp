@@ -1,72 +1,104 @@
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.domain.Course;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import com.google.gson.Gson;
+import android.widget.Toast;
+import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.net.URI;
-import java.util.ArrayList;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.MainActivity;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**
  *
  * @author kristoffer
  */
 public class CourseActivity extends Activity {
-    private boolean showGrid;
     private Fragment currentFragment;
-    Fragment CourseListFragment;
-    Fragment CourseGridFragment;
-    ArrayList<Course> courseList;
-    String url = "http://master.uials.no:8080/muldvarp/resources/course";
+    String listform = "list";
+    CourseListFragment CourseListFragment;
+    CourseGridFragment CourseGridFragment;
+    List<Course> courseList;
     
     MuldvarpService mService;
-    boolean mBound = false;
+    LocalBroadcastManager mLocalBroadcastManager;
+    BroadcastReceiver     mReceiver;
+    boolean mBound;
+    ProgressDialog dialog;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
+        if(getIntent().getStringExtra("listform") != null) {
+            listform = getIntent().getStringExtra("listform");
+        }
+        System.out.println("CourseActivity onCreate()");
         setContentView(R.layout.course_main);
-        
-        courseList = new ArrayList<Course>();
         CourseListFragment = new CourseListFragment();
         CourseGridFragment = new CourseGridFragment();
         
-        Intent intent = new Intent(this, MuldvarpService.class);
-        intent.putExtra("whatToDo", 1);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        if(listform.equals("list")) {
+            addDynamicFragment(CourseListFragment);
+        } else if(listform.equals("grid")) {
+            addDynamicFragment(CourseGridFragment);
+        }
         
-        //if (mBound) {
-            new getItemsFromCache().execute("CourseCache");
-        //}
-    }
-    
-    public void calledBack() {
+        if(savedInstanceState == null) {
+            dialog = new ProgressDialog(CourseActivity.this);
+            dialog.setMessage(getString(R.string.loading));
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+
+            // We use this to send broadcasts within our local process.
+            mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+             // We are going to watch for interesting local broadcasts.
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+            mReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
+                    if (intent.getAction().compareTo(MuldvarpService.ACTION_COURSE_UPDATE) == 0) {                    
+                        System.out.println("Toasting" + intent.getAction());
+                        Toast.makeText(context, "Courses updated", Toast.LENGTH_LONG).show();
+                        new getItemsFromCache().execute(getString(R.string.cacheCourseList));
+                    } 
+                }
+            };
+            mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+
+            Intent intent = new Intent(this, MuldvarpService.class);
+    //        intent.putExtra("whatToDo", 1);
+            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            //startService(intent);
+        }
         
     }
     
@@ -108,15 +140,16 @@ public class CourseActivity extends Activity {
                 return true;
             case R.id.showgrid:
                 System.out.println("Fragment change button pressed");
-                if(showGrid == false) {
-                    addDynamicFragment(CourseGridFragment);
-                    showGrid = true;
+                intent = new Intent(this, CourseActivity.class);
+                if(listform.equals("list")) {
+                    intent.putExtra("listform", "grid");
                     System.out.println("Showing grid");
-                } else {
-                    addDynamicFragment(CourseListFragment);
-                    showGrid = false;
+                } else if(listform.equals("grid")) {
+                    intent.putExtra("listform", "list");
                     System.out.println("Showing list");
                 }
+                finish();
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -125,51 +158,30 @@ public class CourseActivity extends Activity {
     
     private void addDynamicFragment(Fragment fg) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        
+        System.out.println("Changing fragment to " + fg.toString());
         if (currentFragment != null) {
             ft.detach(currentFragment);
+            //ft.addToBackStack(null);
         }
 
         ft.attach(fg);
-        ft.add(R.id.course_layout, fg).commit();
+        ft.add(R.id.course_layout, fg);
+        ft.commit();
         
         currentFragment = fg;
         System.out.println("Fragment changed");
     }
     
-    public InputStream getJSONData(String url){
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        URI uri;
-        InputStream data = null;
-        try {
-            uri = new URI(url);
-            HttpGet method = new HttpGet(uri);
-            HttpResponse response = httpClient.execute(method);
-            data = response.getEntity().getContent();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private class getItemsFromCache extends AsyncTask<String, Void, List<Course>> {       
         
-        return data;
-    }
-    
-    private class getItemsFromCache extends AsyncTask<String, Void, ArrayList<Course>> {
-        ProgressDialog dialog;
-        @Override
-        protected void onPreExecute() {
-            dialog = new ProgressDialog(CourseActivity.this);
-            dialog.setMessage(getString(R.string.loading));
-            dialog.setIndeterminate(true);
-            dialog.setCancelable(false);
-            dialog.show();
-        }
-        
-        protected ArrayList<Course> doInBackground(String... urls) {
-            ArrayList<Course> items = new ArrayList<Course>();
+        protected List<Course> doInBackground(String... urls) {
+            //ArrayList<Course> items = new ArrayList<Course>();
+            List<Course> items = null;
             try {
                 File f = new File(getCacheDir(), urls[0]);
-                SearchResults result = new Gson().fromJson(new FileReader(f), SearchResults.class);
-                items = (ArrayList<Course>)result.course;
+                Type collectionType = new TypeToken<List<Course>>(){}.getType();
+                items = DownloadUtilities.buildGson().fromJson(new FileReader(f), collectionType);
+                //items = (ArrayList<Course>)result.course;
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(CourseActivity.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -177,15 +189,21 @@ public class CourseActivity extends Activity {
         } 
         
         @Override
-        protected void onPostExecute(ArrayList<Course> items) {
-            courseList.clear();
-            courseList.addAll(items);
-            addDynamicFragment(CourseListFragment); // default view
+        protected void onPostExecute(List<Course> items) {
+//            courseList = new ArrayList<Course>();
+//            courseList.addAll(items);
+            courseList = items;
+            if(listform.equals("list")) {
+                CourseListFragment.itemsReady();
+            } else if(listform.equals("grid")) {
+                //NYI
+            }
+            
             dialog.dismiss();
         }
     }
 
-    public ArrayList<Course> getCourseList() {
+    public List<Course> getCourseList() {
         return courseList;
     }
     
@@ -199,10 +217,12 @@ public class CourseActivity extends Activity {
             LocalBinder binder = (LocalBinder) service;
             mService = binder.getService();
             mBound = true;
+            mService.giveMeCourses();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
+            mService = null;
             mBound = false;
         }
     };
@@ -210,6 +230,7 @@ public class CourseActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
+        System.out.println("CourseActivity onStop()");
         // Unbind from the service
         if (mBound) {
             unbindService(mConnection);

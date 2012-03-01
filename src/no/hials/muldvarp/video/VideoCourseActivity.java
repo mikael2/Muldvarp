@@ -11,7 +11,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.courses.Course;
+import no.hials.muldvarp.domain.Course;
 
 /**
  * Class defining the VideoCCourse-activity.

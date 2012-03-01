@@ -1,8 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package no.hials.muldvarp.courses;
+package no.hials.muldvarp.domain;
 
 import java.util.Date;
 
@@ -15,6 +11,7 @@ public class Exam {
     String room;
     String info;
     Date examDate;
+    //Long examDate;
 
     public Exam(String name) {
         this.name = name;
@@ -31,6 +28,14 @@ public class Exam {
     public void setExamDate(Date examDate) {
         this.examDate = examDate;
     }
+
+//    public Date getExamDate() {
+//        return examDate;
+//    }
+//
+//    public void setExamDate(Date examDate) {
+//        this.examDate = examDate;
+//    }
 
     public String getInfo() {
         return info;

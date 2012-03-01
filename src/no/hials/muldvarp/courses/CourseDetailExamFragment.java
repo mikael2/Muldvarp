@@ -4,6 +4,8 @@
  */
 package no.hials.muldvarp.courses;
 
+import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.domain.Exam;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,9 +22,18 @@ import no.hials.muldvarp.R;
  */
 public class CourseDetailExamFragment extends Fragment {
     ListView listview;
+    Course c;
+    View fragmentView;
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.course_exam, container, false);
+        fragmentView = inflater.inflate(R.layout.course_exam, container, false);
         
         String examinfo = "For å melde deg til eksamen må du gjøre blablablablabalb blablablalb balblablbaal";
 
@@ -31,18 +42,24 @@ public class CourseDetailExamFragment extends Fragment {
         
         listview = (ListView)fragmentView.findViewById(R.id.listview);
         
-        CourseDetailActivity activity = (CourseDetailActivity)getActivity();
-        Course c = activity.getActiveCourse();
+        if(c == null) {
+            CourseDetailActivity activity = (CourseDetailActivity)CourseDetailExamFragment.this.getActivity();
+            c = activity.getActiveCourse();
+        }
         
         ArrayList<Exam> exams = c.getExams();
             
-            listview.setAdapter(
-                new CourseDetailExamListAdapter(
-                        CourseDetailExamFragment.this.getActivity().getApplicationContext(),
-                        R.layout.course_handin_list_item,
-                        R.id.name,
-                        exams));
+        listview.setAdapter(
+            new CourseDetailExamListAdapter(
+                    fragmentView.getContext(),
+                    R.layout.course_handin_list_item,
+                    R.id.name,
+                    exams));
         
         return fragmentView;
+    }
+    
+    public void ready() {
+        
     }
 }

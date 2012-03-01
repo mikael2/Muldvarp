@@ -1,8 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package no.hials.muldvarp.courses;
+package no.hials.muldvarp.domain;
 
 import java.util.ArrayList;
 
@@ -49,7 +45,7 @@ public class Course {
     }
     
     public String getDetail() {
-        return detail;
+        return detail != null ? detail : "";
     }
 
     public void setDetail(String detail) {
@@ -57,7 +53,7 @@ public class Course {
     }
 
     public String getName() {
-        return name;
+        return name != null ? name : "";
     }
 
     public void setName(String name) {
