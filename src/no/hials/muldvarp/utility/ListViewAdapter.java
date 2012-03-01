@@ -13,7 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.domain.Course;
 import no.hials.muldvarp.entities.ListItem;
 
 /**
@@ -27,6 +29,7 @@ public class ListViewAdapter extends ArrayAdapter {
     private Context context;
     private int resource;
     private boolean showdetails;
+    private List orig_items;
     
     
     /**
@@ -42,6 +45,7 @@ public class ListViewAdapter extends ArrayAdapter {
         super(context, textViewResourceId, listItemArray);
         mInflater = LayoutInflater.from(context);
         this.items = listItemArray;
+        this.orig_items = listItemArray;
         this.context = context;
         this.resource = resource;
         this.showdetails = showdetails;
@@ -86,6 +90,32 @@ public class ListViewAdapter extends ArrayAdapter {
 //        holder.icon.setImageBitmap(c.getThumb());
         
         return convertView;
+    }
+    
+    /**
+     * Function which filters out entries that don't match the supplied CharSequence
+     * 
+     * @param filter CharSequence 
+     */
+    public void filter(CharSequence filter) {
+        
+        ArrayList filtered = new ArrayList();
+        
+        for (ListItem listItem : (ArrayList<ListItem>)orig_items)
+        {
+            if (listItem.getItemName().toLowerCase().contains(filter.toString().toLowerCase()))
+            {
+                filtered.add(listItem);
+            }
+        }
+        
+        this.items = filtered;
+        
+        if("".equals(filter.toString())) {
+            this.items = (ArrayList) this.orig_items;
+        }
+        
+        notifyDataSetChanged();  
     }
 
     static class ViewHolder {

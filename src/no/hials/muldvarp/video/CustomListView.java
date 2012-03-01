@@ -7,11 +7,14 @@ package no.hials.muldvarp.video;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
@@ -29,6 +32,15 @@ public class CustomListView extends Fragment {
     public String fragmentName = "";
     ListView listView;
     ArrayList<Object> currentListItems;
+    
+    //Switches
+    public boolean enableFilter = true;
+    
+    //http://stackoverflow.com/questions/1737009/how-to-make-a-nice-looking-listview-filter-on-android
+    //FilterText solution
+    private EditText filterText = null;
+    ListViewAdapter adapter;
+    
     
 
         
@@ -52,6 +64,11 @@ public class CustomListView extends Fragment {
         
          //Get ListView
         listView = (ListView)returnFragmentView.findViewById(R.id.layoutlistview);  
+        
+        
+        //Set filterText and add listener
+        filterText = (EditText)returnFragmentView.findViewById(R.id.search_box);
+        filterText.addTextChangedListener(filterTextWatcher);
                
         
         //Set onItemClickListener
@@ -87,9 +104,6 @@ public class CustomListView extends Fragment {
         });
                  
         
-        
-        //The setTextFilterEnabled(boolean) method turns on text filtering for the ListView, so that when the user begins typing, the list will be filtered.
-        listView.setTextFilterEnabled(true);
                
         return returnFragmentView;
         
@@ -111,13 +125,13 @@ public class CustomListView extends Fragment {
         
         currentListItems = itemList;
                         
-        ListViewAdapter listViewAdapter = new ListViewAdapter(this.getActivity().getApplicationContext(),
+        adapter = new ListViewAdapter(this.getActivity().getApplicationContext(),
                                                               R.layout.course_list_item,
                                                               R.id.courselisttext,
                                                               itemList, true);        
         
         //Set ListViewAdapter
-        listView.setAdapter(listViewAdapter);  
+        listView.setAdapter(adapter);  
         
     }
     
@@ -141,6 +155,34 @@ public class CustomListView extends Fragment {
     public void setFragmentName(String fragmentName) {
         this.fragmentName = fragmentName;
     }
+    
+    /**
+     * TextWatcher used to update the list.
+     */
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+
+        /**
+         * Defines what happens after a text change.
+         */
+        public void afterTextChanged(Editable s) {
+        }
+
+        /**
+         * Name says it all
+         */
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        /**
+         * Defines what should happen when the text changes.
+         */
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            
+            //Set adapter for use by the Filter function
+            adapter = (ListViewAdapter) listView.getAdapter();
+            adapter.filter(s);
+        }
+    };
     
 
 }
