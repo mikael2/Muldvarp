@@ -119,7 +119,7 @@ public class CoursePublicDetailActivity extends Activity {
             LocalBinder binder = (LocalBinder) service;
             mService = binder.getService();
             mBound = true;
-            mService.giveMeOneCourse(id);
+            mService.requestCourse(id);
         }
 
         @Override
