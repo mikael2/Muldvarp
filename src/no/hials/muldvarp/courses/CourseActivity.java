@@ -217,7 +217,7 @@ public class CourseActivity extends Activity {
             LocalBinder binder = (LocalBinder) service;
             mService = binder.getService();
             mBound = true;
-            mService.giveMeCourses();
+            mService.requestCourses();
         }
 
         @Override
