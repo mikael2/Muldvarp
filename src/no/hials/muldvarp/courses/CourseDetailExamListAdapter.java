@@ -55,6 +55,9 @@ public class CourseDetailExamListAdapter extends ArrayAdapter {
         Exam e = (Exam)items.get(position);
         //Date date = new Date(e.getExamDate());
         Date date = e.getExamDate();
+        if(date==null) {
+            date = new Date(0);
+        }
 
         holder.name.setText(e.getName() + " Tid: " + date.getDay() + "." + date.getMonth() + " kl: " + date.getHours() + ":" + date.getMinutes());
         

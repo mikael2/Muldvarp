@@ -7,6 +7,7 @@ import java.util.Date;
  * @author kristoffer
  */
 public class Exam {
+    Integer id;
     String name;
     String room;
     String info;
@@ -19,6 +20,10 @@ public class Exam {
     
     public Exam() {
         
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public Date getExamDate() {

@@ -85,7 +85,7 @@ public class CourseListFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                     Course selectedItem = (Course)items.get(position);
                     Intent myIntent = new Intent(view.getContext(), CourseDetailActivity.class);
-                    myIntent.putExtra("id", selectedItem.getName());
+                    myIntent.putExtra("id", selectedItem.getId());
                     startActivityForResult(myIntent, 0);
                 }  
             });
@@ -94,7 +94,7 @@ public class CourseListFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                     Course selectedItem = (Course)items.get(position);
                     Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);
-                    myIntent.putExtra("id", selectedItem.getName());
+                    myIntent.putExtra("id", selectedItem.getId());
                     startActivityForResult(myIntent, 0);
                 }  
             }); 

@@ -38,7 +38,7 @@ public class CoursePublicDetailActivity extends Activity {
     BroadcastReceiver     mReceiver;
     boolean mBound = false;
     ProgressDialog dialog;
-    Integer id = 1;
+    Integer id;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -71,6 +71,7 @@ public class CoursePublicDetailActivity extends Activity {
             };
             mLocalBroadcastManager.registerReceiver(mReceiver, filter);
 
+            id = getIntent().getIntExtra("id", 0);
             Intent intent = new Intent(this, MuldvarpService.class);
     //        Integer id = 1; // temp greie
     //        System.out.println("Getting course with id " + id);

@@ -31,7 +31,7 @@ public class CourseDetailActivity extends Activity {
     BroadcastReceiver     mReceiver;
     boolean mBound = false;
     ProgressDialog dialog;
-    Integer id = 1;
+    Integer id;
     ActionBar actionBar;
     TabListener cdwf;
     TabListener cdhf;
@@ -67,7 +67,7 @@ public class CourseDetailActivity extends Activity {
                 }
             };
             mLocalBroadcastManager.registerReceiver(mReceiver, filter);
-
+            id = getIntent().getIntExtra("id", 0);
             Intent intent = new Intent(this, MuldvarpService.class);
     //        Integer id = 1; // temp greie
     //        System.out.println("Getting course with id " + id);

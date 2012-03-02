@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @author kristoffer
  */
 public class Theme {
+    Integer id;
     String name;
     ArrayList<Task> tasks;
     
@@ -20,6 +21,10 @@ public class Theme {
 
     public Theme(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public Integer getCompletion() {

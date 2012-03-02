@@ -2,5 +2,5 @@
 <resources>
     <string name="cacheCourseList">CourseCache</string>
     <string name="cacheCourseSingle">SingleCourseCache</string>
-    <integer name="cacheTime">3600000</integer>
+    <integer name="cacheTime">36000</integer>
 </resources>

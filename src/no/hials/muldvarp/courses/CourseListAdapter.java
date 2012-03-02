@@ -74,7 +74,7 @@ public class CourseListAdapter extends ArrayAdapter {
             holder.detail.setText(c.getDetail());
         }
         
-        if (c.getImageurl() != null) {            
+        if (c.getImageurl() != null && !c.getImageurl().equals("")) {            
             dm.fetchDrawableOnThread(c.getImageurl(), holder.icon); 
         } else {
             holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon

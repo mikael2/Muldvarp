@@ -55,10 +55,14 @@ public class CourseDetailHandinListAdapter extends ArrayAdapter {
         }
 
         ObligatoryTask h = (ObligatoryTask)items.get(position);
-        Date dueDate = new Date(h.getDueDate());
-        
-        holder.checkbox.setChecked(h.getDone());
-        holder.checkbox.setClickable(false);
+        Date dueDate;
+        if(h.getDueDate()!=null) {
+            dueDate = new Date(h.getDueDate());
+            holder.checkbox.setChecked(h.getDone());
+            holder.checkbox.setClickable(false);
+        } else {
+            dueDate = new Date(0);
+        }
 
         holder.name.setText(h.getName() + dueDate.getMonth() + dueDate.getDay() + dueDate.getHours() + dueDate.getMinutes());
         

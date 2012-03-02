@@ -9,6 +9,7 @@ package no.hials.muldvarp.domain;
  * @author kristoffer
  */
 public class Task {
+    Integer id;
     String name;
     public enum content {EXTERNAL,VIDEO,PDF}
     Boolean done = false;
@@ -20,6 +21,10 @@ public class Task {
     
     public Task() {
         
+    }
+
+    public Integer getId() {
+        return id;
     }
     
     public void acceptTask() {

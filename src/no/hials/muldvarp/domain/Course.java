@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author kristoffer
  */
 public class Course {
-    Short id = 1; // temp greie
+    Integer id;
     String name;
     String detail;
     String imageurl;
@@ -27,7 +27,7 @@ public class Course {
         this.imageurl = url;
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
