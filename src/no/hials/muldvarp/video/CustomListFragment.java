@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.video;
 
+
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ import no.hials.muldvarp.utility.ListViewAdapter;
  * 
  * @author johan
  */
-public class CustomListView extends Fragment {
+public class CustomListFragment extends Fragment {
     
     //Global variables
     String viewName = "";
@@ -41,7 +42,10 @@ public class CustomListView extends Fragment {
     private EditText filterText = null;
     ListViewAdapter adapter;
     
-    
+    @Override
+    public void onCreate(Bundle savedStateInstance) {
+        super.onCreate(savedStateInstance);
+    }
 
         
     /**
@@ -107,6 +111,14 @@ public class CustomListView extends Fragment {
                
         return returnFragmentView;
         
+    }
+    
+    
+    
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        setUserVisibleHint(true);
     }
     
     /**

@@ -4,19 +4,18 @@
  */
 package no.hials.muldvarp.utility;
 
+import android.os.Handler;
+import android.os.Message;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.MuldvarpService;
+import no.hials.muldvarp.R;
+import no.hials.muldvarp.video.CustomListFragment;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -51,4 +50,7 @@ public class DownloadUtilities {
 
         return builder.create();
     }
+    
+
+
 }
