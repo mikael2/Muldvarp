@@ -5,6 +5,7 @@
 package no.hials.muldvarp.video;
 
 import java.util.ArrayList;
+import no.hials.muldvarp.entities.Video;
 
 /**
  * Trash that's cluttering everything else that I don't want deleted just yet.

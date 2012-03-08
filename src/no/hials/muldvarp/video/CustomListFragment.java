@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.ListViewAdapter;
 
 /**

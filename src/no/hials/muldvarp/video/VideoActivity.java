@@ -4,7 +4,6 @@
  */
 package no.hials.muldvarp.video;
 
-import dets.as.VideoIntent;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,8 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import java.io.IOException;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.entities.Video;
 
 /**
  *
@@ -92,16 +91,24 @@ public class VideoActivity extends Activity {
     
     
     
-    public void mediaPlayer() throws IOException {
-
-        
-    }
-    
     public void startYoutubeApp(String URI){
         
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=Vxi7JRJrod4")));
         
         
+    }
+    
+    /**
+     * This method returns a Video based on the string value of it's ID.
+     * 
+     * 
+     * @param videoID
+     * @return Video
+     */
+    public Video getVideoData(String videoID) {
+        
+        //NYI
+        return new Video(videoID, videoID, videoID, videoID, videoID, null, videoID);
     }
 
 }

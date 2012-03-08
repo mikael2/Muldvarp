@@ -4,9 +4,7 @@
  */
 package no.hials.muldvarp.entities;
 
-import no.hials.muldvarp.video.*;
 import android.graphics.Bitmap;
-import no.hials.muldvarp.entities.ListItem;
 
 /**
  * Class defining a Video ListItem.
