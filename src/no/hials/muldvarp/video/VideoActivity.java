@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.video;
 
+import dets.as.VideoIntent;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -102,13 +103,5 @@ public class VideoActivity extends Activity {
         
         
     }
-    
-    public void test() {
-        
-        //VideoIntent går her
-        Intent lVideoIntent = new Intent(null, Uri.parse("ytv://cxLG2wtE7TM"), this, VideoIntent.class);
-       startActivity(lVideoIntent);
-        
-        
-    }
+
 }
