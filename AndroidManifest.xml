@@ -49,6 +49,9 @@
         <activity android:name=".video.VideoCourseActivity" 
         android:label="VideoCourse"/>
         
+        <activity android:name=".video.VideoIntent" 
+        android:label="VideoIntent"/>
+        
         <activity android:name=".directory.DirectoryActivity"
                   android:label="Directory">
         </activity>

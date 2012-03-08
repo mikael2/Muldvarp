@@ -118,7 +118,7 @@ public class CustomListFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        setUserVisibleHint(true);
+        //setUserVisibleHint(true);
     }
     
     /**

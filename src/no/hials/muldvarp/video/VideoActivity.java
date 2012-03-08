@@ -5,13 +5,13 @@
 package no.hials.muldvarp.video;
 
 import android.app.Activity;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import no.hials.muldvarp.R;
 
 /**
@@ -30,13 +30,7 @@ public class VideoActivity extends Activity {
         //Set layout
         setContentView(R.layout.video_detail);
         
-        
-        try {
-            mediaPlayer();
-        } catch (IOException ex) {
-            Logger.getLogger(VideoActivity.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+                
         //Get extras from previous activity
         //Gets data based on a key represented by a string
         Bundle extras = getIntent().getExtras();
@@ -44,6 +38,19 @@ public class VideoActivity extends Activity {
         System.out.println(videoID);
         
         //Print some stuff based on extras from previous activity
+        
+        
+        //Create button for youtube
+        Button youtubeButton = (Button) findViewById(R.id.youtubeapp);
+        youtubeButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                
+                startYoutubeApp("test");
+                
+            }
+        });       
+        
         
         //Video ID
         TextView textVideoID = (TextView) findViewById(R.id.videoID);
@@ -63,15 +70,45 @@ public class VideoActivity extends Activity {
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
     
+    /**
+     * This function sets an onClickListener for a button resource, where the supplied
+     * action is a class to be started as an intent.
+     * 
+     * @param buttonid the integer value of the buttons ID
+     * @param action the class to be started as an intent
+     * @param uri The string value of the URI 
+     */
+    private void createButton(int buttonid, final Class action, final String uri) {
+        Button button = (Button) findViewById(buttonid);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), action);
+                myIntent.putExtra("uri", uri);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+    }
+    
+    
     
     public void mediaPlayer() throws IOException {
+
         
-        String url = "http://www.mmhp.net/Sounds/Archive/MM2Fortress1.mp3"; // your URL here
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mediaPlayer.setDataSource(url);
-        mediaPlayer.prepare(); // might take long! (for buffering, etc)
-        mediaPlayer.start();
+    }
+    
+    public void startYoutubeApp(String URI){
+        
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=Vxi7JRJrod4")));
+        
+        
+    }
+    
+    public void test() {
+        
+        //VideoIntent går her
+        Intent lVideoIntent = new Intent(null, Uri.parse("ytv://cxLG2wtE7TM"), this, VideoIntent.class);
+       startActivity(lVideoIntent);
+        
         
     }
 }
