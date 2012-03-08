@@ -20,6 +20,13 @@ import no.hials.muldvarp.entities.Video;
  */
 public class VideoActivity extends Activity {
 
+    //Global variables
+    String videoID;
+    String videoName;
+    String videoDescription;
+    String videoURL;
+    
+    
     /**
      * Called when the activity is first created.
      */
@@ -34,8 +41,10 @@ public class VideoActivity extends Activity {
         //Get extras from previous activity
         //Gets data based on a key represented by a string
         Bundle extras = getIntent().getExtras();
-        String videoID = extras.getString("videoID");
-        System.out.println(videoID);
+        videoID = extras.getString("videoID");
+        videoName = extras.getString("videoName");
+        videoDescription = extras.getString("itemDescription");
+        videoURL = extras.getString("videoURL");
         
         //Print some stuff based on extras from previous activity
         
@@ -52,13 +61,22 @@ public class VideoActivity extends Activity {
         });       
         
         
+        System.out.println(videoID);
+        System.out.println(videoName);
+        System.out.println(videoDescription);
+        
         //Video ID
         TextView textVideoID = (TextView) findViewById(R.id.videoID);
         textVideoID.setText(videoID);
         
+        
         //Video Title
-        TextView textVideoTitle = (TextView) findViewById(R.id.videotitle);
-        textVideoTitle.setText("Test Title");
+        TextView textVideoName = (TextView) findViewById(R.id.videotitle);
+        textVideoName.setText(videoName);
+        
+        //Video Description
+        TextView textVideoDescription = (TextView) findViewById(R.id.videodescription);
+        textVideoDescription.setText(videoDescription);
                 
         
         
@@ -93,7 +111,10 @@ public class VideoActivity extends Activity {
     
     public void startYoutubeApp(String URI){
         
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=Vxi7JRJrod4")));
+        
+        
+        System.out.println(videoURL);
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + videoURL)));
         
         
     }

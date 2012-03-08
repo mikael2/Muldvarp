@@ -164,7 +164,7 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
                             currentObject.getString("videoDescription"),
                             "Video",
                             null,
-                            currentObject.getString("videoThumbURL")));
+                            currentObject.getString("videoURL")));
 
                 }
 

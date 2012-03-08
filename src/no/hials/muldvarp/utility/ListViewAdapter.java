@@ -83,8 +83,10 @@ public class ListViewAdapter extends ArrayAdapter {
         //Set ListItem name
         holder.name.setText(listItem.getItemName());
         
+        
+        //Show details if true
         if (showdetails == true) {
-            holder.detail.setText(listItem.getItemDescription());
+            holder.detail.setText(listItem.getSmallDetail());
         }
                 
 //        holder.icon.setImageBitmap(c.getThumb());

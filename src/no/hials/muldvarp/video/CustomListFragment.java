@@ -95,11 +95,13 @@ public class CustomListFragment extends Fragment {
                 
                 
                 //Create new Intent along with data to be passed on
+                //Should be changed to only supply ID and let the VideoActivity take care of the rest
                 Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
                 newIntent.putExtra("videoID", selectedItem.getVideoID());
-                newIntent.putExtra("videoName", selectedItem.getItemType());
+                newIntent.putExtra("videoName", selectedItem.getItemName());
                 newIntent.putExtra("smallDetail", selectedItem.getSmallDetail());
                 newIntent.putExtra("itemDescription", selectedItem.getItemDescription());
+                newIntent.putExtra("videoURL", selectedItem.getVideoURL());
                 
                 //Start Activity
                 startActivityForResult(newIntent, 0);

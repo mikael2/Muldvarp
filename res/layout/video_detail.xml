@@ -17,7 +17,6 @@
                 
                 <ImageView  
                 android:layout_width="wrap_content"
-                android:layout_weight="3"
                 android:layout_height="fill_parent"      
                 android:scaleType="center"
                 android:src="@drawable/monitor" />
@@ -31,23 +30,19 @@
                 <TextView 
                 android:id="@+id/videoID"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="30sp"/>
 
                 <TextView 
                 android:id="@+id/videotitle"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="30sp"/>
                 
                 <TextView 
-                android:id="@+id/videotest"
+                android:id="@+id/videodescription"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"/>
+                android:layout_height="wrap_content"/>
 
 
 
