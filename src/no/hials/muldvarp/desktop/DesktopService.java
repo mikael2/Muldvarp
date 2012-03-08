@@ -10,12 +10,13 @@ import android.os.IBinder;
  * @author mikael
  */
 public class DesktopService extends Service {
-    // Binder given to clients
-    private final IBinder mBinder = new DesktopService.LocalBinder();
+    public static final String ACTION_MESSAGE_UPDATE = "no.hials.muldvarp.ACTION_MESSAGE_UPDATE";
+    
+    private final IBinder localBinder = new DesktopService.LocalBinder();
     
     @Override
     public IBinder onBind(Intent arg0) {
-        return mBinder;
+        return localBinder;
     }
 
     public void requestMessages() {
