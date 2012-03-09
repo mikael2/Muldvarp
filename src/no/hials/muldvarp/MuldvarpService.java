@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import java.io.*;
+import no.hials.muldvarp.R.id;
 import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**
@@ -21,6 +22,7 @@ public class MuldvarpService extends Service {
     public static final String ACTION_PEOPLE_UPDATE       = "no.hials.muldvarp.ACTION_PEOPLE_UPDATE";
     public static final String ACTION_COURSE_UPDATE       = "no.hials.muldvarp.ACTION_COURSE_UPDATE";
     public static final String ACTION_SINGLECOURSE_UPDATE = "no.hials.muldvarp.ACTION_SINGLECOURSE_UPDATE";
+    public static final String ACTION_LIBRARY_UPDATE      = "no.hials.muldvarp.ACTION_LIBRARY_UPDATE";
     
     
     // Binder given to clients
@@ -86,5 +88,10 @@ public class MuldvarpService extends Service {
         new DownloadTask(this,new Intent(ACTION_SINGLECOURSE_UPDATE))
                 .execute(getURL(R.string.courseResPath) + id.toString(),
                          getString(R.string.cacheCourseSingle));        
+    }
+    
+    public void requestLibrary(){
+        new DownloadTask(this, new Intent(ACTION_LIBRARY_UPDATE))
+                .execute(getURL(R.string.libraryResPath), getString(R.string.cacheLibraryPath));
     }
 }

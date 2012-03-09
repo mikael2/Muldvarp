@@ -4,9 +4,9 @@
  */
 package no.hials.muldvarp.library;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.Button;
 import no.hials.muldvarp.R;
@@ -24,19 +24,19 @@ public class LIBmainAll extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         View mainV = inflater.inflate(R.layout.library_all, container, false);
         
-        createButton(mainV,R.id.libraryitem1, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem2, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem3, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem4, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem5, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem6, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem7, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem8, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem9, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem10, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem11, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem12, LibraryDetail.class);
-        createButton(mainV,R.id.libraryitem13, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem1, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem2, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem3, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem4, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem5, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem6, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem7, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem8, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem9, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem10, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem11, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem12, LibraryDetail.class);
+//        createButton(mainV,R.id.libraryitem13, LibraryDetail.class);
         return mainV;
     }
     
@@ -49,5 +49,9 @@ public class LIBmainAll extends Fragment {
             }
         });
     }
+     
+     public void itemsReady(){
+         
+     }
    
 }
