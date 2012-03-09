@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 public class FragmentPager extends ViewPager {
     ActionBar bar;
     DefaultFragmentPagerAdapter adapter;
+    DefaultViewPagerListener pageListener;
     
     public FragmentPager(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -29,10 +30,17 @@ public class FragmentPager extends ViewPager {
         adapter = new DefaultFragmentPagerAdapter(getContext(),manager,bar);
         adapter.setActionBar(bar);
         setAdapter(adapter);
-        setOnPageChangeListener(new DefaultViewPagerListener(bar));
+        pageListener = new DefaultViewPagerListener(bar);
+        setOnPageChangeListener(pageListener);
+    }
+
+    @Override
+    public void setOnPageChangeListener(OnPageChangeListener listener) {
+        pageListener.setOnPageChangeListener(listener);
     }
     
 
+    
     public Tab addTab(String title, Class<? extends Fragment> fragment) {
         if(adapter != null) {
             adapter.addView(fragment);

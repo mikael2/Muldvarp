@@ -1,18 +1,12 @@
 package no.hials.muldvarp;
 
-import no.hials.muldvarp.utility.DownloadTask;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
-import java.io.*;
-import no.hials.muldvarp.R.id;
-import no.hials.muldvarp.utility.DownloadUtilities;
+import no.hials.muldvarp.utility.DownloadTask;
 
 /**
  *

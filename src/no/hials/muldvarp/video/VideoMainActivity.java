@@ -11,6 +11,7 @@ import android.os.Message;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Course;
+import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.AsyncHTTPRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -104,7 +105,7 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
 //                      createListItems(response);
 
                         //Get listView
-                        CustomListView customListView = (CustomListView) getFragmentManager().findFragmentById(R.id.customlistview);
+                        CustomListFragment customListView = (CustomListFragment) getFragmentManager().findFragmentById(R.id.customlistview);
 
                         customListView.getAdapter(createListItems(response));
 
@@ -163,7 +164,7 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
                             currentObject.getString("videoDescription"),
                             "Video",
                             null,
-                            currentObject.getString("videoThumbURL")));
+                            currentObject.getString("videoURL")));
 
                 }
 
@@ -262,7 +263,7 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
         String tabName = tab.getText().toString();
 
         //Get listView
-        CustomListView customListView = (CustomListView) getFragmentManager().findFragmentById(R.id.customlistview);
+        CustomListFragment customListView = (CustomListFragment) getFragmentManager().findFragmentById(R.id.customlistview);
 
         //Set view name with data from tab
         customListView.setViewName(tabName);

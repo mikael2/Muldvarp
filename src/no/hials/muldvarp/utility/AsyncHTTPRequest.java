@@ -116,7 +116,8 @@ public class AsyncHTTPRequest implements Runnable{
         
     }
     /**
-     * 
+     * This function processes the response from the HTTP Request, and parses it to a String.
+     * It is then sent as an object along with the specified handler.
      * 
      * @param httpEntity 
      */
@@ -156,7 +157,7 @@ public class AsyncHTTPRequest implements Runnable{
     }
     
     /**
-     * 
+     * run-method
      */
     public void run() {
     
@@ -204,7 +205,7 @@ public class AsyncHTTPRequest implements Runnable{
             processResponse(httpResponse.getEntity());
             
         } catch(Exception e) {
-            //Message handler that the requeset has failed
+            //Message handler that the request has failed
             e.printStackTrace();
             if(useHandler){
             handler.sendMessage(Message.obtain(handler, AsyncHTTPRequest.CON_ERROR));

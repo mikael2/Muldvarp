@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.video;
 
+
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.ListViewAdapter;
 
 /**
@@ -25,7 +27,7 @@ import no.hials.muldvarp.utility.ListViewAdapter;
  * 
  * @author johan
  */
-public class CustomListView extends Fragment {
+public class CustomListFragment extends Fragment {
     
     //Global variables
     String viewName = "";
@@ -41,7 +43,10 @@ public class CustomListView extends Fragment {
     private EditText filterText = null;
     ListViewAdapter adapter;
     
-    
+    @Override
+    public void onCreate(Bundle savedStateInstance) {
+        super.onCreate(savedStateInstance);
+    }
 
         
     /**
@@ -90,11 +95,13 @@ public class CustomListView extends Fragment {
                 
                 
                 //Create new Intent along with data to be passed on
+                //Should be changed to only supply ID and let the VideoActivity take care of the rest
                 Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
                 newIntent.putExtra("videoID", selectedItem.getVideoID());
-                newIntent.putExtra("videoName", selectedItem.getItemType());
+                newIntent.putExtra("videoName", selectedItem.getItemName());
                 newIntent.putExtra("smallDetail", selectedItem.getSmallDetail());
                 newIntent.putExtra("itemDescription", selectedItem.getItemDescription());
+                newIntent.putExtra("videoURL", selectedItem.getVideoURL());
                 
                 //Start Activity
                 startActivityForResult(newIntent, 0);
@@ -107,6 +114,14 @@ public class CustomListView extends Fragment {
                
         return returnFragmentView;
         
+    }
+    
+    
+    
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //setUserVisibleHint(true);
     }
     
     /**

@@ -26,7 +26,7 @@
                 
                 
             <fragment 
-            class="no.hials.muldvarp.video.CustomListView"
+            class="no.hials.muldvarp.video.CustomListFragment"
             android:id="@+id/customlistview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
