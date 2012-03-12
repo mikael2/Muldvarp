@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.entities.LibraryItem;
 
 /**
  *
@@ -29,6 +30,8 @@ public class LibraryDetail extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // ToDo add your GUI initialization code here 
+        Bundle b = this.getIntent().getExtras();
+        final LibraryItem li = (LibraryItem)b.getSerializable("item");
         ActionBar actionBar = getActionBar();
         actionBar.hide();
         setContentView(R.layout.library_detail);
@@ -36,25 +39,25 @@ public class LibraryDetail extends Activity {
         final Button button = (Button) findViewById(R.id.readbutton);
         final Button button2 = (Button) findViewById(R.id.dlbutton);
         TextView t1 = (TextView)findViewById(R.id.texttitle);
-        t1.setText("Dette er en beskrivende tittel");
+        t1.setText(li.getTitle());
         TextView t2 = (TextView)findViewById(R.id.textalternatetitle);
-        t2.setText("Alternate title: How to make money");
+        t2.setText("Alternate title: " + li.getAlternateTitle());
         TextView t3 = (TextView)findViewById(R.id.textauthor);
-        t3.setText("Author: Robert Downey Jr.");
+        t3.setText("Author: " + li.getAuthor());
         TextView t4 = (TextView)findViewById(R.id.textcoauthor);
-        t4.setText("Co Author(s): Clark Kent");
+        t4.setText("Co Author(s): " + li.getCoAuthor());
         TextView t5 = (TextView)findViewById(R.id.textpageno);
-        t5.setText("Number of pages: " + 233);
+        t5.setText("Number of pages: " + li.getPageNo());
         TextView t6 = (TextView)findViewById(R.id.textpublished);
-        t6.setText("Published: 24.03.1965");
+        t6.setText("Published: " + li.getPublished());
         TextView t7 = (TextView)findViewById(R.id.textuploaded);
-        t7.setText("Uploaded: 30.01.2012");
+        t7.setText("Uploaded: " + li.getUploaded());
         TextView t8 = (TextView)findViewById(R.id.textsummary);
-        t8.setText("Summary: The Revelation of Jesus Christ, which God gave unto him, to shew unto his servants things which must shortly come to pass; and he sent and signified it by his angel unto his servant John: Who bare record of the word of God, and of the testimony of Jesus Christ, and of all things that he saw. Blessed is he that readeth, and they that hear the words of this prophecy, and keep those things which are written therein: for the time is at hand.");
+        t8.setText("Summary: " + li.getSummary());
          
         button.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                String url = "http://www.hials.no/nor/content/download/49530/977307/file/PB01%20ETABLERING%20AV%20NYE%20STUDIETILBUD%20TIL%20OG%20MED%2030%20STUDIEPOENG.pdf";
+                String url = li.getURL();
                 final String googleDocsUrl = "http://docs.google.com/viewer?url=";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(Uri.parse(googleDocsUrl + url), "text/html");
@@ -64,7 +67,7 @@ public class LibraryDetail extends Activity {
         
         button2.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                String url = "http://www.hials.no/nor/content/download/49530/977307/file/PB01%20ETABLERING%20AV%20NYE%20STUDIETILBUD%20TIL%20OG%20MED%2030%20STUDIEPOENG.pdf";
+                String url = li.getURL();
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(Uri.parse(url), "text/html");
                 startActivity(i);

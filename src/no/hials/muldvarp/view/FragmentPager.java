@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import java.lang.reflect.Array;
 
 /**
  *
@@ -53,5 +54,9 @@ public class FragmentPager extends ViewPager {
         bar.addTab(retVal);
         
         return retVal;
+    }
+    
+    public Fragment getTab(int i){
+        return adapter.views.get(i);
     }
 }
