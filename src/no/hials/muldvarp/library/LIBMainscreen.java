@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,7 +92,7 @@ public class LIBMainscreen extends FragmentActivity {
                     System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
                     if (intent.getAction().compareTo(MuldvarpService.ACTION_LIBRARY_UPDATE) == 0) {                    
                         System.out.println("Toasting" + intent.getAction());
-                        Toast.makeText(context, "Library updated", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Library updated", Toast.LENGTH_SHORT).show();
                         new LIBMainscreen.getItemsFromCache().execute(getString(R.string.cacheLibraryPath));
                     } 
                 }
@@ -161,11 +160,11 @@ public class LIBMainscreen extends FragmentActivity {
                 Logger.getLogger(CourseActivity.class.getName()).log(Level.SEVERE, null, ex);
             }
             return items;
+
         } 
         
         @Override
         protected void onPostExecute(List<LibraryItem> items) {
-            System.out.println("OUTPUT: " + items);
             all.itemsReady(items);
             dialog.dismiss();
         }

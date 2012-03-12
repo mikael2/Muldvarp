@@ -54,6 +54,11 @@ public class LibraryDetail extends Activity {
         t7.setText("Uploaded: " + li.getUploaded());
         TextView t8 = (TextView)findViewById(R.id.textsummary);
         t8.setText("Summary: " + li.getSummary());
+        try{
+        System.out.println(li.getURL());}
+        catch(Exception e){
+            System.out.println("Failed to print URL");
+        }
          
         button.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {

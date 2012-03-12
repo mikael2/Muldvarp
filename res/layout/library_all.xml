@@ -10,7 +10,7 @@
 <GridLayout android:id="@+id/allGrid"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:columnCount="3">
+            android:columnCount="2">
                 
                 
                 <Button     android:id="@+id/libraryitem1"
