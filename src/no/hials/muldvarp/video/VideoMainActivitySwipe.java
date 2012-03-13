@@ -2,17 +2,19 @@ package no.hials.muldvarp.video;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Course;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.AsyncHTTPRequest;
+import no.hials.muldvarp.view.FragmentPager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,8 +24,12 @@ import org.json.JSONObject;
  *
  * @author johan
  */
-public class VideoMainActivity extends Activity implements ActionBar.TabListener {
+public class VideoMainActivitySwipe extends FragmentActivity implements ActionBar.TabListener{
 
+    //Global Variables
+    //ActionBar Tabs
+    ActionBar actionBar;
+    OnPageChangeListener userListener;
     static String TAB1 = "My Videos";
     static String TAB2 = "Courses";
     static String TAB3 = "Student";
@@ -32,6 +38,7 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
     String courseURL = "http://master.uials.no:8080/muldvarp/resources/course";
     //Global variables
     private Handler handler;
+    FragmentPager fragmentPager;
     //UI stuff
     ProgressDialog progressDialog;
     
@@ -47,11 +54,11 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
 
 
         //Set layout from video_main.xml using muldvarp.R
-        setContentView(R.layout.video_main);
+        setContentView(R.layout.directory);
 
 
         //Use ActionBar and configure the actionbar
-        final ActionBar actionBar = getActionBar();
+        actionBar = getActionBar();
         //Show the title of the application on top of the ActionBar
         actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
         //Show tabs
@@ -59,13 +66,15 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
 
 
 
-        //Add tabs to actionbar
-        actionBar.addTab(actionBar.newTab().setText(TAB1).setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText(TAB2).setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText(TAB3).setTabListener(this));
+        //FragmentPager implementation of the actionbar with swiping
+        fragmentPager = (FragmentPager) findViewById(R.id.pager);
+        fragmentPager.initializeAdapter(getSupportFragmentManager(), actionBar);    
+        fragmentPager.addTab(TAB1, CustomListFragmentSwipe.class).setTabListener(this);
+        fragmentPager.addTab(TAB2, CustomListFragmentSwipe.class).setTabListener(this);
+        fragmentPager.addTab(TAB3, CustomListFragmentSwipe.class).setTabListener(this);
 
-
-
+        //Fill out list
+        getItemsFromWebResource(getType);
 
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
@@ -86,12 +95,14 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
         
         //Define handler
         //Defines what should happen depending on the returned message.
-        Handler handler = new Handler() {
+        handler = new Handler() {
 
             public void handleMessage(Message message) {
                 
                 //TODO: Comment
                 switch (message.what) {
+                    
+                    //Connection Start
                     case AsyncHTTPRequest.CON_START: {
 
                         System.out.println("Handler: Connection Started");
@@ -99,18 +110,32 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
 
                         break;
                     }
+                        
+                    //Connection Success
                     case AsyncHTTPRequest.CON_SUCCEED: {
 
                         String response = (String) message.obj;
-//                      createListItems(response);
-
-                        //Get listView
-                        //CustomListFragment customListView = (CustomListFragment) getFragmentManager().findFragmentById(R.id.customlistview);
-
-                        //customListView.getAdapter(createListItems(response));
+                                                
+                        //Have to use getSupportFragmentManager() since we are using a support package.
+                        CustomListFragmentSwipe customListFragmentSwipe = (CustomListFragmentSwipe) fragmentPager.getAdapter().getItem(getType);
+                        
+                        if(customListFragmentSwipe != null){
+                        
+                                                       
+                            
+                            customListFragmentSwipe.getAdapter(createListItems(response));
+                        } else  {
+                            
+                            System.out.println("Could not get fragment.");
+                        }
+                        
+                        
+                        
 
                         break;
                     }
+                        
+                    //Connection Error
                     case AsyncHTTPRequest.CON_ERROR: {
                         
                         //TODO: Create Dialogbox 
@@ -131,11 +156,15 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
                 break;
             case 1:
                 new AsyncHTTPRequest(handler).httpGet(courseURL);
+                System.out.println("course");
                 break;
             case 2:
                 new AsyncHTTPRequest(handler).httpGet(videoURL);
                 break;
 
+            default:
+                System.out.println("No tab - it was null");
+                break;
         }
 
 
@@ -195,86 +224,18 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
     }
     
         
-        //Kommentert ut for nå.
-
-//    public ArrayList createListItems(String jsonString) {
-//        ArrayList itemList = new ArrayList();
-//
-//        try {
-//            JSONObject jObject = new JSONObject(jsonString);
-//            JSONArray jArray;
-//            
-//                       
-//
-//            if (jObject.optJSONArray("video") != null) {
-//                jArray = jObject.getJSONArray("video");
-//
-//                for (int i = 0; i < jArray.length(); i++) {
-//
-//                    JSONObject currentObject = jArray.getJSONObject(i);
-//
-//                    itemList.add(new Video(currentObject.getString("id"),
-//                            currentObject.getString("videoName"),
-//                            currentObject.getString("videoDetail"),
-//                            currentObject.getString("videoDescription"),
-//                            "Video",
-//                            null,
-//                            currentObject.getString("videoThumbURL")));
-//
-//                }
-//
-//            } else if (jObject.optJSONArray("course") != null) {
-//
-//                jArray = jObject.getJSONArray("course");
-//                for (int i = 0; i < jArray.length(); i++) {
-//
-//                    JSONObject currentObject = jArray.getJSONObject(i);
-//
-//                    itemList.add(new Course(currentObject.getString("name"),
-//                            null,
-//                            null,
-//                            null,
-//                            null));
-//
-//                }
-//            } else {
-//
-//                System.out.println("It was null. or unrelevant :<");
-//            }
-//        } catch (Exception ex) {
-//
-//            ex.printStackTrace();
-//        }
-//
-//        return itemList;
-//    }
-
         
-    //Below are abastract methods from Tablistener
-    /**
-     *
-     *
-     * @param tab
-     * @param arg1
+    /*
+     * Below are abastract methods from Tablistener
      */
+    
+    
     public void onTabSelected(Tab tab, FragmentTransaction arg1) {
 
-        //Get name of tab
-        String tabName = tab.getText().toString();
-
-        //Get listView
-        //CustomListFragment customListView = (CustomListFragment) getFragmentManager().findFragmentById(R.id.customlistview);
-
-        //Set view name with data from tab
-        //customListView.setViewName(tabName);
-
         getType = tab.getPosition();
-        getItemsFromWebResource(tab.getPosition());
+        getItemsFromWebResource(getType);
 
-        //Get data and update the ListView
-        //customListView.getAdapter(getFakeData(tab.getPosition()));
     }
-
     
     //NYI
     public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
@@ -282,4 +243,7 @@ public class VideoMainActivity extends Activity implements ActionBar.TabListener
 
     public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
     }
+
+    
+    
 }

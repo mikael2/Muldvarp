@@ -5,7 +5,10 @@
 package no.hials.muldvarp.video;
 
 import java.util.ArrayList;
+import no.hials.muldvarp.entities.Course;
 import no.hials.muldvarp.entities.Video;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Trash that's cluttering everything else that I don't want deleted just yet.
@@ -58,4 +61,61 @@ public class TRASH {
         return videoArrayList;
     }
     
+    /**
+     * Old function.
+     * 
+     * @param jsonString
+     * @return 
+     */
+    public ArrayList createListItems(String jsonString) {
+        ArrayList itemList = new ArrayList();
+
+        try {
+            JSONObject jObject = new JSONObject(jsonString);
+            JSONArray jArray;
+            
+                       
+
+            if (jObject.optJSONArray("video") != null) {
+                jArray = jObject.getJSONArray("video");
+
+                for (int i = 0; i < jArray.length(); i++) {
+
+                    JSONObject currentObject = jArray.getJSONObject(i);
+
+                    itemList.add(new Video(currentObject.getString("id"),
+                            currentObject.getString("videoName"),
+                            currentObject.getString("videoDetail"),
+                            currentObject.getString("videoDescription"),
+                            "Video",
+                            null,
+                            currentObject.getString("videoThumbURL")));
+
+                }
+
+            } else if (jObject.optJSONArray("course") != null) {
+
+                jArray = jObject.getJSONArray("course");
+                for (int i = 0; i < jArray.length(); i++) {
+
+                    JSONObject currentObject = jArray.getJSONObject(i);
+
+                    itemList.add(new Course(currentObject.getString("name"),
+                            null,
+                            null,
+                            null,
+                            null));
+
+                }
+            } else {
+
+                System.out.println("It was null. or unrelevant :<");
+            }
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+
+        return itemList;
+    }
 }
