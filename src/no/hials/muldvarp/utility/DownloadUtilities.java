@@ -53,7 +53,7 @@ public class DownloadUtilities {
     public static void cacheThis(Reader json, File f) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(f));
-            char[] buffer = new char[1024];
+            char[] buffer = new char[8192];
             int length;
             while ((length = json.read(buffer)) != -1) {
                 writer.write(buffer, 0, length);
