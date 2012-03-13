@@ -35,7 +35,7 @@ public class LibraryItem implements Serializable {
 
     String thumbURL;
 
-    String URL;
+    String url;
 
     public LibraryItem() {
     }
@@ -51,7 +51,7 @@ public class LibraryItem implements Serializable {
         this.summary = summary;
         this.iconURL = iconURL;
         this.thumbURL = thumbURL;
-        this.URL = URL;
+        this.url = URL;
     }
     
     public LibraryItem(String title, String summary){
@@ -60,11 +60,11 @@ public class LibraryItem implements Serializable {
     }
 
     public String getURL() {
-        return URL;
+        return url;
     }
 
     public void setURL(String URL) {
-        this.URL = URL;
+        this.url = URL;
     }
 
     public String getAlternateTitle() {

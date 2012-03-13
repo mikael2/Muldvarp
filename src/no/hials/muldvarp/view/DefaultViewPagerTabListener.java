@@ -16,6 +16,7 @@ public class DefaultViewPagerTabListener implements ActionBar.TabListener {
         viewPager = pager;
     }
 
+    @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         viewPager.setCurrentItem(tab.getPosition());
         if(userListener != null)
