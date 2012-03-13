@@ -40,7 +40,7 @@
             android:paddingTop="32sp"
             android:text="Item"/>
             
-            <Button     android:id="@+id/libraryitem4"
+ <!--           <Button     android:id="@+id/libraryitem4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -128,7 +128,7 @@
             android:drawableTop="@drawable/book_icon"
             android:background="@android:color/transparent"
             android:paddingTop="32sp"
-            android:text="Item"/>
+            android:text="Item"/> -->
                 
 </GridLayout>
                 

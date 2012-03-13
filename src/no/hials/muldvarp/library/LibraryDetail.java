@@ -59,6 +59,17 @@ public class LibraryDetail extends Activity {
         catch(Exception e){
             System.out.println("Failed to print URL");
         }
+        try{
+        System.out.println(li.getIconURL());}
+        catch(Exception e){
+            System.out.println("Failed to print iconURL");
+        }
+        
+        try{
+        System.out.println(li.getThumbURL());}
+        catch(Exception e){
+            System.out.println("Failed to print thumbURL");
+        }
          
         button.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {

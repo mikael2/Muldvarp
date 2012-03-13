@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.*;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.LibraryItem;
@@ -55,26 +55,37 @@ private View mainV;
         if(li!=null){createButton(mainV,R.id.libraryitem2, LibraryDetail.class, li);}
         li = (LibraryItem)l.get(2);
         if(li!=null){createButton(mainV,R.id.libraryitem3, LibraryDetail.class, li);}
-        li = (LibraryItem)l.get(3);
-        if(li!=null){createButton(mainV,R.id.libraryitem4, LibraryDetail.class, li);}
-        li = (LibraryItem)l.get(4);
-        if(li!=null){createButton(mainV,R.id.libraryitem5, LibraryDetail.class, li);}
-        li = (LibraryItem)l.get(5);
-        if(li!=null){createButton(mainV,R.id.libraryitem6, LibraryDetail.class, li);}
-        li = (LibraryItem)l.get(6);
-        if(li!=null){createButton(mainV,R.id.libraryitem7, LibraryDetail.class, li);}
-        li = (LibraryItem)l.get(7);
-        if(li!=null){createButton(mainV,R.id.libraryitem8, LibraryDetail.class, li);}
-        li = (LibraryItem)l.get(8);
-        if(li!=null){createButton(mainV,R.id.libraryitem9, LibraryDetail.class, li);}
-        li = (LibraryItem)l.get(9);
-        if(li!=null){createButton(mainV,R.id.libraryitem10, LibraryDetail.class, li);}
-        li = (LibraryItem)l.get(10);
-        if(li!=null){createButton(mainV,R.id.libraryitem11, LibraryDetail.class, li);}
-        li = (LibraryItem)l.get(11);
-        if(li!=null){createButton(mainV,R.id.libraryitem12, LibraryDetail.class, li);}
-        li = (LibraryItem)l.get(12);
-        if(li!=null){createButton(mainV,R.id.libraryitem13, LibraryDetail.class, li);}
+//        li = (LibraryItem)l.get(3);
+//        if(li!=null){createButton(mainV,R.id.libraryitem4, LibraryDetail.class, li);}
+//        li = (LibraryItem)l.get(4);
+//        if(li!=null){createButton(mainV,R.id.libraryitem5, LibraryDetail.class, li);}
+//        li = (LibraryItem)l.get(5);
+//        if(li!=null){createButton(mainV,R.id.libraryitem6, LibraryDetail.class, li);}
+//        li = (LibraryItem)l.get(6);
+//        if(li!=null){createButton(mainV,R.id.libraryitem7, LibraryDetail.class, li);}
+//        li = (LibraryItem)l.get(7);
+//        if(li!=null){createButton(mainV,R.id.libraryitem8, LibraryDetail.class, li);}
+//        li = (LibraryItem)l.get(8);
+//        if(li!=null){createButton(mainV,R.id.libraryitem9, LibraryDetail.class, li);}
+//        li = (LibraryItem)l.get(9);
+//        if(li!=null){createButton(mainV,R.id.libraryitem10, LibraryDetail.class, li);}
+//        li = (LibraryItem)l.get(10);
+//        if(li!=null){createButton(mainV,R.id.libraryitem11, LibraryDetail.class, li);}
+//        li = (LibraryItem)l.get(11);
+//        if(li!=null){createButton(mainV,R.id.libraryitem12, LibraryDetail.class, li);}
+//        li = (LibraryItem)l.get(12);
+//        if(li!=null){createButton(mainV,R.id.libraryitem13, LibraryDetail.class, li);}
+        
+        
+//        GridLayout allGrid = new GridLayout(mainV.getContext());
+//        GridLayout itemGrid = new GridLayout(mainV.getContext());
+//        itemGrid.setColumnCount(1);
+//        ImageButton iB = new ImageButton(mainV.getContext());
+//        itemGrid.addView(iB);
+//        TextView text = new TextView(mainV.getContext());
+//        text.setText("title");
+//        itemGrid.addView(text);
+//        allGrid.addView(itemGrid);
         
      }
      public void onClick(View view) {
