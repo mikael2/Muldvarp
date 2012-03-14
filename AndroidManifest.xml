@@ -46,6 +46,9 @@
         <activity android:name=".video.VideoMainActivity" 
                   android:label="VideoMain"/>
                   
+        <activity android:name=".video.VideoMainActivitySwipe" 
+        android:label="VideoMain"/>
+                  
         <activity android:name=".video.VideoCourseActivity" 
         android:label="VideoCourse"/>
         

@@ -17,7 +17,7 @@ import no.hials.muldvarp.courses.CourseActivity;
 import no.hials.muldvarp.directory.DirectoryActivity;
 import no.hials.muldvarp.library.LIBMainscreen;
 import no.hials.muldvarp.news.NewsActivity;
-import no.hials.muldvarp.video.VideoMainActivity;
+import no.hials.muldvarp.video.VideoMainActivitySwipe;
 
 /**
  *
@@ -62,7 +62,7 @@ public class DesktopFragment extends Fragment {
         createButton(retVal,R.id.newsbutton,      NewsActivity.class);          
         createButton(retVal,R.id.coursesbutton,   CourseActivity.class);        
         createButton(retVal,R.id.libraryButton,   LIBMainscreen.class);        
-        createButton(retVal,R.id.videoButton,     VideoMainActivity.class);
+        createButton(retVal,R.id.videoButton,     VideoMainActivitySwipe.class);
         
         
         // We use this to send broadcasts within our local process.
