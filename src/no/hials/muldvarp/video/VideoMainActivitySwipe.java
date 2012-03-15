@@ -1,22 +1,16 @@
 package no.hials.muldvarp.video;
 
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.FragmentTransaction;
+import android.app.ActionBar.TabListener;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.entities.Course;
-import no.hials.muldvarp.entities.Video;
-import no.hials.muldvarp.utility.AsyncHTTPRequest;
 import no.hials.muldvarp.view.FragmentPager;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import no.hials.muldvarp.view.VideoTabListener;
 
 /**
  * Class defining the Video-activity. It contains methods to create and retrieve
@@ -24,7 +18,7 @@ import org.json.JSONObject;
  *
  * @author johan
  */
-public class VideoMainActivitySwipe extends FragmentActivity implements ActionBar.TabListener{
+public class VideoMainActivitySwipe extends FragmentActivity{
 
     //Global Variables
     //ActionBar Tabs
@@ -68,13 +62,21 @@ public class VideoMainActivitySwipe extends FragmentActivity implements ActionBa
 
         //FragmentPager implementation of the actionbar with swiping
         fragmentPager = (FragmentPager) findViewById(R.id.pager);
-        fragmentPager.initializeAdapter(getSupportFragmentManager(), actionBar);    
-        fragmentPager.addTab(TAB1, CustomListFragmentSwipe.class).setTabListener(this);
-        fragmentPager.addTab(TAB2, CustomListFragmentSwipe.class).setTabListener(this);
-        fragmentPager.addTab(TAB3, CustomListFragmentSwipe.class).setTabListener(this);
-
-        //Fill out list
-        getItemsFromWebResource(getType);
+        fragmentPager.initializeAdapter(getSupportFragmentManager(), actionBar);
+        
+        
+        ArrayList<String> resourceList = new ArrayList();
+        resourceList.add(videoURL);
+        resourceList.add(courseURL);
+        resourceList.add(videoURL);
+        
+        //Instantiate TabListener
+        TabListener videoTabListener = new VideoTabListener(fragmentPager, fragmentPager, resourceList);
+        
+        
+        fragmentPager.addTab(TAB1, CustomListFragmentSwipe.class, videoTabListener);
+        fragmentPager.addTab(TAB2, CustomListFragmentSwipe.class, videoTabListener);
+        fragmentPager.addTab(TAB3, CustomListFragmentSwipe.class, videoTabListener);
 
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
@@ -90,160 +92,9 @@ public class VideoMainActivitySwipe extends FragmentActivity implements ActionBa
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
 
-    public void getItemsFromWebResource(int itemType) {
-        
-        
-        //Define handler
-        //Defines what should happen depending on the returned message.
-        handler = new Handler() {
-
-            public void handleMessage(Message message) {
-                
-                //TODO: Comment
-                switch (message.what) {
-                    
-                    //Connection Start
-                    case AsyncHTTPRequest.CON_START: {
-
-                        System.out.println("Handler: Connection Started");
-                        //TODO: Loading
-
-                        break;
-                    }
-                        
-                    //Connection Success
-                    case AsyncHTTPRequest.CON_SUCCEED: {
-
-                        String response = (String) message.obj;
-                                                
-                        //Have to use getSupportFragmentManager() since we are using a support package.
-                        CustomListFragmentSwipe customListFragmentSwipe = (CustomListFragmentSwipe) fragmentPager.getAdapter().getItem(getType);
-                        
-                        if(customListFragmentSwipe != null){
-                        
-                                                       
-                            
-                            customListFragmentSwipe.getAdapter(createListItems(response));
-                        } else  {
-                            
-                            System.out.println("Could not get fragment.");
-                        }
-                        
-                        
-                        
-
-                        break;
-                    }
-                        
-                    //Connection Error
-                    case AsyncHTTPRequest.CON_ERROR: {
-                        
-                        //TODO: Create Dialogbox 
-
-                        break;
-                    }
-                }
-            }
-        };
-
-
-
-        //Create new GET request with handler
-        switch (itemType) {
-
-            case 0:
-                new AsyncHTTPRequest(handler).httpGet(videoURL);
-                break;
-            case 1:
-                new AsyncHTTPRequest(handler).httpGet(courseURL);
-                System.out.println("course");
-                break;
-            case 2:
-                new AsyncHTTPRequest(handler).httpGet(videoURL);
-                break;
-
-            default:
-                System.out.println("No tab - it was null");
-                break;
-        }
-
-
-
-
-    }
-
-    //Midlertidig testversjon
-    public ArrayList createListItems(String jsonString) {
-        ArrayList itemList = new ArrayList();
-
-        try {
-            JSONArray jArray = new JSONArray(jsonString);            
-                       
-
-            if (getType == 0) {
-                
-                //Video BS her
-                for (int i = 0; i < jArray.length(); i++) {
-
-                    JSONObject currentObject = jArray.getJSONObject(i);
-
-                    itemList.add(new Video(currentObject.getString("id"),
-                            currentObject.getString("videoName"),
-                            currentObject.getString("videoDetail"),
-                            currentObject.getString("videoDescription"),
-                            "Video",
-                            null,
-                            currentObject.getString("videoURL")));
-
-                }
-
-            } else if (getType == 1) {
-
-                //Course BS her
-                for (int i = 0; i < jArray.length(); i++) {
-
-                    JSONObject currentObject = jArray.getJSONObject(i);
-
-                    itemList.add(new Course(currentObject.getString("name"),
-                            null,
-                            null,
-                            null,
-                            null));
-
-                }
-            } else {
-
-                System.out.println("It was null. or unrelevant :<");
-            }
-        } catch (Exception ex) {
-
-            ex.printStackTrace();
-        }
-
-        return itemList;
-    }
-    
-        
-        
-    /*
-     * Below are abastract methods from Tablistener
-     */
     
     
-    public void onTabSelected(Tab tab, FragmentTransaction arg1) {
-
-        getType = tab.getPosition();
-        getItemsFromWebResource(getType);
-
-    }
-    
-    //NYI
-    public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-    }
-
-    public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-    }
-
+        
     
     
 }

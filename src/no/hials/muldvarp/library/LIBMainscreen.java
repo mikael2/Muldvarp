@@ -63,9 +63,9 @@ public class LIBMainscreen extends FragmentActivity {
         
         FragmentPager pager = (FragmentPager) findViewById(R.id.pager);
         pager.initializeAdapter(getSupportFragmentManager(), bar);     
-        pager.addTab("All", LIBmainAll.class);
+        pager.addTab("All", LIBmainAll.class, null);
         all = (LIBmainAll)pager.getTab(0);
-        pager.addTab("Favourites", LIBmainFavourites.class);
+        pager.addTab("Favourites", LIBmainFavourites.class, null);
         favourite = (LIBmainFavourites)pager.getTab(1);
         
         if (savedInstanceState != null) {

@@ -2,6 +2,7 @@ package no.hials.muldvarp.view;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,8 +41,19 @@ public class FragmentPager extends ViewPager {
     }
     
 
-    
-    public Tab addTab(String title, Class<? extends Fragment> fragment) {
+    /**
+     * This method adds a tab to the FragmentPager's ActionBar associated with a Fragment. 
+     * If a TabListener is not supplied, DefaultViewPagerTabListener will be used.
+     * 
+     * 
+     * @param title The title of the Tab
+     * @param fragment The fragment the tab is to be associated with
+     * @param tabListener The tablistener to be used
+     * @return 
+     */
+    public Tab addTab(String title, Class<? extends Fragment> fragment, TabListener tabListener) {
+        
+        
         if(adapter != null) {
             adapter.addView(fragment);
         }
@@ -49,8 +61,19 @@ public class FragmentPager extends ViewPager {
         Tab retVal = bar.newTab();
                 
         retVal.setText(title);
-        retVal.setTabListener(new DefaultViewPagerTabListener(this));
+        
+        //Check if tabListener is supplied
+        if(tabListener != null){
+            
+            retVal.setTabListener(tabListener);
+            
+        } else {
+            
+            retVal.setTabListener(new DefaultViewPagerTabListener(this));
+        }
+        
         bar.addTab(retVal);
+        
         
         return retVal;
     }
