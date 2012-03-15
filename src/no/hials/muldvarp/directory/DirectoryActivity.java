@@ -36,8 +36,8 @@ public class DirectoryActivity extends FragmentActivity {
 
         FragmentPager pager = (FragmentPager) findViewById(R.id.pager);
         pager.initializeAdapter(getSupportFragmentManager(), bar);     
-        pager.addTab("Campus", DirectoryCampus.class);
-        pager.addTab("People", DirectoryPeople.class);
+        pager.addTab("Campus", DirectoryCampus.class, null);
+        pager.addTab("People", DirectoryPeople.class, null);
         
         if (savedInstanceState != null) {
             bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
