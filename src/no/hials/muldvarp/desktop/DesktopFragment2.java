@@ -79,7 +79,6 @@ public class DesktopFragment2 extends Fragment {
 
                 imageView.setImageResource(links[position].getImageResource());
                 textView.setText(links[position].getNameStringResource());
-                convertView = retVal;
             } else {
                 retVal = convertView;
             }
@@ -88,11 +87,11 @@ public class DesktopFragment2 extends Fragment {
         }
         
         private IntentLink[] links = {
-            new IntentLink(R.string.app_name, R.drawable.icon_directory, DirectoryActivity.class),
-            new IntentLink(R.string.app_name, R.drawable.icon_news,      NewsActivity.class),
-            new IntentLink(R.string.app_name, R.drawable.icon_course,    CourseActivity.class),
-            new IntentLink(R.string.app_name, R.drawable.icon_library,   LIBMainscreen.class),
-            new IntentLink(R.string.app_name, R.drawable.icon_video,     VideoMainActivitySwipe.class)
+            new IntentLink(R.string.icon_directory, R.drawable.icon_directory, DirectoryActivity.class),
+            new IntentLink(R.string.icon_news,      R.drawable.icon_news,      NewsActivity.class),
+            new IntentLink(R.string.icon_courses,   R.drawable.icon_course,    CourseActivity.class),
+            new IntentLink(R.string.icon_library,   R.drawable.icon_library,   LIBMainscreen.class),
+            new IntentLink(R.string.icon_video,     R.drawable.icon_video,     VideoMainActivitySwipe.class)
         };
      
     }        
