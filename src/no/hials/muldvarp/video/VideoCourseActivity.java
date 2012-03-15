@@ -5,13 +5,9 @@
 package no.hials.muldvarp.video;
 
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import java.util.ArrayList;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Course;
 
 /**
  * Class defining the VideoCCourse-activity.
