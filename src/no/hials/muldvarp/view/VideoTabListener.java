@@ -60,8 +60,15 @@ public class VideoTabListener implements ActionBar.TabListener {
      * @param fragmentTransaction 
      */
     public void onTabSelected(Tab tab, FragmentTransaction fragmentTransaction) {
-        
+                
         currentTab = tab.getPosition();
+        
+        CustomListFragmentSwipe customListFragmentSwipe = (CustomListFragmentSwipe) fragmentPager.getAdapter().getItem(currentTab);
+        
+        //Temp fix
+        if(currentTab == 1) {
+        customListFragmentSwipe.setViewName("Courses");
+        }
         
         viewPager.setCurrentItem(currentTab);
         
@@ -87,6 +94,9 @@ public class VideoTabListener implements ActionBar.TabListener {
      * @param fragmentTransaction 
      */
     public void onTabUnselected(Tab tab, FragmentTransaction fragmentTransaction) {
+        
+        
+        
         
         if(userListener != null){
             

@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.view.DefaultViewPagerTabListener;
 import no.hials.muldvarp.view.FragmentPager;
 import no.hials.muldvarp.view.VideoTabListener;
 
@@ -73,6 +72,7 @@ public class VideoMainActivitySwipe extends FragmentActivity{
         
         //Instantiate TabListener
         TabListener videoTabListener = new VideoTabListener(fragmentPager, fragmentPager, resourceList);
+        
         
         fragmentPager.addTab(TAB1, CustomListFragmentSwipe.class, videoTabListener);
         fragmentPager.addTab(TAB2, CustomListFragmentSwipe.class, videoTabListener);

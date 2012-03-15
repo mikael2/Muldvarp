@@ -40,7 +40,6 @@ public class CustomListFragmentSwipe extends Fragment {
     //Switches
     public boolean enableFilter = true;
     
-    //http://stackoverflow.com/questions/1737009/how-to-make-a-nice-looking-listview-filter-on-android
     //FilterText solution
     private EditText filterText = null;
     ListViewAdapter adapter;
@@ -116,8 +115,7 @@ public class CustomListFragmentSwipe extends Fragment {
                
         return returnFragmentView;
         
-    }
-    
+    }   
     
     
     @Override
