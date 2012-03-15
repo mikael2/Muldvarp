@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <fragment android:name="no.hials.muldvarp.desktop.DesktopFragment"
+    <fragment android:name="no.hials.muldvarp.desktop.DesktopFragment2"
             android:id="@+id/desktop"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />        
