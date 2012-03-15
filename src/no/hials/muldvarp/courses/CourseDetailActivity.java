@@ -37,6 +37,7 @@ public class CourseDetailActivity extends FragmentActivity {
     TabListener cdwf;
     TabListener cdhf;
     TabListener cdef;
+    FragmentPager pager;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -86,15 +87,15 @@ public class CourseDetailActivity extends FragmentActivity {
             actionBar.setDisplayShowTitleEnabled(false);  
             actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE); // ??            
 
-            FragmentPager pager = (FragmentPager) findViewById(R.id.pager);
+            pager = (FragmentPager) findViewById(R.id.pager);
             pager.initializeAdapter(getSupportFragmentManager(), actionBar);
                         
 //            ActionBar.Tab tab = actionBar.newTab();
 //            tab.setText(R.string.work)
 //               .setTabListener(cdwf);
-            pager.addTab("Tema", CourseDetailWorkFragment.class);
-//            pager.addTab("Obligatorisk", CourseDetailHandinsFragment.class);
-//            pager.addTab("Eksamen", CourseDetailExamFragment.class);
+            pager.addTab("Tema", CourseDetailWorkFragment.class, null);
+            pager.addTab("Obligatorisk", CourseDetailHandinsFragment.class, null);
+            pager.addTab("Eksamen", CourseDetailExamFragment.class, null);
 
 //            tab = actionBar.newTab();
 //            tab.setText(R.string.handins)
@@ -136,6 +137,12 @@ public class CourseDetailActivity extends FragmentActivity {
             
             //CourseDetailWorkFragment workFragment = (CourseDetailWorkFragment)cdwf.getFragment();
             //workFragment.ready();
+//            CourseDetailWorkFragment work = (CourseDetailWorkFragment)pager.getTab(0);
+//            work.ready();
+//            CourseDetailHandinsFragment handin = (CourseDetailHandinsFragment)pager.getTab(1);
+//            handin.ready();
+//            CourseDetailExamFragment exam = (CourseDetailExamFragment)pager.getTab(2);
+            //exam.ready();
             
             dialog.dismiss();
         }

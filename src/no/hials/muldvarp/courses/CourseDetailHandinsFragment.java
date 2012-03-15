@@ -32,10 +32,14 @@ public class CourseDetailHandinsFragment extends Fragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.course_handin, container, false);
-        
-        listview = (ListView)fragmentView.findViewById(R.id.listview);
-        
+        if(fragmentView == null) {
+            fragmentView = inflater.inflate(R.layout.course_handin, container, false);
+            listview = (ListView)fragmentView.findViewById(R.id.listview);
+        }
+        return fragmentView;
+    }
+    
+    public void ready() {
         if(c == null) {
             CourseDetailActivity activity = (CourseDetailActivity)CourseDetailHandinsFragment.this.getActivity();
             c = activity.getActiveCourse();
@@ -49,12 +53,6 @@ public class CourseDetailHandinsFragment extends Fragment {
                     R.layout.course_handin_list_item,
                     R.id.name,
                     tasks));
-        
-        return fragmentView;
-    }
-    
-    public void ready() {
-        
     }
 }
 
