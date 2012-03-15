@@ -1,16 +1,10 @@
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.domain.Course;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
+import android.content.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -24,7 +18,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +25,7 @@ import no.hials.muldvarp.MainActivity;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.domain.Course;
 import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**
@@ -40,10 +34,9 @@ import no.hials.muldvarp.utility.DownloadUtilities;
  */
 public class CourseActivity extends Activity {
     private Fragment currentFragment;
-    String listform = "list";
     CourseListFragment CourseListFragment;
-    CourseGridFragment CourseGridFragment;
     List<Course> courseList;
+    Boolean isGrid;
     
     MuldvarpService mService;
     LocalBroadcastManager mLocalBroadcastManager;
@@ -55,19 +48,17 @@ public class CourseActivity extends Activity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if(getIntent().getStringExtra("listform") != null) {
-            listform = getIntent().getStringExtra("listform");
-        }
-        System.out.println("CourseActivity onCreate()");
-        setContentView(R.layout.course_main);
-        CourseListFragment = new CourseListFragment();
-        CourseGridFragment = new CourseGridFragment();
+        isGrid = getIntent().getBooleanExtra("isGrid", false);
         
-        if(listform.equals("list")) {
-            addDynamicFragment(CourseListFragment);
-        } else if(listform.equals("grid")) {
-            addDynamicFragment(CourseGridFragment);
-        }
+        setContentView(R.layout.course_main);
+        CourseListFragment = new CourseListFragment();        
+        addDynamicFragment(CourseListFragment);
+        
+//        if(listform.equals("list")) {
+//            addDynamicFragment(CourseListFragment);
+//        } else if(listform.equals("grid")) {
+//            addDynamicFragment(CourseGridFragment);
+//        }
         
         if(savedInstanceState == null) {
             dialog = new ProgressDialog(CourseActivity.this);
@@ -95,9 +86,7 @@ public class CourseActivity extends Activity {
             mLocalBroadcastManager.registerReceiver(mReceiver, filter);
 
             Intent intent = new Intent(this, MuldvarpService.class);
-    //        intent.putExtra("whatToDo", 1);
             bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-            //startService(intent);
         }
         
     }
@@ -139,14 +128,11 @@ public class CourseActivity extends Activity {
                 startActivity(intent);
                 return true;
             case R.id.showgrid:
-                System.out.println("Fragment change button pressed");
                 intent = new Intent(this, CourseActivity.class);
-                if(listform.equals("list")) {
-                    intent.putExtra("listform", "grid");
-                    System.out.println("Showing grid");
-                } else if(listform.equals("grid")) {
-                    intent.putExtra("listform", "list");
-                    System.out.println("Showing list");
+                if(!isGrid) {
+                    intent.putExtra("isGrid", true);
+                } else {
+                    intent.putExtra("isGrid", false);
                 }
                 finish();
                 startActivity(intent);
@@ -193,11 +179,7 @@ public class CourseActivity extends Activity {
 //            courseList = new ArrayList<Course>();
 //            courseList.addAll(items);
             courseList = items;
-            if(listform.equals("list")) {
-                CourseListFragment.itemsReady();
-            } else if(listform.equals("grid")) {
-                //NYI
-            }
+            CourseListFragment.itemsReady();
             
             dialog.dismiss();
         }
@@ -230,11 +212,14 @@ public class CourseActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        System.out.println("CourseActivity onStop()");
         // Unbind from the service
         if (mBound) {
             unbindService(mConnection);
             mBound = false;
         }
+    }
+
+    public Boolean getIsGrid() {
+        return isGrid;
     }
 }

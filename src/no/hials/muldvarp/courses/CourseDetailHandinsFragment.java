@@ -4,16 +4,16 @@
  */
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.domain.Course;
-import no.hials.muldvarp.domain.ObligatoryTask;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.domain.ObligatoryTask;
 
 /**
  *

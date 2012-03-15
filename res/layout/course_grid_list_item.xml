@@ -19,7 +19,7 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@+id/name"
+        android:text="@+id/courselisttext"
         android:textSize="33px"
         android:layout_weight="1"
         android:gravity="center">
