@@ -32,7 +32,7 @@ public class FragmentPager extends ViewPager {
         adapter.setActionBar(bar);
         setAdapter(adapter);
         pageListener = new DefaultViewPagerListener(bar);
-        setOnPageChangeListener(pageListener);
+        super.setOnPageChangeListener(pageListener);
     }
 
     @Override
