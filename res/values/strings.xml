@@ -18,4 +18,32 @@
     <string name="icon_courses">Courses</string>
     <string name="icon_library">Library</string>
     <string name="icon_video">Video</string>
+    
+    <string name="app_logo_top">
+        Høgskolen i \n Ålesund
+    </string>
+    <string
+        name="postadresse">
+        \n
+        Postadresse: \n 
+        Høgskolen i Ålesund \n
+        Postboks 1517 \n
+        6025 Ålesund \n
+    </string>
+    <string
+        name="besøksadresse">
+        Besøks- og leveringsadresse: \n 
+        Larsgårdsvegen 2 \n
+        6009 Ålesund \n
+    </string>
+    <string
+        name="tlf">
+        Telefonnummer: \n 
+        +47 70 16 12 00 \n
+    </string>
+    <string
+        name="epost">
+        E-post: \n 
+        postmottak@hials.no \n
+    </string>
 </resources>

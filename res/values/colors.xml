@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color
+        name="logo_color">#99CCFF</color>
+    <color
+        name="version_color">#000000</color>
+</resources>
