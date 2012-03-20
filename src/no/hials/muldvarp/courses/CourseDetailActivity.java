@@ -1,6 +1,7 @@
 package no.hials.muldvarp.courses;
 
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.ProgressDialog;
 import android.content.*;
 import android.os.AsyncTask;
@@ -135,14 +136,16 @@ public class CourseDetailActivity extends FragmentActivity {
         protected void onPostExecute(Course c) {            
             activeCourse = c;
             
-            //CourseDetailWorkFragment workFragment = (CourseDetailWorkFragment)cdwf.getFragment();
-            //workFragment.ready();
-//            CourseDetailWorkFragment work = (CourseDetailWorkFragment)pager.getTab(0);
-//            work.ready();
-//            CourseDetailHandinsFragment handin = (CourseDetailHandinsFragment)pager.getTab(1);
-//            handin.ready();
-//            CourseDetailExamFragment exam = (CourseDetailExamFragment)pager.getTab(2);
-            //exam.ready();
+//            CourseDetailWorkFragment workFragment = (CourseDetailWorkFragment)cdwf.getFragment();
+//            workFragment.ready();
+            CourseDetailWorkFragment work = (CourseDetailWorkFragment)pager.getTab(0);
+            work.ready(c);
+            
+            CourseDetailHandinsFragment handin = (CourseDetailHandinsFragment)pager.getTab(1);
+            handin.ready(c);
+            
+            CourseDetailExamFragment exam = (CourseDetailExamFragment)pager.getTab(2);
+            exam.ready(c);
             
             dialog.dismiss();
         }
