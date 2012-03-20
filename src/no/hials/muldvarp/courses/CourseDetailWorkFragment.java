@@ -4,13 +4,10 @@
  */
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.domain.Course;
-import no.hials.muldvarp.domain.Task;
-import no.hials.muldvarp.domain.Theme;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +18,9 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.domain.Task;
+import no.hials.muldvarp.domain.Theme;
 
 /**
  *

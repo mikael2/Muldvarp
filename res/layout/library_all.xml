@@ -2,136 +2,15 @@
 <LinearLayout android:id="@+id/LinearLayout01"
               android:layout_width="fill_parent" android:layout_height="fill_parent"
               xmlns:android="http://schemas.android.com/apk/res/android">
-                  
-<ScrollView android:id="@+id/ScrollView01"
-            android:layout_width="fill_parent" 
-            android:layout_height="fill_parent">
                 
-<GridLayout android:id="@+id/allGrid"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:columnCount="2">
-                
-                
-                <Button     android:id="@+id/libraryitem1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
- <!--           <Button     android:id="@+id/libraryitem4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/>
-            
-            <Button     android:id="@+id/libraryitem13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:drawableTop="@drawable/book_icon"
-            android:background="@android:color/transparent"
-            android:paddingTop="32sp"
-            android:text="Item"/> -->
-                
-</GridLayout>
-                
+<GridView android:id="@+id/allGrid"
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent"
+        android:columnWidth="90dp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"/>
 
-</ScrollView>
 </LinearLayout>

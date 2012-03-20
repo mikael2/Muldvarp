@@ -4,8 +4,6 @@
  */
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.utility.DrawableManager;
-import no.hials.muldvarp.domain.Course;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +14,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.utility.DrawableManager;
 
 /**
  *

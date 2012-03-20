@@ -4,10 +4,8 @@
  */
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.domain.Course;
-import no.hials.muldvarp.domain.Exam;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.domain.Exam;
 
 /**
  *
@@ -33,15 +33,17 @@ public class CourseDetailExamFragment extends Fragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.course_exam, container, false);
-        
-        String examinfo = "For å melde deg til eksamen må du gjøre blablablablabalb blablablalb balblablbaal";
-
-        TextView examtext = (TextView)fragmentView.findViewById(R.id.text);
-        examtext.setText(examinfo);
-        
-        listview = (ListView)fragmentView.findViewById(R.id.listview);
-        
+        if(fragmentView == null) {
+            fragmentView = inflater.inflate(R.layout.course_exam, container, false);
+            String examinfo = "For å melde deg til eksamen må du gjøre blablablablabalb blablablalb balblablbaal";
+            TextView examtext = (TextView)fragmentView.findViewById(R.id.text);
+            examtext.setText(examinfo);
+            listview = (ListView)fragmentView.findViewById(R.id.listview);
+        }
+        return fragmentView;
+    }
+    
+    public void ready() {
         if(c == null) {
             CourseDetailActivity activity = (CourseDetailActivity)CourseDetailExamFragment.this.getActivity();
             c = activity.getActiveCourse();
@@ -55,11 +57,5 @@ public class CourseDetailExamFragment extends Fragment {
                     R.layout.course_handin_list_item,
                     R.id.name,
                     exams));
-        
-        return fragmentView;
-    }
-    
-    public void ready() {
-        
     }
 }

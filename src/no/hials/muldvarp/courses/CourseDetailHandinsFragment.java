@@ -4,16 +4,16 @@
  */
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.domain.Course;
-import no.hials.muldvarp.domain.ObligatoryTask;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.domain.ObligatoryTask;
 
 /**
  *
@@ -32,10 +32,14 @@ public class CourseDetailHandinsFragment extends Fragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.course_handin, container, false);
-        
-        listview = (ListView)fragmentView.findViewById(R.id.listview);
-        
+        if(fragmentView == null) {
+            fragmentView = inflater.inflate(R.layout.course_handin, container, false);
+            listview = (ListView)fragmentView.findViewById(R.id.listview);
+        }
+        return fragmentView;
+    }
+    
+    public void ready() {
         if(c == null) {
             CourseDetailActivity activity = (CourseDetailActivity)CourseDetailHandinsFragment.this.getActivity();
             c = activity.getActiveCourse();
@@ -49,12 +53,6 @@ public class CourseDetailHandinsFragment extends Fragment {
                     R.layout.course_handin_list_item,
                     R.id.name,
                     tasks));
-        
-        return fragmentView;
-    }
-    
-    public void ready() {
-        
     }
 }
 
