@@ -43,7 +43,13 @@ public class CourseDetailWorkFragment extends Fragment {
             fragmentView = inflater.inflate(R.layout.course_work, container, false);
             listview = (ExpandableListView)fragmentView.findViewById(R.id.listview);
         //}
-            
+        
+        return fragmentView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if(c != null) {
             ArrayList<Theme> themes = c.getThemes();
             ArrayList<ArrayList<Task>> allTasks = new ArrayList<ArrayList<Task>>();
@@ -58,7 +64,6 @@ public class CourseDetailWorkFragment extends Fragment {
             TaskAdapter adapter = new TaskAdapter(fragmentView.getContext(), themes, allTasks);
             listview.setAdapter(adapter);
         }
-        return fragmentView;
     }
     
     public void ready(Course course) {

@@ -217,6 +217,7 @@ public class CourseActivity extends Activity {
             unbindService(mConnection);
             mBound = false;
         }
+        mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 
     public Boolean getIsGrid() {
