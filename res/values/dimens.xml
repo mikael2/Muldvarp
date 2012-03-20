@@ -3,7 +3,7 @@
     <dimen
         name="logo_size">15pt</dimen>
     <dimen
-        name="version_size">5pt</dimen>
+        name="text_size">6pt</dimen>
     <dimen
-        name="version_spacing">3pt</dimen>
+        name="text_spacing">3pt</dimen>
 </resources>
