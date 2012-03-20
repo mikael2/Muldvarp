@@ -39,19 +39,34 @@ public class CourseDetailWorkFragment extends Fragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(fragmentView == null) {
+        //if(fragmentView == null) {
             fragmentView = inflater.inflate(R.layout.course_work, container, false);
             listview = (ExpandableListView)fragmentView.findViewById(R.id.listview);
+        //}
+            
+        if(c != null) {
+            ArrayList<Theme> themes = c.getThemes();
+            ArrayList<ArrayList<Task>> allTasks = new ArrayList<ArrayList<Task>>();
+            for(Theme theme : themes){
+                ArrayList<Task> tasks = new ArrayList<Task>();
+                for(Task task : theme.getTasks()) {
+                    tasks.add(task);
+                }
+                allTasks.add(tasks);
+            }
+
+            TaskAdapter adapter = new TaskAdapter(fragmentView.getContext(), themes, allTasks);
+            listview.setAdapter(adapter);
         }
         return fragmentView;
     }
     
-    public void ready() {
-        if(c == null) {
-            CourseDetailActivity activity = (CourseDetailActivity)CourseDetailWorkFragment.this.getActivity();
-            c = activity.getActiveCourse();
-        }
-        
+    public void ready(Course course) {
+//        if(c == null) {
+////            CourseDetailActivity activity = (CourseDetailActivity)CourseDetailWorkFragment.this.getActivity();
+////            c = activity.getActiveCourse();
+//        }
+        this.c = course;
         ArrayList<Theme> themes = c.getThemes();
         ArrayList<ArrayList<Task>> allTasks = new ArrayList<ArrayList<Task>>();
         for(Theme theme : themes){

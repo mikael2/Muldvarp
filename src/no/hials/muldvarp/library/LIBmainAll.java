@@ -40,9 +40,10 @@ private GridLibraryAdapter g;
         return mainV;
     }
      
-     public void itemsReady(List l){
-         g = new GridLibraryAdapter(mainV.getContext(), R.layout.library_adapter_grid, R.id.courselisttext, l, false);
-         GridView grid = (GridView)mainV.findViewById(R.id.allGrid);
+     public void itemsReady(List l) {
+        
+         g = new GridLibraryAdapter(getActivity(), R.layout.library_adapter_grid, R.id.courselisttext, l, false);
+         GridView grid = (GridView)getView().findViewById(R.id.allGrid);
          grid.setAdapter(g);
          
          grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
