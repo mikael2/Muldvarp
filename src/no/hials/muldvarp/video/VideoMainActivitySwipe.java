@@ -73,7 +73,7 @@ public class VideoMainActivitySwipe extends FragmentActivity{
         //Instantiate TabListener
         TabListener videoTabListener = new VideoTabListener(fragmentPager, fragmentPager, resourceList);
         
-        
+        //Add tabs along with VideoTabListener
         fragmentPager.addTab(TAB1, CustomListFragmentSwipe.class, videoTabListener);
         fragmentPager.addTab(TAB2, CustomListFragmentSwipe.class, videoTabListener);
         fragmentPager.addTab(TAB3, CustomListFragmentSwipe.class, videoTabListener);

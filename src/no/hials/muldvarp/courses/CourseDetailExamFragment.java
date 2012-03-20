@@ -52,6 +52,21 @@ public class CourseDetailExamFragment extends Fragment {
         }
         return fragmentView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (c != null) {
+            ArrayList<Exam> exams = c.getExams();
+
+            listview.setAdapter(
+                new CourseDetailExamListAdapter(
+                        fragmentView.getContext(),
+                        R.layout.course_handin_list_item,
+                        R.id.name,
+                        exams));
+        }
+    }
     
     public void ready(Course course) {
 //        if(c == null) {

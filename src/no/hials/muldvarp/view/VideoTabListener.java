@@ -19,7 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * TabListener for the VideoMainActivity. Includes functionality for making asynchronous web requests.
+ * TabListener for the VideoMainActivity. Includes functionality retrieving data from a web resource by making asynchronous HTTP requests.
  * 
  * 
  * @author johan
@@ -268,7 +268,7 @@ public class VideoTabListener implements ActionBar.TabListener {
                             currentObject.getString("videoDescription"),
                             "Video",
                             null,
-                            currentObject.getString("videoURL")));
+                            currentObject.getString("videoURI")));
 
                 }
 

@@ -15,11 +15,10 @@
             android:layout_marginBottom="10dp">
                 
                 
-                <ImageView  
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"      
-                android:scaleType="center"
-                android:src="@drawable/monitor" />
+                <VideoView
+                android:id="@+id/myvideoview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
                 
                 <Button android:id="@+id/youtubeapp"
                 android:layout_width="fill_parent"

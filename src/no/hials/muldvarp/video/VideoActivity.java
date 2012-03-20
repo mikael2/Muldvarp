@@ -10,7 +10,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Video;
 
@@ -47,7 +49,12 @@ public class VideoActivity extends Activity {
         videoURL = extras.getString("videoURL");
         
         //Print some stuff based on extras from previous activity
-        
+        String SrcPath = "http://daily3gp.com/vids/747.3gp";
+        VideoView myVideoView = (VideoView)findViewById(R.id.myvideoview);
+        myVideoView.setVideoURI(Uri.parse(SrcPath));
+        myVideoView.setMediaController(new MediaController(this));
+        myVideoView.requestFocus();
+        myVideoView.start();
         
         //Create button for youtube
         Button youtubeButton = (Button) findViewById(R.id.youtubeapp);
@@ -59,11 +66,6 @@ public class VideoActivity extends Activity {
                 
             }
         });       
-        
-        
-        System.out.println(videoID);
-        System.out.println(videoName);
-        System.out.println(videoDescription);
         
         //Video ID
         TextView textVideoID = (TextView) findViewById(R.id.videoID);

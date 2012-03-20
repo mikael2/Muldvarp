@@ -182,5 +182,6 @@ public class CourseDetailActivity extends FragmentActivity {
             unbindService(mConnection);
             mBound = false;
         }
+        mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 }

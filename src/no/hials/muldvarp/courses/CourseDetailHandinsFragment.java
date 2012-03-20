@@ -49,6 +49,21 @@ public class CourseDetailHandinsFragment extends Fragment {
             }
         return fragmentView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(c != null) {
+            ArrayList<ObligatoryTask> tasks = c.getObligatoryTasks();
+
+        listview.setAdapter(
+            new CourseDetailHandinListAdapter(
+                    fragmentView.getContext(),
+                    R.layout.course_handin_list_item,
+                    R.id.name,
+                    tasks));
+        }
+    }    
     
     public void ready(Course course) {
 //        if(c == null) {
