@@ -59,6 +59,14 @@ public class CourseListFragment extends Fragment {
         
         return fragmentView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(items != null) {
+            itemsReady();
+        }
+    }
     
     public void itemsReady() {
         

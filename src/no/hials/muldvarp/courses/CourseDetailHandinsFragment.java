@@ -32,18 +32,45 @@ public class CourseDetailHandinsFragment extends Fragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(fragmentView == null) {
+        //if(fragmentView == null) {
             fragmentView = inflater.inflate(R.layout.course_handin, container, false);
             listview = (ListView)fragmentView.findViewById(R.id.listview);
-        }
+        //}
+            
+            if(c != null) {
+                ArrayList<ObligatoryTask> tasks = c.getObligatoryTasks();
+            
+            listview.setAdapter(
+                new CourseDetailHandinListAdapter(
+                        fragmentView.getContext(),
+                        R.layout.course_handin_list_item,
+                        R.id.name,
+                        tasks));
+            }
         return fragmentView;
     }
-    
-    public void ready() {
-        if(c == null) {
-            CourseDetailActivity activity = (CourseDetailActivity)CourseDetailHandinsFragment.this.getActivity();
-            c = activity.getActiveCourse();
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(c != null) {
+            ArrayList<ObligatoryTask> tasks = c.getObligatoryTasks();
+
+        listview.setAdapter(
+            new CourseDetailHandinListAdapter(
+                    fragmentView.getContext(),
+                    R.layout.course_handin_list_item,
+                    R.id.name,
+                    tasks));
         }
+    }    
+    
+    public void ready(Course course) {
+//        if(c == null) {
+////            CourseDetailActivity activity = (CourseDetailActivity)CourseDetailHandinsFragment.this.getActivity();
+////            c = activity.getActiveCourse();
+//        }
+        this.c = course;
         
         ArrayList<ObligatoryTask> tasks = c.getObligatoryTasks();
             
