@@ -87,7 +87,8 @@ public class ListViewAdapter extends ArrayAdapter {
             holder.detail.setText(listItem.getSmallDetail());
         }
                 
-//        holder.icon.setImageBitmap(c.getThumb());
+        //Set icon
+        holder.icon.setImageResource(R.drawable.monitor);
         
         return convertView;
     }

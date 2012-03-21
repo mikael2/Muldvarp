@@ -93,10 +93,7 @@ public class VideoTabListener implements ActionBar.TabListener {
      * @param tab
      * @param fragmentTransaction 
      */
-    public void onTabUnselected(Tab tab, FragmentTransaction fragmentTransaction) {
-        
-        
-        
+    public void onTabUnselected(Tab tab, FragmentTransaction fragmentTransaction) {        
         
         if(userListener != null){
             
