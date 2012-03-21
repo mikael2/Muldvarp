@@ -175,9 +175,7 @@ public class VideoTabListener implements ActionBar.TabListener {
      * 
      * @param itemType The type of item.
      */
-    public void getItemsFromWebResource() {
-        
-        
+    public void getItemsFromWebResource() {       
         //Define handler
         //Defines what should happen depending on the returned message.
         handler = new Handler() {

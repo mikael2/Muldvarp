@@ -4,8 +4,6 @@
  */
 package no.hials.muldvarp.video;
 
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -92,21 +90,21 @@ public class CustomListFragmentSwipe extends Fragment {
                 } else {
                 
                 
-                Video selectedItem = (Video) currentListItems.get(itemPosition);
-                
-                
-                //Create new Intent along with data to be passed on
-                //Should be changed to only supply ID and let the VideoActivity take care of the rest
-                Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
-//                Intent newIntent = new Intent(view.getContext().getApplicationContext(), DSA.class);
-                newIntent.putExtra("videoID", selectedItem.getVideoID());
-                newIntent.putExtra("videoName", selectedItem.getItemName());
-                newIntent.putExtra("smallDetail", selectedItem.getSmallDetail());
-                newIntent.putExtra("itemDescription", selectedItem.getItemDescription());
-                newIntent.putExtra("videoURL", selectedItem.getVideoURL());
-                
-                //Start Activity
-                startActivityForResult(newIntent, 0);
+                    Video selectedItem = (Video) currentListItems.get(itemPosition);
+
+
+                    //Create new Intent along with data to be passed on
+                    //Should be changed to only supply ID and let the VideoActivity take care of the rest
+                    Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
+    //                Intent newIntent = new Intent(view.getContext().getApplicationContext(), DSA.class);
+                    newIntent.putExtra("videoID", selectedItem.getVideoID());
+                    newIntent.putExtra("videoName", selectedItem.getItemName());
+                    newIntent.putExtra("smallDetail", selectedItem.getSmallDetail());
+                    newIntent.putExtra("itemDescription", selectedItem.getItemDescription());
+                    newIntent.putExtra("videoURL", selectedItem.getVideoURL());
+
+                    //Start Activity
+                    startActivityForResult(newIntent, 0);
                 
                 }
             }
