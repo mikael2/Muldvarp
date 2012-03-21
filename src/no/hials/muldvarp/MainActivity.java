@@ -18,6 +18,9 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        //Set activity title to be displayed in the top bar.
+        setTitle("Muldvarp");
+        
         ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);  

@@ -5,6 +5,9 @@
 package no.hials.muldvarp.video;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +32,11 @@ public class VideoActivity extends Activity {
     String videoURL;
     
     
+    //TEST
+    static final int OPTION1 = 0;
+    static final int OPTION2 = 1;
+    
+    
     /**
      * Called when the activity is first created.
      */
@@ -48,13 +56,25 @@ public class VideoActivity extends Activity {
         videoDescription = extras.getString("itemDescription");
         videoURL = extras.getString("videoURL");
         
-        //Print some stuff based on extras from previous activity
+        //Set activity title to be displayed in the top bar.
+        setTitle(videoName);
+        
+        
         String SrcPath = "http://daily3gp.com/vids/747.3gp";
         VideoView myVideoView = (VideoView)findViewById(R.id.myvideoview);
+//        myVideoView.setVisibility(1);
+//        myVideoView.requestFocus();
+        MediaController mediaController = new MediaController(this);
+//        mediaController.setAnchorView(myVideoView);
         myVideoView.setVideoURI(Uri.parse(SrcPath));
-        myVideoView.setMediaController(new MediaController(this));
-        myVideoView.requestFocus();
+        myVideoView.setMediaController(mediaController);
+        
         myVideoView.start();
+        
+        
+        //Print some stuff based on extras from previous activity
+ 
+        
         
         //Create button for youtube
         Button youtubeButton = (Button) findViewById(R.id.youtubeapp);
@@ -80,7 +100,6 @@ public class VideoActivity extends Activity {
         TextView textVideoDescription = (TextView) findViewById(R.id.videodescription);
         textVideoDescription.setText(videoDescription);
                 
-        
         
     }
     
@@ -117,8 +136,34 @@ public class VideoActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.menu_download:
                 
-                Toast.makeText(this, "Downloading video...", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Downloading video...", Toast.LENGTH_SHORT).show();
                 
+                
+                final CharSequence[] items = {"Yes", "No"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Download this video?");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        
+                        switch(item) {
+                            
+                            case 0:
+                                Toast.makeText(getApplicationContext(), "Download not yet implemented", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 1:
+                                Toast.makeText(getApplicationContext(), "Downlad wasn't implemented anyway.", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(getApplicationContext(), "You dun goofed", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                        
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+                System.out.println("IT WORKS?");
                 
                 //NYI
                 return true;
@@ -139,6 +184,28 @@ public class VideoActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog = null;
+        switch(id) {
+            case OPTION1:
+                // do the work to define the pause Dialog
+                break;
+            case OPTION2:
+                // do the work to define the game over Dialog
+                break;
+            default:
+                dialog = null;
+        }
+        return dialog;
+}
+    
+    
+    
+    
+    
     
     /**
      * This function sets an onClickListener for a button resource, where the supplied
