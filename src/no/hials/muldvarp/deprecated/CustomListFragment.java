@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.video;
+package no.hials.muldvarp.deprecated;
 
 
 import android.app.Fragment;
@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.ListViewAdapter;
+import no.hials.muldvarp.video.VideoActivity;
+import no.hials.muldvarp.video.VideoCourseActivity;
 
 /**
  * Fragment defining a list. 

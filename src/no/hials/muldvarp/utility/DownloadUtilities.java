@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.video.CustomListFragment;
+import no.hials.muldvarp.deprecated.CustomListFragment;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;

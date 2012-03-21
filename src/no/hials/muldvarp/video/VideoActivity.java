@@ -8,10 +8,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Video;
@@ -88,6 +92,56 @@ public class VideoActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+    }
+    
+    /**
+     * This is called once the options menu is first displayed.
+     * This is an overridden method.
+     * 
+     * @param menu The Menu where items are placed.
+     * @return 
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.video_activity, menu);
+        return true;
+    }
+    
+    /**
+     * This method is called whenever an item in the options menu is selected.
+     * 
+     * This is an overridden method.
+     * 
+     * @param item The item that was selected.
+     * @return 
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_download:
+                
+                Toast.makeText(this, "Downloading video...", Toast.LENGTH_SHORT).show();
+                
+                
+                //NYI
+                return true;
+                
+            case R.id.menu_favourite:
+                
+                Toast.makeText(this, "Video added to favourites!", Toast.LENGTH_SHORT).show();
+                
+                //NYI
+                return true;
+            case R.id.menu_settings:
+                
+                Toast.makeText(this, "Menu clicked.", Toast.LENGTH_SHORT).show();
+                
+                //NYI
+                return true;    
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
     /**
