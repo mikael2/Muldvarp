@@ -59,8 +59,10 @@ public class VideoActivity extends Activity {
         //Set activity title to be displayed in the top bar.
         setTitle(videoName);
         
+        String xmlyoutubePath = "http://gdata.youtube.com/feeds/mobile/videos/";
         
-        String SrcPath = "http://daily3gp.com/vids/747.3gp";
+//        String SrcPath = "http://daily3gp.com/vids/747.3gp";
+        String SrcPath = "rtsp://v6.cache8.c.youtube.com/CjYLENy73wIaLQmCMG2_mc1LUhMYJCAkFEIJbXYtZ29vZ2xlSARSBXdhdGNoYJ2fi6OQ3Pi0Tww=/0/0/0/video.3gp";
         VideoView myVideoView = (VideoView)findViewById(R.id.myvideoview);
 //        myVideoView.setVisibility(1);
 //        myVideoView.requestFocus();
