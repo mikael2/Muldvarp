@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import no.hials.muldvarp.entities.Course;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.AsyncHTTPRequest;
-import no.hials.muldvarp.video.CustomListFragmentSwipe;
 import no.hials.muldvarp.view.FragmentPager;
 import org.json.JSONArray;
 import org.json.JSONObject;

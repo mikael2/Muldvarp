@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="serverPath">http://master.uials.no:8080/muldvarp/</string>
+    <string name="courseResPath">resources/video/</string>
     <string name="courseResPath">resources/course/</string>
     <string name="libraryResPath">resources/Library/</string>
 </resources>
