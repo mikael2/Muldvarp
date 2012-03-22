@@ -58,22 +58,18 @@ public class CustomListFragmentSwipe extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        
+        super.onCreate(savedInstanceState);       
         
         //Set View and layout, using LayoutInflater to inflate layout form a XML-resource
         //The XML is located in /layout/--XML
         View returnFragmentView = inflater.inflate(R.layout.layout_listview, container, false);
         
          //Get ListView
-        listView = (ListView)returnFragmentView.findViewById(R.id.layoutlistview);  
-        
+        listView = (ListView)returnFragmentView.findViewById(R.id.layoutlistview);          
         
         //Set filterText and add listener
         filterText = (EditText)returnFragmentView.findViewById(R.id.search_box);
-        filterText.addTextChangedListener(filterTextWatcher);
-               
+        filterText.addTextChangedListener(filterTextWatcher);               
         
         //Set onItemClickListener
         //Defines what happens when an item in the list is "clicked"        
@@ -114,8 +110,7 @@ public class CustomListFragmentSwipe extends Fragment {
                
         return returnFragmentView;
         
-    }   
-    
+    }       
     
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -131,9 +126,7 @@ public class CustomListFragmentSwipe extends Fragment {
     public void setViewName(String viewName) {
         
         this.viewName = viewName;
-    }
-    
-    
+    }   
     
     public void getAdapter(ArrayList itemList) {
         
@@ -147,9 +140,7 @@ public class CustomListFragmentSwipe extends Fragment {
         //Set ListViewAdapter
         listView.setAdapter(adapter);  
         
-    }
-    
-    
+    }   
 
     /**
      * Function which returns the fragment name.
@@ -159,7 +150,6 @@ public class CustomListFragmentSwipe extends Fragment {
     public String getFragmentName() {
         return fragmentName;
     }
-
     
     /**
      * Function which sets the fragment name.

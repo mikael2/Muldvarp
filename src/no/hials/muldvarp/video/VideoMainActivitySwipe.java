@@ -72,6 +72,7 @@ public class VideoMainActivitySwipe extends FragmentActivity{
         resourceList.add(videoURL);
         resourceList.add(courseURL);
         resourceList.add(videoURL);
+        resourceList.add(videoURL);
         
         //Instantiate TabListener
         TabListener videoTabListener = new VideoTabListener(fragmentPager, fragmentPager, resourceList);
