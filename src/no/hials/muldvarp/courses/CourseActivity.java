@@ -54,12 +54,6 @@ public class CourseActivity extends Activity {
         CourseListFragment = new CourseListFragment();        
         addDynamicFragment(CourseListFragment);
         
-//        if(listform.equals("list")) {
-//            addDynamicFragment(CourseListFragment);
-//        } else if(listform.equals("grid")) {
-//            addDynamicFragment(CourseGridFragment);
-//        }
-        
         if(savedInstanceState == null) {
             dialog = new ProgressDialog(CourseActivity.this);
             dialog.setMessage(getString(R.string.loading));
@@ -217,10 +211,16 @@ public class CourseActivity extends Activity {
             unbindService(mConnection);
             mBound = false;
         }
-        mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 
     public Boolean getIsGrid() {
         return isGrid;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mLocalBroadcastManager != null)
+            mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 }
