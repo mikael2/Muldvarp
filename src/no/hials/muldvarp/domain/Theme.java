@@ -30,13 +30,16 @@ public class Theme {
     public Integer getCompletion() {
         Integer numberOfTasks = 0;
         Integer completedTasks = 0;
+        Integer completion = 100;
         for(Task task : tasks) {
             numberOfTasks++;
             if(task.getDone() == true) {
                 completedTasks++;
             }
         }
-        Integer completion = (completedTasks*100)/numberOfTasks;
+        if(numberOfTasks != 0) {
+            completion = (completedTasks*100)/numberOfTasks;
+        }
         return completion;
     }
 

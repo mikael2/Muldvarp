@@ -24,7 +24,13 @@ public class DownloadTask extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... params) {
-        File f = new File(ctx.getCacheDir(), params[1]);
+        File f = null;
+        if(params.length == 3) {
+            f = new File(ctx.getCacheDir(), params[1]+params[2]);
+        }
+        else {
+            f = new File(ctx.getCacheDir(), params[1]);
+        }
         if (System.currentTimeMillis() - f.lastModified() > ctx.getResources().getInteger(R.integer.cacheTime)) {  // funka ditta skikkelig?
             try {
                 DownloadUtilities.cacheThis(new InputStreamReader(DownloadUtilities.getJSONData(params[0])), f);

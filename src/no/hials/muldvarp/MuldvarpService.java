@@ -81,7 +81,7 @@ public class MuldvarpService extends Service {
     public void requestCourse(Integer id) {
         new DownloadTask(this,new Intent(ACTION_SINGLECOURSE_UPDATE))
                 .execute(getURL(R.string.courseResPath) + id.toString(),
-                         getString(R.string.cacheCourseSingle));        
+                         getString(R.string.cacheCourseSingle), id.toString());        
     }
     
     public void requestLibrary(){

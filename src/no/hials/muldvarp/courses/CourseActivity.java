@@ -155,13 +155,11 @@ public class CourseActivity extends Activity {
     private class getItemsFromCache extends AsyncTask<String, Void, List<Course>> {       
         
         protected List<Course> doInBackground(String... urls) {
-            //ArrayList<Course> items = new ArrayList<Course>();
             List<Course> items = null;
             try {
                 File f = new File(getCacheDir(), urls[0]);
                 Type collectionType = new TypeToken<List<Course>>(){}.getType();
-                items = DownloadUtilities.buildGson().fromJson(new FileReader(f), collectionType);
-                //items = (ArrayList<Course>)result.course;
+                items = DownloadUtilities.buildGson().fromJson(new FileReader(f), collectionType);                
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(CourseActivity.class.getName()).log(Level.SEVERE, null, ex);
             }
