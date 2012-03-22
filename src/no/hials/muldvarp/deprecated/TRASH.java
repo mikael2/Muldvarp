@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.video;
+package no.hials.muldvarp.deprecated;
 
 import android.os.Handler;
 import android.os.Message;

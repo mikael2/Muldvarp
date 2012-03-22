@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.view;
+package no.hials.muldvarp.video;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import no.hials.muldvarp.entities.Course;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.AsyncHTTPRequest;
-import no.hials.muldvarp.video.CustomListFragmentSwipe;
+import no.hials.muldvarp.view.FragmentPager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -93,10 +93,7 @@ public class VideoTabListener implements ActionBar.TabListener {
      * @param tab
      * @param fragmentTransaction 
      */
-    public void onTabUnselected(Tab tab, FragmentTransaction fragmentTransaction) {
-        
-        
-        
+    public void onTabUnselected(Tab tab, FragmentTransaction fragmentTransaction) {        
         
         if(userListener != null){
             

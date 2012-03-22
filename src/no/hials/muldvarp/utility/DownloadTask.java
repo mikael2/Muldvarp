@@ -8,7 +8,6 @@ import android.util.Log;
 import java.io.File;
 import java.io.InputStreamReader;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**
  *

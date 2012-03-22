@@ -12,6 +12,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 /**
@@ -88,13 +89,17 @@ public class AsyncHTTPRequest implements Runnable{
     }
     
     /**
-     * NYI
+     * Implemented
      * 
      * @param url
      * @param data 
      */
     public void httpPost(String url, String data) {
         
+        this.method = POST;
+        this.url = url;
+        Thread thread = new Thread(this);
+        thread.start();
     }
     
     /**
@@ -183,7 +188,8 @@ public class AsyncHTTPRequest implements Runnable{
                     
                  case POST:
 
-                    //TODO: Implement POST functionality
+                    HttpPost httpPost = new HttpPost(url);
+                    httpResponse = httpClient.execute(httpPost);
                     break;
                      
                  case PUT:

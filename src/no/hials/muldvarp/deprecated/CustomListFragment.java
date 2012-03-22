@@ -2,13 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.video;
+package no.hials.muldvarp.deprecated;
 
 
-
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -22,14 +21,15 @@ import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.ListViewAdapter;
+import no.hials.muldvarp.video.VideoActivity;
+import no.hials.muldvarp.video.VideoCourseActivity;
 
 /**
- * Fragment defining a list. The difference between this class and CustomListFragement is the version of Fragment that is extended, in
- * addition to other changes to make swiping possible.
+ * Fragment defining a list. 
  * 
  * @author johan
  */
-public class CustomListFragmentSwipe extends Fragment {
+public class CustomListFragment extends Fragment {
     
     //Global variables
     String viewName = "";
@@ -40,6 +40,7 @@ public class CustomListFragmentSwipe extends Fragment {
     //Switches
     public boolean enableFilter = true;
     
+    //http://stackoverflow.com/questions/1737009/how-to-make-a-nice-looking-listview-filter-on-android
     //FilterText solution
     private EditText filterText = null;
     ListViewAdapter adapter;
@@ -51,7 +52,7 @@ public class CustomListFragmentSwipe extends Fragment {
 
         
     /**
-     * Creates the view when called.
+     * Called when the activity is first created.
      *  
      * @param inflater
      * @param container
@@ -98,7 +99,6 @@ public class CustomListFragmentSwipe extends Fragment {
                 //Create new Intent along with data to be passed on
                 //Should be changed to only supply ID and let the VideoActivity take care of the rest
                 Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
-//                Intent newIntent = new Intent(view.getContext().getApplicationContext(), DSA.class);
                 newIntent.putExtra("videoID", selectedItem.getVideoID());
                 newIntent.putExtra("videoName", selectedItem.getItemName());
                 newIntent.putExtra("smallDetail", selectedItem.getSmallDetail());
@@ -116,7 +116,8 @@ public class CustomListFragmentSwipe extends Fragment {
                
         return returnFragmentView;
         
-    }   
+    }
+    
     
     
     @Override
@@ -196,9 +197,7 @@ public class CustomListFragmentSwipe extends Fragment {
             
             //Set adapter for use by the Filter function
             adapter = (ListViewAdapter) listView.getAdapter();
-            if(adapter != null){
-                adapter.filter(s);
-            }
+            adapter.filter(s);
         }
     };
     

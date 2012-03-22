@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.Menu;
+import android.view.MenuInflater;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.view.FragmentPager;
-import no.hials.muldvarp.view.VideoTabListener;
 
 /**
  * Class defining the Video-activity. It contains methods to create and retrieve
@@ -50,6 +51,8 @@ public class VideoMainActivitySwipe extends FragmentActivity{
         //Set layout from video_main.xml using muldvarp.R
         setContentView(R.layout.directory);
 
+        //Set activity title to be displayed in the top bar.
+        setTitle("Video");
 
         //Use ActionBar and configure the actionbar
         actionBar = getActionBar();
@@ -92,6 +95,19 @@ public class VideoMainActivitySwipe extends FragmentActivity{
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
 
+    /**
+     * This is called once the options menu is first displayed.
+     * This is an overridden method.
+     * 
+     * @param menu The Menu where items are placed.
+     * @return 
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.video_mainactivity, menu);
+        return true;
+    }
     
     
         

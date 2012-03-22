@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.view;
+package no.hials.muldvarp.video;
 
 import android.app.ActionBar;
 import android.support.v4.view.ViewPager.OnPageChangeListener;

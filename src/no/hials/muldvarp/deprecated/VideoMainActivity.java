@@ -1,4 +1,4 @@
-package no.hials.muldvarp.video;
+package no.hials.muldvarp.deprecated;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;

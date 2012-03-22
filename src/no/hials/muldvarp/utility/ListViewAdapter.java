@@ -4,7 +4,6 @@
  */
 package no.hials.muldvarp.utility;
 
-import no.hials.muldvarp.video.*;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Course;
 import no.hials.muldvarp.entities.ListItem;
 
 /**
@@ -89,7 +87,8 @@ public class ListViewAdapter extends ArrayAdapter {
             holder.detail.setText(listItem.getSmallDetail());
         }
                 
-//        holder.icon.setImageBitmap(c.getThumb());
+        //Set icon
+        holder.icon.setImageResource(R.drawable.monitor);
         
         return convertView;
     }
