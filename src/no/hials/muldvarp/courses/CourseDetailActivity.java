@@ -1,7 +1,6 @@
 package no.hials.muldvarp.courses;
 
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
 import android.app.ProgressDialog;
 import android.content.*;
 import android.os.AsyncTask;
@@ -45,6 +44,7 @@ public class CourseDetailActivity extends FragmentActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_detail);
+        id = getIntent().getIntExtra("id", 0);
         
         if(savedInstanceState == null) {
             dialog = new ProgressDialog(CourseDetailActivity.this);
@@ -65,12 +65,11 @@ public class CourseDetailActivity extends FragmentActivity {
                     if (intent.getAction().compareTo(MuldvarpService.ACTION_SINGLECOURSE_UPDATE) == 0) {                    
                         System.out.println("Toasting" + intent.getAction());
                         Toast.makeText(context, "Course updated", Toast.LENGTH_LONG).show();
-                        new GetCourseFromCache().execute(getString(R.string.cacheCourseSingle));
+                        new GetCourseFromCache().execute(getString(R.string.cacheCourseSingle),id.toString());
                     } 
                 }
             };
             mLocalBroadcastManager.registerReceiver(mReceiver, filter);
-            id = getIntent().getIntExtra("id", 0);
             Intent intent = new Intent(this, MuldvarpService.class);
             bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         }
@@ -124,7 +123,7 @@ public class CourseDetailActivity extends FragmentActivity {
 //                Reader json = new InputStreamReader(DownloadUtilities.getJSONData(url));
 //                c = DownloadUtilities.buildGson().fromJson(json, Course.class);
                 
-                File f = new File(getCacheDir(), urls[0]);
+                File f = new File(getCacheDir(), urls[0]+urls[1]);
                 c = DownloadUtilities.buildGson().fromJson(new FileReader(f), Course.class);
             }catch(Exception ex){
                 Logger.getLogger(CourseDetailActivity.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,6 +181,12 @@ public class CourseDetailActivity extends FragmentActivity {
             unbindService(mConnection);
             mBound = false;
         }
-        mLocalBroadcastManager.unregisterReceiver(mReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mLocalBroadcastManager != null)
+            mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 }

@@ -54,12 +54,6 @@ public class CourseActivity extends Activity {
         CourseListFragment = new CourseListFragment();        
         addDynamicFragment(CourseListFragment);
         
-//        if(listform.equals("list")) {
-//            addDynamicFragment(CourseListFragment);
-//        } else if(listform.equals("grid")) {
-//            addDynamicFragment(CourseGridFragment);
-//        }
-        
         if(savedInstanceState == null) {
             dialog = new ProgressDialog(CourseActivity.this);
             dialog.setMessage(getString(R.string.loading));
@@ -161,13 +155,11 @@ public class CourseActivity extends Activity {
     private class getItemsFromCache extends AsyncTask<String, Void, List<Course>> {       
         
         protected List<Course> doInBackground(String... urls) {
-            //ArrayList<Course> items = new ArrayList<Course>();
             List<Course> items = null;
             try {
                 File f = new File(getCacheDir(), urls[0]);
                 Type collectionType = new TypeToken<List<Course>>(){}.getType();
-                items = DownloadUtilities.buildGson().fromJson(new FileReader(f), collectionType);
-                //items = (ArrayList<Course>)result.course;
+                items = DownloadUtilities.buildGson().fromJson(new FileReader(f), collectionType);                
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(CourseActivity.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -217,10 +209,16 @@ public class CourseActivity extends Activity {
             unbindService(mConnection);
             mBound = false;
         }
-        mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 
     public Boolean getIsGrid() {
         return isGrid;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mLocalBroadcastManager != null)
+            mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 }
