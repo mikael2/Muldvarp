@@ -9,4 +9,7 @@
     <item android:id="@+id/menu_settings"
           android:iconifiedByDefault="false"
           android:title="@string/settings_name"/>
+    <item android:id="@+id/login"
+          android:iconifiedByDefault="false"
+          android:title="@string/login"/>      
 </menu>
