@@ -4,4 +4,6 @@
     <string name="videoResPath">resources/video/</string>
     <string name="courseResPath">resources/course/</string>
     <string name="libraryResPath">resources/Library/</string>
+    
+    <string name='youtubeFeeds'>http://gdata.youtube.com/feeds/api/videos</string>
 </resources>

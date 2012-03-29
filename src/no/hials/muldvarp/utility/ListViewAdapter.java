@@ -93,31 +93,31 @@ public class ListViewAdapter extends ArrayAdapter {
         return convertView;
     }
     
-    /**
-     * Function which filters out entries that don't match the supplied CharSequence
-     * 
-     * @param filter CharSequence 
-     */
-    public void filter(CharSequence filter) {
-        
-        ArrayList filtered = new ArrayList();
-        
-        for (ListItem listItem : (ArrayList<ListItem>)orig_items)
-        {
-            if (listItem.getItemName().toLowerCase().contains(filter.toString().toLowerCase()))
-            {
-                filtered.add(listItem);
-            }
-        }
-        
-        this.items = filtered;
-        
-        if("".equals(filter.toString())) {
-            this.items = (ArrayList) this.orig_items;
-        }
-        
-        notifyDataSetChanged();  
-    }
+//    /**
+//     * Function which filters out entries that don't match the supplied CharSequence
+//     * 
+//     * @param filter CharSequence 
+//     */
+//    public void filter(CharSequence filter) {
+//        
+//        ArrayList filtered = new ArrayList();
+//        
+//        for (ListItem listItem : (ArrayList<ListItem>)orig_items)
+//        {
+//            if (listItem.getItemName().toLowerCase().contains(filter.toString().toLowerCase()))
+//            {
+//                filtered.add(listItem);
+//            }
+//        }
+//        
+//        this.items = filtered;
+//        
+//        if("".equals(filter.toString())) {
+//            this.items = (ArrayList) this.orig_items;
+//        }
+//        
+//        notifyDataSetChanged();  
+//    }
 
     static class ViewHolder {
         ImageView icon;

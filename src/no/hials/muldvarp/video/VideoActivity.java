@@ -18,9 +18,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.AsyncHTTPRequest;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -35,9 +40,14 @@ public class VideoActivity extends Activity {
     String videoURL;
     
     
+    VideoView videoView;
+    
     //TEST
     static final int OPTION1 = 0;
     static final int OPTION2 = 1;
+    
+    //MORETEST
+    static String googleJSONQuery = "http://gdata.youtube.com/feeds/api/videos?alt=json&q=";
     
     
     /**
@@ -62,19 +72,17 @@ public class VideoActivity extends Activity {
         //Set activity title to be displayed in the top bar.
         setTitle(videoName);
         
-        String xmlyoutubePath = "http://gdata.youtube.com/feeds/mobile/videos/";
+//rtsp://v3.cache8.c.youtube.com/CiILENy73wIaGQkBRdI28FHBXhMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp
+        videoView = (VideoView)findViewById(R.id.myvideoview);
+//        videoView.setVisibility(1);
+//        videoView.requestFocus();
+        videoView.setVideoURI(Uri.parse("rtsp://v3.cache4.c.youtube.com/CjYLENy73wIaLQkBRdI28FHBXhMYJCAkFEIJbXYtZ29vZ2xlSARSBXdhdGNoYOWZlvT3jee4Tww=/0/0/0/video.3gp"));
+        MediaController mediaController = new MediaController(this);        
+        videoView.setMediaController(mediaController);
         
-//        String SrcPath = "http://daily3gp.com/vids/747.3gp";
-        String SrcPath = "rtsp://v6.cache8.c.youtube.com/CjYLENy73wIaLQmCMG2_mc1LUhMYJCAkFEIJbXYtZ29vZ2xlSARSBXdhdGNoYJ2fi6OQ3Pi0Tww=/0/0/0/video.3gp";
-        VideoView myVideoView = (VideoView)findViewById(R.id.myvideoview);
-//        myVideoView.setVisibility(1);
-//        myVideoView.requestFocus();
-        MediaController mediaController = new MediaController(this);
-//        mediaController.setAnchorView(myVideoView);
-        myVideoView.setVideoURI(Uri.parse(SrcPath));
-        myVideoView.setMediaController(mediaController);
         
-        myVideoView.start();
+        videoView.start();
+//        get3gp(videoURL);
         
         
         //Print some stuff based on extras from previous activity
@@ -207,6 +215,87 @@ public class VideoActivity extends Activity {
         return dialog;
 }
 
+    
+    public void startVideo(String srcPath) {
+        
+        videoView.setVideoURI(Uri.parse("rtsp://v3.cache8.c.youtube.com/CiILENy73wIaGQkBRdI28FHBXhMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp"));
+        
+        videoView.start();
+        
+    }
+    
+    /**
+     * Test function for quering the youtube api
+     * 
+     * 
+     * @param youtubeVideoID
+     * @return 
+     */
+    public String get3gp(String youtubeVideoID) {
+        
+        Handler handler = new Handler() {
+
+            @Override
+            public void handleMessage(Message message) {
+                
+                //TODO: Comment
+                switch (message.what) {
+                    
+                    //Connection Start
+                    case AsyncHTTPRequest.CON_START: {
+
+                        System.out.println("Handler: Connection Started");
+                        //TODO: Loading
+
+                        break;
+                    }
+                        
+                    //Connection Success
+                    case AsyncHTTPRequest.CON_SUCCEED: {
+
+                        String response = (String) message.obj;
+                        System.out.println(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            
+                            JSONObject herf = jsonObject.getJSONObject("feed");
+                            JSONArray derf = herf.getJSONArray("entry");
+                            JSONObject hurf = derf.getJSONObject(0);
+                            JSONObject derp = hurf.getJSONObject("media$group");
+                            JSONArray herp = derp.getJSONArray("media$content");
+                            JSONObject murr = herp.getJSONObject(1);
+                            
+                            String durr = murr.getString("url");
+                            
+                            System.out.println(durr);
+                            startVideo(durr);
+                            
+                            
+                        } catch (JSONException ex) {
+                            Logger.getLogger(VideoActivity.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+
+                        break;
+                    }
+                        
+                    //Connection Error
+                    case AsyncHTTPRequest.CON_ERROR: {
+                        
+                        //TODO: Create Dialogbox 
+
+                        break;
+                    }
+                }
+            }
+        };
+
+
+        //Get resource URL and make asynchronous HTTP request
+        System.out.println(googleJSONQuery + youtubeVideoID);
+        new AsyncHTTPRequest(handler).httpGet(googleJSONQuery + youtubeVideoID);
+        return "her";
+    }
     
     public void startYoutubeApp(String URI){
         

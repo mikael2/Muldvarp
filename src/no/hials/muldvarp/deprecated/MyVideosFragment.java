@@ -1,13 +1,16 @@
+package no.hials.muldvarp.deprecated;
+
 ///*
 // * To change this template, choose Tools | Templates
 // * and open the template in the editor.
 // */
-//package no.hials.muldvarp.deprecated;
+//package no.hials.muldvarp.video;
 //
 //
-//import android.app.Fragment;
+//
 //import android.content.Intent;
 //import android.os.Bundle;
+//import android.support.v4.app.Fragment;
 //import android.text.Editable;
 //import android.text.TextWatcher;
 //import android.view.LayoutInflater;
@@ -21,15 +24,14 @@
 //import no.hials.muldvarp.R;
 //import no.hials.muldvarp.entities.Video;
 //import no.hials.muldvarp.utility.ListViewAdapter;
-//import no.hials.muldvarp.video.VideoActivity;
-//import no.hials.muldvarp.video.VideoCourseActivity;
 //
 ///**
-// * Fragment defining a list. 
+// * Fragment defining a list. The difference between this class and CustomListFragement is the version of Fragment that is extended, in
+// * addition to other changes to make swiping possible.
 // * 
 // * @author johan
 // */
-//public class CustomListFragment extends Fragment {
+//public class MyVideosFragment extends Fragment {
 //    
 //    //Global variables
 //    String viewName = "";
@@ -40,7 +42,6 @@
 //    //Switches
 //    public boolean enableFilter = true;
 //    
-//    //http://stackoverflow.com/questions/1737009/how-to-make-a-nice-looking-listview-filter-on-android
 //    //FilterText solution
 //    private EditText filterText = null;
 //    ListViewAdapter adapter;
@@ -52,7 +53,7 @@
 //
 //        
 //    /**
-//     * Called when the activity is first created.
+//     * Creates the view when called.
 //     *  
 //     * @param inflater
 //     * @param container
@@ -99,6 +100,7 @@
 //                //Create new Intent along with data to be passed on
 //                //Should be changed to only supply ID and let the VideoActivity take care of the rest
 //                Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
+////                Intent newIntent = new Intent(view.getContext().getApplicationContext(), DSA.class);
 //                newIntent.putExtra("videoID", selectedItem.getVideoID());
 //                newIntent.putExtra("videoName", selectedItem.getItemName());
 //                newIntent.putExtra("smallDetail", selectedItem.getSmallDetail());
@@ -116,8 +118,7 @@
 //               
 //        return returnFragmentView;
 //        
-//    }
-//    
+//    }   
 //    
 //    
 //    @Override
@@ -197,7 +198,9 @@
 //            
 //            //Set adapter for use by the Filter function
 //            adapter = (ListViewAdapter) listView.getAdapter();
-//            adapter.filter(s);
+//            if(adapter != null){
+//                adapter.filter(s);
+//            }
 //        }
 //    };
 //    

@@ -39,7 +39,7 @@ public class CustomListFragmentSwipe extends Fragment {
     public boolean enableFilter = true;
     
     //FilterText solution
-    private EditText filterText = null;
+//    private EditText filterText = null;
     ListViewAdapter adapter;
     
     @Override
@@ -68,8 +68,8 @@ public class CustomListFragmentSwipe extends Fragment {
         listView = (ListView)returnFragmentView.findViewById(R.id.layoutlistview);          
         
         //Set filterText and add listener
-        filterText = (EditText)returnFragmentView.findViewById(R.id.search_box);
-        filterText.addTextChangedListener(filterTextWatcher);               
+//        filterText = (EditText)returnFragmentView.findViewById(R.id.search_box);
+//        filterText.addTextChangedListener(filterTextWatcher);               
         
         //Set onItemClickListener
         //Defines what happens when an item in the list is "clicked"        
@@ -160,35 +160,35 @@ public class CustomListFragmentSwipe extends Fragment {
         this.fragmentName = fragmentName;
     }
     
-    /**
-     * TextWatcher used to update the list.
-     */
-    private TextWatcher filterTextWatcher = new TextWatcher() {
-
-        /**
-         * Defines what happens after a text change.
-         */
-        public void afterTextChanged(Editable s) {
-        }
-
-        /**
-         * Name says it all
-         */
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        /**
-         * Defines what should happen when the text changes.
-         */
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            
-            //Set adapter for use by the Filter function
-            adapter = (ListViewAdapter) listView.getAdapter();
-            if(adapter != null){
-                adapter.filter(s);
-            }
-        }
-    };
+//    /**
+//     * TextWatcher used to update the list.
+//     */
+//    private TextWatcher filterTextWatcher = new TextWatcher() {
+//
+//        /**
+//         * Defines what happens after a text change.
+//         */
+//        public void afterTextChanged(Editable s) {
+//        }
+//
+//        /**
+//         * Name says it all
+//         */
+//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//        }
+//
+//        /**
+//         * Defines what should happen when the text changes.
+//         */
+//        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            
+//            //Set adapter for use by the Filter function
+//            adapter = (ListViewAdapter) listView.getAdapter();
+//            if(adapter != null){
+//                adapter.filter(s);
+//            }
+//        }
+//    };
     
 
 }
