@@ -78,8 +78,8 @@ public class FragmentPager extends ViewPager {
         return retVal;
     }
     
-    public Fragment getTab(int i){
-        return adapter.views.get(i);
+    public Fragment getTab(int position){
+        return adapter.getItem(position);
     }
     
     public DefaultFragmentPagerAdapter getAdapter(){

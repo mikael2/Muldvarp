@@ -39,7 +39,7 @@ public class DefaultFragmentPagerAdapter extends FragmentPagerAdapter {
         actionBar = bar;
     }
     
-    public void addView(Class<? extends Fragment> type) {        
+    public void addView(Class<? extends Fragment> type) {    
         views.add(Fragment.instantiate(context, type.getName()));       
     }
 
