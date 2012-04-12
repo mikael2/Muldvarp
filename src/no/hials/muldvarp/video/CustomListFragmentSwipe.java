@@ -4,8 +4,6 @@
  */
 package no.hials.muldvarp.video;
 
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -60,22 +58,18 @@ public class CustomListFragmentSwipe extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        
+        super.onCreate(savedInstanceState);       
         
         //Set View and layout, using LayoutInflater to inflate layout form a XML-resource
         //The XML is located in /layout/--XML
         View returnFragmentView = inflater.inflate(R.layout.layout_listview, container, false);
         
          //Get ListView
-        listView = (ListView)returnFragmentView.findViewById(R.id.layoutlistview);  
-        
+        listView = (ListView)returnFragmentView.findViewById(R.id.layoutlistview);          
         
         //Set filterText and add listener
         filterText = (EditText)returnFragmentView.findViewById(R.id.search_box);
-        filterText.addTextChangedListener(filterTextWatcher);
-               
+        filterText.addTextChangedListener(filterTextWatcher);               
         
         //Set onItemClickListener
         //Defines what happens when an item in the list is "clicked"        
@@ -92,21 +86,21 @@ public class CustomListFragmentSwipe extends Fragment {
                 } else {
                 
                 
-                Video selectedItem = (Video) currentListItems.get(itemPosition);
-                
-                
-                //Create new Intent along with data to be passed on
-                //Should be changed to only supply ID and let the VideoActivity take care of the rest
-                Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
-//                Intent newIntent = new Intent(view.getContext().getApplicationContext(), DSA.class);
-                newIntent.putExtra("videoID", selectedItem.getVideoID());
-                newIntent.putExtra("videoName", selectedItem.getItemName());
-                newIntent.putExtra("smallDetail", selectedItem.getSmallDetail());
-                newIntent.putExtra("itemDescription", selectedItem.getItemDescription());
-                newIntent.putExtra("videoURL", selectedItem.getVideoURL());
-                
-                //Start Activity
-                startActivityForResult(newIntent, 0);
+                    Video selectedItem = (Video) currentListItems.get(itemPosition);
+
+
+                    //Create new Intent along with data to be passed on
+                    //Should be changed to only supply ID and let the VideoActivity take care of the rest
+                    Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
+    //                Intent newIntent = new Intent(view.getContext().getApplicationContext(), DSA.class);
+                    newIntent.putExtra("videoID", selectedItem.getVideoID());
+                    newIntent.putExtra("videoName", selectedItem.getItemName());
+                    newIntent.putExtra("smallDetail", selectedItem.getSmallDetail());
+                    newIntent.putExtra("itemDescription", selectedItem.getItemDescription());
+                    newIntent.putExtra("videoURL", selectedItem.getVideoURL());
+
+                    //Start Activity
+                    startActivityForResult(newIntent, 0);
                 
                 }
             }
@@ -116,8 +110,7 @@ public class CustomListFragmentSwipe extends Fragment {
                
         return returnFragmentView;
         
-    }   
-    
+    }       
     
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -133,9 +126,7 @@ public class CustomListFragmentSwipe extends Fragment {
     public void setViewName(String viewName) {
         
         this.viewName = viewName;
-    }
-    
-    
+    }   
     
     public void getAdapter(ArrayList itemList) {
         
@@ -149,9 +140,7 @@ public class CustomListFragmentSwipe extends Fragment {
         //Set ListViewAdapter
         listView.setAdapter(adapter);  
         
-    }
-    
-    
+    }   
 
     /**
      * Function which returns the fragment name.
@@ -161,7 +150,6 @@ public class CustomListFragmentSwipe extends Fragment {
     public String getFragmentName() {
         return fragmentName;
     }
-
     
     /**
      * Function which sets the fragment name.

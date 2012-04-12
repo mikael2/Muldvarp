@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.*;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Video;
+import no.hials.muldvarp.utility.AsyncHTTPRequest;
 
 /**
  *
@@ -203,32 +206,7 @@ public class VideoActivity extends Activity {
         }
         return dialog;
 }
-    
-    
-    
-    
-    
-    
-    /**
-     * This function sets an onClickListener for a button resource, where the supplied
-     * action is a class to be started as an intent.
-     * 
-     * @param buttonid the integer value of the buttons ID
-     * @param action the class to be started as an intent
-     * @param uri The string value of the URI 
-     */
-    private void createButton(int buttonid, final Class action, final String uri) {
-        Button button = (Button) findViewById(buttonid);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), action);
-                myIntent.putExtra("uri", uri);
-                startActivityForResult(myIntent, 0);
-            }
-        });
-    }
-    
-    
+
     
     public void startYoutubeApp(String URI){
         
@@ -253,4 +231,61 @@ public class VideoActivity extends Activity {
         return new Video(videoID, videoID, videoID, videoID, videoID, null, videoID);
     }
 
+    /**
+     * Function which sends a request for a Web Resource and dispatches a Handler to process the response.
+     * 
+     * @param itemType The type of item.
+     */
+    public void getItemFromWebResource() {        
+        
+        //Define handler
+        //Defines what should happen depending on the returned message.
+        Handler handler = new Handler() {
+
+            @Override
+            public void handleMessage(Message message) {
+                
+                //TODO: Comment
+                switch (message.what) {
+                    
+                    //Connection Start
+                    case AsyncHTTPRequest.CON_START: {
+
+                        System.out.println("Handler: Connection Started");
+                        //TODO: Loading
+
+                        break;
+                    }
+                        
+                    //Connection Success
+                    case AsyncHTTPRequest.CON_SUCCEED: {
+
+                        String response = (String) message.obj;
+                                                
+                                        
+                        
+                        
+
+                        break;
+                    }
+                        
+                    //Connection Error
+                    case AsyncHTTPRequest.CON_ERROR: {
+                        
+                        //TODO: Create Dialogbox 
+
+                        break;
+                    }
+                }
+            }
+        };
+
+
+//        //Get resource URL and make asynchronous HTTP request
+//        String resourceURL = resourceList.get(currentTab);
+//        System.out.println("Reequesting resource:");
+//        System.out.println(resourceURL);
+//        new AsyncHTTPRequest(handler).httpGet(resourceURL);
+
+    }
 }

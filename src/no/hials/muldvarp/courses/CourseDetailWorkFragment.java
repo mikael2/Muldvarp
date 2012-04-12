@@ -21,6 +21,7 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.domain.Course;
 import no.hials.muldvarp.domain.Task;
 import no.hials.muldvarp.domain.Theme;
+import no.hials.muldvarp.video.VideoActivity;
 
 /**
  *
@@ -162,8 +163,24 @@ public class CourseDetailWorkFragment extends Fragment {
                 v.setOnClickListener(new OnClickListener() {
 
                 public void onClick(View v) {
-                    Intent myIntent = new Intent(v.getContext(), CoursePublicDetailActivity.class);
-                    myIntent.putExtra("id", t.getName());
+                    //Må ha en metode å sortere ut content type
+                    //Dette er bare en midlertidig test
+                    //TODO: FIX CONTENT TYPE CHECK
+                    
+                    Intent myIntent;
+                    
+                    if(t.getContent_url() != null) {
+                    
+                        myIntent = new Intent(v.getContext(), VideoActivity.class);
+                        myIntent.putExtra("videoURL", t.getContent_url());                        
+                        
+                    } else {
+                    
+                        myIntent = new Intent(v.getContext(), CoursePublicDetailActivity.class);
+                        myIntent.putExtra("id", t.getName());   
+                    }
+                    
+                    
                     startActivityForResult(myIntent, 0);
                 }
             });

@@ -49,6 +49,11 @@ public class MainActivity extends Activity
                 prefs.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(prefs);
                 return true;
+            case R.id.login:
+                intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;    
             default:
                 return super.onOptionsItemSelected(item);
         }
