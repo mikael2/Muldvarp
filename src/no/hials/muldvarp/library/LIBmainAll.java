@@ -1,5 +1,6 @@
 package no.hials.muldvarp.library;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,14 +19,16 @@ import no.hials.muldvarp.entities.LibraryItem;
  * @author Nospherus
  */
 public class LIBmainAll extends Fragment implements View.OnClickListener {
+    private GridView grid;
 
     private View mainV;
     private GridLibraryAdapter g;
+    private List<LibraryItem> libraryList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setRetainInstance(true);
+        setRetainInstance(true);
     }
 
     /**
@@ -37,14 +40,11 @@ public class LIBmainAll extends Fragment implements View.OnClickListener {
         return mainV;
     }
 
-    public void itemsReady(List l) {
-        if(getActivity() != null) {
-        g = new GridLibraryAdapter(getActivity(), R.layout.library_adapter_grid, R.id.courselisttext, l, false);
-        GridView grid = (GridView) getView().findViewById(R.id.allGrid);
-        grid.setAdapter(g);
-
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        grid = (GridView) mainV.findViewById(R.id.allGrid);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent myIntent = new Intent(view.getContext(), LibraryDetail.class);
                 Bundle b = new Bundle();
@@ -53,6 +53,22 @@ public class LIBmainAll extends Fragment implements View.OnClickListener {
                 startActivityForResult(myIntent, 0);
             }
         });
+        
+        g = new GridLibraryAdapter(getActivity(), R.layout.library_adapter_grid, R.id.courselisttext, false);
+        if(libraryList != null) {
+            g.clear();
+            g.addAll(libraryList);            
+        }
+        grid.setAdapter(g);
+    }
+    
+    
+    public void itemsReady(List<LibraryItem> items) {
+        libraryList = items;
+        if(g != null) {
+            g.clear();
+            g.addAll(libraryList);
+            g.notifyDataSetChanged();
         }
     }
 

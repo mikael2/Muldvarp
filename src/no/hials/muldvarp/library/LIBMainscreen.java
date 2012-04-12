@@ -84,7 +84,6 @@ public class LIBMainscreen extends FragmentActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(MuldvarpService.ACTION_LIBRARY_UPDATE);
         mReceiver = new BroadcastReceiver() {
-
             @Override
             public void onReceive(Context context, Intent intent) {
                 System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
