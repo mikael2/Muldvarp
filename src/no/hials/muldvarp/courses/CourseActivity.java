@@ -66,6 +66,7 @@ public class CourseActivity extends Activity {
              // We are going to watch for interesting local broadcasts.
             IntentFilter filter = new IntentFilter();
             filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+            filter.addAction(MuldvarpService.SERVER_NOT_AVAILABLE);
             mReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
@@ -74,7 +75,10 @@ public class CourseActivity extends Activity {
                         System.out.println("Toasting" + intent.getAction());
                         Toast.makeText(context, "Courses updated", Toast.LENGTH_LONG).show();
                         new getItemsFromCache().execute(getString(R.string.cacheCourseList));
-                    } 
+                    } else if (intent.getAction().compareTo(MuldvarpService.SERVER_NOT_AVAILABLE) == 0) {
+                        Toast.makeText(context, "Server not available", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
                 }
             };
             mLocalBroadcastManager.registerReceiver(mReceiver, filter);
