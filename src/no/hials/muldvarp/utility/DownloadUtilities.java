@@ -23,19 +23,22 @@ import org.apache.http.impl.client.DefaultHttpClient;
  */
 public class DownloadUtilities {
 
-    public static InputStream getJSONData(String url) {
+    public static InputStream getJSONData(String url, String header) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         URI uri;
         InputStream data = null;
         try {
             uri = new URI(url);
             HttpGet method = new HttpGet(uri);
+            
+            if((!header.equals("")) && (header != null))
+                method.setHeader("Authorization", header);
+            
             HttpResponse response = httpClient.execute(method);
             data = response.getEntity().getContent();
         } catch (Exception ex) {
             Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return data;
     }
 

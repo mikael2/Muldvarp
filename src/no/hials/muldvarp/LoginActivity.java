@@ -5,18 +5,12 @@
 package no.hials.muldvarp;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.*;
 import android.os.Bundle;
-import android.util.Base64;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -25,6 +19,9 @@ import java.util.logging.Logger;
 public class LoginActivity extends Activity {
     private String url = "http://master.uials.no:8080/muldvarp/";
 
+    String username;
+    String password;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,46 +33,68 @@ public class LoginActivity extends Activity {
         EditText pw = (EditText) findViewById(R.id.password);
         CheckBox rmbr = (CheckBox) findViewById(R.id.rememberme);
         
-        final String username = un.getText().toString();
-        final String password = pw.getText().toString();
+        username = un.getText().toString();
+        password = pw.getText().toString();
         
         if(rmbr.isChecked()) {
             // cache key/token?
         }
-        new auth().execute(username,password);
+        saveSettings();
+        redirect();
+        //new auth().execute(username,password);
     }
     
-    private class auth extends AsyncTask<String, Void, Void> {       
-        
-        protected Void doInBackground(String... vars) {
-            HttpURLConnection c = null;
-            try {
-                c = (HttpURLConnection) new URL(url).openConnection();
-            } catch (IOException ex) {
-                Logger.getLogger(LoginActivity.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            c.setRequestProperty(
-                "Authorization",
-                "basic " + Base64.encode((vars[0] + ":" + vars[1]).getBytes(),
-                                           Base64.DEFAULT)
-                );
-            c.setUseCaches(false);
-            try {
-                c.connect();
-            } catch (IOException ex) {
-                Logger.getLogger(LoginActivity.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return null;
-        } 
-        
-        @Override
-        protected void onPostExecute(Void not) {
-            redirect();
-        }
-    }
+//    private class auth extends AsyncTask<String, Void, String[]> {       
+//        
+//        protected String[] doInBackground(String... vars) {
+//            HttpURLConnection c = null;
+//            try {
+//                c = (HttpURLConnection) new URL(url).openConnection();
+//            } catch (IOException ex) {
+//                Logger.getLogger(LoginActivity.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            c.setRequestProperty(
+//                "Authorization",
+//                "basic " + Base64.encode((vars[0] + ":" + vars[1]).getBytes(),
+//                                           Base64.DEFAULT)
+//                );
+//            c.setUseCaches(false);
+//            try {
+//                c.connect();
+//            } catch (IOException ex) {
+//                Logger.getLogger(LoginActivity.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            return vars;
+//        } 
+//        
+//        @Override
+//        protected void onPostExecute(String... vars) {
+//            //mService.setHttpHeader("Basic " + Base64.encodeToString((vars[0] + ":" + vars[1]).getBytes(), Base64.NO_WRAP));
+//            
+//            redirect();
+//        }
+//    }
     
     public void redirect() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+    
+    public void saveSettings() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+
+        editor.putString("username", username);
+        editor.putString("password", password);
+        editor.commit();
+    }
+    
+    public String loadSettings() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        username = settings.getString("username", username);
+        password = settings.getString("password", password);
+        
+        return username + ":" + password; 
     }
 }

@@ -6,9 +6,12 @@ package no.hials.muldvarp.courses;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -199,7 +202,7 @@ public class CourseDetailWorkFragment extends Fragment {
     
     private class TellServerDone extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... stuff) {
-            return DownloadUtilities.getJSONData("http://master.uials.no:8080/muldvarp/resources/course/edit/" + stuff[0] + "/" + stuff[1] + "/"+ stuff[2] + "/" + stuff[3]).toString();
+            return DownloadUtilities.getJSONData("http://master.uials.no:8080/muldvarp/resources/course/edit/" + stuff[0] + "/" + stuff[1] + "/"+ stuff[2] + "/" + stuff[3],loadLoginAndMakeHeader()).toString();
         }
         
         @Override
@@ -255,5 +258,14 @@ public class CourseDetailWorkFragment extends Fragment {
     public void onGroupExpanded(int groupPosition) {}
 
 
+    }
+    
+    public String loadLoginAndMakeHeader() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+
+        String username = settings.getString("username", "");
+        String password = settings.getString("password", "");
+        
+        return "Basic " + Base64.encodeToString((username + ":" + password).getBytes(), Base64.NO_WRAP);
     }
 }

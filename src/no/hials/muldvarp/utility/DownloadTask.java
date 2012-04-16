@@ -24,10 +24,12 @@ import no.hials.muldvarp.R;
 public class DownloadTask extends AsyncTask<String, Void, Boolean> {
     Intent intent;
     Context ctx;
+    String header;
 
-    public DownloadTask(Context ctx, Intent intent) {
+    public DownloadTask(Context ctx, Intent intent, String header) {
         this.intent = intent;
         this.ctx = ctx;
+        this.header = header;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
         if ((System.currentTimeMillis() - f.lastModified() > ctx.getResources().getInteger(R.integer.cacheTime))
                 && checkServer()) {
             try {
-                DownloadUtilities.cacheThis(new InputStreamReader(DownloadUtilities.getJSONData(params[0])), f);
+                DownloadUtilities.cacheThis(new InputStreamReader(DownloadUtilities.getJSONData(params[0],header)), f);
             } catch (Exception ex) {
                 Log.e("DownloadTask", "Failed to cache " + f.getName(), ex);
             }
@@ -60,18 +62,20 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
 
     public boolean checkServer() {
         if(isNetworkAvailable()) {
-            try {
-                if(InetAddress.getByName(ctx.getString(R.string.serverPath)).isReachable(5000)) {
+            try {                
+                if(InetAddress.getByName("http://master.uials.no:8080").isReachable(5000)) {
+                    // dinna funka ikkje
                     return true;
-                } 
+                }
             } catch (UnknownHostException ex) {
                 Logger.getLogger(DownloadTask.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(DownloadTask.class.getName()).log(Level.SEVERE, null, ex);
             }
+            return true; // fjern dinna når den over fungera
         }
         LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(MuldvarpService.SERVER_NOT_AVAILABLE));
-        return false;
+        return true;
     }
     
     private boolean isNetworkAvailable() {
