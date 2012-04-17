@@ -86,6 +86,7 @@ public class LoginActivity extends Activity {
 
         editor.putString("username", username);
         editor.putString("password", password);
+        System.out.println("DEBUG: Username: " + username + " password:" + password);
         editor.commit();
     }
     
