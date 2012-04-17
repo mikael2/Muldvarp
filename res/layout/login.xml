@@ -9,13 +9,20 @@
         android:layout_height="wrap_content"
         android:text="Velkommen til Muldvarp."
         android:textSize="33px" />
+    <EditText android:id="@+id/serverpath" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="serverpath"
+        android:inputType="text"
+        android:maxLines="1"
+        android:layout_below="@id/logintext"/>
     <EditText android:id="@+id/username" 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="username"
         android:inputType="text"
         android:maxLines="1"
-        android:layout_below="@id/logintext"/>
+        android:layout_below="@id/serverpath"/>
     <EditText android:id="@+id/password" 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -45,5 +52,5 @@
                 android:text="Husk meg"
                 android:textSize="33px"
                 android:layout_toLeftOf="@id/rememberme" />
-        </LinearLayout>            
+        </LinearLayout>
 </RelativeLayout>

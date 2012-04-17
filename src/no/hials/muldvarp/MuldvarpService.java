@@ -71,7 +71,10 @@ public class MuldvarpService extends Service {
 
     
     private String getURL(int path) {
-        return getString(R.string.serverPath) + getString(path);
+        //return getString(R.string.serverPath) + getString(path);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        
+        return settings.getString("url", "") + path;
     }
     
     public void requestCourses() {
