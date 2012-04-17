@@ -27,6 +27,8 @@ public class DownloadUtilities {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         URI uri;
         InputStream data = null;
+        System.out.println(url);
+        System.out.println(header);
         try {
             uri = new URI(url);
             HttpGet method = new HttpGet(uri);

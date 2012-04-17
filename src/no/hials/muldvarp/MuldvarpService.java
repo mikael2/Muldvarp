@@ -68,13 +68,12 @@ public class MuldvarpService extends Service {
             return MuldvarpService.this;
         }
     }
-
     
     private String getURL(int path) {
         //return getString(R.string.serverPath) + getString(path);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         
-        return settings.getString("url", "") + path;
+        return "http://" + settings.getString("url", "") + ":8080/muldvarp/" + getString(path);
     }
     
     public void requestCourses() {
