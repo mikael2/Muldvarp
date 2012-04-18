@@ -27,6 +27,13 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        loadSettings();
+        EditText un = (EditText) findViewById(R.id.username);
+        EditText pw = (EditText) findViewById(R.id.password);
+        EditText sp = (EditText) findViewById(R.id.serverpath);
+        un.setText(username);
+        pw.setText(password);
+        sp.setText(url);
     }
     
     public void logIn(View view) {
