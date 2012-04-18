@@ -87,7 +87,7 @@ public class DesktopFragment extends Fragment {
         }
         
         private IntentLink[] links = {
-            new IntentLink(R.string.icon_directory, R.drawable.icon_directory, DirectoryActivity.class),
+            //new IntentLink(R.string.icon_directory, R.drawable.icon_directory, DirectoryActivity.class),
             new IntentLink(R.string.icon_news,      R.drawable.icon_news,      NewsActivity.class),
             new IntentLink(R.string.icon_courses,   R.drawable.icon_course,    CourseActivity.class),
             new IntentLink(R.string.icon_library,   R.drawable.icon_library,   LIBMainscreen.class),

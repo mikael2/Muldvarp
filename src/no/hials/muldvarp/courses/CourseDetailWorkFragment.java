@@ -6,21 +6,23 @@ package no.hials.muldvarp.courses;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckBox;
-import android.widget.ExpandableListView;
-import android.widget.TextView;
+import android.widget.*;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.domain.Course;
 import no.hials.muldvarp.domain.Task;
 import no.hials.muldvarp.domain.Theme;
+import no.hials.muldvarp.utility.DownloadUtilities;
 import no.hials.muldvarp.video.VideoActivity;
 
 /**
@@ -146,7 +148,8 @@ public class CourseDetailWorkFragment extends Fragment {
         if( convertView != null )
             v = convertView;
         else
-            v = inflater.inflate(R.layout.course_work_child, parent, false); 
+            v = inflater.inflate(R.layout.course_work_child, parent, false);
+        final Theme gt = (Theme)getGroup( groupPosition );
         final Task t = (Task)getChild( groupPosition, childPosition );
 		TextView name = (TextView)v.findViewById( R.id.childname );
 		if( name != null ) {
@@ -167,19 +170,14 @@ public class CourseDetailWorkFragment extends Fragment {
                     //Dette er bare en midlertidig test
                     //TODO: FIX CONTENT TYPE CHECK
                     
-                    Intent myIntent;
+                    Intent myIntent = null;
                     
                     if(t.getContent_url() != null) {
-                    
                         myIntent = new Intent(v.getContext(), VideoActivity.class);
-                        myIntent.putExtra("videoURL", t.getContent_url());                        
-                        
+                        myIntent.putExtra("videoURL", t.getContent_url());
                     } else {
-                    
-                        myIntent = new Intent(v.getContext(), CoursePublicDetailActivity.class);
-                        myIntent.putExtra("id", t.getName());   
+                        Toast.makeText(context, "Empty task", Toast.LENGTH_LONG).show();  
                     }
-                    
                     
                     startActivityForResult(myIntent, 0);
                 }
@@ -189,15 +187,28 @@ public class CourseDetailWorkFragment extends Fragment {
                 public void onClick(View v) {
                     // Perform action on clicks, depending on whether it's now checked
                     if (((CheckBox) v).isChecked()) {
-                        t.setDone(true);                        
+                        t.setDone(true);
+                        new TellServerDone().execute(c.getId().toString(), gt.getId().toString(), t.getId().toString(), "1");
                     } else {
                         t.setDone(false);
+                        new TellServerDone().execute(c.getId().toString(), gt.getId().toString(), t.getId().toString(), "0");
                     }
                     notifyDataSetChanged();
                 }
             });
         
         return v;
+    }
+    
+    private class TellServerDone extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... stuff) {
+            return DownloadUtilities.getJSONData("http://master.uials.no:8080/muldvarp/resources/course/edit/" + stuff[0] + "/" + stuff[1] + "/"+ stuff[2] + "/" + stuff[3],loadLoginAndMakeHeader()).toString();
+        }
+        
+        @Override
+        protected void onPostExecute(String stuff) {            
+            Toast.makeText(context, stuff, Toast.LENGTH_LONG).show();
+        }
     }
 
     public int getChildrenCount(int groupPosition) {
@@ -247,5 +258,14 @@ public class CourseDetailWorkFragment extends Fragment {
     public void onGroupExpanded(int groupPosition) {}
 
 
+    }
+    
+    public String loadLoginAndMakeHeader() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+
+        String username = settings.getString("username", "");
+        String password = settings.getString("password", "");
+        
+        return "Basic " + Base64.encodeToString((username + ":" + password).getBytes(), Base64.NO_WRAP);
     }
 }

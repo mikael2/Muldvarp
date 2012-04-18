@@ -102,10 +102,10 @@ public class CourseListFragment extends Fragment {
         filterText.addTextChangedListener(filterTextWatcher);
                
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(fragmentView.getContext());
-        boolean loggedin = prefs.getBoolean("debugloggedin", false);
+        String username = prefs.getString("username", "");
         
         if(isGrid) {
-            if(loggedin) {
+            if(!username.equals("")) {
                 gridview.setOnItemClickListener(new OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                         Course selectedItem = (Course)items.get(position);
@@ -125,7 +125,7 @@ public class CourseListFragment extends Fragment {
                 }); 
             }
         } else {
-            if(loggedin) {
+            if(!username.equals("")) {
                 listview.setOnItemClickListener(new OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                         Course selectedItem = (Course)items.get(position);

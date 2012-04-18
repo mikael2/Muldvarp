@@ -14,6 +14,7 @@
     <string name="cannot_connect">Cannot connect to server</string>
     <string name="menu_favourite">FV</string>
     <string name="menu_download">Download</string>
+    <string name="login">Login</string>
     
     <string name="icon_directory">Directory</string>
     <string name="icon_news">News</string>
