@@ -32,6 +32,8 @@ public class VideoCourseActivity extends Activity{
         //Show tabs
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);       
         
+        
+        
 
         
 

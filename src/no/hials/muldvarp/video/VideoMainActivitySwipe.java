@@ -49,7 +49,7 @@ public class VideoMainActivitySwipe extends FragmentActivity{
 
 
         //Set layout from video_main.xml using muldvarp.R
-        setContentView(R.layout.directory);
+        setContentView(R.layout.video_main);
 
         //Set activity title to be displayed in the top bar.
         setTitle("Video");
