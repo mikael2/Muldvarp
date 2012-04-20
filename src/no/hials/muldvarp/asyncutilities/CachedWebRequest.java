@@ -113,17 +113,23 @@ public class CachedWebRequest {
                         
         } else {
 //            
-            Intent newIntent = new Intent(MuldvarpService.ACTION_VIDEOCOURSE_LOAD);
-            System.out.println("AsyncCachedWebRequest: startRequest: Broadcasting intent " + newIntent.getAction());
-            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(newIntent);
-//            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent);
-//            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(new Intent(MuldvarpService.ACTION_VIDEOCOURSE_LOAD));
+            //Change broadcast if the cache was up to date
+            if(intent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE)){
+            
+                intent = new Intent(MuldvarpService.ACTION_VIDEOCOURSE_LOAD);
+            } else if (intent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE)){
+                
+                intent = new Intent(MuldvarpService.ACTION_PROGRAMMES_LOAD);
+            }
+            
+            System.out.println("AsyncCachedWebRequest: startRequest: Broadcasting intent " + intent.getAction());
+            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent);
         }        
     }
     
     /**
-     * Returns true if the file in the specified filepath is outdated according to the
-     * set time.
+     * Returns true if the file exist in the specified filepath and is outdated 
+     * according to the set time.
      * 
      * @param filePath
      * @return boolean true/false
@@ -135,12 +141,12 @@ public class CachedWebRequest {
         System.out.println("AsyncCachedWebRequest: checkCache(" + filePath + ")");
         if((System.currentTimeMillis() - cacheFile.lastModified() > applicationContext.getResources().getInteger(R.integer.cacheTime))) {
             
-            System.out.println("AsyncCachedWebRequest: checkCache: Cache up to date.");
-            return false;            
-        } else {
-            
             System.out.println("AsyncCachedWebRequest: checkCache: Cache outdated.");
             return true;
+        } else {
+            
+            System.out.println("AsyncCachedWebRequest: checkCache: Cache up to date.");
+            return false;   
         }
     }
 }

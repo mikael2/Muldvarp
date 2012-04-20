@@ -16,6 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.asyncvideo.VideoMainActivity;
+import no.hials.muldvarp.entities.ListItem;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.ListViewAdapter;
 
@@ -33,7 +34,7 @@ public class VideotFragmentListSwipe extends Fragment {
     String listItemType = "";
     public String fragmentName = "";
     ListView listView;
-    ArrayList<Object> currentListItems;
+    ArrayList<ListItem> currentListItems;
     
     //Switches
     public boolean enableFilter = true;
@@ -121,14 +122,16 @@ public class VideotFragmentListSwipe extends Fragment {
     public void onResume(){
         
         super.onResume();
-        requestItems();
-    }
-    
+        if(currentListItems != null){
+            
+            requestItems();
+        }        
+    }    
     
     public void requestItems(){
         
         System.out.println("VideoFragment: Requesting listItem: " + listItemType);
-//        owningActivity.updateFragments();
+
     }
     
     
@@ -137,16 +140,16 @@ public class VideotFragmentListSwipe extends Fragment {
      * 
      * @param itemList 
      */
-    public void updateContent(ArrayList itemList) {
+    public void updateContent(ArrayList<ListItem> listItems) {
         
         //Check if the current list of items is empty
         if(currentListItems == null){
             
-            currentListItems = itemList;
+            currentListItems = listItems;
             adapter = new ListViewAdapter(this.getActivity().getApplicationContext(),
                                                                 R.layout.course_list_item,
                                                                 R.id.courselisttext,
-                                                                itemList, true);     
+                                                                listItems, true);     
             //Set ListViewAdapter
             listView.setAdapter(adapter); 
             

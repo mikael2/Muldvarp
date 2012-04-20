@@ -4,12 +4,12 @@
  */
 package no.hials.muldvarp.asyncutilities;
 
-import no.hials.muldvarp.asyncutilities.AsyncHTTPRequest;
-import android.app.LauncherActivity.ListItem;
-import android.os.Handler;
-import android.os.Message;
+import android.content.Context;
 import java.util.ArrayList;
+import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Course;
+import no.hials.muldvarp.entities.ListItem;
+import no.hials.muldvarp.entities.Programme;
 import no.hials.muldvarp.entities.Video;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,69 +19,25 @@ import org.json.JSONObject;
  * 
  * @author johan
  */
-public class WebResourceUtilities {
-    
+public class WebResourceUtilities {   
+
     /**
-     * Function which sends a request for a Web Resource and dispatches a Handler to process the response.
+     * This function creates an ArrayList of ListItems from a JSONArray represented
+     * by a String. Currently supports Video, Programmes, Course.
      * 
-     * @param itemType The type of item.
+     * @param jsonString String value of JSONArray
+     * @param type The type of JSONArray represented by it's cache name
+     * @param context The application context to get the cache String name
+     * @return ArrayList<ListItem>
      */
-    public void getDataFromWebResource(String URI, String header) {       
-        //Define handler
-        //Defines what should happen depending on the returned message.
-        Handler handler = new Handler() {
-
-            @Override
-            public void handleMessage(Message message) {
-                
-                //TODO: Comment
-                switch (message.what) {
-                    
-                    //Connection Start
-                    case AsyncHTTPRequest.CON_START: {
-
-                        System.out.println(getClass().getName() + ": Handler: Connection started.");
-
-                        break;
-                    }
-                        
-                    //Connection Success
-                    case AsyncHTTPRequest.CON_SUCCEED: {
-
-                        String response = (String) message.obj;
-                        
-
-                        break;
-                    }
-                        
-                    //Connection Error
-                    case AsyncHTTPRequest.CON_ERROR: {
-                        
-                        //TODO: Create Dialogbox 
-
-                        break;
-                    }
-                }
-            }
-        };
-
-
-        //Get resource URL and make asynchronous HTTP request
-        String resourceURL = "hurr";
-        System.out.println("Reequesting resource:");
-        System.out.println(resourceURL);
-        new AsyncHTTPRequest(handler).httpGet(resourceURL);
-
-    }
-
-    //Midlertidig testversjon
-    public static ArrayList<ListItem> createListItemsFromJSONString(String jsonString, String type) {
-        ArrayList itemList = new ArrayList();
-
+    public static ArrayList<ListItem> createListItemsFromJSONString(String jsonString, String type, Context context) {
+        ArrayList itemList = new ArrayList();        
+        
         try {
+            System.out.println("WebResourceUtilities: Printing JSONString: " + jsonString);
             JSONArray jArray = new JSONArray(jsonString);            
                        
-            if (type.equals("Video")) {
+            if (type.equals(context.getString(R.string.cacheVideoCourseList))) {
                 //Video BS her
                 System.out.println("WebresourceUtilities: Array length: " + jArray.length());
                 for (int i = 0; i < jArray.length(); i++) {
@@ -95,7 +51,7 @@ public class WebResourceUtilities {
                             currentObject.getString("videoURI")));
                 }
 
-            } else if (type.equals("Course")) {
+            } else if (type.equals(context.getString(R.string.cacheCourseList))) {
 
                 //Course BS her
                 for (int i = 0; i < jArray.length(); i++) {
@@ -107,6 +63,21 @@ public class WebResourceUtilities {
                             null,
                             null,
                             null));
+
+                }
+            } else if (type.equals(context.getString(R.string.cacheProgrammeList))) {
+
+                //Course BS her
+                for (int i = 0; i < jArray.length(); i++) {
+
+                    JSONObject currentObject = jArray.getJSONObject(i);
+
+                    itemList.add(new Programme(currentObject.getString("id"), 
+                            currentObject.getString("name"),
+                            null,  //no small description
+                            currentObject.getString("detail"),
+                            null, //no type
+                            null)); //no bitmap (yet)
 
                 }
             } else {
