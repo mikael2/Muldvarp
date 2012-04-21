@@ -19,7 +19,7 @@ import org.json.JSONObject;
  * 
  * @author johan
  */
-public class WebresourceUtilities {
+public class WebResourceUtilities {
     
     /**
      * Function which sends a request for a Web Resource and dispatches a Handler to process the response.

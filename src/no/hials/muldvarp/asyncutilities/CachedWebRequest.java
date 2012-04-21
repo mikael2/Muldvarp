@@ -18,7 +18,7 @@ import org.apache.http.message.BasicHeader;
  *
  * @author johan
  */
-public class AsyncCachedWebRequest {
+public class CachedWebRequest {
     
     Handler handler;
     Intent intent;
@@ -28,7 +28,7 @@ public class AsyncCachedWebRequest {
     Header header;
     boolean useHandler;
     
-    public AsyncCachedWebRequest(Intent intent, Context applicationContext, String URI, String cacheLocation){
+    public CachedWebRequest(Intent intent, Context applicationContext, String URI, String cacheLocation){
         
         this.intent = intent;
         this.useHandler = false;
@@ -37,7 +37,7 @@ public class AsyncCachedWebRequest {
         this.cacheFileName = cacheLocation;
     }
     
-    public AsyncCachedWebRequest(Handler handler, Context applicationContext, String URI, String cacheLocation){
+    public CachedWebRequest(Handler handler, Context applicationContext, String URI, String cacheLocation){
         
         this.useHandler = true;
         this.applicationContext = applicationContext;

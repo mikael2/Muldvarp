@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
 import java.io.File;
-import no.hials.muldvarp.asyncutilities.AsyncCachedWebRequest;
+import no.hials.muldvarp.asyncutilities.CachedWebRequest;
 import no.hials.muldvarp.utility.DownloadTask;
 
 /**
@@ -100,7 +100,7 @@ public class MuldvarpService extends Service {
     
     public void requestVideos(){
         
-        AsyncCachedWebRequest asyncCachedWebRequest = new AsyncCachedWebRequest(new Intent(ACTION_VIDEOCOURSE_UPDATE),
+        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOCOURSE_UPDATE),
                                                                                 this,
                                                                                 getURL(R.string.videoResPath),
                                                                                 getString(R.string.cacheVideoCourseList));

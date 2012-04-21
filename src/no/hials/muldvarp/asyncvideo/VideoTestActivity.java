@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.asyncutilities.AsyncFileIOUtility;
-import no.hials.muldvarp.asyncutilities.WebresourceUtilities;
+import no.hials.muldvarp.asyncutilities.WebResourceUtilities;
 import no.hials.muldvarp.video.VideoListFragmentSwipe;
 import no.hials.muldvarp.view.FragmentPager;
 
@@ -256,7 +256,7 @@ public class VideoTestActivity extends FragmentActivity{
                     case AsyncFileIOUtility.IO_SUCCEED: {
 
                         String response = (String) message.obj;
-                        ArrayList newList = WebresourceUtilities.createListItemsFromJSONString(response, "Video");
+                        ArrayList newList = WebResourceUtilities.createListItemsFromJSONString(response, "Video");
                         VideoListFragmentSwipe currentFragment = (VideoListFragmentSwipe) fragmentPager.getTab(0);
                         currentFragment.updateContent(newList);
                         //Dismiss progressdialog
