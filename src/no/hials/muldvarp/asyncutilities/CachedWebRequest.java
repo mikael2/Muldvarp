@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import java.io.File;
+import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
@@ -111,10 +112,12 @@ public class CachedWebRequest {
             
                         
         } else {
-            
-            //Broadcast that the action is complete
-            System.out.println("AsyncCachedWebRequest: startRequest: Broadcasting intent " + intent.getAction());
-            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent);            
+//            
+            Intent newIntent = new Intent(MuldvarpService.ACTION_VIDEOCOURSE_LOAD);
+            System.out.println("AsyncCachedWebRequest: startRequest: Broadcasting intent " + newIntent.getAction());
+            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(newIntent);
+//            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent);
+//            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(new Intent(MuldvarpService.ACTION_VIDEOCOURSE_LOAD));
         }        
     }
     

@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.asyncvideo.VideoMainActivity;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.ListViewAdapter;
 
@@ -24,10 +25,12 @@ import no.hials.muldvarp.utility.ListViewAdapter;
  * 
  * @author johan
  */
-public class VideoListFragmentSwipe extends Fragment {
+public class VideotFragmentListSwipe extends Fragment {
     
     //Global variables
-    String viewName = "";
+     //Activity Context
+    VideoMainActivity owningActivity;
+    String listItemType = "";
     public String fragmentName = "";
     ListView listView;
     ArrayList<Object> currentListItems;
@@ -54,7 +57,10 @@ public class VideoListFragmentSwipe extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);       
+        super.onCreate(savedInstanceState);     
+        
+        //Set the Activity that owns this Fragment as a global variable
+        owningActivity = (VideoMainActivity) this.getActivity();
         
         //Set View and layout, using LayoutInflater to inflate layout form a XML-resource
         //The XML is located in /layout/--XML
@@ -73,7 +79,7 @@ public class VideoListFragmentSwipe extends Fragment {
 
             public void onItemClick(AdapterView<?> arg0, View view, int itemPosition, long id) {
                 
-                if (viewName.equalsIgnoreCase("Courses")) {
+                if (fragmentName.equalsIgnoreCase("Courses")) {
                     
                     Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoCourseActivity.class);
                     startActivityForResult(newIntent, 0);                    
@@ -85,7 +91,6 @@ public class VideoListFragmentSwipe extends Fragment {
                     //Create new Intent along with data to be passed on
                     //Should be changed to only supply ID and let the VideoActivity take care of the rest
                     Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoActivity.class);
-    //                Intent newIntent = new Intent(view.getContext().getApplicationContext(), DSA.class);
                     newIntent.putExtra("videoID", selectedItem.getVideoID());
                     newIntent.putExtra("videoName", selectedItem.getItemName());
                     newIntent.putExtra("smallDetail", selectedItem.getSmallDetail());
@@ -97,12 +102,9 @@ public class VideoListFragmentSwipe extends Fragment {
                 
                 }
             }
-        });
-                 
-        
+        });          
                
         return returnFragmentView;
-        
     }       
     
     @Override
@@ -112,17 +114,26 @@ public class VideoListFragmentSwipe extends Fragment {
     }
     
     /**
-     * Set the name of the view.
+     * This function is called after the activity's oncreate is called.
      * 
-     * @param tabViewName String value of the view's name.
      */
-    public void setViewName(String viewName) {
+    @Override
+    public void onResume(){
         
-        this.viewName = viewName;
-    }   
+        super.onResume();
+        requestItems();
+    }
+    
+    
+    public void requestItems(){
+        
+        System.out.println("VideoFragment: Requesting listItem: " + listItemType);
+//        owningActivity.updateFragments();
+    }
+    
     
     /**
-     * 
+     * This function updates the listView in the fragment by creating a new ListViewAdapter and setting it.
      * 
      * @param itemList 
      */
@@ -132,17 +143,14 @@ public class VideoListFragmentSwipe extends Fragment {
         if(currentListItems == null){
             
             currentListItems = itemList;
-
             adapter = new ListViewAdapter(this.getActivity().getApplicationContext(),
                                                                 R.layout.course_list_item,
                                                                 R.id.courselisttext,
-                                                                itemList, true);        
-
+                                                                itemList, true);     
             //Set ListViewAdapter
             listView.setAdapter(adapter); 
             
         }         
-        
     }   
 
     /**
@@ -165,6 +173,26 @@ public class VideoListFragmentSwipe extends Fragment {
         
         this.fragmentName = fragmentName;
         
+    }
+    
+    /**
+     * Returns the string value of the ListItem type in the Fragment.
+     * 
+     * @return String 
+     */
+    public String getListItemType() {
+        
+        return listItemType;
+    }
+
+    /**
+     * Sets the listItemType String in the Fragment.
+     * 
+     * @param listItemType 
+     */
+    public void setListItemType(String listItemType) {
+        
+        this.listItemType = listItemType;
     }
     
     

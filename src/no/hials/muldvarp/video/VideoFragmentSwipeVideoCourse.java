@@ -4,7 +4,7 @@
  */
 package no.hials.muldvarp.video;
 
-import no.hials.muldvarp.asyncvideo.VideoTestActivity;
+import no.hials.muldvarp.asyncvideo.VideoMainActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,9 +30,9 @@ public class VideoFragmentSwipeVideoCourse extends Fragment {
     
     //Global variables    
     //Activity Context
-    Activity owningActivity;
+    VideoMainActivity owningActivity;
     
-    String viewName = "";
+    String listItemType = "";
     public String fragmentName = "";
     ListView listView;
     ArrayList<Object> contentList; //ArrayList of Objects representing content
@@ -60,7 +60,7 @@ public class VideoFragmentSwipeVideoCourse extends Fragment {
         super.onCreate(savedInstanceState);       
         
         //Set the Activity that owns this Fragment as a global variable
-        owningActivity = (VideoTestActivity) this.getActivity();
+        owningActivity = (VideoMainActivity) this.getActivity();
         
         //Set View and layout, using LayoutInflater to inflate layout form a XML-resource
         //The XML is located in /layout/--XML
@@ -72,11 +72,10 @@ public class VideoFragmentSwipeVideoCourse extends Fragment {
 
             public void onItemClick(AdapterView<?> adapterView, View view, int itemPosition, long id) {
                 
-                if (viewName.equalsIgnoreCase("Courses")) {
+                if (listItemType.equalsIgnoreCase("Courses")) {
                     
                     Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoCourseActivity.class);
-                    startActivityForResult(newIntent, 0);
-                    
+                    startActivityForResult(newIntent, 0);                    
                     
                 } else {               
                 
@@ -114,10 +113,17 @@ public class VideoFragmentSwipeVideoCourse extends Fragment {
      */
     @Override
     public void onResume(){
+        
         super.onResume();
+        requestItems();
     }
     
-    
+    public void requestItems(){
+        
+        System.out.println("VideoFragment: Requesting Items");
+        owningActivity.updateFragments();
+    }
+       
     /**
      * This function updates the content model in the fragment.
      * 
@@ -138,8 +144,27 @@ public class VideoFragmentSwipeVideoCourse extends Fragment {
         //Set ListViewAdapter with new adapter
         listView.setAdapter(listViewAdapter);  
         
-    }   
-    
+    }
+
+    /**
+     * Returns the string value of the ListItem type in the Fragment.
+     * 
+     * @return String 
+     */
+    public String getListItemType() {
+        
+        return listItemType;
+    }
+
+    /**
+     * Sets the listItemType String in the Fragment.
+     * 
+     * @param listItemType 
+     */
+    public void setListItemType(String listItemType) {
+        
+        this.listItemType = listItemType;
+    }  
 
     /**
      * Set the name of the view.
@@ -148,7 +173,7 @@ public class VideoFragmentSwipeVideoCourse extends Fragment {
      */
     public void setViewName(String viewName) {
         
-        this.viewName = viewName;
+        this.listItemType = viewName;
     }   
     
     /**

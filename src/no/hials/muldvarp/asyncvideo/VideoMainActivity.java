@@ -19,16 +19,15 @@ import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.asyncutilities.AsyncFileIOUtility;
 import no.hials.muldvarp.asyncutilities.WebResourceUtilities;
-import no.hials.muldvarp.video.VideoListFragmentSwipe;
+import no.hials.muldvarp.video.VideotFragmentListSwipe;
 import no.hials.muldvarp.view.FragmentPager;
 
 /**
- * Class defining the Video-activity. It contains methods to create and retrieve
- * data used to make up the main view for the video activity.
+ * Class defining the main Video Activity. 
  *
  * @author johan
  */
-public class VideoTestActivity extends FragmentActivity{
+public class VideoMainActivity extends FragmentActivity{
     
     //Tab names
     static String VIDEOACTIVITY_TAB1 = "My Videos";
@@ -65,7 +64,6 @@ public class VideoTestActivity extends FragmentActivity{
         actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
         //Show tabs
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setTitle("Videos");
 
         //FragmentPager implementation of the actionbar with swiping
         fragmentPager = (FragmentPager) findViewById(R.id.pager);
@@ -74,12 +72,15 @@ public class VideoTestActivity extends FragmentActivity{
         //If no saved instance state exists
         if(savedInstanceState == null){
                       
-            //Singleton initialization
+            //Singleton initialization of LocalBroadcastManager
             localBroadcastManager = LocalBroadcastManager.getInstance(this);
             //Set up which intents to listen for using an IntentFilter
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE);
             intentFilter.addAction(MuldvarpService.ACTION_VIDEOSTUDENT_UPDATE);
+            intentFilter.addAction(MuldvarpService.ACTION_VIDEOSTUDENT_LOAD);
+            intentFilter.addAction(MuldvarpService.ACTION_VIDEOCOURSE_LOAD);
+            intentFilter.addAction(MuldvarpService.SERVER_NOT_AVAILABLE);
             
             //Define BroadCastReceiver and what to do depending on the Intent by overriding the onReceive method
             broadcastReceiver = new BroadcastReceiver() {
@@ -87,16 +88,28 @@ public class VideoTestActivity extends FragmentActivity{
                 @Override
                 public void onReceive(Context thisContext, Intent receivedIntent) {
                     
-                    if(receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE)){
-                        
+                    System.out.println("VideoMainActivity: Received "+  receivedIntent.getAction());
+                    
+                    if(receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE)){                        
                         getListItemsFromCache("Video");
-                        System.out.println("VideoMainActivity: Received MuldvarpService.ACTION_VIDEOCOURSE_UPDATE");
                         Toast.makeText(thisContext, "Videos updated.", Toast.LENGTH_SHORT).show();                       
                         
-                    } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOSTUDENT_UPDATE)) {
-                        
-                        System.out.println("VideoMainActivity: Received MuldvarpService.ACTION_VIDEOSTUDENT_UPDATE");
+                    } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOSTUDENT_UPDATE)) { 
+                        getListItemsFromCache("Course");
                         Toast.makeText(thisContext, "Videos updated.", Toast.LENGTH_SHORT).show();
+                        
+                    } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_LOAD)) {                        
+                        getListItemsFromCache("Video");
+                        Toast.makeText(thisContext, "Videos loaded from cache.", Toast.LENGTH_SHORT).show();
+                        
+                    } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOSTUDENT_LOAD)) {                        
+                        getListItemsFromCache("Course");
+                        Toast.makeText(thisContext, "Videos loaded from cache.", Toast.LENGTH_SHORT).show();
+                        
+                    } else if (receivedIntent.getAction().equals(MuldvarpService.SERVER_NOT_AVAILABLE)) {                        
+                        getListItemsFromCache("Video");
+                        Toast.makeText(thisContext, "Could not connect to server.", Toast.LENGTH_SHORT).show();
+                        
                     }
                                         
                 }
@@ -108,9 +121,9 @@ public class VideoTestActivity extends FragmentActivity{
         }
                 
         //Add tabs to FragmentPager
-        addFragmentToTab(VIDEOACTIVITY_TAB1);
-        addFragmentToTab(VIDEOACTIVITY_TAB2);
-        addFragmentToTab(VIDEOACTIVITY_TAB3);
+        addFragmentToTab(VIDEOACTIVITY_TAB1, getString(R.string.videoResPath));
+        addFragmentToTab(VIDEOACTIVITY_TAB2, getString(R.string.courseResPath));
+        addFragmentToTab(VIDEOACTIVITY_TAB3, getString(R.string.cacheCourseList));
         
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
@@ -119,6 +132,7 @@ public class VideoTestActivity extends FragmentActivity{
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
@@ -132,6 +146,7 @@ public class VideoTestActivity extends FragmentActivity{
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.video_mainactivity, menu);
         return true;
@@ -164,6 +179,7 @@ public class VideoTestActivity extends FragmentActivity{
     
     @Override
     protected void onStop() {
+        
         super.onStop();
         // Unbind from the service
         if (muldvarpBound) {
@@ -174,6 +190,7 @@ public class VideoTestActivity extends FragmentActivity{
     
     @Override
     protected void onDestroy() {
+        
         super.onDestroy();
         if(localBroadcastManager != null)
             localBroadcastManager.unregisterReceiver(broadcastReceiver);
@@ -192,8 +209,7 @@ public class VideoTestActivity extends FragmentActivity{
             muldvarpService = binder.getService();
             muldvarpBound = true;
             showProgressDialog();
-            muldvarpService.requestVideos();
-            
+            muldvarpService.requestVideos();            
         }
 
         @Override
@@ -203,17 +219,18 @@ public class VideoTestActivity extends FragmentActivity{
         }
     };
     
-    public void addFragmentToTab(String tabName){
+    public void addFragmentToTab(String tabName, String listItemType){        
         
-        fragmentPager.addTab(tabName, VideoListFragmentSwipe.class, null);
-        
+        fragmentPager.addTab(tabName, VideotFragmentListSwipe.class, null);
+        VideotFragmentListSwipe currentFragment = (VideotFragmentListSwipe) fragmentPager.getTab(0);
+        currentFragment.setFragmentName(tabName);   
+        currentFragment.setListItemType(listItemType);                  
     }
           
     public void updateFragment(int position) {
         
-        VideoListFragmentSwipe currentFragment = (VideoListFragmentSwipe) fragmentPager.getTab(position);
-        currentFragment.updateContent(fragmentContents.get(position));
-        
+        VideotFragmentListSwipe currentFragment = (VideotFragmentListSwipe) fragmentPager.getTab(0);
+        currentFragment.updateContent(fragmentContents.get(0));        
     }
     
     public void updateFragments() {
@@ -221,51 +238,36 @@ public class VideoTestActivity extends FragmentActivity{
         for(int i = 0; i < fragmentPager.getTabListSize(); i++){
             
             updateFragment(i);
-        }
-                
+        }                
     }
     
     public void showProgressDialog(){
-        progressDialog = new ProgressDialog(VideoTestActivity.this);
+        
+        progressDialog = new ProgressDialog(VideoMainActivity.this);
         progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.show();
-
     }
     
-    private void getListItemsFromCache(String type){        
+    private void getListItemsFromCache(final String type){       
         
         Handler handler = new Handler(){
-                                   
+            
+            String listItemType = type;
             @Override
             public void handleMessage(Message message){
                 
-                //TODO: Comment
                 switch (message.what) {
-                    
-                    //Connection Start
-                    case AsyncFileIOUtility.IO_START: {
-
-                        String response = (String) message.obj;
-
-                        break;
-                    }
-                        
-                    //Read success
+                                            
                     case AsyncFileIOUtility.IO_SUCCEED: {
 
                         String response = (String) message.obj;
-                        ArrayList newList = WebResourceUtilities.createListItemsFromJSONString(response, "Video");
-                        VideoListFragmentSwipe currentFragment = (VideoListFragmentSwipe) fragmentPager.getTab(0);
+                        ArrayList newList = WebResourceUtilities.createListItemsFromJSONString(response, type);
+                        VideotFragmentListSwipe currentFragment = (VideotFragmentListSwipe) fragmentPager.getTab(0);
                         currentFragment.updateContent(newList);
                         //Dismiss progressdialog
-                        progressDialog.dismiss();
-                        
-//                        fragmentContents.add(newList);
-//                        updateFragments();
-                        
-
+                        progressDialog.dismiss();                        
                         break;
                     }
                         
@@ -273,12 +275,12 @@ public class VideoTestActivity extends FragmentActivity{
                     case AsyncFileIOUtility.IO_ERROR: {
                         
                         String response = (String) message.obj;
-
                         break;
                     }
                 }
-            }
-        };
+            }//handleMessage
+        };//Handler
+        
         File cacheFile = new File(getCacheDir(), getString(R.string.cacheVideoCourseList));
         new AsyncFileIOUtility(handler).readFile(cacheFile);
     }

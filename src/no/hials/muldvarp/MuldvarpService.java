@@ -22,9 +22,11 @@ public class MuldvarpService extends Service {
     public static final String ACTION_SINGLECOURSE_UPDATE = "no.hials.muldvarp.ACTION_SINGLECOURSE_UPDATE";
     public static final String ACTION_LIBRARY_UPDATE      = "no.hials.muldvarp.ACTION_LIBRARY_UPDATE";
     public static final String ACTION_VIDEOCOURSE_UPDATE  = "no.hials.muldvarp.ACTION_VIDEOCOURSE_UPDATE";
-    public static final String ACTION_VIDEOCOURSE_LOAD  = "no.hials.muldvarp.ACTION_VIDEOCOURSE_LOAD";
+    public static final String ACTION_VIDEOCOURSE_LOAD    = "no.hials.muldvarp.ACTION_VIDEOCOURSE_LOAD";
     public static final String ACTION_VIDEOSTUDENT_UPDATE = "no.hials.muldvarp.ACTION_VIDEOSTUDENT_UPDATE";
-    public static final String ACTION_VIDEOSTUDENT_LOAD = "no.hials.muldvarp.ACTION_VIDEOSTUDENT_LOAD";
+    public static final String ACTION_VIDEOSTUDENT_LOAD   = "no.hials.muldvarp.ACTION_VIDEOSTUDENT_LOAD";
+    public static final String ACTION_PROGRAMMES_UPDATE   = "no.hials.muldvarp.ACTION_PROGRAMMES_UPDATE";
+    public static final String ACTION_PROGRAMMES_LOAD     = "no.hials.muldvarp.ACTION_PROGRAMMES_LOAD";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";    
     
     // Binder given to clients
@@ -122,27 +124,14 @@ public class MuldvarpService extends Service {
     
     public void requestProgrammes(){
         
+        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_PROGRAMMES_UPDATE),
+                                                                                this,
+                                                                                getURL(R.string.programmesResPath),
+                                                                                getString(R.string.cacheProgrammeList));
+        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
+        asyncCachedWebRequest.startRequest();         
     }
     
-    /**
-     * Returns true if the file in the specified filepath is older than the system specified cache time.
-     * 
-     * @param filePath
-     * @return boolean true/false
-     */
-    public boolean checkCache(String filePath){
-        
-        File cacheFile = new File(filePath);
-        
-        if((System.currentTimeMillis() - cacheFile.lastModified() > this.getResources().getInteger(R.integer.cacheTime))) {
-            
-            return false;            
-        } else {
-            
-            return true;
-        }
-    }
-
     public String getHttpHeader() {
         return "Basic " + Base64.encodeToString(loadLogin().getBytes(), Base64.NO_WRAP);
     }

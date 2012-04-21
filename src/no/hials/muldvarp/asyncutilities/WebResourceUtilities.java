@@ -86,9 +86,6 @@ public class WebResourceUtilities {
                 System.out.println("WebresourceUtilities: Array length: " + jArray.length());
                 for (int i = 0; i < jArray.length(); i++) {
                     JSONObject currentObject = jArray.getJSONObject(i);
-
-                    System.out.println(currentObject.toString());
-                    
                     itemList.add(new Video(currentObject.getString("id"),
                             currentObject.getString("videoName"),
                             currentObject.getString("videoDetail"),

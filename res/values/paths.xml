@@ -2,8 +2,10 @@
 <resources>
     <string name="serverPath">http://master.uials.no:8080/muldvarp/</string>
     <string name="videoResPath">resources/video/</string>
+    <string name="programmesResPath">resources/programmes/</string>
     <string name="courseResPath">resources/course/</string>
     <string name="libraryResPath">resources/Library/</string>
     
     <string name='youtubeFeeds'>http://gdata.youtube.com/feeds/api/videos</string>
+    <string name='authString'>Authorization</string>
 </resources>
