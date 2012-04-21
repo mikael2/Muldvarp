@@ -22,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Video;
-import no.hials.muldvarp.utility.AsyncHTTPRequest;
+import no.hials.muldvarp.asyncutilities.AsyncHTTPRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -149,9 +149,6 @@ public class VideoActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.menu_download:
                 
-//                Toast.makeText(this, "Downloading video...", Toast.LENGTH_SHORT).show();
-                
-                
                 final CharSequence[] items = {"Yes", "No"};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -176,18 +173,17 @@ public class VideoActivity extends Activity {
                 });
                 AlertDialog alert = builder.create();
                 alert.show();
-                System.out.println("IT WORKS?");
                 
                 //NYI
                 return true;
                 
-            case R.id.menu_favourite:
+            case R.id.video_bookmark:
                 
                 Toast.makeText(this, "Video added to favourites!", Toast.LENGTH_SHORT).show();
                 
                 //NYI
                 return true;
-            case R.id.menu_settings:
+            case R.id.video_settings:
                 
                 Toast.makeText(this, "Menu clicked.", Toast.LENGTH_SHORT).show();
                 

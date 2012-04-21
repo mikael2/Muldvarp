@@ -82,6 +82,16 @@ public class FragmentPager extends ViewPager {
         return adapter.getItem(position);
     }
     
+    /**
+     * Returns the size of the list of Views in the FragmentAdapter.
+     * 
+     * @return int
+     */
+    public int getTabListSize(){
+        
+        return adapter.getCount();
+    }
+    
     public DefaultFragmentPagerAdapter getAdapter(){
                 
         return adapter;

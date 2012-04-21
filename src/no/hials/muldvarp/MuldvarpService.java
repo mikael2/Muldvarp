@@ -8,6 +8,8 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
+import java.io.File;
+import no.hials.muldvarp.asyncutilities.AsyncCachedWebRequest;
 import no.hials.muldvarp.utility.DownloadTask;
 
 /**
@@ -19,6 +21,10 @@ public class MuldvarpService extends Service {
     public static final String ACTION_COURSE_UPDATE       = "no.hials.muldvarp.ACTION_COURSE_UPDATE";
     public static final String ACTION_SINGLECOURSE_UPDATE = "no.hials.muldvarp.ACTION_SINGLECOURSE_UPDATE";
     public static final String ACTION_LIBRARY_UPDATE      = "no.hials.muldvarp.ACTION_LIBRARY_UPDATE";
+    public static final String ACTION_VIDEOCOURSE_UPDATE  = "no.hials.muldvarp.ACTION_VIDEOCOURSE_UPDATE";
+    public static final String ACTION_VIDEOCOURSE_LOAD  = "no.hials.muldvarp.ACTION_VIDEOCOURSE_LOAD";
+    public static final String ACTION_VIDEOSTUDENT_UPDATE = "no.hials.muldvarp.ACTION_VIDEOSTUDENT_UPDATE";
+    public static final String ACTION_VIDEOSTUDENT_LOAD = "no.hials.muldvarp.ACTION_VIDEOSTUDENT_LOAD";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";    
     
     // Binder given to clients
@@ -91,6 +97,51 @@ public class MuldvarpService extends Service {
         new DownloadTask(this, new Intent(ACTION_LIBRARY_UPDATE),getHttpHeader())
                 .execute(getURL(R.string.libraryResPath), getString(R.string.cacheLibraryPath));
     }
+    
+    public void requestVideos(){
+        
+        AsyncCachedWebRequest asyncCachedWebRequest = new AsyncCachedWebRequest(new Intent(ACTION_VIDEOCOURSE_UPDATE),
+                                                                                this,
+                                                                                getURL(R.string.videoResPath),
+                                                                                getString(R.string.cacheVideoCourseList));
+        asyncCachedWebRequest.setHeader("Authorization", getHttpHeader());
+        asyncCachedWebRequest.startRequest();        
+    }
+            
+    public void requestVideo(Integer id){        
+        
+    }
+    
+    public void requestBookmarkedVideos(String user){
+        
+    }
+    
+    public void requestDownloadedVideos(){
+        
+    }
+    
+    public void requestProgrammes(){
+        
+    }
+    
+    /**
+     * Returns true if the file in the specified filepath is older than the system specified cache time.
+     * 
+     * @param filePath
+     * @return boolean true/false
+     */
+    public boolean checkCache(String filePath){
+        
+        File cacheFile = new File(filePath);
+        
+        if((System.currentTimeMillis() - cacheFile.lastModified() > this.getResources().getInteger(R.integer.cacheTime))) {
+            
+            return false;            
+        } else {
+            
+            return true;
+        }
+    }
 
     public String getHttpHeader() {
         return "Basic " + Base64.encodeToString(loadLogin().getBytes(), Base64.NO_WRAP);
@@ -104,4 +155,6 @@ public class MuldvarpService extends Service {
         
         return username + ":" + password; 
     }
+    
+    
 }

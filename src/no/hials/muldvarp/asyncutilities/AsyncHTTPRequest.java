@@ -2,18 +2,24 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.utility;
+package no.hials.muldvarp.asyncutilities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import no.hials.muldvarp.MuldvarpService;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 
 /**
  * This class provides asynchronous HTTP-request functionality using android.os.Handler and threads.
@@ -45,9 +51,12 @@ public class AsyncHTTPRequest implements Runnable{
     //Global variables
     Handler handler;
     HttpClient httpClient;
+    Header header;
     String url;
     int method;
     boolean useHandler;
+    Intent intent;
+    Context applicationContext;
     
     boolean responseDone = false;
     String result;
@@ -64,13 +73,30 @@ public class AsyncHTTPRequest implements Runnable{
     
     
     /**
-     * Constructor for the AsynchHTTPRequest class. This does not use Handler.
-     * Not yet implemented.
+     * Constructor for the AsynchHTTPRequest class. This makes use of a BroadCast service.
      * 
      */
-    public AsyncHTTPRequest() {
+    public AsyncHTTPRequest(Intent intent, Context context) {
         
+        this.intent = intent;
+        this.applicationContext = context;
         useHandler = false;
+    }
+    
+    public void setHandler(Handler handler){
+        
+        this.useHandler = true;
+        this.handler = handler;
+    }
+    
+    public void setHeader(String headerName, String headerValue){
+        
+        this.header = new BasicHeader(headerName, headerValue);
+    }
+    
+    public void setHeader(Header header){
+        
+        this.header = header;
     }
     
     
@@ -120,6 +146,7 @@ public class AsyncHTTPRequest implements Runnable{
     public void httpDelete(String url) {
         
     }
+    
     /**
      * This function processes the response from the HTTP Request, and parses it to a String.
      * It is then sent as an object along with the specified handler.
@@ -145,16 +172,17 @@ public class AsyncHTTPRequest implements Runnable{
         String result = stringBuilder.toString();
         
         if(useHandler){
-        //Create success message with processed request
-        Message message = Message.obtain(handler, CON_SUCCEED, result);
-        //Send finished string
-        handler.sendMessage(message);        
+            
+            //Create success message with processed request
+            System.out.println("AsyncHTTPRequest: Response processed, notifying handler");
+            Message message = Message.obtain(handler, CON_SUCCEED, result);
+            //Send finished string
+            handler.sendMessage(message);        
         } else {
             
-            //TODO: Implement non-handler functionality.
-        }
-        
-        
+            System.out.println("AsyncHTTPRequest: Broadcasting intent " + intent.getAction());
+            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent);           
+        }       
         
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,58 +195,66 @@ public class AsyncHTTPRequest implements Runnable{
     public void run() {
     
         //Message handler that the connection has started
-        if(useHandler){
-        handler.sendMessage(Message.obtain(handler, AsyncHTTPRequest.CON_START));
+        if(useHandler){            
+            handler.sendMessage(Message.obtain(handler, AsyncHTTPRequest.CON_START));
+        } else {            
+            //LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent);            
         }
         
+        //Initialize DefaultHttpClient and HttpResponse
         httpClient = new DefaultHttpClient();
-        
+        HttpResponse httpResponse = null;
         try {
-            //Initialize HttpResponse
-            HttpResponse httpResponse = null;
-            
+                       
             //Execute request based on method
             switch(method) {
 
                 case GET:
 
+                    System.out.println("AsyncHTTPRequest: "+ "GET " + url);
                     HttpGet httpGet = new HttpGet(url);
+                    if(header != null){
+                        httpGet.setHeader(header);
+                    }
                     httpResponse = httpClient.execute(httpGet);
                     break;
                     
                  case POST:
 
+                     System.out.println("AsyncHTTPRequest: "+ "POST " + url);
                     HttpPost httpPost = new HttpPost(url);
                     httpResponse = httpClient.execute(httpPost);
                     break;
                      
                  case PUT:
 
+                     System.out.println("AsyncHTTPRequest: "+ "PUT " + url);
                     //TODO: Implement PUT functionality
                     break;
                      
                   case DELETE:
 
+                    System.out.println("AsyncHTTPRequest: "+ "DELETE " + url);
                     //TODO: Implement DELETE functionality
                     break;
 
-                default:
+                    default:
                     break;
-
-
             }
-            
+            System.out.println("AsyncHTTPRequest: Response received");
             processResponse(httpResponse.getEntity());
             
         } catch(Exception e) {
             //Message handler that the request has failed
             e.printStackTrace();
             if(useHandler){
-            handler.sendMessage(Message.obtain(handler, AsyncHTTPRequest.CON_ERROR));
+                System.out.println("AsyncHTTPRequest: Notifying Handler");
+                handler.sendMessage(Message.obtain(handler, AsyncHTTPRequest.CON_ERROR, httpResponse.getStatusLine().getStatusCode()));
+            } else {
+                System.out.println("AsyncHTTPRequest: Broadcasting intent");
+                LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(new Intent(MuldvarpService.SERVER_NOT_AVAILABLE)); 
             }
         }
-        
-        
         
     }
     

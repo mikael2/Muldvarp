@@ -5,11 +5,11 @@
           android:icon="@drawable/ic_menu_save"
           android:title="@string/menu_download"
           android:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_favourite"
+    <item android:id="@+id/video_bookmark"
           android:icon="@drawable/mv_favourite_heart"
-          android:title="@string/menu_favourite"
+          android:title="@string/menu_bookmark"
           android:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_settings"
+    <item android:id="@+id/video_settings"
           android:iconifiedByDefault="false"
           android:title="@string/settings_name"
           android:showAsAction="ifRoom" />

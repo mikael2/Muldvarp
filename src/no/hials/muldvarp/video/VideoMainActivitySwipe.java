@@ -3,13 +3,18 @@ package no.hials.muldvarp.video;
 import android.app.ActionBar;
 import android.app.ActionBar.TabListener;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
 import android.view.MenuInflater;
-import java.util.ArrayList;
+import android.view.MenuItem;
+import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.view.FragmentPager;
 
@@ -19,26 +24,23 @@ import no.hials.muldvarp.view.FragmentPager;
  *
  * @author johan
  */
-public class VideoMainActivitySwipe extends FragmentActivity{
-
+public class VideoMainActivitySwipe extends FragmentActivity{   
+    
+    static String TAB1 = "My Videos";
+    static String TAB2 = "Courses";
+    static String TAB3 = "Student";
     //Global Variables
     //ActionBar Tabs
     ActionBar actionBar;
     OnPageChangeListener userListener;
-    static String TAB1 = "My Videos";
-    static String TAB2 = "Courses";
-    static String TAB3 = "Student";
-    //Resources
-    String videoURL = "http://master.uials.no:8080/muldvarp/resources/video";
-    String courseURL = "http://master.uials.no:8080/muldvarp/resources/course";
-    //Global variables
-    private Handler handler;
     FragmentPager fragmentPager;
     //UI stuff
     ProgressDialog progressDialog;
     
-    //HAT
-    int getType = 0;
+    //Service
+    MuldvarpService muldvarpService;
+    LocalBroadcastManager localBroadcastManager;
+    BroadcastReceiver broadcastReceiver;
 
     /**
      * Called when the activity is first created.
@@ -67,27 +69,49 @@ public class VideoMainActivitySwipe extends FragmentActivity{
         fragmentPager = (FragmentPager) findViewById(R.id.pager);
         fragmentPager.initializeAdapter(getSupportFragmentManager(), actionBar);
         
-        
-        ArrayList<String> resourceList = new ArrayList();
-        resourceList.add(videoURL);
-        resourceList.add(courseURL);
-        resourceList.add(videoURL);
-        resourceList.add(videoURL);
+        //If no saved instance state exists
+        if(savedInstanceState == null){
+            
+            //Singleton initialization
+            localBroadcastManager = LocalBroadcastManager.getInstance(this);
+            //Set up which intents to listen for using an IntentFilter
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE);
+            intentFilter.addAction(MuldvarpService.ACTION_VIDEOSTUDENT_UPDATE);
+            
+            //Define BroadCastReceiver and what to do depending on the Intent by overriding the onReceive method
+            broadcastReceiver = new BroadcastReceiver() {
+
+                @Override
+                public void onReceive(Context thisContext, Intent receivedIntent) {
+                    
+                    if(receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE)){
+                        
+                        //NYI
+                        
+                    } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOSTUDENT_UPDATE)) {
+                        
+                        //NYI
+                        
+                    }
+                    
+                }
+            }; //END OF new BroadcastReceiver
+        }            
         
         //Instantiate TabListener
-        TabListener videoTabListener = new VideoTabListener(fragmentPager, fragmentPager, resourceList);
+        TabListener videoTabListener = new VideoTabListener(fragmentPager, fragmentPager, null);
         
         //Add tabs along with VideoTabListener
-        fragmentPager.addTab(TAB1, CustomListFragmentSwipe.class, videoTabListener);
-        fragmentPager.addTab(TAB2, CustomListFragmentSwipe.class, videoTabListener);
-        fragmentPager.addTab(TAB3, CustomListFragmentSwipe.class, videoTabListener);
+        fragmentPager.addTab(TAB1, VideoListFragmentSwipe.class, videoTabListener);
+        fragmentPager.addTab(TAB2, VideoListFragmentSwipe.class, videoTabListener);
+        fragmentPager.addTab(TAB3, VideoListFragmentSwipe.class, videoTabListener);
+        
+        
 
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
         }
-
-
-
     }
 
     @Override
@@ -110,8 +134,6 @@ public class VideoMainActivitySwipe extends FragmentActivity{
         return true;
     }
     
-    
         
-    
     
 }

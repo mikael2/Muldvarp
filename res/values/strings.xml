@@ -3,6 +3,9 @@
     <string name="app_name">Muldvarp</string>
     <string name="desktop_name">Desktop</string>
     <string name="settings_name">Settings</string>
+    <string name="menu_update">Update</string>
+    <string name="menu_bookmark">Bookmark</string>
+    <string name="menu_download">Download</string>
     <string name="list">List</string>
     <string name="grid">Grid</string>
     <string name="course">Course</string>
@@ -12,8 +15,6 @@
     <string name="menu_search">Search</string>
     <string name="loading">Loading</string>
     <string name="cannot_connect">Cannot connect to server</string>
-    <string name="menu_favourite">FV</string>
-    <string name="menu_download">Download</string>
     <string name="login">Login</string>
     
     <string name="icon_directory">Directory</string>

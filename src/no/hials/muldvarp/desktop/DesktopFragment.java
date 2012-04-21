@@ -10,11 +10,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.*;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.asyncvideo.VideoTestActivity;
 import no.hials.muldvarp.courses.CourseActivity;
-import no.hials.muldvarp.directory.DirectoryActivity;
 import no.hials.muldvarp.library.LIBMainscreen;
 import no.hials.muldvarp.news.NewsActivity;
-import no.hials.muldvarp.video.VideoMainActivitySwipe;
 
 /**
  *
@@ -89,9 +88,11 @@ public class DesktopFragment extends Fragment {
         private IntentLink[] links = {
             //new IntentLink(R.string.icon_directory, R.drawable.icon_directory, DirectoryActivity.class),
             new IntentLink(R.string.icon_news,      R.drawable.icon_news,      NewsActivity.class),
-            new IntentLink(R.string.icon_courses,   R.drawable.icon_course,    CourseActivity.class),
-            new IntentLink(R.string.icon_library,   R.drawable.icon_library,   LIBMainscreen.class),
-            new IntentLink(R.string.icon_video,     R.drawable.icon_video,     VideoMainActivitySwipe.class)
+            new IntentLink(R.string.icon_courses,   R.drawable.icon_course,    CourseActivity.class),            
+            new IntentLink(R.string.icon_video,     R.drawable.icon_video,     VideoTestActivity.class),
+            //new IntentLink(R.string.icon_video,     R.drawable.icon_video,     VideoMainActivitySwipe.class),
+            new IntentLink(R.string.icon_library,   R.drawable.icon_library,   LIBMainscreen.class)
+            
         };
      
     }        
