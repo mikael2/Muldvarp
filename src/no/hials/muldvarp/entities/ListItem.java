@@ -7,7 +7,7 @@ package no.hials.muldvarp.entities;
 import android.graphics.Bitmap;
 
 /**
- * Class defining a general item.
+ * Class defining a general item in a list.
  * 
  * @author johan
  */

@@ -61,9 +61,9 @@ public class LIBMainscreen extends FragmentActivity {
         FragmentPager pager = (FragmentPager) findViewById(R.id.pager);
         pager.initializeAdapter(getSupportFragmentManager(), bar);
         pager.addTab("All", LIBmainAll.class, null);
-        all = (LIBmainAll) pager.getTab(0);
+        all = (LIBmainAll) pager.getFragmentInTab(0);
         pager.addTab("Favourites", LIBmainFavourites.class, null);
-        favourite = (LIBmainFavourites) pager.getTab(1);
+        favourite = (LIBmainFavourites) pager.getFragmentInTab(1);
 
         if (savedInstanceState != null) {
             bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
@@ -168,7 +168,7 @@ public class LIBMainscreen extends FragmentActivity {
         protected void onPostExecute(List<LibraryItem> items) {
             if(LIBMainscreen.this.isFinishing() == false) {
                 FragmentPager pager = (FragmentPager) findViewById(R.id.pager);
-                ((LIBmainAll) pager.getTab(0)).itemsReady(items != null ? items : new ArrayList());
+                ((LIBmainAll) pager.getFragmentInTab(0)).itemsReady(items != null ? items : new ArrayList());
                 //all.itemsReady(items);
                 dialog.dismiss();
             }

@@ -78,7 +78,14 @@ public class FragmentPager extends ViewPager {
         return retVal;
     }
     
-    public Fragment getTab(int position){
+    /**
+     * This function returns a Fragment based on it's position in the adapter view list.
+     * 
+     * @param position int
+     * @return Fragment
+     */
+    public Fragment getFragmentInTab(int position){
+        
         return adapter.getItem(position);
     }
     
