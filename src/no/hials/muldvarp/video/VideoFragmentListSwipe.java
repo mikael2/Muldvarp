@@ -46,6 +46,7 @@ public class VideoFragmentListSwipe extends Fragment {
     @Override
     public void onCreate(Bundle savedStateInstance) {
         super.onCreate(savedStateInstance);
+        setRetainInstance(true);
     }
         
     /**
@@ -107,13 +108,7 @@ public class VideoFragmentListSwipe extends Fragment {
                
         return returnFragmentView;
     }       
-    
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //setUserVisibleHint(true);
-    }
-    
+
     /**
      * This function is called after the activity's oncreate is called.
      * 
@@ -122,14 +117,25 @@ public class VideoFragmentListSwipe extends Fragment {
     public void onResume(){
         
         super.onResume();
-        System.out.println("Fragment: Requesting items.");
-        if(owningActivity.requestItems(listItemType)){
-            System.out.println("Fragment: Request successful.");
-        } else {
-            System.out.println("Fragment: Request failed.");
-            //Do something to compensate.
+        if(currentListItems == null){
+            requestContent();
         }
+        
     }    
+    
+    public void requestContent(){
+        
+        if(owningActivity != null){
+            
+            System.out.println(getFragmentName() + "Fragment: Requesting items:" + listItemType);
+            if(owningActivity.requestItems(listItemType)){
+                System.out.println(getFragmentName() + "Fragment: Request successful.");
+            } else {
+                System.out.println(getFragmentName() + "Fragment: Request failed.");
+                //Do something to compensate.
+            }            
+        }        
+    }
        
     
     /**

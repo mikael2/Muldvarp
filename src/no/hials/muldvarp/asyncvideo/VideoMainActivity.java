@@ -69,10 +69,9 @@ public class VideoMainActivity extends FragmentActivity{
         actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
         //Show tabs
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        //FragmentPager implementation of the actionbar with swiping
-        fragmentPager = (FragmentPager) findViewById(R.id.pager);
-        fragmentPager.initializeAdapter(getSupportFragmentManager(), actionBar);
+        
+        //Initialize progressDialog
+        progressDialog = new ProgressDialog(VideoMainActivity.this);
         
         //If no saved instance state exists
         if(savedInstanceState == null){
@@ -97,10 +96,15 @@ public class VideoMainActivity extends FragmentActivity{
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         }
                 
+        //FragmentPager implementation of the actionbar with swiping
+        fragmentPager = (FragmentPager) findViewById(R.id.pager);
+        fragmentPager.initializeAdapter(getSupportFragmentManager(), actionBar);
+        //Initialize array
+        fragmentContents = new ArrayList<HashMap<String, ArrayList<ListItem>>>();
         //Add tabs to FragmentPager, and keep record of it a local variable array
         addFragmentToTab(VIDEOACTIVITY_TAB1.toString(), getString(R.string.cacheVideoCourseList), VideoFragmentListSwipe.class);
         addFragmentToTab(VIDEOACTIVITY_TAB2.toString(), getString(R.string.cacheProgrammeList), VideoFragmentListSwipe.class);
-        addFragmentToTab(VIDEOACTIVITY_TAB3.toString(), getString(R.string.cacheCourseList), VideoFragmentListSwipe.class);
+        addFragmentToTab(VIDEOACTIVITY_TAB3.toString(), getString(R.string.cacheVideoCourseList), VideoFragmentListSwipe.class);
         
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
@@ -142,8 +146,9 @@ public class VideoMainActivity extends FragmentActivity{
             case R.id.videomain_update:
                 
                 if(muldvarpBound){
-                    showProgressDialog();
-                    muldvarpService.requestVideos();
+                    
+                    readyFragments();
+                    showProgressDialog();                    
                 } else {
                     Toast.makeText(this, "Not connected to MuldvarpService.", Toast.LENGTH_SHORT).show();
                 }                
@@ -159,6 +164,7 @@ public class VideoMainActivity extends FragmentActivity{
         super.onStop();
         // Unbind from the service
         if (muldvarpBound) {
+            
             unbindService(serviceConnection);
             muldvarpBound = false;
         }
@@ -172,26 +178,39 @@ public class VideoMainActivity extends FragmentActivity{
             localBroadcastManager.unregisterReceiver(broadcastReceiver);
     }
     
+    @Override
+    protected void onResume(){
+        
+        super.onResume();
+        if(!muldvarpBound){
+            
+            
+        }
+        
+    }
+    
     private void setServiceConnection(){
         
         serviceConnection = new ServiceConnection() {
 
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            MuldvarpService.LocalBinder binder = (MuldvarpService.LocalBinder) service;
-            muldvarpService = binder.getService();
-            muldvarpBound = true;
-            System.out.println("VideoMainActivity: Connected to MuldvarpService.");
-        }
+            @Override
+            public void onServiceConnected(ComponentName className, IBinder service) {
+                // We've bound to LocalService, cast the IBinder and get LocalService instance
+                MuldvarpService.LocalBinder binder = (MuldvarpService.LocalBinder) service;
+                muldvarpService = binder.getService();
+                muldvarpBound = true;
+                System.out.println("VideoMainActivity: Connected to MuldvarpService.");
+                readyFragments();
+                
+            }
 
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            muldvarpService = null;
-            muldvarpBound = false;
-            System.out.println("VideoMainActivity: Disconnected from MuldvarpService.");
-        }
-    };
+            @Override
+            public void onServiceDisconnected(ComponentName arg0) {
+                muldvarpService = null;
+                muldvarpBound = false;
+                System.out.println("VideoMainActivity: Disconnected from MuldvarpService.");
+            }
+        };
     }
     
     public void addFragmentToTab(String tabName, String listItemType, Class fragment){        
@@ -200,11 +219,11 @@ public class VideoMainActivity extends FragmentActivity{
         int tabPosition = fragmentPager.addTab(tabName, fragment, null).getPosition();        
         //add String with empty item list, will need fixing
 //        //bad way to do it
-//        HashMap<String, ArrayList<ListItem>> itemListHashMap = new HashMap();
-//        ArrayList<ListItem> tempArray = null;
-//        System.out.println("TESTAN GAEMS =" +  listItemType);
-//        itemListHashMap.put(listItemType, tempArray);
-//        fragmentContents.add(itemListHashMap);
+        HashMap<String, ArrayList<ListItem>> itemListHashMap = new HashMap();
+        ArrayList<ListItem> tempArray = null;
+        System.out.println("TESTAN GAEMS =" +  listItemType);
+        itemListHashMap.put(listItemType, tempArray);
+        fragmentContents.add(itemListHashMap);
         
         //Set some stuff. Not really that important, but eh
         VideoFragmentListSwipe currentFragment = (VideoFragmentListSwipe) fragmentPager.getFragmentInTab(tabPosition);
@@ -215,18 +234,40 @@ public class VideoMainActivity extends FragmentActivity{
     public boolean requestItems(String requestType){
         
         System.out.println("VideoMainActivity: requestItems:" + requestType);
-        if(requestType.equals(getString(R.string.cacheProgrammeList))){
+        if(muldvarpBound){
             
-            muldvarpService.requestProgrammes();
-            return true;
+            if(requestType.equals(getString(R.string.cacheProgrammeList))){            
+                muldvarpService.requestProgrammes();
+                showProgressDialog();
+                return true;
             
-        } else if(requestType.equals(getString(R.string.cacheVideoCourseList))){
+            } else if(requestType.equals(getString(R.string.cacheVideoCourseList))){
+                muldvarpService.requestVideos();
+                showProgressDialog();
+                return true;
+                
+            }else if(requestType.equals(getString(R.string.cacheVideoStudentList))){
+                muldvarpService.requestDownloadedVideos(); //TODO: CHANGE
+                showProgressDialog();
+                return true;
+                
+            } else {
+                return false;
+            }
             
-            muldvarpService.requestVideos();
-            return true;
         } else {
             return false;
+        }        
+    }
+    
+    public void readyFragments(){
+        
+        for(int i = 0; i < fragmentPager.getTabListSize(); i++){
+            
+            VideoFragmentListSwipe currentFragment = (VideoFragmentListSwipe) fragmentPager.getFragmentInTab(i);
+            currentFragment.requestContent();
         }
+        
     }
           
     public void updateFragment(int position, String itemListName) {
@@ -245,36 +286,42 @@ public class VideoMainActivity extends FragmentActivity{
         
         VideoFragmentListSwipe currentFragment = null;
         
-        //Replaces the first occurence
-        int i = 0;
-        while (fragmentContents.size() >= i) {            
+        //Replaces the first occurence if fragmentContents is not null or empty,
+        //otherwise just adds it straight in.
+        if(fragmentContents == null || fragmentContents.isEmpty()){
             
-            if(fragmentContents.get(i).containsKey(listItemName)){
+            HashMap<String, ArrayList<ListItem>> itemListHashMap = new HashMap();
                 
-                fragmentContents.get(i).put(listItemName, itemList);
-                updateFragment(i, listItemName);
-                break;
-            } else {
-                HashMap<String, ArrayList<ListItem>> itemListHashMap = new HashMap();
-                
-                itemListHashMap.put(listItemName, itemList);
-                fragmentContents.add(itemListHashMap);
-            }
-            i++;
-        }
+            itemListHashMap.put(listItemName, itemList);
+            fragmentContents.add(itemListHashMap);            
+        } else {
+            
+            int i = 0;
+            while (fragmentContents.size() >= i) {            
+            
+                if(fragmentContents.get(i).containsKey(listItemName)){
+
+                    fragmentContents.get(i).put(listItemName, itemList);
+                    updateFragment(i, listItemName);
+                    break;
+                } 
+                i++;
+            }  
+        }     
         
         return currentFragment;
-    }
-    
+    }    
     
     
     public void showProgressDialog(){
         
-        progressDialog = new ProgressDialog(VideoMainActivity.this);
-        progressDialog.setMessage(getString(R.string.loading));
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+        if(!progressDialog.isShowing()){
+         
+            progressDialog.setMessage(getString(R.string.loading));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }        
     }
     
     public void makeShortToast(String toastMessage, Context applicationContext){
@@ -303,8 +350,8 @@ public class VideoMainActivity extends FragmentActivity{
                         ArrayList<ListItem> newListItems = WebResourceUtilities
                                 .createListItemsFromJSONString(response, type, getApplicationContext());
                         updateFragmentbyListName(listItemType, newListItems);
-                        //Dismiss progressdialog
-                        progressDialog.dismiss();                        
+                        //Dismiss progressdialog      
+                        progressDialog.dismiss();
                         break;
                     }
                         
