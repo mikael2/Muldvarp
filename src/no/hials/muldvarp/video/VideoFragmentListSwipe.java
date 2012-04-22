@@ -122,18 +122,15 @@ public class VideoFragmentListSwipe extends Fragment {
     public void onResume(){
         
         super.onResume();
-        if(currentListItems != null){
-            
-            requestItems();
-        }        
+        System.out.println("Fragment: Requesting items.");
+        if(owningActivity.requestItems(listItemType)){
+            System.out.println("Fragment: Request successful.");
+        } else {
+            System.out.println("Fragment: Request failed.");
+            //Do something to compensate.
+        }
     }    
-    
-    public void requestItems(){
-        
-        System.out.println("VideoFragment: Requesting listItem: " + listItemType);
-
-    }
-    
+       
     
     /**
      * This function updates the listView in the fragment by creating a new ListViewAdapter and setting it.

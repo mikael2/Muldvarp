@@ -132,7 +132,7 @@ public class MuldvarpService extends Service {
         asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
         asyncCachedWebRequest.startRequest();         
     }
-    
+        
     public String getHttpHeader() {
         return "Basic " + Base64.encodeToString(loadLogin().getBytes(), Base64.NO_WRAP);
     }
