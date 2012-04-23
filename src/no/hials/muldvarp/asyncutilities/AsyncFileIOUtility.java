@@ -32,11 +32,13 @@ public class AsyncFileIOUtility implements Runnable{
     public static final int READFILE = 0;
     public static final int WRITEFILE = 1;
     public static final int WRITESTRING = 2;
+    public static final int APPENDTOFILE = 3;
     
     //Global variables
     Handler handler;
     File currentFile;
     Object objectToBeWritten;
+    FileOutputStream fileOutputStream;
     int ioType;
     boolean useHandler;
     Intent intent;
@@ -72,6 +74,15 @@ public class AsyncFileIOUtility implements Runnable{
         this.ioType = WRITEFILE;
         currentFile = new File(filePath, fileName);
         objectToBeWritten = object;
+        
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+    
+    public void appendToFile(FileOutputStream fileOutputStream){        
+        
+        this.fileOutputStream = fileOutputStream;
+        this.ioType = APPENDTOFILE;
         
         Thread thread = new Thread(this);
         thread.start();
@@ -167,10 +178,20 @@ public class AsyncFileIOUtility implements Runnable{
                     bufferedWriter.write(stringTobeWritten);                    
                     bufferedWriter.flush();
                     bufferedWriter.close();
-                    System.out.println("AsyncFileIOUtility: File read from " + currentFile.getPath());
+                    System.out.println("AsyncFileIOUtility: File written to " + currentFile.getPath());
                     message = Message.obtain(handler, AsyncFileIOUtility.IO_SUCCEED);
                     
-                    break;                    
+                    break;     
+                case WRITEFILE:
+
+                    System.out.println("AsyncFileIOUtility: Trying to write " + currentFile.getPath());
+                    
+                    
+                    
+                    System.out.println("AsyncFileIOUtility: File written to " + currentFile.getPath());
+                    message = Message.obtain(handler, AsyncFileIOUtility.IO_SUCCEED);
+                    
+                    break;
 
                     default:
                     break;

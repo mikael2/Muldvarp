@@ -121,7 +121,6 @@ public class VideoFragmentSwipeVideoCourse extends Fragment {
     public void requestItems(){
         
         System.out.println("VideoFragment: Requesting Items");
-        owningActivity.updateFragments();
     }
        
     /**

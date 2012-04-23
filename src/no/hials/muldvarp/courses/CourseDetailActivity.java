@@ -137,13 +137,13 @@ public class CourseDetailActivity extends FragmentActivity {
             
 //            CourseDetailWorkFragment workFragment = (CourseDetailWorkFragment)cdwf.getFragment();
 //            workFragment.ready();
-            CourseDetailWorkFragment work = (CourseDetailWorkFragment)pager.getTab(0);
+            CourseDetailWorkFragment work = (CourseDetailWorkFragment)pager.getFragmentInTab(0);
             work.ready(c);
             
-            CourseDetailHandinsFragment handin = (CourseDetailHandinsFragment)pager.getTab(1);
+            CourseDetailHandinsFragment handin = (CourseDetailHandinsFragment)pager.getFragmentInTab(1);
             handin.ready(c);
             
-            CourseDetailExamFragment exam = (CourseDetailExamFragment)pager.getTab(2);
+            CourseDetailExamFragment exam = (CourseDetailExamFragment)pager.getFragmentInTab(2);
             exam.ready(c);
             
             dialog.dismiss();
