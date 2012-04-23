@@ -14,6 +14,8 @@
             android:id="@+id/TextViewTopTitle"
             android:text="@string/app_logo_top"
             android:textColor="@color/logo_color"
+            android:paddingTop="15px"
+            android:paddingBottom="10px"
             android:layout_gravity="center_vertical|center_horizontal"
             android:gravity="top|center"
             android:textSize="@dimen/logo_size">
