@@ -117,24 +117,26 @@ public class VideoFragmentListSwipe extends Fragment {
     public void onResume(){
         
         super.onResume();
-        if(currentListItems == null){
-            requestContent();
-        }
-        
+        System.out.println("onResume called by " + fragmentName + "Fragment0");
+        requestContent();      
     }    
     
     public void requestContent(){
         
-        if(owningActivity != null){
-            
+        if(currentListItems == null && owningActivity != null){
+
             System.out.println(getFragmentName() + "Fragment: Requesting items:" + listItemType);
             if(owningActivity.requestItems(listItemType)){
                 System.out.println(getFragmentName() + "Fragment: Request successful:" + listItemType);
             } else {
                 System.out.println(getFragmentName() + "Fragment: Request failed:" + listItemType);
                 //Do something to compensate.
-            }            
-        }        
+            }        
+        } else {
+            
+            updateContent(currentListItems);
+        } 
+               
     }
        
     
@@ -154,8 +156,7 @@ public class VideoFragmentListSwipe extends Fragment {
                                                                 listItems, true);     
             //Set ListViewAdapter
             listView.setAdapter(adapter);     
-        }
-        
+        }        
     }   
 
     /**
