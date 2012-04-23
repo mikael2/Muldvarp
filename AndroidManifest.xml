@@ -38,6 +38,10 @@
                   android:label="Courses">
         </activity>
         
+        <activity android:name=".courses.CourseDetailQuizActivity"
+                  android:label="Courses">
+        </activity>
+        
         <activity android:name=".library.LIBMainscreen"
                   android:label="Library">
         </activity>
