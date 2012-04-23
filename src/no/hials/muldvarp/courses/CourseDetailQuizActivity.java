@@ -19,8 +19,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.MuldvarpService;
+import no.hials.muldvarp.domain.Alternative;
 import no.hials.muldvarp.domain.Question;
-import no.hials.muldvarp.domain.Question.Alternative;
 
 /**
  *
@@ -35,20 +35,20 @@ public class CourseDetailQuizActivity extends Activity {
     List<Question> questions = new ArrayList<Question>();
     
     public void makeTestData() {
-        List<Question.Alternative> alt = new ArrayList<Question.Alternative>();
-        Question.Alternative a1 = new Question.Alternative("1");
+        List<Alternative> alt = new ArrayList<Alternative>();
+        Alternative a1 = new Alternative("1");
         a1.setId(1);
         alt.add(a1);
-        Question.Alternative a2 = new Question.Alternative("1/2");
+        Alternative a2 = new Alternative("1/2");
         a2.setId(2);
         alt.add(a2);
-        Question.Alternative a3 = new Question.Alternative("0");
+        Alternative a3 = new Alternative("0");
         a3.setId(3);
         alt.add(a3);
-        Question.Alternative a4 = new Question.Alternative("-kvadratrot(2)/2");
+        Alternative a4 = new Alternative("-kvadratrot(2)/2");
         a4.setId(4);
         alt.add(a4);
-        Question.Alternative a5 = new Question.Alternative("kvadratrot(3)/2");
+        Alternative a5 = new Alternative("kvadratrot(3)/2");
         a5.setId(5);
         alt.add(a5);
         
