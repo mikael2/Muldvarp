@@ -129,9 +129,9 @@ public class VideoFragmentListSwipe extends Fragment {
             
             System.out.println(getFragmentName() + "Fragment: Requesting items:" + listItemType);
             if(owningActivity.requestItems(listItemType)){
-                System.out.println(getFragmentName() + "Fragment: Request successful.");
+                System.out.println(getFragmentName() + "Fragment: Request successful:" + listItemType);
             } else {
-                System.out.println(getFragmentName() + "Fragment: Request failed.");
+                System.out.println(getFragmentName() + "Fragment: Request failed:" + listItemType);
                 //Do something to compensate.
             }            
         }        
@@ -145,18 +145,17 @@ public class VideoFragmentListSwipe extends Fragment {
      */
     public void updateContent(ArrayList<ListItem> listItems) {
         
-        //Check if the current list of items is empty
-        if(currentListItems == null){
+        if(owningActivity != null){
             
             currentListItems = listItems;
-            adapter = new ListViewAdapter(this.getActivity().getApplicationContext(),
+            adapter = new ListViewAdapter(owningActivity.getApplicationContext(),
                                                                 R.layout.course_list_item,
                                                                 R.id.courselisttext,
                                                                 listItems, true);     
             //Set ListViewAdapter
-            listView.setAdapter(adapter); 
-            
-        }         
+            listView.setAdapter(adapter);     
+        }
+        
     }   
 
     /**

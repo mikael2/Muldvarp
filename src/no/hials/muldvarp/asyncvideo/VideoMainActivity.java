@@ -141,8 +141,7 @@ public class VideoMainActivity extends FragmentActivity{
             case R.id.videomain_settings:
                 
                 System.out.println("do nothing");
-                return true;
-                
+                return true;                
             case R.id.videomain_update:
                 
                 if(muldvarpBound){
@@ -221,7 +220,7 @@ public class VideoMainActivity extends FragmentActivity{
 //        //bad way to do it
         HashMap<String, ArrayList<ListItem>> itemListHashMap = new HashMap();
         ArrayList<ListItem> tempArray = null;
-        System.out.println("TESTAN GAEMS =" +  listItemType);
+        System.out.println("VideoMainActivity: Adding tab: " + tabName + " with ListItem Type: " +  listItemType);
         itemListHashMap.put(listItemType, tempArray);
         fragmentContents.add(itemListHashMap);
         
@@ -252,10 +251,12 @@ public class VideoMainActivity extends FragmentActivity{
                 return true;
                 
             } else {
+                System.out.println("VideoMainActivity: No matching request type defined for " + requestType);
                 return false;
             }
             
         } else {
+            System.out.println("VideoMainActivity: MuldvarpService not bound.");
             return false;
         }        
     }
@@ -296,23 +297,32 @@ public class VideoMainActivity extends FragmentActivity{
             fragmentContents.add(itemListHashMap);            
         } else {
             
-            int i = 0;
-            while (fragmentContents.size() >= i) {            
-            
-                if(fragmentContents.get(i).containsKey(listItemName)){
-
-                    fragmentContents.get(i).put(listItemName, itemList);
-                    updateFragment(i, listItemName);
-                    break;
-                } 
-                i++;
-            }  
+            for(int n = 0; n < fragmentContents.size(); n++){
+                if(fragmentContents.get(n).containsKey(listItemName)){
+                    
+                    fragmentContents.get(n).put(listItemName, itemList);
+                    System.out.println("Updating fragment #" + n + " with " + listItemName);
+                    updateFragment(n, listItemName);
+                }
+            }
+//            int i = 0;
+//            while (fragmentContents.size() >= i) {            
+//            
+//                if(fragmentContents.get(i).containsKey(listItemName)){
+//
+//                    fragmentContents.get(i).put(listItemName, itemList);
+//                    updateFragment(i, listItemName);
+//                } 
+//                i++;
+//            }  
         }     
         
         return currentFragment;
     }    
     
-    
+    /**
+     * This function shows a ProgressDialog defined as a Global Variable if it isn't already showings.
+     */
     public void showProgressDialog(){
         
         if(!progressDialog.isShowing()){

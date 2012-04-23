@@ -7,22 +7,31 @@ package no.hials.muldvarp.video;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.app.ProgressDialog;
+import android.content.*;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.entities.Video;
+import no.hials.muldvarp.asyncutilities.AsyncFileIOUtility;
 import no.hials.muldvarp.asyncutilities.AsyncHTTPRequest;
+import no.hials.muldvarp.asyncutilities.WebResourceUtilities;
+import no.hials.muldvarp.asyncvideo.VideoMainActivity;
+import no.hials.muldvarp.entities.ListItem;
+import no.hials.muldvarp.entities.Video;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,10 +46,18 @@ public class VideoActivity extends Activity {
     String videoID;
     String videoName;
     String videoDescription;
-    String videoURL;
-    
-    
+    String videoURL;   
     VideoView videoView;
+    
+    //UI stuff
+    ProgressDialog progressDialog;
+    
+     //Service
+    MuldvarpService muldvarpService;
+    LocalBroadcastManager localBroadcastManager;
+    BroadcastReceiver broadcastReceiver;
+    boolean muldvarpBound;
+    private ServiceConnection serviceConnection;
     
     //TEST
     static final int OPTION1 = 0;
@@ -60,6 +77,8 @@ public class VideoActivity extends Activity {
         //Set layout
         setContentView(R.layout.video_detail);
         
+        //Initialize progressDialog
+        progressDialog = new ProgressDialog(VideoActivity.this);
                 
         //Get extras from previous activity
         //Gets data based on a key represented by a string
@@ -72,7 +91,7 @@ public class VideoActivity extends Activity {
         //Set activity title to be displayed in the top bar.
         setTitle(videoName);
         
-//rtsp://v3.cache8.c.youtube.com/CiILENy73wIaGQkBRdI28FHBXhMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp
+        
         videoView = (VideoView)findViewById(R.id.myvideoview);
 //        videoView.setVisibility(1);
 //        videoView.requestFocus();
@@ -192,8 +211,7 @@ public class VideoActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-    
+    }    
     
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -209,15 +227,113 @@ public class VideoActivity extends Activity {
                 dialog = null;
         }
         return dialog;
-}
+    }   
+    
+    private void setServiceConnection(){
+        
+        serviceConnection = new ServiceConnection() {
 
+            @Override
+            public void onServiceConnected(ComponentName className, IBinder service) {
+                // We've bound to LocalService, cast the IBinder and get LocalService instance
+                MuldvarpService.LocalBinder binder = (MuldvarpService.LocalBinder) service;
+                muldvarpService = binder.getService();
+                muldvarpBound = true;
+                System.out.println("VideoActivity: Connected to MuldvarpService.");
+                muldvarpService.requestVideo(OPTION1);
+                
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName arg0) {
+                muldvarpService = null;
+                muldvarpBound = false;
+                System.out.println("VideoMainActivity: Disconnected from MuldvarpService.");
+            }
+        };
+    }
+    
+    /**
+     * This function shows a ProgressDialog defined as a Global Variable if it isn't already showings.
+     */
+    public void showProgressDialog(){
+        
+        if(!progressDialog.isShowing()){
+         
+            progressDialog.setMessage(getString(R.string.loading));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }        
+    }
     
     public void startVideo(String srcPath) {
         
-        videoView.setVideoURI(Uri.parse("rtsp://v3.cache8.c.youtube.com/CiILENy73wIaGQkBRdI28FHBXhMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp"));
+        videoView.setVideoURI(Uri.parse(srcPath));
         
         videoView.start();
         
+    }
+    
+    public void writeVideosToBookmark(Video video){        
+                
+        Handler handler = new Handler(){
+            
+            @Override
+            public void handleMessage(Message message){
+                
+                switch(message.what){
+                    
+                    case AsyncFileIOUtility.IO_SUCCEED: {
+                        
+                        
+                     
+                        break;
+                    }                        
+                        
+                    case AsyncFileIOUtility.IO_ERROR: {
+                     
+                        break;
+                    }    
+                }                
+            }
+        };
+        
+        
+        new AsyncFileIOUtility(handler);
+    }
+    
+    public void readVideosFromBookmark(){
+        
+        
+        
+        Handler handler = new Handler(){
+            
+            @Override
+            public void handleMessage(Message message){
+                
+                switch(message.what){
+                    
+                    case AsyncFileIOUtility.IO_SUCCEED: {
+                        
+                        String response = (String) message.obj;
+                        String type = getString(R.string.cacheVideoCourseList);
+                        ArrayList<ListItem> newListItems = WebResourceUtilities
+                                .createListItemsFromJSONString(response, type, getApplicationContext());
+                     
+                        break;
+                    }                        
+                        
+                    case AsyncFileIOUtility.IO_ERROR: {
+                     
+                        break;
+                    }    
+                }                
+            }
+        };
+        
+        File file = new File(getFilesDir().getAbsolutePath() + "videoBookmarks");
+        new AsyncFileIOUtility(handler).readFile(file);
     }
     
     /**
@@ -228,7 +344,7 @@ public class VideoActivity extends Activity {
      * @return 
      */
     public String get3gp(String youtubeVideoID) {
-        
+               
         Handler handler = new Handler() {
 
             @Override
@@ -242,6 +358,7 @@ public class VideoActivity extends Activity {
 
                         System.out.println("Handler: Connection Started");
                         //TODO: Loading
+                        
 
                         break;
                     }
@@ -293,10 +410,7 @@ public class VideoActivity extends Activity {
         return "her";
     }
     
-    public void startYoutubeApp(String URI){
-        
-        
-        
+    public void startYoutubeApp(String URI){       
         System.out.println(videoURL);
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + videoURL)));
         
@@ -316,61 +430,4 @@ public class VideoActivity extends Activity {
         return new Video(videoID, videoID, videoID, videoID, videoID, null, videoID);
     }
 
-    /**
-     * Function which sends a request for a Web Resource and dispatches a Handler to process the response.
-     * 
-     * @param itemType The type of item.
-     */
-    public void getItemFromWebResource() {        
-        
-        //Define handler
-        //Defines what should happen depending on the returned message.
-        Handler handler = new Handler() {
-
-            @Override
-            public void handleMessage(Message message) {
-                
-                //TODO: Comment
-                switch (message.what) {
-                    
-                    //Connection Start
-                    case AsyncHTTPRequest.CON_START: {
-
-                        System.out.println("Handler: Connection Started");
-                        //TODO: Loading
-
-                        break;
-                    }
-                        
-                    //Connection Success
-                    case AsyncHTTPRequest.CON_SUCCEED: {
-
-                        String response = (String) message.obj;
-                                                
-                                        
-                        
-                        
-
-                        break;
-                    }
-                        
-                    //Connection Error
-                    case AsyncHTTPRequest.CON_ERROR: {
-                        
-                        //TODO: Create Dialogbox 
-
-                        break;
-                    }
-                }
-            }
-        };
-
-
-//        //Get resource URL and make asynchronous HTTP request
-//        String resourceURL = resourceList.get(currentTab);
-//        System.out.println("Reequesting resource:");
-//        System.out.println(resourceURL);
-//        new AsyncHTTPRequest(handler).httpGet(resourceURL);
-
-    }
 }
