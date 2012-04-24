@@ -8,9 +8,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
-import java.io.File;
 import no.hials.muldvarp.asyncutilities.CachedWebRequest;
-import no.hials.muldvarp.utility.BookMarkTask;
 import no.hials.muldvarp.utility.DownloadTask;
 
 /**
@@ -31,7 +29,7 @@ public class MuldvarpService extends Service {
     public static final String ACTION_VIDEOSTUDENT_LOAD   = "no.hials.muldvarp.ACTION_VIDEOSTUDENT_LOAD";
     public static final String ACTION_PROGRAMMES_UPDATE   = "no.hials.muldvarp.ACTION_PROGRAMMES_UPDATE";
     public static final String ACTION_PROGRAMMES_LOAD     = "no.hials.muldvarp.ACTION_PROGRAMMES_LOAD";
-    public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";    
+    public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
     
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -90,7 +88,14 @@ public class MuldvarpService extends Service {
     
     public void requestCourses() {
         new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
-                .execute(getURL(R.string.courseResPath), getString(R.string.cacheCourseList));
+                .execute(getURL(R.string.programmeCourseResPath),
+                        getString(R.string.cacheCourseList));
+    }
+    
+    public void requestCourses(Integer progid) {
+        new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
+                .execute(getURL(R.string.programmeCourseResPath) + progid.toString(),
+                        getString(R.string.cacheCourseList));
     }
 
     public void requestPeople() {
