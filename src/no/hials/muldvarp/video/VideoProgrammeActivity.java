@@ -23,6 +23,7 @@ import no.hials.muldvarp.asyncutilities.AsyncFileIOUtility;
 import no.hials.muldvarp.asyncutilities.WebResourceUtilities;
 import no.hials.muldvarp.entities.Course;
 import no.hials.muldvarp.entities.ListItem;
+import no.hials.muldvarp.entities.Programme;
 import no.hials.muldvarp.view.FragmentPager;
 
 /**
@@ -30,10 +31,10 @@ import no.hials.muldvarp.view.FragmentPager;
  *
  * @author johan
  */
-public class VideoCourseActivity extends FragmentActivity{
+public class VideoProgrammeActivity extends FragmentActivity{
     
     //Global Variables    
-    Course course;
+    Programme programme;
     //ActionBar Tabs
     ActionBar actionBar;
     //Global variables    
@@ -68,7 +69,7 @@ public class VideoCourseActivity extends FragmentActivity{
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
         //Initialize progressDialog
-        progressDialog = new ProgressDialog(VideoCourseActivity.this);
+        progressDialog = new ProgressDialog(VideoProgrammeActivity.this);
         
         //Get extras from previous activity
         //Gets data based on a key represented by a string
@@ -76,9 +77,9 @@ public class VideoCourseActivity extends FragmentActivity{
         Bundle extras = getIntent().getExtras();
         ListItem listItem = (ListItem) extras.getSerializable("courseListItem");
         //Cast ListItem to Course
-        course = (Course) listItem;
+        programme = (Programme) listItem;
         
-        setTitle(course.getItemName());
+        setTitle(programme.getItemName());
         
         //If no saved instance state exists
         if(savedInstanceState == null){
@@ -103,7 +104,7 @@ public class VideoCourseActivity extends FragmentActivity{
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         }
         
-        addFragmentToTab("Courses", getString(R.string.cacheProgrammeList), VideoFragmentListSwipe.class);
+        addFragmentToTab("Programmes", programme.getItemName() + getString(R.string.cacheProgrammeList), VideoFragmentListSwipe.class);
         
         //FragmentPager implementation of the actionbar with swiping
         fragmentPager = (FragmentPager) findViewById(R.id.pager);

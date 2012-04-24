@@ -50,13 +50,13 @@
                   android:label="Video">
         </activity>
                        
-        <activity android:name=".video.VideoMainActivitySwipe" 
-                  android:label="VideoMain"/>
+        <activity android:name=".video.VideoProgrammeActivity" 
+                  android:label="VideoProgramme"/>
                   
         <activity android:name=".video.VideoCourseActivity" 
                   android:label="VideoCourse"/>
         
-        <activity android:name=".asyncvideo.VideoMainActivity" 
+        <activity android:name=".video.VideoMainActivity" 
                   android:label="VideoMainActivity"/>
         
         <activity android:name=".directory.DirectoryActivity"

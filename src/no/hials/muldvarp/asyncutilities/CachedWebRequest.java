@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import java.io.File;
+import java.util.ArrayList;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
 import org.apache.http.Header;
@@ -59,7 +60,7 @@ public class CachedWebRequest {
     
     public void startRequest(){
         
-        System.out.println("AsyncCachedWebRequest: startRequest: Request for " + URI + " received.");
+        System.out.println("CachedWebRequest: startRequest: Request for " + URI + " received.");
         
         if(checkCache(cacheFileName)){
             
@@ -80,14 +81,25 @@ public class CachedWebRequest {
                         
                     //Connection Success
                     case AsyncHTTPRequest.CON_SUCCEED: {
-
-                        System.out.println("AsyncCachedWebRequest: startRequest: Connection successful,.");
-                        System.out.println("AsyncCachedWebRequest: startRequest: Writing to cache.");
+                        
                         String response = (String) message.obj;
-                        AsyncFileIOUtility asyncFileIOUtility = new AsyncFileIOUtility(intent, applicationContext);
-                        asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(), cacheFileName, response);
-                        asyncFileIOUtility.startIO();
-
+                        
+                        ArrayList arrayList = WebResourceUtilities.createListItemsFromJSONString(response, cacheFileName, applicationContext);
+                                                
+                        if(arrayList.isEmpty()){
+                            
+                            System.out.println("CachedWebRequest: startRequest: Response was not JSON.");
+                            System.out.println("CachedWebRequest: startRequest: Not writing to cache.");
+                        } else {
+                            System.out.println("CachedWebRequest: startRequest: Connection successful,.");
+                            System.out.println("CachedWebRequest: startRequest: Writing to cache.");
+                            AsyncFileIOUtility asyncFileIOUtility = new AsyncFileIOUtility(intent, applicationContext);
+                            asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(), cacheFileName, response);
+                            asyncFileIOUtility.startIO();
+                            
+                        }
+                        
+                       
                         break;
                     }
                         
@@ -106,7 +118,7 @@ public class CachedWebRequest {
                 }
                 
             };
-            System.out.println("AsyncCachedWebRequest: startRequest: Sending Asynchroous HTTP request");
+            System.out.println("CachedWebRequest: startRequest: Sending Asynchroous HTTP request");
             AsyncHTTPRequest asyncHTTPRequest = new AsyncHTTPRequest(intent, applicationContext);
             asyncHTTPRequest.setHandler(handler);
             asyncHTTPRequest.setHeader(header);
@@ -130,7 +142,7 @@ public class CachedWebRequest {
                 intent = new Intent(MuldvarpService.ACTION_PROGRAMMES_LOAD);
             }
             
-            System.out.println("AsyncCachedWebRequest: Broadcasting intent " + intent.getAction());
+            System.out.println("CachedWebRequest: Broadcasting intent " + intent.getAction());
             LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent);
     }
     
@@ -145,14 +157,14 @@ public class CachedWebRequest {
         
         
         File cacheFile = new File(filePath);
-        System.out.println("AsyncCachedWebRequest: checkCache(" + filePath + ")");
+        System.out.println("CachedWebRequest: checkCache(" + filePath + ")");
         if((System.currentTimeMillis() - cacheFile.lastModified() > applicationContext.getResources().getInteger(R.integer.cacheTime))) {
             
-            System.out.println("AsyncCachedWebRequest: checkCache: Cache outdated.");
+            System.out.println("CachedWebRequest: checkCache: Cache outdated.");
             return true;
         } else {
             
-            System.out.println("AsyncCachedWebRequest: checkCache: Cache up to date.");
+            System.out.println("CachedWebRequest: checkCache: Cache up to date.");
             return false;   
         }
     }

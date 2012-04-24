@@ -24,6 +24,7 @@ import org.json.JSONObject;
  */
 public class WebResourceUtilities {   
 
+    
     /**
      * This function creates an ArrayList of ListItems from a JSONArray represented
      * by a String. Currently supports Video, Programmes, Course.
@@ -88,6 +89,7 @@ public class WebResourceUtilities {
                 System.out.println("It was null. or unrelevant :<");
             }
         } catch (Exception ex) {
+            System.out.println("WebResourceUtilities: Failed to convert String of alleged type " + type );
             ex.printStackTrace();
         }
 

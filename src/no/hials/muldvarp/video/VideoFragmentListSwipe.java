@@ -94,7 +94,7 @@ public class VideoFragmentListSwipe extends Fragment {
                 } else if(fragmentName.equalsIgnoreCase("Programmes")) {
                     
                     ListItem selectedItem = (Course) currentListItems.get(itemPosition);
-                    Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoCourseActivity.class);
+                    Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoProgrammeActivity.class);
                     newBundle.putSerializable("programmeListItem", selectedItem);
                     newIntent.putExtras(newBundle);
                     startActivityForResult(newIntent, 0);                         
