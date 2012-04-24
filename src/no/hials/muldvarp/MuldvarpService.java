@@ -93,6 +93,11 @@ public class MuldvarpService extends Service {
                 .execute(getURL(R.string.courseResPath), getString(R.string.cacheCourseList));
     }
 
+    public void requestPeople() {
+        new DownloadTask(this,new Intent(ACTION_PEOPLE_UPDATE),getHttpHeader())
+                .execute(getURL(R.string.peopleResPath), getString(R.string.cachePeopleCache));
+    }
+    
     public void requestCourse(Integer id) {
         new DownloadTask(this,new Intent(ACTION_SINGLECOURSE_UPDATE),getHttpHeader())
                 .execute(getURL(R.string.courseResPath) + id.toString(),

@@ -8,4 +8,5 @@
     <string name="cacheCourseList">CourseCache</string>
     <string name="cacheCourseSingle">SingleCourseCache</string>
     <string name="cacheLibraryPath">cacheLibraryPath</string>
+    <string name="cachePeopleCache">cachePeopleCache</string>
 </resources>
