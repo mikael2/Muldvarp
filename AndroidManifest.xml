@@ -42,6 +42,10 @@
                   android:label="Courses">
         </activity>
         
+        <activity android:name=".courses.ProgrammeActivity"
+                  android:label="Programmes">
+        </activity>
+        
         <activity android:name=".library.LIBMainscreen"
                   android:label="Library">
         </activity>

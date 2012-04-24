@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package no.hials.muldvarp.courses;
 
 import android.app.Activity;
@@ -23,19 +27,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.MainActivity;
 import no.hials.muldvarp.MuldvarpService;
-import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.domain.Programme;
 import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**
  *
  * @author kristoffer
  */
-public class CourseActivity extends Activity {
+public class ProgrammeActivity extends Activity {
     private Fragment currentFragment;
-    CourseListFragment CourseListFragment;
-    List<Course> courseList;
+    ProgrammeListFragment ProgrammeListFragment;
+    List<Programme> programmeList;
     Boolean isGrid;
     
     MuldvarpService mService;
@@ -44,22 +47,18 @@ public class CourseActivity extends Activity {
     boolean mBound;
     ProgressDialog dialog;
     
-    Integer progid;
-    
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         isGrid = getIntent().getBooleanExtra("isGrid", false);
         
-        progid = getIntent().getIntExtra("id", 0);
-        
         setContentView(R.layout.course_main);
-        CourseListFragment = new CourseListFragment();        
-        addDynamicFragment(CourseListFragment);
+        ProgrammeListFragment = new ProgrammeListFragment();        
+        addDynamicFragment(ProgrammeListFragment);
         
         if(savedInstanceState == null) {
-            dialog = new ProgressDialog(CourseActivity.this);
+            dialog = new ProgressDialog(ProgrammeActivity.this);
             dialog.setMessage(getString(R.string.loading));
             dialog.setIndeterminate(true);
             dialog.setCancelable(false);
@@ -69,16 +68,16 @@ public class CourseActivity extends Activity {
             mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
              // We are going to watch for interesting local broadcasts.
             IntentFilter filter = new IntentFilter();
-            filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+            filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
             filter.addAction(MuldvarpService.SERVER_NOT_AVAILABLE);
             mReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
-                    if (intent.getAction().compareTo(MuldvarpService.ACTION_COURSE_UPDATE) == 0) {                    
+                    if (intent.getAction().compareTo(MuldvarpService.ACTION_PROGRAMMES_UPDATE) == 0) {                    
                         System.out.println("Toasting" + intent.getAction());
-                        Toast.makeText(context, "Courses updated", Toast.LENGTH_LONG).show();
-                        new getItemsFromCache().execute(getString(R.string.cacheCourseList));
+                        Toast.makeText(context, "Programmes updated", Toast.LENGTH_LONG).show();
+                        new ProgrammeActivity.getItemsFromCache().execute(getString(R.string.cacheProgrammeList));
                     } else if (intent.getAction().compareTo(MuldvarpService.SERVER_NOT_AVAILABLE) == 0) {
                         Toast.makeText(context, "Server not available", Toast.LENGTH_LONG).show();
                         dialog.dismiss();
@@ -130,7 +129,7 @@ public class CourseActivity extends Activity {
                 startActivity(intent);
                 return true;
             case R.id.showgrid:
-                intent = new Intent(this, CourseActivity.class);
+                intent = new Intent(this, ProgrammeActivity.class);
                 if(!isGrid) {
                     intent.putExtra("isGrid", true);
                 } else {
@@ -160,33 +159,31 @@ public class CourseActivity extends Activity {
         System.out.println("Fragment changed");
     }
     
-    private class getItemsFromCache extends AsyncTask<String, Void, List<Course>> {       
+    private class getItemsFromCache extends AsyncTask<String, Void, List<Programme>> {       
         
-        protected List<Course> doInBackground(String... urls) {
-            List<Course> items = null;
+        protected List<Programme> doInBackground(String... urls) {
+            List<Programme> items = null;
             try {
                 File f = new File(getCacheDir(), urls[0]);
-                Type collectionType = new TypeToken<List<Course>>(){}.getType();
+                Type collectionType = new TypeToken<List<Programme>>(){}.getType();
                 items = DownloadUtilities.buildGson().fromJson(new FileReader(f), collectionType);                
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(CourseActivity.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProgrammeActivity.class.getName()).log(Level.SEVERE, null, ex);
             }
             return items;
         } 
         
         @Override
-        protected void onPostExecute(List<Course> items) {
-//            courseList = new ArrayList<Course>();
-//            courseList.addAll(items);
-            courseList = items;
-            CourseListFragment.itemsReady();
+        protected void onPostExecute(List<Programme> items) {
+            programmeList = items;
+            ProgrammeListFragment.itemsReady();
             
             dialog.dismiss();
         }
     }
 
-    public List<Course> getCourseList() {
-        return courseList;
+    public List<Programme> getProgrammeList() {
+        return programmeList;
     }
     
     /** Defines callbacks for service binding, passed to bindService() */
@@ -196,10 +193,10 @@ public class CourseActivity extends Activity {
         public void onServiceConnected(ComponentName className,
                 IBinder service) {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
-            LocalBinder binder = (LocalBinder) service;
+            MuldvarpService.LocalBinder binder = (MuldvarpService.LocalBinder) service;
             mService = binder.getService();
             mBound = true;
-            mService.requestCourses(progid);
+            mService.requestProgrammes();
         }
 
         @Override
