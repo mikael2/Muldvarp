@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.*;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.asyncvideo.VideoMainActivity;
+import no.hials.muldvarp.video.VideoMainActivity;
 import no.hials.muldvarp.courses.CourseActivity;
 import no.hials.muldvarp.directory.DirectoryActivity;
 import no.hials.muldvarp.library.LIBMainscreen;

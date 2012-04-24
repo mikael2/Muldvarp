@@ -15,7 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.asyncvideo.VideoMainActivity;
+import no.hials.muldvarp.entities.Course;
 import no.hials.muldvarp.entities.ListItem;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.ListViewAdapter;
@@ -81,10 +81,23 @@ public class VideoFragmentListSwipe extends Fragment {
 
             public void onItemClick(AdapterView<?> arg0, View view, int itemPosition, long id) {
                 
+                Bundle newBundle = new Bundle();
+                
                 if (fragmentName.equalsIgnoreCase("Courses")) {
                     
+                    ListItem selectedItem = (Course) currentListItems.get(itemPosition);
                     Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoCourseActivity.class);
+                    newBundle.putSerializable("courseListItem", selectedItem);
+                    newIntent.putExtras(newBundle);
                     startActivityForResult(newIntent, 0);                    
+                    
+                } else if(fragmentName.equalsIgnoreCase("Programmes")) {
+                    
+                    ListItem selectedItem = (Course) currentListItems.get(itemPosition);
+                    Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoCourseActivity.class);
+                    newBundle.putSerializable("programmeListItem", selectedItem);
+                    newIntent.putExtras(newBundle);
+                    startActivityForResult(newIntent, 0);                         
                     
                 } else {               
                 
@@ -100,7 +113,6 @@ public class VideoFragmentListSwipe extends Fragment {
                     newIntent.putExtra("videoURL", selectedItem.getVideoURL());
 
                     
-                    Bundle newBundle = new Bundle();
                     newBundle.putSerializable("videoListItem", selectedItem);
                     newIntent.putExtras(newBundle);
                     

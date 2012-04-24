@@ -1,4 +1,4 @@
-package no.hials.muldvarp.asyncvideo;
+package no.hials.muldvarp.video;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
@@ -34,7 +34,7 @@ public class VideoMainActivity extends FragmentActivity{
     
     //Tab names
     static String VIDEOACTIVITY_TAB1 = "My Videos";
-    static String VIDEOACTIVITY_TAB2 = "Courses";
+    static String VIDEOACTIVITY_TAB2 = "Programmes";
     static String VIDEOACTIVITY_TAB3 = "Student";
     
     //Global Variables    
@@ -97,9 +97,6 @@ public class VideoMainActivity extends FragmentActivity{
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         }
         
-        
-        
-                
         //FragmentPager implementation of the actionbar with swiping
         fragmentPager = (FragmentPager) findViewById(R.id.pager);
         fragmentPager.initializeAdapter(getSupportFragmentManager(), actionBar);

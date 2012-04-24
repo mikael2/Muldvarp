@@ -193,9 +193,7 @@ public class VideoActivity extends Activity {
                         
                         switch(item) {
                             
-                            case 0:
-                                
-                                                                
+                            case 0:                             
                                 Toast.makeText(getApplicationContext(), "Download not yet implemented", Toast.LENGTH_SHORT).show();
                                 break;
                             case 1:
