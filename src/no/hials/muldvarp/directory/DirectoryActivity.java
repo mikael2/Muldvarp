@@ -2,6 +2,7 @@ package no.hials.muldvarp.directory;
 
 
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.DesktopFragment;
+import no.hials.muldvarp.domain.Person;
 import no.hials.muldvarp.view.FragmentPager;
 
 
@@ -76,4 +78,10 @@ public class DirectoryActivity extends FragmentActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }*/
+
+    void viewPerson(Person person) {
+        FragmentPager pager = (FragmentPager) findViewById(R.id.pager);
+                  
+  
+    }
 }

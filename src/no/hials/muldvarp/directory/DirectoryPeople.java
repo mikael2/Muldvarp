@@ -31,7 +31,6 @@ import no.hials.muldvarp.utility.DownloadUtilities;
 public class DirectoryPeople extends ListFragment {
 
     List<Person> personList;
-    Person person;
     MuldvarpService mService;
     LocalBroadcastManager mLocalBroadcastManager;
     BroadcastReceiver mReceiver;
@@ -78,6 +77,8 @@ public class DirectoryPeople extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Toast.makeText(getActivity(), l.getItemAtPosition(position).toString(), Toast.LENGTH_LONG).show();
+        Person person = (Person) l.getItemAtPosition(position);                
+        ((DirectoryActivity)getActivity()).viewPerson(person);
     }
 
     class GetPeopleFromCache extends AsyncTask<String, Void, List<Person>> {
