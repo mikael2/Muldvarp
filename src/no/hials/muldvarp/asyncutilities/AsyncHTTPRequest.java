@@ -249,7 +249,8 @@ public class AsyncHTTPRequest implements Runnable{
             e.printStackTrace();
             if(useHandler){
                 System.out.println("AsyncHTTPRequest: Notifying Handler");
-                handler.sendMessage(Message.obtain(handler, AsyncHTTPRequest.CON_ERROR, httpResponse.getStatusLine().getStatusCode()));
+//                httpResponse.getStatusLine().getStatusCode();
+                handler.sendMessage(Message.obtain(handler, AsyncHTTPRequest.CON_ERROR));
             } else {
                 System.out.println("AsyncHTTPRequest: Broadcasting intent");
                 LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(new Intent(MuldvarpService.SERVER_NOT_AVAILABLE)); 

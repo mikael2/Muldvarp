@@ -5,13 +5,15 @@
 package no.hials.muldvarp.entities;
 
 import android.graphics.Bitmap;
+import java.io.Serializable;
 
 /**
- * Class defining a general item in a list.
+ * Class defining a general item in a list. Implements serializable, and can be
+ * passed between activities in a Bundle.
  * 
  * @author johan
  */
-public class ListItem {
+public class ListItem implements Serializable{
     
     public String itemName;
     public String smallDetail;

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,9 +30,9 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.asyncutilities.AsyncFileIOUtility;
 import no.hials.muldvarp.asyncutilities.AsyncHTTPRequest;
 import no.hials.muldvarp.asyncutilities.WebResourceUtilities;
-import no.hials.muldvarp.asyncvideo.VideoMainActivity;
 import no.hials.muldvarp.entities.ListItem;
 import no.hials.muldvarp.entities.Video;
+import no.hials.muldvarp.utility.BookMarkTask;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +44,7 @@ import org.json.JSONObject;
 public class VideoActivity extends Activity {
 
     //Global variables
+    Video video;
     String videoID;
     String videoName;
     String videoDescription;
@@ -82,14 +84,14 @@ public class VideoActivity extends Activity {
                 
         //Get extras from previous activity
         //Gets data based on a key represented by a string
-        Bundle extras = getIntent().getExtras();
-        videoID = extras.getString("videoID");
-        videoName = extras.getString("videoName");
-        videoDescription = extras.getString("itemDescription");
-        videoURL = extras.getString("videoURL");
+        //Get ListItem object
+        Bundle extras = getIntent().getExtras();        
+        ListItem listItem =  (ListItem) extras.getSerializable("videoListItem");
+        //Cast to ListItem to Video and set the local Video variable
+        video = (Video) listItem;        
         
         //Set activity title to be displayed in the top bar.
-        setTitle(videoName);
+        setTitle(video.getItemName());
         
         
         videoView = (VideoView)findViewById(R.id.myvideoview);
@@ -104,9 +106,22 @@ public class VideoActivity extends Activity {
 //        get3gp(videoURL);
         
         
-        //Print some stuff based on extras from previous activity
- 
-        
+        if(savedInstanceState != null) {           
+            
+            //Connect to MuldvarpService
+            setServiceConnection();
+            //Singleton initialization of LocalBroadcastManager
+            localBroadcastManager = LocalBroadcastManager.getInstance(this);
+            //Set up which intents to listen for using an IntentFilter
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(MuldvarpService.ACTION_SINGLEVIDEO_UPDATE);
+            intentFilter.addAction(MuldvarpService.SERVER_NOT_AVAILABLE);
+            getBroadcastReceiver();
+            localBroadcastManager.registerReceiver(broadcastReceiver, intentFilter);
+            Intent intent = new Intent(this, MuldvarpService.class);
+            bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+            
+        }
         
         //Create button for youtube
         Button youtubeButton = (Button) findViewById(R.id.youtubeapp);
@@ -121,16 +136,16 @@ public class VideoActivity extends Activity {
         
         //Video ID
         TextView textVideoID = (TextView) findViewById(R.id.videoID);
-        textVideoID.setText(videoID);
+        textVideoID.setText(video.getVideoID());
         
         
         //Video Title
         TextView textVideoName = (TextView) findViewById(R.id.videotitle);
-        textVideoName.setText(videoName);
+        textVideoName.setText(video.getItemName());
         
         //Video Description
         TextView textVideoDescription = (TextView) findViewById(R.id.videodescription);
-        textVideoDescription.setText(videoDescription);
+        textVideoDescription.setText(video.getItemDescription());
                 
         
     }
@@ -165,14 +180,18 @@ public class VideoActivity extends Activity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        
+        AlertDialog alert;
+        AlertDialog.Builder builder;
+        
         switch (item.getItemId()) {
             case R.id.menu_download:
                 
-                final CharSequence[] items = {"Yes", "No"};
+                final CharSequence[] downloadOptions = {"Yes", "No"};
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder = new AlertDialog.Builder(this);
                 builder.setTitle("Download this video?");
-                builder.setItems(items, new DialogInterface.OnClickListener() {
+                builder.setItems(downloadOptions, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         
                         switch(item) {
@@ -190,7 +209,7 @@ public class VideoActivity extends Activity {
                         
                     }
                 });
-                AlertDialog alert = builder.create();
+                alert = builder.create();
                 alert.show();
                 
                 //NYI
@@ -198,9 +217,17 @@ public class VideoActivity extends Activity {
                 
             case R.id.video_bookmark:
                 
-                Toast.makeText(this, "Video added to favourites!", Toast.LENGTH_SHORT).show();
+                if(video != null){
+                    
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+
+                    new BookMarkTask(this, new Intent(MuldvarpService.ACTION_VIDEOFAVOURITES_ADD), video)
+                    .execute(settings.getString("username", ""), getString(R.string.videoBookmarks));
+
+                    Toast.makeText(this, "Video added to favourites!", Toast.LENGTH_SHORT).show();
+                }
                 
-                //NYI
+                
                 return true;
             case R.id.video_settings:
                 
@@ -240,7 +267,6 @@ public class VideoActivity extends Activity {
                 muldvarpService = binder.getService();
                 muldvarpBound = true;
                 System.out.println("VideoActivity: Connected to MuldvarpService.");
-                muldvarpService.requestVideo(OPTION1);
                 
             }
 
@@ -267,40 +293,17 @@ public class VideoActivity extends Activity {
         }        
     }
     
+    public void setFavourite(){
+        
+        
+    }
+    
     public void startVideo(String srcPath) {
         
         videoView.setVideoURI(Uri.parse(srcPath));
         
         videoView.start();
         
-    }
-    
-    public void writeVideosToBookmark(Video video){        
-                
-        Handler handler = new Handler(){
-            
-            @Override
-            public void handleMessage(Message message){
-                
-                switch(message.what){
-                    
-                    case AsyncFileIOUtility.IO_SUCCEED: {
-                        
-                        
-                     
-                        break;
-                    }                        
-                        
-                    case AsyncFileIOUtility.IO_ERROR: {
-                     
-                        break;
-                    }    
-                }                
-            }
-        };
-        
-        
-        new AsyncFileIOUtility(handler);
     }
     
     public void readVideosFromBookmark(){
@@ -417,17 +420,28 @@ public class VideoActivity extends Activity {
         
     }
     
-    /**
-     * This method returns a Video based on the string value of it's ID.
-     * 
-     * 
-     * @param videoID
-     * @return Video
-     */
-    public Video getVideoData(String videoID) {
+    private void getBroadcastReceiver(){
         
-        //NYI
-        return new Video(videoID, videoID, videoID, videoID, videoID, null, videoID);
+        //Define BroadCastReceiver and what to do depending on the Intent by overriding the onReceive method
+        broadcastReceiver = new BroadcastReceiver() {
+
+                @Override
+                public void onReceive(Context thisContext, Intent receivedIntent) {
+                    
+                    System.out.println("VideoMainActivity: Received "+  receivedIntent.getAction());
+                    
+                    if(receivedIntent.getAction().equals(MuldvarpService.ACTION_SINGLEVIDEO_UPDATE)){  
+                        
+                        
+                        
+                    } else if (receivedIntent.getAction().equals(MuldvarpService.SERVER_NOT_AVAILABLE)) { 
+                        
+                        
+                    } 
+                                        
+                }
+            }; //END OF new BroadcastReceiver
     }
+    
 
 }

@@ -6,12 +6,15 @@ package no.hials.muldvarp.asyncutilities;
 
 import android.content.Context;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Course;
 import no.hials.muldvarp.entities.ListItem;
 import no.hials.muldvarp.entities.Programme;
 import no.hials.muldvarp.entities.Video;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -37,7 +40,7 @@ public class WebResourceUtilities {
             System.out.println("WebResourceUtilities: Printing JSONString: " + jsonString);
             JSONArray jArray = new JSONArray(jsonString);            
                        
-            if (type.equals(context.getString(R.string.cacheVideoCourseList))) {
+            if (type.equals(context.getString(R.string.cacheVideoCourseList)) || type.equals(context.getString(R.string.videoBookmarks))) {
                 //Video BS her
                 System.out.println("WebresourceUtilities: Array length: " + jArray.length());
                 for (int i = 0; i < jArray.length(); i++) {
@@ -91,7 +94,47 @@ public class WebResourceUtilities {
         return itemList;
     }
     
-    public static void derp(){        
+    public static String createJSONStringFromListItem(ArrayList<ListItem> listItem, String type, Context context){
         
+        String retVal = "";
+        JSONArray jsonArray = new JSONArray();
+        
+        if(type.equals(context.getString(R.string.videoBookmarks))){
+            
+            
+            for (int i = 0; i < listItem.size(); i++) {
+                
+                try {
+                    JSONObject jSONObject = new JSONObject();
+                    Video video = (Video) listItem.get(i);
+                    
+                    
+                    jSONObject.put("id", video.getVideoID());
+                    jSONObject.put("videoName", video.getItemName());
+                    jSONObject.put("videoDetail", video.getSmallDetail());
+                    jSONObject.put("videoDescription", video.getItemDescription());
+                    jSONObject.put("videoType", video.getItemType());
+                    jSONObject.put("videoIconURI", video.getVideoID());
+                    jSONObject.put("videoThumbURI", video.getSmallDetail());
+                    jSONObject.put("videoURI", video.getVideoURL());
+                    
+                    jsonArray.put(jSONObject);
+                    
+                } catch (JSONException ex) {
+                    Logger.getLogger(WebResourceUtilities.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+            
+            
+            
+            retVal = jsonArray.toString();
+        } else if (type.equals(context.getString(R.string.cacheVideoCourseList))){
+            
+            
+        }
+        
+        
+        return retVal;
     }
 }

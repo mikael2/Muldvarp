@@ -11,6 +11,8 @@ import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class provides asynchronous caching functionality using android.os.Handler and threads.
@@ -27,6 +29,9 @@ public class AsyncFileIOUtility implements Runnable{
     public static final int IO_START = 0; //Start of write, also running
     public static final int IO_ERROR = 1; //In case of error
     public static final int IO_SUCCEED = 2; //Success!
+    
+    //Specific situations
+    public static final int IO_FILENOTEXIST = 3; //Success!
     
     //Object types
     public static final int READFILE = 0;
@@ -45,7 +50,14 @@ public class AsyncFileIOUtility implements Runnable{
     Context applicationContext;   
     
     /**
-     * Constructor for the AsynchIOUtility class. This makes use of a Handler.
+     * Empty constructor for the AsynchFileIOUtilityClass.
+     */
+    public AsyncFileIOUtility(){
+        
+    }
+    
+    /**
+     * Constructor for the AsynchFileIOUtility class. This makes use of a Handler.
      * 
      * @param handler The pre-defined handler
      */
@@ -84,24 +96,25 @@ public class AsyncFileIOUtility implements Runnable{
         this.fileOutputStream = fileOutputStream;
         this.ioType = APPENDTOFILE;
         
-        Thread thread = new Thread(this);
-        thread.start();
     }
     
     public void readFile(File file){
         
         this.currentFile = file;
         this.ioType = READFILE;
+        System.out.println("asyncfileiotasdasdsa" + file.getPath());
         
-        Thread thread = new Thread(this);
-        thread.start();
     }
     
     public void writeString(String filePath, String fileName, String string){
         
         this.ioType = WRITESTRING;
-        currentFile = new File(filePath, fileName);
-        objectToBeWritten = string;
+        this.currentFile = new File(filePath, fileName);
+        this.objectToBeWritten = string;
+        
+    }
+    
+    public void startIO(){
         
         Thread thread = new Thread(this);
         thread.start();
@@ -119,7 +132,7 @@ public class AsyncFileIOUtility implements Runnable{
     
     /**
      * Run method 
-     * Contains the
+     * Contains the functionality to run this class asynchronously on one thread
      */   
     public void run() {
         
@@ -140,54 +153,21 @@ public class AsyncFileIOUtility implements Runnable{
             switch(ioType){
                 
                 case READFILE:
-                    
-                    System.out.println("AsyncFileIOUtility: Trying to read " + currentFile.getPath());
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader(currentFile));
-//                    StringBuffer stringBuffer = new StringBuffer();
-//                    String result;
-//                    
-//                    while ((result = bufferedReader.readLine()) != null) {
-//
-//                        stringBuffer.append(result);
-//                        System.out.println(result);
-//                        
-//                    }
-
-                    char[] buffer = null;
-                    buffer = new char[(int)currentFile.length()];
-                    int i = 0;
-                    int c = bufferedReader.read();
-                    
-                    
-                    while (c != -1) {
-                       buffer[i++] = (char)c;
-                       c = bufferedReader.read();
-                    }
-                    
-                    String result = new String(buffer);
-                    
-                    System.out.println("AsyncFileIOUtility: File read from " + currentFile.getPath());
+                                        
+                    String result = readParallel();
                     message = Message.obtain(handler, AsyncFileIOUtility.IO_SUCCEED, result);
                     
                     break;
                 case WRITESTRING:
 
-                    System.out.println("AsyncFileIOUtility: Trying to write " + currentFile.getPath());
-                    String stringTobeWritten = (String) objectToBeWritten;        
-                    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentFile));
-                    bufferedWriter.write(stringTobeWritten);                    
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    System.out.println("AsyncFileIOUtility: File written to " + currentFile.getPath());
+                    writeParalell();
                     message = Message.obtain(handler, AsyncFileIOUtility.IO_SUCCEED);
                     
                     break;     
                 case WRITEFILE:
 
-                    System.out.println("AsyncFileIOUtility: Trying to write " + currentFile.getPath());
-                    
-                    
-                    
+                    System.out.println("AsyncFileIOUtility: Trying to write " + currentFile.getPath());                                        
+                    writeParalell();
                     System.out.println("AsyncFileIOUtility: File written to " + currentFile.getPath());
                     message = Message.obtain(handler, AsyncFileIOUtility.IO_SUCCEED);
                     
@@ -220,4 +200,76 @@ public class AsyncFileIOUtility implements Runnable{
         
     }
     
+    public String readParallel() throws IOException{
+        
+        BufferedReader bufferedReader = null;
+        String retVal = null;
+        
+        if(currentFile.exists()){
+            
+            try {
+                System.out.println("AsyncFileIOUtility: Trying to read " + currentFile.getPath());
+                bufferedReader = new BufferedReader(new FileReader(currentFile));
+                char[] buffer = null;
+                buffer = new char[(int)currentFile.length()];
+                int i = 0;
+                int c = bufferedReader.read();
+                while (c != -1) {
+                buffer[i++] = (char)c;
+                c = bufferedReader.read();
+                }
+                retVal = new String(buffer);
+                System.out.println("AsyncFileIOUtility: File read from " + currentFile.getPath());
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(AsyncFileIOUtility.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(AsyncFileIOUtility.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            //File does not exist
+            System.out.println("AsyncFileIOUtility: File does not exist: " + currentFile.getPath());
+            handler.sendMessage(Message.obtain(handler, AsyncFileIOUtility.IO_FILENOTEXIST));
+        }
+        
+        
+        return retVal;
+    }
+    
+    public void writeParalell() throws IOException{
+        
+        System.out.println("AsyncFileIOUtility: Trying to write " + currentFile.getPath());
+        String stringTobeWritten = (String) objectToBeWritten;        
+        System.out.println("WILL BE WRITTEN" + objectToBeWritten);
+        
+        if(!currentFile.exists()){
+            currentFile.getParentFile().mkdirs();
+            currentFile.createNewFile();
+        }
+        
+        FileWriter fileWriter = new FileWriter(currentFile);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        bufferedWriter.write(stringTobeWritten);                    
+        bufferedWriter.flush();
+        bufferedWriter.close();
+        System.out.println("AsyncFileIOUtility: File written to " + currentFile.getPath());
+    }
+    
+    public void dur(){
+        
+        
+            //                    StringBuffer stringBuffer = new StringBuffer();
+            //                    String result;
+            //
+            //                    while ((result = bufferedReader.readLine()) != null) {
+            //
+            //                        stringBuffer.append(result);
+            //                        System.out.println(result);
+            //
+            //                    }
+    }
 }
