@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.Course;
 import no.hials.muldvarp.entities.ListItem;
+import no.hials.muldvarp.entities.Programme;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.ListViewAdapter;
 
@@ -93,7 +94,7 @@ public class VideoFragmentListSwipe extends Fragment {
                     
                 } else if(fragmentName.equalsIgnoreCase("Programmes")) {
                     
-                    ListItem selectedItem = (Course) currentListItems.get(itemPosition);
+                    ListItem selectedItem = (Programme) currentListItems.get(itemPosition);
                     Intent newIntent = new Intent(view.getContext().getApplicationContext(), VideoProgrammeActivity.class);
                     newBundle.putSerializable("programmeListItem", selectedItem);
                     newIntent.putExtras(newBundle);

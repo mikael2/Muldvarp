@@ -71,59 +71,50 @@ public class CachedWebRequest {
      
                     switch (message.what) {
                     
-                    //Connection Start
-                    case AsyncHTTPRequest.CON_START: {
+                        //Connection Start
+                        case AsyncHTTPRequest.CON_START: {
 
-                        String response = (String) message.obj;
+                            String response = (String) message.obj;
 
-                        break;
-                    }
-                        
-                    //Connection Success
-                    case AsyncHTTPRequest.CON_SUCCEED: {
-                        
-                        String response = (String) message.obj;
-                        
-                        ArrayList arrayList = WebResourceUtilities.createListItemsFromJSONString(response, cacheFileName, applicationContext);
-                                                
-                        if(arrayList.isEmpty()){
-                            
-                            System.out.println("CachedWebRequest: startRequest: Response was not JSON.");
-                            System.out.println("CachedWebRequest: startRequest: Not writing to cache.");
-                        } else {
-                            System.out.println("CachedWebRequest: startRequest: Connection successful,.");
-                            System.out.println("CachedWebRequest: startRequest: Writing to cache.");
-                            AsyncFileIOUtility asyncFileIOUtility = new AsyncFileIOUtility(intent, applicationContext);
-                            asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(), cacheFileName, response);
-                            asyncFileIOUtility.startIO();
-                            
+                            break;
                         }
-                        
-                       
-                        break;
-                    }
-                        
-                    //Connection Error
-                    case AsyncHTTPRequest.CON_ERROR: {
-                        
-                        broadCastLoadFromCache();
-                        String response = (String) message.obj;
-                        System.out.println("ERROR: Status code " + response);
-                        
-                        
-                        break;
-                    }
-                }
-                    
-                }
-                
+
+                        //Connection Success
+                        case AsyncHTTPRequest.CON_SUCCEED: {
+
+                            String response = (String) message.obj;                        
+                            ArrayList arrayList = WebResourceUtilities.createListItemsFromJSONString(response, cacheFileName, applicationContext);
+
+                            if(arrayList.isEmpty()){
+
+                                System.out.println("CachedWebRequest: startRequest: Response was not JSON.");
+                                System.out.println("CachedWebRequest: startRequest: Not writing to cache.");
+                            } else {
+                                System.out.println("CachedWebRequest: startRequest: Connection successful,.");
+                                System.out.println("CachedWebRequest: startRequest: Writing to cache.");
+                                AsyncFileIOUtility asyncFileIOUtility = new AsyncFileIOUtility(intent, applicationContext);
+                                asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(), cacheFileName, response);
+                                asyncFileIOUtility.startIO();
+                            }                       
+                            break;
+                        }
+
+                        //Connection Error
+                        case AsyncHTTPRequest.CON_ERROR: {
+
+                            broadCastLoadFromCache();
+                            String response = (String) message.obj;
+                            System.out.println("ERROR: Status code " + response);   
+                            break;
+                        }
+                    }                    
+                }                
             };
             System.out.println("CachedWebRequest: startRequest: Sending Asynchroous HTTP request");
             AsyncHTTPRequest asyncHTTPRequest = new AsyncHTTPRequest(intent, applicationContext);
             asyncHTTPRequest.setHandler(handler);
             asyncHTTPRequest.setHeader(header);
-            asyncHTTPRequest.httpGet(URI);
-            
+            asyncHTTPRequest.httpGet(URI);            
                         
         } else {
 //            
@@ -133,12 +124,11 @@ public class CachedWebRequest {
     
     public void broadCastLoadFromCache(){
         
-                    //Change broadcast if the cache was up to date
-            if(intent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE)){
-            
+            //Change broadcast if the cache was up to date
+            if(intent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE)){            
                 intent = new Intent(MuldvarpService.ACTION_VIDEOCOURSE_LOAD);
-            } else if (intent.getAction().equals(MuldvarpService.ACTION_PROGRAMMES_UPDATE)){
                 
+            } else if (intent.getAction().equals(MuldvarpService.ACTION_PROGRAMMES_UPDATE)){                
                 intent = new Intent(MuldvarpService.ACTION_PROGRAMMES_LOAD);
             }
             

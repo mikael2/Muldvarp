@@ -75,7 +75,7 @@ public class VideoProgrammeActivity extends FragmentActivity{
         //Gets data based on a key represented by a string
         //Get ListItem object
         Bundle extras = getIntent().getExtras();
-        ListItem listItem = (ListItem) extras.getSerializable("courseListItem");
+        ListItem listItem = (ListItem) extras.getSerializable("programmeListItem");
         //Cast ListItem to Course
         programme = (Programme) listItem;
         
@@ -104,14 +104,14 @@ public class VideoProgrammeActivity extends FragmentActivity{
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         }
         
-        addFragmentToTab("Programmes", programme.getItemName() + getString(R.string.cacheProgrammeList), VideoFragmentListSwipe.class);
-        
         //FragmentPager implementation of the actionbar with swiping
         fragmentPager = (FragmentPager) findViewById(R.id.pager);
         fragmentPager.initializeAdapter(getSupportFragmentManager(), actionBar);
         //Initialize array
         fragmentContents = new ArrayList<HashMap<String, ArrayList<ListItem>>>();
         //Add tabs to FragmentPager, and keep record of it a local variable array
+         addFragmentToTab("Programmes", programme.getItemName() + getString(R.string.cacheProgrammeList), VideoFragmentListSwipe.class);
+         
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
         }
