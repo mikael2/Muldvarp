@@ -10,6 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
 import java.io.File;
 import no.hials.muldvarp.asyncutilities.CachedWebRequest;
+import no.hials.muldvarp.utility.BookMarkTask;
 import no.hials.muldvarp.utility.DownloadTask;
 
 /**
@@ -21,6 +22,9 @@ public class MuldvarpService extends Service {
     public static final String ACTION_COURSE_UPDATE       = "no.hials.muldvarp.ACTION_COURSE_UPDATE";
     public static final String ACTION_SINGLECOURSE_UPDATE = "no.hials.muldvarp.ACTION_SINGLECOURSE_UPDATE";
     public static final String ACTION_LIBRARY_UPDATE      = "no.hials.muldvarp.ACTION_LIBRARY_UPDATE";
+    public static final String ACTION_VIDEOFAVOURITES_ADD  = "no.hials.muldvarp.ACTION_VIDEOFAVOURITES_ADD";
+    public static final String ACTION_VIDEOFAVOURITES_LOAD  = "no.hials.muldvarp.ACTION_VIDEOFAVOURITES_LOAD";
+    public static final String ACTION_SINGLEVIDEO_UPDATE  = "no.hials.muldvarp.ACTION_SINGLEVIDEO_UPDATE";
     public static final String ACTION_VIDEOCOURSE_UPDATE  = "no.hials.muldvarp.ACTION_VIDEOCOURSE_UPDATE";
     public static final String ACTION_VIDEOCOURSE_LOAD    = "no.hials.muldvarp.ACTION_VIDEOCOURSE_LOAD";
     public static final String ACTION_VIDEOSTUDENT_UPDATE = "no.hials.muldvarp.ACTION_VIDEOSTUDENT_UPDATE";
@@ -115,15 +119,18 @@ public class MuldvarpService extends Service {
         asyncCachedWebRequest.startRequest();        
     }
             
-    public void requestVideo(Integer id){        
+    public void requestVideo(String videoID){
+        
+        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_SINGLEVIDEO_UPDATE),
+                                                                                this,
+                                                                                getURL(R.string.videoResPath) + "/" +  videoID,
+                                                                                getString(R.string.cacheVideoCourseList));
+        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
+        asyncCachedWebRequest.startRequest();
         
     }
     
-    public void requestBookmarkedVideos(String user){
         
-        
-    }
-    
     public void requestDownloadedVideos(){
         
     }

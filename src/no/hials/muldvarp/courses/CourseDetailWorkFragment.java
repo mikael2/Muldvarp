@@ -152,8 +152,22 @@ public class CourseDetailWorkFragment extends Fragment {
         final Theme gt = (Theme)getGroup( groupPosition );
         final Task t = (Task)getChild( groupPosition, childPosition );
 		TextView name = (TextView)v.findViewById( R.id.childname );
+                ImageView icon = (ImageView)v.findViewById(R.id.icon);
 		if( name != null ) {
                     name.setText(t.getName());
+                    if(t.getContentType() == null) {
+                        icon.setImageResource(R.drawable.ic_launcher);
+                    } else {
+                        if(t.getContentType().equals("External")) {
+                            icon.setImageResource(R.drawable.download_icon);
+                        } else if(t.getContentType().equals("Video")) {
+                            icon.setImageResource(R.drawable.icon_video);
+                        } else if(t.getContentType().equals("PDF")) {
+                            icon.setImageResource(R.drawable.book_icon);
+                        } else if(t.getContentType().equals("Quiz")) {
+                            icon.setImageResource(R.drawable.favourite_button);
+                        }
+                    }
                     if(t.getDone() == true) {
                         name.setAlpha((float)0.5);
                     } else {
@@ -172,12 +186,16 @@ public class CourseDetailWorkFragment extends Fragment {
                     
                     Intent myIntent = null;
                     
-                    if(t.getContent_url() != null) {
+                    if((t.getContentType().equals("Video")) && (t.getContent_url() != null)){
                         myIntent = new Intent(v.getContext(), VideoActivity.class);
                         myIntent.putExtra("videoURL", t.getContent_url());
                         startActivityForResult(myIntent, 0);
-                    } else {
-                        Toast.makeText(context, "Empty task", Toast.LENGTH_LONG).show();  
+                    } else if(t.getContentType().equals("Quiz") && (t.getQuestions() != null)) {
+                        myIntent = new Intent(v.getContext(), CourseDetailQuizActivity.class);
+                        Bundle b = new Bundle();
+                        b.putSerializable("task", t);
+                        myIntent.putExtras(b);
+                        startActivity(myIntent);
                     }
                 }
             });

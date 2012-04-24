@@ -99,6 +99,11 @@ public class VideoFragmentListSwipe extends Fragment {
                     newIntent.putExtra("itemDescription", selectedItem.getItemDescription());
                     newIntent.putExtra("videoURL", selectedItem.getVideoURL());
 
+                    
+                    Bundle newBundle = new Bundle();
+                    newBundle.putSerializable("videoListItem", selectedItem);
+                    newIntent.putExtras(newBundle);
+                    
                     //Start Activity
                     startActivityForResult(newIntent, 0);
                 
@@ -117,24 +122,27 @@ public class VideoFragmentListSwipe extends Fragment {
     public void onResume(){
         
         super.onResume();
-        System.out.println("onResume called by " + fragmentName + "Fragment0");
+        System.out.println("onResume called by " + fragmentName + "Fragment");
         requestContent();      
     }    
     
-    public void requestContent(){
+    public boolean requestContent(){
         
         if(currentListItems == null && owningActivity != null){
 
             System.out.println(getFragmentName() + "Fragment: Requesting items:" + listItemType);
             if(owningActivity.requestItems(listItemType)){
                 System.out.println(getFragmentName() + "Fragment: Request successful:" + listItemType);
+                return false;
             } else {
                 System.out.println(getFragmentName() + "Fragment: Request failed:" + listItemType);
                 //Do something to compensate.
+                return false;
             }        
         } else {
             
             updateContent(currentListItems);
+            return true;
         } 
                
     }

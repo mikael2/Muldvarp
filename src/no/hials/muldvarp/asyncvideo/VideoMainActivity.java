@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
@@ -95,6 +96,9 @@ public class VideoMainActivity extends FragmentActivity{
             Intent intent = new Intent(this, MuldvarpService.class);
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         }
+        
+        
+        
                 
         //FragmentPager implementation of the actionbar with swiping
         fragmentPager = (FragmentPager) findViewById(R.id.pager);
@@ -102,7 +106,7 @@ public class VideoMainActivity extends FragmentActivity{
         //Initialize array
         fragmentContents = new ArrayList<HashMap<String, ArrayList<ListItem>>>();
         //Add tabs to FragmentPager, and keep record of it a local variable array
-        addFragmentToTab(VIDEOACTIVITY_TAB1.toString(), getString(R.string.cacheVideoCourseList), VideoFragmentListSwipe.class);
+        addFragmentToTab(VIDEOACTIVITY_TAB1.toString(), getString(R.string.videoBookmarks), VideoFragmentListSwipe.class);
         addFragmentToTab(VIDEOACTIVITY_TAB2.toString(), getString(R.string.cacheProgrammeList), VideoFragmentListSwipe.class);
         addFragmentToTab(VIDEOACTIVITY_TAB3.toString(), getString(R.string.cacheVideoCourseList), VideoFragmentListSwipe.class);
         
@@ -210,6 +214,7 @@ public class VideoMainActivity extends FragmentActivity{
                 System.out.println("VideoMainActivity: Disconnected from MuldvarpService.");
             }
         };
+        
     }
     
     public void addFragmentToTab(String tabName, String listItemType, Class fragment){        
@@ -217,7 +222,6 @@ public class VideoMainActivity extends FragmentActivity{
         //Add fragment to tab and return it's position in the fragmentpager adapter view list
         int tabPosition = fragmentPager.addTab(tabName, fragment, null).getPosition();        
         //add String with empty item list, will need fixing
-//        //bad way to do it
         HashMap<String, ArrayList<ListItem>> itemListHashMap = new HashMap();
         ArrayList<ListItem> tempArray = null;
         System.out.println("VideoMainActivity: Adding tab: " + tabName + " with ListItem Type: " +  listItemType);
@@ -245,8 +249,13 @@ public class VideoMainActivity extends FragmentActivity{
                 showProgressDialog();
                 return true;
                 
-            }else if(requestType.equals(getString(R.string.cacheVideoStudentList))){
-                muldvarpService.requestDownloadedVideos(); //TODO: CHANGE
+            }else if(requestType.equals(getString(R.string.videoBookmarks))){
+                
+                
+        
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+                
+                getListItemsFromLocalStorage(requestType, getFilesDir().getPath() + settings.getString("username", ""));                
                 showProgressDialog();
                 return true;
                 
@@ -266,7 +275,10 @@ public class VideoMainActivity extends FragmentActivity{
         for(int i = 0; i < fragmentPager.getTabListSize(); i++){
             
             VideoFragmentListSwipe currentFragment = (VideoFragmentListSwipe) fragmentPager.getFragmentInTab(i);
-            currentFragment.requestContent();
+            
+            if(currentFragment.requestContent()){
+                progressDialog.dismiss();
+            }
         }
         
     }
@@ -305,16 +317,6 @@ public class VideoMainActivity extends FragmentActivity{
                     updateFragment(n, listItemName);
                 }
             }
-//            int i = 0;
-//            while (fragmentContents.size() >= i) {            
-//            
-//                if(fragmentContents.get(i).containsKey(listItemName)){
-//
-//                    fragmentContents.get(i).put(listItemName, itemList);
-//                    updateFragment(i, listItemName);
-//                } 
-//                i++;
-//            }  
         }     
         
         return currentFragment;
@@ -344,11 +346,11 @@ public class VideoMainActivity extends FragmentActivity{
         
     }
     
-    private void getListItemsFromLocalStorage(final String type){       
+    private void getListItemsFromLocalStorage(final String fileName, String filePath){       
         
         Handler handler = new Handler(){
             
-            String listItemType = type;
+            String listItemType = fileName;
             @Override
             public void handleMessage(Message message){
                 
@@ -358,26 +360,39 @@ public class VideoMainActivity extends FragmentActivity{
 
                         String response = (String) message.obj;
                         ArrayList<ListItem> newListItems = WebResourceUtilities
-                                .createListItemsFromJSONString(response, type, getApplicationContext());
+                                .createListItemsFromJSONString(response, listItemType, getApplicationContext());
                         updateFragmentbyListName(listItemType, newListItems);
                         //Dismiss progressdialog      
                         progressDialog.dismiss();
                         break;
                     }
                         
-                    //Connection Error
+                    
                     case AsyncFileIOUtility.IO_ERROR: {
                         
                         String response = (String) message.obj;
                         progressDialog.dismiss();
-                        makeShortToast("Error reading from cache.", null);
+                        makeShortToast("Error reading from storage.", null);
                         break;
                     }
+                        
+                    case AsyncFileIOUtility.IO_FILENOTEXIST: {
+                        
+                        String response = (String) message.obj;
+                        progressDialog.dismiss();
+                        break;
+                    }    
+                        
+                        
                 }
             }//handleMessage
         };//Handler
         
-        new AsyncFileIOUtility(handler).readFile(new File(getCacheDir(), type));
+        File file = new File(filePath, fileName);
+        System.out.println("Getlistitemsfromstorage: " + file.getPath());
+        AsyncFileIOUtility asyncFileIO = new AsyncFileIOUtility(handler);
+        asyncFileIO.readFile(file);
+        asyncFileIO.startIO();
     }
     
     private void getBroadcastReceiver(){
@@ -391,27 +406,27 @@ public class VideoMainActivity extends FragmentActivity{
                     System.out.println("VideoMainActivity: Received "+  receivedIntent.getAction());
                     
                     if(receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE)){                        
-                        getListItemsFromLocalStorage(getString(R.string.cacheVideoCourseList));
+                        getListItemsFromLocalStorage(getString(R.string.cacheVideoCourseList), getCacheDir().getPath());
                         makeShortToast("Videos updated.", thisContext);                      
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOSTUDENT_UPDATE)) { 
-                        getListItemsFromLocalStorage(getString(R.string.cacheVideoCourseList));
+                        getListItemsFromLocalStorage(getString(R.string.cacheVideoCourseList), getCacheDir().getPath());
                         makeShortToast("Videos updated.", thisContext);
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_LOAD)) {                        
-                        getListItemsFromLocalStorage(getString(R.string.cacheVideoCourseList));
+                        getListItemsFromLocalStorage(getString(R.string.cacheVideoCourseList), getCacheDir().getPath());
                         makeShortToast("Videos loaded from cache.", thisContext);
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOSTUDENT_LOAD)) {                        
-                        getListItemsFromLocalStorage(getString(R.string.cacheVideoCourseList));
+                        getListItemsFromLocalStorage(getString(R.string.cacheVideoCourseList), getCacheDir().getPath());
                         makeShortToast("Videos loaded from cache.", thisContext);
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_PROGRAMMES_UPDATE)) {                        
-                        getListItemsFromLocalStorage(getString(R.string.cacheProgrammeList));
+                        getListItemsFromLocalStorage(getString(R.string.cacheProgrammeList), getCacheDir().getPath());
                         makeShortToast("Programmes updated.", thisContext);
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_PROGRAMMES_LOAD)) {                        
-                        getListItemsFromLocalStorage(getString(R.string.cacheProgrammeList));
+                        getListItemsFromLocalStorage(getString(R.string.cacheProgrammeList), getCacheDir().getPath());
                         makeShortToast("Programmes updated.", thisContext);
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.SERVER_NOT_AVAILABLE)) {  

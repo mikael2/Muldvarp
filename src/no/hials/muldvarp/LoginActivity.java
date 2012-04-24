@@ -94,7 +94,7 @@ public class LoginActivity extends Activity {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
 
-        editor.putString("url", "master.uials.no");
+        editor.putString("url", url);
         editor.putString("username", username);
         editor.putString("password", password);
         System.out.println("DEBUG: Username: " + username + " password:" + password);

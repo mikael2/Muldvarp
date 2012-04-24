@@ -86,6 +86,7 @@ public class CachedWebRequest {
                         String response = (String) message.obj;
                         AsyncFileIOUtility asyncFileIOUtility = new AsyncFileIOUtility(intent, applicationContext);
                         asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(), cacheFileName, response);
+                        asyncFileIOUtility.startIO();
 
                         break;
                     }
