@@ -86,6 +86,12 @@ public class MuldvarpService extends Service {
         return "http://" + settings.getString("url", "") + ":8080/muldvarp/" + getString(path);
     }
     
+    public void requestCourses() {
+        new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
+                .execute(getURL(R.string.programmeCourseResPath),
+                        getString(R.string.cacheCourseList));
+    }
+    
     public void requestCourses(Integer progid) {
         new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
                 .execute(getURL(R.string.programmeCourseResPath) + progid.toString(),
