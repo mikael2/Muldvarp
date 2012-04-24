@@ -4,13 +4,14 @@
  */
 package no.hials.muldvarp.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author kristoffer
  */
-public class Question {
+public class Question implements Serializable{
     long id;
     String name;
     

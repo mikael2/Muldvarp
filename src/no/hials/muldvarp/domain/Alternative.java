@@ -4,11 +4,13 @@
  */
 package no.hials.muldvarp.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author kristoffer
  */
-public class Alternative {
+public class Alternative implements Serializable {
     int id;
     String name;
 
