@@ -50,6 +50,28 @@ public class Video extends ListItem {
     public void setVideoURL(String videoURL) {
         this.videoURL = videoURL;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Video other = (Video) obj;
+        if ((this.videoID == null) ? (other.videoID != null) : !this.videoID.equals(other.videoID)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 11 * hash + (this.videoID != null ? this.videoID.hashCode() : 0);
+        return hash;
+    }
     
     
     

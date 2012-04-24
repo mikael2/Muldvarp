@@ -94,6 +94,7 @@ public class CachedWebRequest {
                     //Connection Error
                     case AsyncHTTPRequest.CON_ERROR: {
                         
+                        broadCastLoadFromCache();
                         String response = (String) message.obj;
                         System.out.println("ERROR: Status code " + response);
                         
@@ -114,18 +115,23 @@ public class CachedWebRequest {
                         
         } else {
 //            
-            //Change broadcast if the cache was up to date
+           broadCastLoadFromCache();
+        }        
+    }
+    
+    public void broadCastLoadFromCache(){
+        
+                    //Change broadcast if the cache was up to date
             if(intent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE)){
             
                 intent = new Intent(MuldvarpService.ACTION_VIDEOCOURSE_LOAD);
-            } else if (intent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_UPDATE)){
+            } else if (intent.getAction().equals(MuldvarpService.ACTION_PROGRAMMES_UPDATE)){
                 
                 intent = new Intent(MuldvarpService.ACTION_PROGRAMMES_LOAD);
             }
             
-            System.out.println("AsyncCachedWebRequest: startRequest: Broadcasting intent " + intent.getAction());
+            System.out.println("AsyncCachedWebRequest: Broadcasting intent " + intent.getAction());
             LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent);
-        }        
     }
     
     /**

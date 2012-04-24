@@ -21,6 +21,15 @@ import no.hials.muldvarp.entities.ListItem;
  * stored in the private file directory belonging to the application. The filename is a combination
  * of the user it belongs to, and the type of data.
  * 
+ * To have this work, one will have to specify an application context (Context), intents (Intent),
+ * and an object extending ListItem.
+ * 
+ * Execute task with the String value of the username, and the name of the file to be saved.
+ * This will create a directory in the application directory with the name
+ * <APP>/files+<USERNAME>/<FILENAME>
+ * 
+ * broadcasting intents and what not are not yet implemented
+ * 
  * @author johan
  */
 public class BookMarkTask extends AsyncTask<String, Void, Boolean> {
@@ -83,7 +92,7 @@ public class BookMarkTask extends AsyncTask<String, Void, Boolean> {
     public ArrayList<ListItem> addListItemToBookmarks(ArrayList<ListItem> listItems){
 
         Set<ListItem> bookmarkSet = new HashSet<ListItem>(listItems);
-        
+                
         if(bookmarkSet.add(listItemToAdd)){
             
             System.out.println("BookMarkTask: Successfully added bookmark.");

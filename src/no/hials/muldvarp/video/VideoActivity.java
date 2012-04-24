@@ -21,15 +21,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.asyncutilities.AsyncFileIOUtility;
 import no.hials.muldvarp.asyncutilities.AsyncHTTPRequest;
-import no.hials.muldvarp.asyncutilities.WebResourceUtilities;
 import no.hials.muldvarp.entities.ListItem;
 import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.BookMarkTask;
@@ -67,6 +63,7 @@ public class VideoActivity extends Activity {
     
     //MORETEST
     static String googleJSONQuery = "http://gdata.youtube.com/feeds/api/videos?alt=json&q=";
+    String rtspTest = "rtsp://v3.cache4.c.youtube.com/CjYLENy73wIaLQkBRdI28FHBXhMYJCAkFEIJbXYtZ29vZ2xlSARSBXdhdGNoYOWZlvT3jee4Tww=/0/0/0/video.3gp";
     
     
     /**
@@ -97,7 +94,7 @@ public class VideoActivity extends Activity {
         videoView = (VideoView)findViewById(R.id.myvideoview);
 //        videoView.setVisibility(1);
 //        videoView.requestFocus();
-        videoView.setVideoURI(Uri.parse("rtsp://v3.cache4.c.youtube.com/CjYLENy73wIaLQkBRdI28FHBXhMYJCAkFEIJbXYtZ29vZ2xlSARSBXdhdGNoYOWZlvT3jee4Tww=/0/0/0/video.3gp"));
+        videoView.setVideoURI(Uri.parse(rtspTest));
         MediaController mediaController = new MediaController(this);        
         videoView.setMediaController(mediaController);
         
@@ -129,7 +126,7 @@ public class VideoActivity extends Activity {
 
             public void onClick(View view) {
                 
-                startYoutubeApp("test");
+//                startYoutubeApp("test");             
                 
             }
         });       
@@ -197,6 +194,8 @@ public class VideoActivity extends Activity {
                         switch(item) {
                             
                             case 0:
+                                
+                                                                
                                 Toast.makeText(getApplicationContext(), "Download not yet implemented", Toast.LENGTH_SHORT).show();
                                 break;
                             case 1:
@@ -293,11 +292,6 @@ public class VideoActivity extends Activity {
         }        
     }
     
-    public void setFavourite(){
-        
-        
-    }
-    
     public void startVideo(String srcPath) {
         
         videoView.setVideoURI(Uri.parse(srcPath));
@@ -305,40 +299,6 @@ public class VideoActivity extends Activity {
         videoView.start();
         
     }
-    
-    public void readVideosFromBookmark(){
-        
-        
-        
-        Handler handler = new Handler(){
-            
-            @Override
-            public void handleMessage(Message message){
-                
-                switch(message.what){
-                    
-                    case AsyncFileIOUtility.IO_SUCCEED: {
-                        
-                        String response = (String) message.obj;
-                        String type = getString(R.string.cacheVideoCourseList);
-                        ArrayList<ListItem> newListItems = WebResourceUtilities
-                                .createListItemsFromJSONString(response, type, getApplicationContext());
-                     
-                        break;
-                    }                        
-                        
-                    case AsyncFileIOUtility.IO_ERROR: {
-                     
-                        break;
-                    }    
-                }                
-            }
-        };
-        
-        File file = new File(getFilesDir().getAbsolutePath() + "videoBookmarks");
-        new AsyncFileIOUtility(handler).readFile(file);
-    }
-    
     /**
      * Test function for quering the youtube api
      * 
@@ -411,6 +371,72 @@ public class VideoActivity extends Activity {
         System.out.println(googleJSONQuery + youtubeVideoID);
         new AsyncHTTPRequest(handler).httpGet(googleJSONQuery + youtubeVideoID);
         return "her";
+    }
+    
+    public void download3gp(String youtubeVideoID) {
+               
+        Handler handler = new Handler() {
+
+            @Override
+            public void handleMessage(Message message) {
+                
+                //TODO: Comment
+                switch (message.what) {
+                    
+                    //Connection Start
+                    case AsyncHTTPRequest.CON_START: {
+
+                        System.out.println("Handler: Connection Started");
+                        //TODO: Loading
+                        
+
+                        break;
+                    }
+                        
+                    //Connection Success
+                    case AsyncHTTPRequest.CON_SUCCEED: {
+
+                        String response = (String) message.obj;
+                        System.out.println(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            
+                            JSONObject herf = jsonObject.getJSONObject("feed");
+                            JSONArray derf = herf.getJSONArray("entry");
+                            JSONObject hurf = derf.getJSONObject(0);
+                            JSONObject derp = hurf.getJSONObject("media$group");
+                            JSONArray herp = derp.getJSONArray("media$content");
+                            JSONObject murr = herp.getJSONObject(1);
+                            
+                            String durr = murr.getString("url");
+                            
+                            System.out.println(durr);
+                            startVideo(durr);
+                            
+                            
+                        } catch (JSONException ex) {
+                            Logger.getLogger(VideoActivity.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+
+                        break;
+                    }
+                        
+                    //Connection Error
+                    case AsyncHTTPRequest.CON_ERROR: {
+                        
+                        //TODO: Create Dialogbox 
+
+                        break;
+                    }
+                }
+            }
+        };
+
+
+        //Get resource URL and make asynchronous HTTP request
+        System.out.println(googleJSONQuery + youtubeVideoID);
+        new AsyncHTTPRequest(handler).httpGet(googleJSONQuery + youtubeVideoID);
     }
     
     public void startYoutubeApp(String URI){       
