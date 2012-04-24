@@ -177,7 +177,8 @@ public class CourseDetailWorkFragment extends Fragment {
                         myIntent.putExtra("videoURL", t.getContent_url());
                         startActivityForResult(myIntent, 0);
                     } else {
-                        Toast.makeText(context, "Empty task", Toast.LENGTH_LONG).show();  
+                        myIntent = new Intent(v.getContext(), CourseDetailQuizActivity.class);
+                        startActivity(myIntent);
                     }
                 }
             });

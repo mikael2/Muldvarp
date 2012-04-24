@@ -25,8 +25,7 @@
     
     <string
         name="app_logo_top">
-        Høgskolen i \n
-        Ålesund
+        Høgskolen i Ålesund
     </string>
     <string
         name="postadresse">
@@ -52,4 +51,17 @@
         E-post: \n 
         postmottak@hials.no \n
     </string>
+    
+    <string-array name="people_array">
+        <item>Per</item>
+        <item>Ola</item>
+        <item>Janne</item>
+        <item>Eva</item>
+        <item>Nils</item>
+        <item>Svein</item>
+        <item>Berit</item>
+        <item>Camilla</item>
+    </string-array>
+    <string name="name">Per Olsen</string>
+    <string name="info">Info</string>
 </resources>
