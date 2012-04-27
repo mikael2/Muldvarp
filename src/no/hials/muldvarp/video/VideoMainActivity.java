@@ -22,7 +22,6 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.asyncutilities.AsyncFileIOUtility;
 import no.hials.muldvarp.asyncutilities.WebResourceUtilities;
 import no.hials.muldvarp.entities.ListItem;
-import no.hials.muldvarp.video.VideoFragmentListSwipe;
 import no.hials.muldvarp.view.FragmentPager;
 
 /**
@@ -105,7 +104,7 @@ public class VideoMainActivity extends FragmentActivity{
         //Add tabs to FragmentPager, and keep record of it a local variable array
         addFragmentToTab(VIDEOACTIVITY_TAB1.toString(), getString(R.string.videoBookmarks), VideoFragmentListSwipe.class);
         addFragmentToTab(VIDEOACTIVITY_TAB2.toString(), getString(R.string.cacheProgrammeList), VideoFragmentListSwipe.class);
-        addFragmentToTab(VIDEOACTIVITY_TAB3.toString(), getString(R.string.cacheVideoCourseList), VideoFragmentListSwipe.class);
+        addFragmentToTab(VIDEOACTIVITY_TAB3.toString(), getString(R.string.cacheVideoStudentList), VideoFragmentListSwipe.class);
         
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
@@ -241,8 +240,8 @@ public class VideoMainActivity extends FragmentActivity{
                 showProgressDialog();
                 return true;
             
-            } else if(requestType.equals(getString(R.string.cacheVideoCourseList))){
-                muldvarpService.requestVideos();
+            } else if(requestType.equals(getString(R.string.cacheVideoStudentList))){
+                muldvarpService.requestStudentVideos();
                 showProgressDialog();
                 return true;
                 
@@ -362,8 +361,7 @@ public class VideoMainActivity extends FragmentActivity{
                         //Dismiss progressdialog      
                         progressDialog.dismiss();
                         break;
-                    }
-                        
+                    }                        
                     
                     case AsyncFileIOUtility.IO_ERROR: {
                         
@@ -379,9 +377,7 @@ public class VideoMainActivity extends FragmentActivity{
                         progressDialog.dismiss();
                         break;
                     }    
-                        
-                        
-                }
+                }//Switch
             }//handleMessage
         };//Handler
         
@@ -407,7 +403,7 @@ public class VideoMainActivity extends FragmentActivity{
                         makeShortToast("Videos updated.", thisContext);                      
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOSTUDENT_UPDATE)) { 
-                        getListItemsFromLocalStorage(getString(R.string.cacheVideoCourseList), getCacheDir().getPath());
+                        getListItemsFromLocalStorage(getString(R.string.cacheVideoStudentList), getCacheDir().getPath());
                         makeShortToast("Videos updated.", thisContext);
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOCOURSE_LOAD)) {                        
@@ -415,7 +411,7 @@ public class VideoMainActivity extends FragmentActivity{
                         makeShortToast("Videos loaded from cache.", thisContext);
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_VIDEOSTUDENT_LOAD)) {                        
-                        getListItemsFromLocalStorage(getString(R.string.cacheVideoCourseList), getCacheDir().getPath());
+                        getListItemsFromLocalStorage(getString(R.string.cacheVideoStudentList), getCacheDir().getPath());
                         makeShortToast("Videos loaded from cache.", thisContext);
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_PROGRAMMES_UPDATE)) {                        
@@ -429,6 +425,10 @@ public class VideoMainActivity extends FragmentActivity{
                     } else if (receivedIntent.getAction().equals(MuldvarpService.SERVER_NOT_AVAILABLE)) {  
                         
                         makeShortToast(getString(R.string.cannot_connect), thisContext);
+                        
+                    } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_UPDATE_FAILED)) {  
+                        
+                        makeShortToast("Failed to update data.", thisContext);
                         
                     }
                                         

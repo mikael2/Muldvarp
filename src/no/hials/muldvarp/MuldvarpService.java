@@ -29,7 +29,9 @@ public class MuldvarpService extends Service {
     public static final String ACTION_VIDEOSTUDENT_LOAD   = "no.hials.muldvarp.ACTION_VIDEOSTUDENT_LOAD";
     public static final String ACTION_PROGRAMMES_UPDATE   = "no.hials.muldvarp.ACTION_PROGRAMMES_UPDATE";
     public static final String ACTION_PROGRAMMES_LOAD     = "no.hials.muldvarp.ACTION_PROGRAMMES_LOAD";
+    public static final String ACTION_UPDATE_FAILED       = "no.hials.muldvarp.ACTION_UPDATE_FAILED";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
+    
     
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -120,6 +122,16 @@ public class MuldvarpService extends Service {
                                                                                 this,
                                                                                 getURL(R.string.videoResPath),
                                                                                 getString(R.string.cacheVideoCourseList));
+        asyncCachedWebRequest.setHeader("Authorization", getHttpHeader());
+        asyncCachedWebRequest.startRequest();        
+    }
+    
+    public void requestStudentVideos(){
+        
+        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOSTUDENT_UPDATE),
+                                                                                this,
+                                                                                getURL(R.string.videoStudResPath),
+                                                                                getString(R.string.cacheVideoStudentList));
         asyncCachedWebRequest.setHeader("Authorization", getHttpHeader());
         asyncCachedWebRequest.startRequest();        
     }

@@ -41,7 +41,10 @@ public class WebResourceUtilities {
             System.out.println("WebResourceUtilities: Printing JSONString: " + jsonString);
             JSONArray jArray = new JSONArray(jsonString);            
                        
-            if (type.equals(context.getString(R.string.cacheVideoCourseList)) || type.equals(context.getString(R.string.videoBookmarks))) {
+            if (type.equals(context.getString(R.string.cacheVideoCourseList))
+                    || type.equals(context.getString(R.string.videoBookmarks))
+                    || type.equals(context.getString(R.string.cacheVideoStudentList))) {
+                
                 //Video BS her
                 System.out.println("WebresourceUtilities: Array length: " + jArray.length());
                 for (int i = 0; i < jArray.length(); i++) {

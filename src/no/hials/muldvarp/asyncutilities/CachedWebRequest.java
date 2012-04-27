@@ -89,6 +89,7 @@ public class CachedWebRequest {
 
                                 System.out.println("CachedWebRequest: startRequest: Response was not JSON.");
                                 System.out.println("CachedWebRequest: startRequest: Not writing to cache.");
+                                LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(new Intent(MuldvarpService.ACTION_UPDATE_FAILED));
                             } else {
                                 System.out.println("CachedWebRequest: startRequest: Connection successful,.");
                                 System.out.println("CachedWebRequest: startRequest: Writing to cache.");

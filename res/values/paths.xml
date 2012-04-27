@@ -2,6 +2,7 @@
 <resources>
     <string name="serverPath">http://master.uials.no:8080/muldvarp/</string>
     <string name="videoResPath">resources/video/</string>
+    <string name="videoStudResPath">resources/video/stud</string>
     <string name="programmesResPath">resources/programme/</string>
     <string name="programmeCourseResPath">resources/programme/courses/</string>
     <string name="courseResPath">resources/course/</string>
