@@ -3,7 +3,9 @@
     <string name="serverPath">http://master.uials.no:8080/muldvarp/</string>
     <string name="videoResPath">resources/video/</string>
     <string name="programmesResPath">resources/programme/</string>
+    <string name="programmeCourseResPath">resources/programme/courses/</string>
     <string name="courseResPath">resources/course/</string>
+    <string name="peopleResPath">resources/person/</string>
     <string name="libraryResPath">resources/Library/</string>
     
     <string name='youtubeFeeds'>http://gdata.youtube.com/feeds/api/videos</string>

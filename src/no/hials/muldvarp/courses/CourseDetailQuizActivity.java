@@ -21,6 +21,7 @@ import java.util.List;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.domain.Alternative;
 import no.hials.muldvarp.domain.Question;
+import no.hials.muldvarp.domain.Task;
 
 /**
  *
@@ -70,8 +71,13 @@ public class CourseDetailQuizActivity extends Activity {
         //setContentView(R.layout.course_quiz);
         makeTestData();
         
+        if(getIntent().getSerializableExtra("task") != null) {
+            Task task = (Task) getIntent().getSerializableExtra("task");
+            questions = task.getQuestions();
+        }
+        
         LinearLayout layout = new LinearLayout(this);
-        layout.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+        layout.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
         for(int i = 0; i < questions.size(); i++) {
             LinearLayout question_layout = new LinearLayout(this);
             question_layout.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
