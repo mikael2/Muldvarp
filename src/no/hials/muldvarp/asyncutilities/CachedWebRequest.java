@@ -22,6 +22,12 @@ import org.apache.http.message.BasicHeader;
  */
 public class CachedWebRequest {
     
+    //WebRequest types
+    public static final int CACHEDWEBREQ_MULDVARP = 0;
+    public static final int CACHEDWEBREQ_YOUTUBE = 1;
+    
+    int requestType;
+    
     Handler handler;
     Intent intent;
     Context applicationContext;
@@ -30,22 +36,24 @@ public class CachedWebRequest {
     Header header;
     boolean useHandler;
     
-    public CachedWebRequest(Intent intent, Context applicationContext, String URI, String cacheLocation){
+    public CachedWebRequest(Intent intent, Context applicationContext, String URI, String cacheLocation, int requestType){
         
         this.intent = intent;
         this.useHandler = false;
         this.applicationContext = applicationContext;
         this.URI = URI;
         this.cacheFileName = cacheLocation;
+        this.requestType = requestType;
     }
     
-    public CachedWebRequest(Handler handler, Context applicationContext, String URI, String cacheLocation){
+    public CachedWebRequest(Handler handler, Context applicationContext, String URI, String cacheLocation, int requestType){
         
         this.useHandler = true;
         this.applicationContext = applicationContext;
         this.handler = handler;
         this.URI = URI;
         this.cacheFileName = cacheLocation;
+        this.requestType = requestType;
     }
     
     public void setHeader(String headerName, String headerValue){
@@ -82,8 +90,19 @@ public class CachedWebRequest {
                         //Connection Success
                         case AsyncHTTPRequest.CON_SUCCEED: {
 
-                            String response = (String) message.obj;                        
-                            ArrayList arrayList = WebResourceUtilities.createListItemsFromJSONString(response, cacheFileName, applicationContext);
+                            String response = (String) message.obj;      
+                            
+                            ArrayList arrayList = new ArrayList();
+                            
+                            if(requestType == CACHEDWEBREQ_MULDVARP){
+                            
+                                arrayList = WebResourceUtilities.createListItemsFromJSONString(response, cacheFileName, applicationContext);
+                            } else if(requestType == CACHEDWEBREQ_YOUTUBE){
+                                
+                                arrayList = WebResourceUtilities.getVideosFromYoutubeFeed(response);
+                            }
+                            
+                            
 
                             if(arrayList.isEmpty()){
 
@@ -94,7 +113,9 @@ public class CachedWebRequest {
                                 System.out.println("CachedWebRequest: startRequest: Connection successful,.");
                                 System.out.println("CachedWebRequest: startRequest: Writing to cache.");
                                 AsyncFileIOUtility asyncFileIOUtility = new AsyncFileIOUtility(intent, applicationContext);
-                                asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(), cacheFileName, response);
+                                asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(),
+                                                                cacheFileName,
+                                                                WebResourceUtilities.createJSONStringFromListItem(arrayList, cacheFileName, applicationContext));
                                 asyncFileIOUtility.startIO();
                             }                       
                             break;

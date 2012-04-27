@@ -428,6 +428,7 @@ public class VideoMainActivity extends FragmentActivity{
                         
                     } else if (receivedIntent.getAction().equals(MuldvarpService.ACTION_UPDATE_FAILED)) {  
                         
+                        progressDialog.dismiss();
                         makeShortToast("Failed to update data.", thisContext);
                         
                     }

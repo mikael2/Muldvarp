@@ -88,6 +88,11 @@ public class MuldvarpService extends Service {
         return "http://" + settings.getString("url", "") + ":8080/muldvarp/" + getString(path);
     }
     
+    private String getYoutubeUserUploadsURL(String user){
+        
+        return getString(R.string.youtubeAPIPath) + "users/" + user + "/uploads?alt=json";
+    }
+    
     public void requestCourses() {
         new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
                 .execute(getURL(R.string.programmeCourseResPath),
@@ -121,7 +126,8 @@ public class MuldvarpService extends Service {
         CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOCOURSE_UPDATE),
                                                                                 this,
                                                                                 getURL(R.string.videoResPath),
-                                                                                getString(R.string.cacheVideoCourseList));
+                                                                                getString(R.string.cacheVideoCourseList),
+                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
         asyncCachedWebRequest.setHeader("Authorization", getHttpHeader());
         asyncCachedWebRequest.startRequest();        
     }
@@ -130,9 +136,9 @@ public class MuldvarpService extends Service {
         
         CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOSTUDENT_UPDATE),
                                                                                 this,
-                                                                                getURL(R.string.videoStudResPath),
-                                                                                getString(R.string.cacheVideoStudentList));
-        asyncCachedWebRequest.setHeader("Authorization", getHttpHeader());
+                                                                                getYoutubeUserUploadsURL(getString(R.string.youtubeHialsUser)),
+                                                                                getString(R.string.cacheVideoStudentList),
+                                                                                CachedWebRequest.CACHEDWEBREQ_YOUTUBE);
         asyncCachedWebRequest.startRequest();        
     }
             
@@ -140,15 +146,11 @@ public class MuldvarpService extends Service {
         
         CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_SINGLEVIDEO_UPDATE),
                                                                                 this,
-                                                                                getURL(R.string.videoResPath) + "/" +  videoID,
-                                                                                getString(R.string.cacheVideoCourseList));
+                                                                                getURL(R.string.videoResPath) + videoID,
+                                                                                getString(R.string.cacheVideoCourseList),
+                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
         asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
         asyncCachedWebRequest.startRequest();
-        
-    }
-    
-        
-    public void requestDownloadedVideos(){
         
     }
     
@@ -157,7 +159,8 @@ public class MuldvarpService extends Service {
         CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_PROGRAMMES_UPDATE),
                                                                                 this,
                                                                                 getURL(R.string.programmesResPath),
-                                                                                getString(R.string.cacheProgrammeList));
+                                                                                getString(R.string.cacheProgrammeList),
+                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
         asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
         asyncCachedWebRequest.startRequest();         
     }

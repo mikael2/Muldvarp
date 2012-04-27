@@ -13,6 +13,7 @@ import no.hials.muldvarp.entities.Course;
 import no.hials.muldvarp.entities.ListItem;
 import no.hials.muldvarp.entities.Programme;
 import no.hials.muldvarp.entities.Video;
+import no.hials.muldvarp.video.VideoActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,7 +105,9 @@ public class WebResourceUtilities {
         String retVal = "";
         JSONArray jsonArray = new JSONArray();
         
-        if(type.equals(context.getString(R.string.videoBookmarks))){
+        
+        if(type.equals(context.getString(R.string.videoBookmarks))
+                || type.equals(context.getString(R.string.cacheVideoStudentList))){
             
             
             for (int i = 0; i < listItem.size(); i++) {
@@ -138,8 +141,41 @@ public class WebResourceUtilities {
             
             
         }
-        
-        
         return retVal;
+    }
+    
+    public static ArrayList<ListItem> getVideosFromYoutubeFeed(String JSONString){
+
+        ArrayList<ListItem> videoList = new ArrayList<ListItem>();
+        
+        try {
+            //Traverse through entries in the JSONObject
+            JSONObject jsonObject = new JSONObject(JSONString);
+
+            JSONObject feed = jsonObject.getJSONObject("feed");
+            JSONArray entry = feed.getJSONArray("entry");
+            
+            for (int i = 0; i < entry.length(); i++) {
+                
+                JSONObject entryObject = entry.getJSONObject(i);
+                
+                Video video = new Video(Integer.toString(i),
+                                        entryObject.getJSONObject("title").getString("$t"),
+                                        entryObject.getJSONArray("author").getJSONObject(0).getJSONObject("name").getString("$t"),
+                                        entryObject.getJSONObject("content").getString("$t"),
+                                        "Youtube/ID",
+                                        null,
+                                        entryObject.getJSONArray("link").getJSONObject(3).getString("href"));
+                
+                videoList.add(video);
+                
+            }
+                        
+        } catch (JSONException ex) {
+            Logger.getLogger(VideoActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return videoList;
     }
 }
