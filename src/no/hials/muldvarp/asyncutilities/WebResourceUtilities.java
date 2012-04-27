@@ -54,7 +54,7 @@ public class WebResourceUtilities {
                             currentObject.getString("videoName"),
                             currentObject.getString("videoDetail"),
                             currentObject.getString("videoDescription"),
-                            "Video",
+                            currentObject.getString("videoType"),
                             null,
                             currentObject.getString("videoURI")));
                 }
@@ -165,7 +165,7 @@ public class WebResourceUtilities {
                                         entryObject.getJSONObject("content").getString("$t"),
                                         "Youtube/ID",
                                         null,
-                                        entryObject.getJSONArray("link").getJSONObject(3).getString("href"));
+                                        entryObject.getJSONArray("link").getJSONObject(0).getString("href"));
                 
                 videoList.add(video);
                 

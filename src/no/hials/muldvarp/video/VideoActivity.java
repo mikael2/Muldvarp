@@ -92,15 +92,12 @@ public class VideoActivity extends Activity {
         
         
         videoView = (VideoView)findViewById(R.id.myvideoview);
-//        videoView.setVisibility(1);
-//        videoView.requestFocus();
         videoView.setVideoURI(Uri.parse(rtspTest));
         MediaController mediaController = new MediaController(this);        
         videoView.setMediaController(mediaController);
         
-        
+        get3gp(parseContentURL(videoURL));
         videoView.start();
-//        get3gp(videoURL);
         
         
         if(savedInstanceState != null) {           
@@ -126,7 +123,7 @@ public class VideoActivity extends Activity {
 
             public void onClick(View view) {
                 
-//                startYoutubeApp("test");             
+                startYoutubeApp();             
                 
             }
         });       
@@ -246,6 +243,46 @@ public class VideoActivity extends Activity {
         }
         return dialog;
     }   
+    
+    
+    public void startYoutubeApp(){       
+        
+        String videoURI = parseContentURL(video.getVideoURL()) ;
+        if(videoURI != null){
+        
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(parseContentURL(video.getVideoURL()))));        
+        }
+                
+    }
+    
+    /**
+     * This function checks if the video URI is supported.
+     * 
+     * @param contentURL
+     * @return 
+     */
+    public String parseContentURL(String contentURL){
+        
+        System.out.println(video.getItemType());
+        System.out.println(contentURL);
+        if(video.getItemType().equals("Youtube/ID")){
+            
+            if (contentURL.contains("http://www.youtube.com/watch?v=")) {
+            
+            return contentURL;
+            } else if (contentURL.contains("http://m.youtube.com/watch?v")){
+
+                return contentURL;
+            } else {
+
+                return "http://www.youtube.com/watch?v=" + contentURL;
+            }
+        } else {
+            
+            Toast.makeText(this, "Video type not supported.", Toast.LENGTH_SHORT);
+            return null;
+        }
+    }
     
     private void setServiceConnection(){
         
@@ -431,13 +468,7 @@ public class VideoActivity extends Activity {
         new AsyncHTTPRequest(handler).httpGet(googleJSONQuery + youtubeVideoID);
     }
     
-    public void startYoutubeApp(String URI){       
-        System.out.println(videoURL);
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + videoURL)));
         
-        
-    }
-    
     private void getBroadcastReceiver(){
         
         //Define BroadCastReceiver and what to do depending on the Intent by overriding the onReceive method
