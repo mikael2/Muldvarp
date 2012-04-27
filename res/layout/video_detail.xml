@@ -30,28 +30,15 @@
 
 
             <TextView 
-            android:id="@+id/videoID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"/>
-
-            <TextView 
             android:id="@+id/videotitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"/>
+            android:textSize="25sp"/>
 
             <TextView 
             android:id="@+id/videodescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
-
-            <TextView 
-            android:id="@+id/videodescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt mattis elit eget consectetur. Suspendisse vehicula feugiat diam eget interdum. Phasellus vehicula est non ligula gravida vehicula. Vestibulum rhoncus malesuada lacus, a consequat nisl congue eget. Pellentesque pellentesque adipiscing tellus, nec accumsan tortor vehicula eu. Quisque mauris nulla, ultricies sed posuere sed, ullamcorper id lacus. Aliquam sit amet turpis nibh, non semper ante. Proin tincidunt tempor neque, non blandit sem eleifend sed. Vestibulum malesuada leo at mi hendrerit sollicitudin eget rutrum enim. Mauris tincidunt blandit urna fringilla ullamcorper. Suspendisse lobortis quam id urna tincidunt ut sodales diam fringilla. Mauris vel lectus luctus sem euismod convallis faucibus sit amet dolor. Nullam ac sem mattis quam scelerisque accumsan. Vestibulum sapien eros, scelerisque vel suscipit id, posuere nec purus. Donec porttitor bibendum tincidunt."/>
 
         </LinearLayout>
     </ScrollView>

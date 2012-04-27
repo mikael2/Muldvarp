@@ -130,12 +130,6 @@ public class VideoActivity extends Activity {
                 
             }
         });       
-        
-        //Video ID
-        TextView textVideoID = (TextView) findViewById(R.id.videoID);
-        textVideoID.setText(video.getVideoID());
-        
-        
         //Video Title
         TextView textVideoName = (TextView) findViewById(R.id.videotitle);
         textVideoName.setText(video.getItemName());
