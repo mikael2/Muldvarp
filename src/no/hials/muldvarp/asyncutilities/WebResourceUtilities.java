@@ -90,7 +90,7 @@ public class WebResourceUtilities {
                 }
             } else {
 
-                System.out.println("It was null. or unrelevant :<");
+                System.out.println("It was null. or irrelevant :<");
             }
         } catch (Exception ex) {
             System.out.println("WebResourceUtilities: Failed to convert String of alleged type " + type );
@@ -137,9 +137,26 @@ public class WebResourceUtilities {
             
             
             retVal = jsonArray.toString();
-        } else if (type.equals(context.getString(R.string.cacheVideoCourseList))){
+        } else if (type.equals(context.getString(R.string.cacheProgrammeList))){
             
-            
+            for (int i = 0; i < listItem.size(); i++) {
+                
+                try {
+                    JSONObject jSONObject = new JSONObject();
+                    Programme programme = (Programme) listItem.get(i);
+                    
+                    
+                    jSONObject.put("id", programme.getProgrammeID());
+                    jSONObject.put("name", programme.getItemName());
+                    jSONObject.put("detail", programme.getItemDescription());
+                    
+                    jsonArray.put(jSONObject);
+                    
+                } catch (JSONException ex) {
+                    Logger.getLogger(WebResourceUtilities.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
         }
         return retVal;
     }

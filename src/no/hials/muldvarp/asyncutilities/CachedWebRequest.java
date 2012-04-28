@@ -96,6 +96,7 @@ public class CachedWebRequest {
                             
                             if(requestType == CACHEDWEBREQ_MULDVARP){
                             
+                                System.out.println("asdasdasdasdasd " + response);
                                 arrayList = WebResourceUtilities.createListItemsFromJSONString(response, cacheFileName, applicationContext);
                             } else if(requestType == CACHEDWEBREQ_YOUTUBE){
                                 
@@ -116,7 +117,7 @@ public class CachedWebRequest {
                                 asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(),
                                                                 cacheFileName,
                                                                 WebResourceUtilities.createJSONStringFromListItem(arrayList, cacheFileName, applicationContext));
-                                asyncFileIOUtility.startIO();
+                                asyncFileIOUtility.startThreadedIO();
                             }                       
                             break;
                         }

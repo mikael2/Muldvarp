@@ -96,7 +96,6 @@ public class VideoActivity extends Activity {
         MediaController mediaController = new MediaController(this);        
         videoView.setMediaController(mediaController);
         
-        get3gp(parseContentURL(videoURL));
         videoView.start();
         
         
@@ -263,8 +262,6 @@ public class VideoActivity extends Activity {
      */
     public String parseContentURL(String contentURL){
         
-        System.out.println(video.getItemType());
-        System.out.println(contentURL);
         if(video.getItemType().equals("Youtube/ID")){
             
             if (contentURL.contains("http://www.youtube.com/watch?v=")) {

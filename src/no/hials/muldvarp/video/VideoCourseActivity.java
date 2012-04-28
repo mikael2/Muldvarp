@@ -393,7 +393,7 @@ public class VideoCourseActivity extends FragmentActivity{
         System.out.println("Getlistitemsfromstorage: " + file.getPath());
         AsyncFileIOUtility asyncFileIO = new AsyncFileIOUtility(handler);
         asyncFileIO.readFile(file);
-        asyncFileIO.startIO();
+        asyncFileIO.startThreadedIO();
     }
     
     private void getBroadcastReceiver(){

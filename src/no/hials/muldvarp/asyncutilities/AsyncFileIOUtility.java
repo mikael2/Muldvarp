@@ -114,7 +114,7 @@ public class AsyncFileIOUtility implements Runnable{
         
     }
     
-    public void startIO(){
+    public void startThreadedIO(){
         
         Thread thread = new Thread(this);
         thread.start();
@@ -244,7 +244,7 @@ public class AsyncFileIOUtility implements Runnable{
         
         System.out.println("AsyncFileIOUtility: Trying to write " + currentFile.getPath());
         String stringTobeWritten = (String) objectToBeWritten;        
-        System.out.println("WILL BE WRITTEN" + objectToBeWritten);
+        System.out.println("WILL BE WRITTEN" + stringTobeWritten);
         
         if(!currentFile.exists()){
             currentFile.getParentFile().mkdirs();
