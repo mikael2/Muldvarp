@@ -13,6 +13,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
@@ -130,6 +131,11 @@ public class VideoMainActivity extends FragmentActivity{
         
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.video_mainactivity, menu);
+        
+        //Get SearchView and add actionListeners
+//        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search);
+        
+        
         return true;
     }
     

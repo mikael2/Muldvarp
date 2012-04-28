@@ -15,16 +15,27 @@ import java.util.ArrayList;
  */
 public class Course extends ListItem{
     
-    String imageurl;
-    
+    Integer courseID;
+    String imageurl;    
     Integer revision;
     ArrayList themes;
     
-    public Course(String itemName, String smallDetail, String itemDescription, String itemType, Bitmap itemThumbnail) {
+    public Course(Integer courseID, String itemName, String smallDetail, String itemDescription, String itemType, Bitmap itemThumbnail) {
         
         super(itemName, smallDetail, itemDescription, itemType, itemThumbnail);
+        this.courseID = courseID;
+        
+        
     }
 
+    public Integer getCourseID() {
+        return courseID;
+    }
+
+    public void setCourseID(Integer courseID) {
+        this.courseID = courseID;
+    }
+    
     public String getImageurl() {
         return imageurl;
     }

@@ -18,6 +18,7 @@ import no.hials.muldvarp.utility.DownloadTask;
 public class MuldvarpService extends Service {
     public static final String ACTION_PEOPLE_UPDATE       = "no.hials.muldvarp.ACTION_PEOPLE_UPDATE";
     public static final String ACTION_COURSE_UPDATE       = "no.hials.muldvarp.ACTION_COURSE_UPDATE";
+    public static final String ACTION_COURSEVIDEO_UPDATE       = "no.hials.muldvarp.ACTION_COURSEVIDEO_UPDATE";
     public static final String ACTION_SINGLECOURSE_UPDATE = "no.hials.muldvarp.ACTION_SINGLECOURSE_UPDATE";
     public static final String ACTION_LIBRARY_UPDATE      = "no.hials.muldvarp.ACTION_LIBRARY_UPDATE";
     public static final String ACTION_VIDEOFAVOURITES_ADD  = "no.hials.muldvarp.ACTION_VIDEOFAVOURITES_ADD";
@@ -163,6 +164,17 @@ public class MuldvarpService extends Service {
                                                                                 CachedWebRequest.CACHEDWEBREQ_MULDVARP);
         asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
         asyncCachedWebRequest.startRequest();         
+    }
+    
+    public void requestVideosInCourse(Integer id){
+        
+        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_COURSEVIDEO_UPDATE),
+                                                                                this,
+                                                                                getURL(R.string.videoCourseResPath) + id,
+                                                                                getString(R.string.cacheCourseVideoList),
+                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
+        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
+        asyncCachedWebRequest.startRequest();
     }
         
     public String getHttpHeader() {

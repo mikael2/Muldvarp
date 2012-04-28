@@ -88,36 +88,50 @@ public class ListViewAdapter extends ArrayAdapter {
         }
                 
         //Set icon
-        holder.icon.setImageResource(R.drawable.monitor);
+        if(listItem.getItemType() != null){
+            
+            if(listItem.getItemType().equals("Youtube/ID")){            
+                holder.icon.setImageResource(R.drawable.monitor);
+                
+            } else if (listItem.getItemType().equals("Course")){
+                holder.icon.setImageResource(R.drawable.ic_launcher);
+                
+            } else if (listItem.getItemType().equals("Programme")){
+                holder.icon.setImageResource(R.drawable.ic_launcher);                
+            }
+        } else {
+            holder.icon.setImageResource(R.drawable.ic_launcher);
+        }
+        
         
         return convertView;
     }
     
-//    /**
-//     * Function which filters out entries that don't match the supplied CharSequence
-//     * 
-//     * @param filter CharSequence 
-//     */
-//    public void filter(CharSequence filter) {
-//        
-//        ArrayList filtered = new ArrayList();
-//        
-//        for (ListItem listItem : (ArrayList<ListItem>)orig_items)
-//        {
-//            if (listItem.getItemName().toLowerCase().contains(filter.toString().toLowerCase()))
-//            {
-//                filtered.add(listItem);
-//            }
-//        }
-//        
-//        this.items = filtered;
-//        
-//        if("".equals(filter.toString())) {
-//            this.items = (ArrayList) this.orig_items;
-//        }
-//        
-//        notifyDataSetChanged();  
-//    }
+    /**
+     * Function which filters out entries that don't match the supplied CharSequence
+     * 
+     * @param filter CharSequence 
+     */
+    public void filter(CharSequence filter) {
+        
+        ArrayList filtered = new ArrayList();
+        
+        for (ListItem listItem : (ArrayList<ListItem>)orig_items)
+        {
+            if (listItem.getItemName().toLowerCase().contains(filter.toString().toLowerCase()))
+            {
+                filtered.add(listItem);
+            }
+        }
+        
+        this.items = filtered;
+        
+        if("".equals(filter.toString())) {
+            this.items = (ArrayList) this.orig_items;
+        }
+        
+        notifyDataSetChanged();  
+    }
 
     static class ViewHolder {
         ImageView icon;

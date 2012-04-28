@@ -94,9 +94,8 @@ public class VideoActivity extends Activity {
         videoView = (VideoView)findViewById(R.id.myvideoview);
         videoView.setVideoURI(Uri.parse(rtspTest));
         MediaController mediaController = new MediaController(this);        
-        videoView.setMediaController(mediaController);
-        
-        videoView.start();
+        videoView.setMediaController(mediaController);       
+        get3gp(video.getVideoURL());
         
         
         if(savedInstanceState != null) {           
@@ -320,11 +319,11 @@ public class VideoActivity extends Activity {
     
     public void startVideo(String srcPath) {
         
-        videoView.setVideoURI(Uri.parse(srcPath));
-        
+        videoView.setVideoURI(Uri.parse(srcPath));        
         videoView.start();
         
     }
+    
     /**
      * Test function for quering the youtube api
      * 

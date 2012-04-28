@@ -142,7 +142,7 @@ public class AsyncFileIOUtility implements Runnable{
             if(useHandler){            
                 handler.sendMessage(Message.obtain(handler, AsyncFileIOUtility.IO_START));
             } else {            
-            //LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent);            
+            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent);            
             }
         
             
@@ -182,7 +182,8 @@ public class AsyncFileIOUtility implements Runnable{
                 System.out.println("AsyncFileIOUtility: Notifying handler");
                 handler.sendMessage(message);
             } else {
-                System.out.println("AsyncFileIOUtility: Broadcasting Intent");
+                System.out.println("AsyncFileIOUtility: Broadcasting Intent: " + intent.getDataString());
+                System.out.println("AsyncFileIOUtility: Broadcasting Intent: " + intent.getAction());
                 LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(new Intent(intent)); 
             }
             

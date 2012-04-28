@@ -3,6 +3,7 @@
     <integer name="cacheTime">0</integer>
     <string name="videoBookmarks">VideoBookmarks</string>
     <string name="cacheVideoCourseList">VideoCourseCache</string>
+    <string name="cacheCourseVideoList">CourseVideoCache</string>
     <string name="cacheVideoStudentList">VideoStudentCache</string>
     <string name="cacheProgrammeCourseList">ProgrammeCourseCache</string>
     <string name="cacheProgrammeList">ProgrammeCache</string>

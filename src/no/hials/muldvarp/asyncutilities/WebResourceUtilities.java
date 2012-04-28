@@ -44,7 +44,8 @@ public class WebResourceUtilities {
                        
             if (type.equals(context.getString(R.string.cacheVideoCourseList))
                     || type.equals(context.getString(R.string.videoBookmarks))
-                    || type.equals(context.getString(R.string.cacheVideoStudentList))) {
+                    || type.equals(context.getString(R.string.cacheVideoStudentList))
+                    || type.equals(context.getString(R.string.cacheCourseVideoList))) {
                 
                 //Video BS her
                 System.out.println("WebresourceUtilities: Array length: " + jArray.length());
@@ -66,10 +67,11 @@ public class WebResourceUtilities {
 
                     JSONObject currentObject = jArray.getJSONObject(i);
 
-                    itemList.add(new Course(currentObject.getString("name"),
-                            null,
-                            null,
-                            null,
+                    itemList.add(new Course(currentObject.getInt("id"),
+                            currentObject.getString("name"),
+                            currentObject.getString("detail"),
+                            currentObject.getString("detail"),
+                            "Course",
                             null));
 
                 }
@@ -82,15 +84,15 @@ public class WebResourceUtilities {
 
                     itemList.add(new Programme(currentObject.getString("id"), 
                             currentObject.getString("name"),
-                            null,  //no small description
+                            currentObject.getString("detail"),  //no small description
                             currentObject.getString("detail"),
-                            null, //no type
+                            "Programme", //no type
                             null)); //no bitmap (yet)
 
                 }
             } else {
 
-                System.out.println("It was null. or irrelevant :<");
+                System.out.println("WebResourceUtilities: It was null. or irrelevant");
             }
         } catch (Exception ex) {
             System.out.println("WebResourceUtilities: Failed to convert String of alleged type " + type );
