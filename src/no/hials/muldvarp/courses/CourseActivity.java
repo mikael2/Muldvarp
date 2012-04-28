@@ -47,8 +47,7 @@ public class CourseActivity extends Activity {
     Integer progid;
     
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isGrid = getIntent().getBooleanExtra("isGrid", false);
         

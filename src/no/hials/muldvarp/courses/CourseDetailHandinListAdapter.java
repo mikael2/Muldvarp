@@ -47,6 +47,7 @@ public class CourseDetailHandinListAdapter extends ArrayAdapter {
             convertView = mInflater.inflate(resource, parent, false);
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.detail = (TextView) convertView.findViewById(R.id.detail);
             holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
 
             convertView.setTag(holder);
@@ -56,21 +57,35 @@ public class CourseDetailHandinListAdapter extends ArrayAdapter {
 
         ObligatoryTask h = (ObligatoryTask)items.get(position);
         Date dueDate;
+        
+        String detail = "";
         if(h.getDueDate()!=null) {
             dueDate = new Date(h.getDueDate());
             holder.checkbox.setChecked(h.getDone());
             holder.checkbox.setClickable(false);
-        } else {
-            dueDate = new Date(0);
+            detail = "Frist: " + dueDate.getMonth() + "." + dueDate.getDay();
+            if(dueDate.getHours() != 0 && dueDate.getMinutes() != 0) {
+                detail += "  kl: " + dueDate.getHours() + ":" + dueDate.getMinutes();
+            }
+        }
+        
+        String detail2 = "";
+        Date acceptedDate;
+        if(h.getAcceptedDate() != null) {
+            acceptedDate = new Date(h.getAcceptedDate());
+            detail2 = "  Godkjent dato: " + acceptedDate.getMonth() + "." + acceptedDate.getDay() + "   kl: " + acceptedDate.getHours() + ":" + acceptedDate.getMinutes();
         }
 
-        holder.name.setText(h.getName() + dueDate.getMonth() + dueDate.getDay() + dueDate.getHours() + dueDate.getMinutes());
+        holder.name.setText(h.getName());
+        
+        holder.detail.setText(detail+detail2);
         
         return convertView;
     }
 
     static class ViewHolder {
         TextView name;
+        TextView detail;
         CheckBox checkbox;
     }
 }
