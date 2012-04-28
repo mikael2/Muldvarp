@@ -136,6 +136,7 @@ public class CourseActivity extends Activity {
                 } else {
                     intent.putExtra("isGrid", false);
                 }
+                intent.putExtra("id", progid);
                 finish();
                 startActivity(intent);
                 return true;

@@ -58,8 +58,10 @@ public class CourseDetailQuizActivity extends Activity {
     }
     
     private boolean checkAnswer(Question q, int altid) {
-        if(q.getAnswer().getId() == altid) {
-            return true;
+        if(q.getAnswer() != null) {
+            if(q.getAnswer().getId() == altid) {
+                return true;
+            }
         }
         return false;
     }
