@@ -145,9 +145,8 @@ public class WebResourceUtilities {
                     JSONObject jSONObject = new JSONObject();
                     Programme programme = (Programme) listItem.get(i);
                     
-                    
-                    jSONObject.put("id", programme.getProgrammeID());
                     jSONObject.put("name", programme.getItemName());
+                    jSONObject.put("id", programme.getProgrammeID());
                     jSONObject.put("detail", programme.getItemDescription());
                     
                     jsonArray.put(jSONObject);
@@ -157,6 +156,7 @@ public class WebResourceUtilities {
                 }
                 
             }
+            retVal = jsonArray.toString();
         }
         return retVal;
     }

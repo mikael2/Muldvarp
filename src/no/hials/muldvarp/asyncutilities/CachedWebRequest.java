@@ -107,16 +107,25 @@ public class CachedWebRequest {
 
                             if(arrayList.isEmpty()){
 
-                                System.out.println("CachedWebRequest: startRequest: Response was not JSON.");
+                                System.out.println("CachedWebRequest: startRequest: Response was not correctly formatted JSON.");
                                 System.out.println("CachedWebRequest: startRequest: Not writing to cache.");
                                 LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(new Intent(MuldvarpService.ACTION_UPDATE_FAILED));
                             } else {
                                 System.out.println("CachedWebRequest: startRequest: Connection successful,.");
                                 System.out.println("CachedWebRequest: startRequest: Writing to cache.");
                                 AsyncFileIOUtility asyncFileIOUtility = new AsyncFileIOUtility(intent, applicationContext);
-                                asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(),
+                                if(requestType == CACHEDWEBREQ_YOUTUBE){
+                                
+                                    asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(),
                                                                 cacheFileName,
                                                                 WebResourceUtilities.createJSONStringFromListItem(arrayList, cacheFileName, applicationContext));
+                                } else {
+                                    asyncFileIOUtility.writeString(applicationContext.getCacheDir().getPath(),
+                                                                cacheFileName,
+                                                                response);
+                                }
+                                
+                                
                                 asyncFileIOUtility.startThreadedIO();
                             }                       
                             break;
