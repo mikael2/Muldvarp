@@ -14,7 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Course;
 import no.hials.muldvarp.domain.Programme;
 import no.hials.muldvarp.utility.DrawableManager;
 
@@ -71,8 +70,16 @@ public class ProgrammeListAdapter extends ArrayAdapter {
         
         holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
         
+        
         if (showdetails == true) {
-            holder.detail.setText(c.getDetail());
+            holder.detail.setText(c.getDetail() + "      Courses: " + c.getCourses().size());
+        }
+        
+        if(c.getCourses().isEmpty()) {
+            holder.name.setAlpha((float)0.5);
+            holder.icon.setAlpha((float)0.5);
+            if(showdetails == true)
+                holder.detail.setAlpha((float)0.5);
         }
         
         if (c.getImageurl() != null && !c.getImageurl().equals("")) {            

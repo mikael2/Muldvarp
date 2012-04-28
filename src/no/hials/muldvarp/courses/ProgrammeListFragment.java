@@ -6,9 +6,7 @@ package no.hials.muldvarp.courses;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -99,51 +97,30 @@ public class ProgrammeListFragment extends Fragment {
 
         filterText = (EditText)fragmentView.findViewById(R.id.search_box);
         filterText.addTextChangedListener(filterTextWatcher);
-               
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(fragmentView.getContext());
-        String username = prefs.getString("username", "");
         
         if(isGrid) {
-            if(!username.equals("")) {
-                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        Programme selectedItem = (Programme)items.get(position);
+            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    Programme selectedItem = (Programme)items.get(position);
+                    if(selectedItem.getCourses().size() > 0) {
                         Intent myIntent = new Intent(view.getContext(), CourseActivity.class);
                         myIntent.putExtra("id", selectedItem.getId());
                         startActivityForResult(myIntent, 0);
-                    }  
-                });
-            } else {
-                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        Programme selectedItem = (Programme)items.get(position);
-                        Intent myIntent = new Intent(view.getContext(), CourseActivity.class);
-                        myIntent.putExtra("id", selectedItem.getId());
-                        startActivityForResult(myIntent, 0);
-                    }  
-                }); 
-            }
+                    }
+                }  
+            });
         } else {
-            if(!username.equals("")) {
-                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        Programme selectedItem = (Programme)items.get(position);
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    Programme selectedItem = (Programme)items.get(position);
+                    if(selectedItem.getCourses().size() > 0) {
                         Intent myIntent = new Intent(view.getContext(), CourseActivity.class);
                         myIntent.putExtra("id", selectedItem.getId());
                         startActivityForResult(myIntent, 0);
-                    }  
-                });
-            } else {
-                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        Programme selectedItem = (Programme)items.get(position);
-                        Intent myIntent = new Intent(view.getContext(), CourseActivity.class);
-                        myIntent.putExtra("id", selectedItem.getId());
-                        startActivityForResult(myIntent, 0);
-                    }  
-                }); 
-            }
-        } 
+                    }
+                }  
+            }); 
+        }
     }
     
     private TextWatcher filterTextWatcher = new TextWatcher() {

@@ -170,8 +170,10 @@ public class CourseDetailWorkFragment extends Fragment {
                     }
                     if(t.getDone() == true) {
                         name.setAlpha((float)0.5);
+                        icon.setAlpha((float)0.5);
                     } else {
                         name.setAlpha(1);
+                        icon.setAlpha((float)0.9);
                     }
                 }		
 		CheckBox cb = (CheckBox)v.findViewById( R.id.checkbox );
@@ -180,22 +182,23 @@ public class CourseDetailWorkFragment extends Fragment {
                 v.setOnClickListener(new OnClickListener() {
 
                 public void onClick(View v) {
-                    //Må ha en metode å sortere ut content type
-                    //Dette er bare en midlertidig test
-                    //TODO: FIX CONTENT TYPE CHECK
-                    
                     Intent myIntent = null;
-                    
-                    if((t.getContentType().equals("Video")) && (t.getContent_url() != null)){
-                        myIntent = new Intent(v.getContext(), VideoActivity.class);
-                        myIntent.putExtra("videoURL", t.getContent_url());
-                        startActivityForResult(myIntent, 0);
-                    } else if(t.getContentType().equals("Quiz") && (t.getQuestions() != null)) {
-                        myIntent = new Intent(v.getContext(), CourseDetailQuizActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable("task", t);
-                        myIntent.putExtras(b);
-                        startActivity(myIntent);
+                    if(t.getContentType() != null) {
+                       if((t.getContentType().equals("Video")) && (t.getContent_url() != null)){
+    //                        myIntent = new Intent(v.getContext(), VideoActivity.class);
+    //                        myIntent.putExtra("videoURL", t.getContent_url());
+    //                        startActivityForResult(myIntent, 0);
+                        } else if(t.getContentType().equals("Quiz") && (t.getQuestions() != null)) {
+                            myIntent = new Intent(v.getContext(), CourseDetailQuizActivity.class);
+                            Bundle b = new Bundle();
+                            b.putSerializable("task", t);
+                            myIntent.putExtras(b);
+                            startActivity(myIntent);
+                        } else if(t.getContentType().equals("PDF")) {
+
+                        } else if(t.getContentType().equals("External")) {
+
+                        } 
                     }
                 }
             });
