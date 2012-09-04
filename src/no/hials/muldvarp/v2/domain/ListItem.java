@@ -1,0 +1,74 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package no.hials.muldvarp.entities;
+
+import android.graphics.Bitmap;
+import java.io.Serializable;
+
+/**
+ * Class defining a general item in a list. Implements serializable, and can be
+ * passed between activities in a Bundle.
+ * 
+ * @author johan
+ */
+public class ListItem implements Serializable{
+    
+    public String itemName;
+    public String smallDetail;
+    public String itemDescription;
+    public String itemType;
+    public Bitmap itemThumbnail;
+    
+    public ListItem(String itemName, String smallDetail, String itemDescription, String itemType, Bitmap itemThumbnail) {
+        
+        this.itemName = itemName;
+        this.smallDetail = smallDetail;
+        this.itemDescription = itemDescription;
+        this.itemType = itemType;
+        this.itemThumbnail = itemThumbnail;
+        
+    }
+
+    public String getSmallDetail() {
+        return smallDetail;
+    }
+
+    public void setSmallDetail(String smallDetail) {
+        this.smallDetail = smallDetail;
+    }
+
+    public String getItemDescription() {
+        return itemDescription;
+    }
+
+    public void setItemDescription(String itemDescription) {
+        this.itemDescription = itemDescription;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public Bitmap getItemThumbnail() {
+        return itemThumbnail;
+    }
+
+    public void setItemThumbnail(Bitmap itemThumbnail) {
+        this.itemThumbnail = itemThumbnail;
+    }
+
+    public String getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+    
+}
