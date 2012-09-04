@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 import no.hials.muldvarp.MainActivity;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Programme;
+import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**

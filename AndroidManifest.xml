@@ -9,76 +9,26 @@
     <uses-sdk android:minSdkVersion="14"
               android:targetSdkVersion="14" />
     <application android:label="@string/app_name" android:icon="@drawable/mole_icon"
-                 android:debuggable="true" android:theme="@android:style/Theme.Holo">
-        <activity android:name="MainActivity"
-                  android:label="@string/app_name"
-                  android:theme="@style/MuldvarpTheme">
+                 android:debuggable="true" android:theme="@android:style/Theme.Holo.Light">
+        <activity android:name=".v2.MainActivity"
+                  android:label="@string/app_name">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
                     <category android:name="android.intent.category.LAUNCHER" />
                 </intent-filter>
         </activity>
 
-        <activity android:name="LoginActivity"
-                android:label="@string/app_name">
-        </activity>
         <service android:name=".MuldvarpService" />
-        
-        <activity android:name=".desktop.MainPreferenceActivity"
-                  android:label="Preferences"/>
 
-        <activity android:name=".courses.CourseActivity"
+        <activity android:name=".CourseActivity"
                   android:label="Courses"/>
         
-        <activity android:name=".courses.CourseDetailActivity"
-                  android:label="Course Detail">
-        </activity>
-        
-        <activity android:name=".courses.CoursePublicDetailActivity"
-                  android:label="Courses">
-        </activity>
-        
-        <activity android:name=".courses.CourseDetailQuizActivity"
-                  android:label="Courses">
-        </activity>
-        
-        <activity android:name=".courses.ProgrammeActivity"
+        <activity android:name=".ProgrammeActivity"
                   android:label="Programmes">
         </activity>
         
-        <activity android:name=".library.LIBMainscreen"
-                  android:label="Library">
+        <activity android:name=".TaskActivity"
+                  android:label="Programmes">
         </activity>
-
-        <activity android:name=".video.VideoActivity"
-                  android:label="Video">
-        </activity>
-                       
-        <activity android:name=".video.VideoProgrammeActivity" 
-                  android:label="VideoProgramme"/>
-                  
-        <activity android:name=".video.VideoCourseActivity" 
-                  android:label="VideoCourse"/>
-        
-        <activity android:name=".video.VideoMainActivity" 
-                  android:label="VideoMainActivity"/>
-        
-        <activity android:name=".directory.DirectoryActivity"
-                  android:label="Directory">
-        </activity>
-        <activity android:name=".directory.DirectoryCampus"
-                  android:label="DirectoryCampus">
-        </activity>
-        <activity android:name=".directory.DirectoryPeople"
-                  android:label="DirectoryPeople">
-        </activity>
-        <activity android:name=".library.LibraryDetail"
-                  android:label="LibraryDetails">
-        </activity>
-        <activity android:name=".news.NewsActivity"       
-                  android:label="NewsActivity"/>
-        <activity android:name=".news.NewsCategoryAction"
-                  android:label="NewsCategoryAction"/>
-
     </application>    
 </manifest>

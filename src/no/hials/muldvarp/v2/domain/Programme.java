@@ -2,30 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.domain;
+package no.hials.muldvarp.v2.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class represents a programme.
- * 
- * @author johan
- */
-
-public class Programme {
+public class Programme extends ListItem {
     private Integer id;
-    String name;
-    String detail;
     List<Course> courses;
     String imageurl;
-    
-    /**
-     * Empty constructor for the Programme JPA class.
-     */
-    public Programme(){
-        
-    }
     
     /**
      * This is the constructor for the Programme JPA class.
@@ -33,9 +18,8 @@ public class Programme {
      * @param name name of the Programme.
      * @param detail details about the Programme.
      */
-    public Programme(String name, String detail) {
-        this.name = name;
-        this.detail = detail;   
+    public Programme(String name) {
+        super(name);
     }
     
     public Integer getId() {
@@ -46,20 +30,24 @@ public class Programme {
         this.id = id;
     }
     
+    @Override
     public String getDetail() {
         return detail;
     }
 
+    @Override
     public void setDetail(String detail) {
-        this.detail = detail;
+        super.detail = detail;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
-        this.name = name;
+        super.name = name;
     }
     
     public void addCourse(Course c) {

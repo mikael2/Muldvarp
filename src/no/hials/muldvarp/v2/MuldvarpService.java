@@ -1,4 +1,4 @@
-package no.hials.muldvarp;
+package no.hials.muldvarp.v2;
 
 import android.app.Service;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
+import no.hials.muldvarp.*;
 import no.hials.muldvarp.asyncutilities.CachedWebRequest;
 import no.hials.muldvarp.utility.DownloadTask;
 

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Programme;
+import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.utility.DrawableManager;
 
 /**

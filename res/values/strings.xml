@@ -62,6 +62,17 @@
         <item>Berit</item>
         <item>Camilla</item>
     </string-array>
+    
+    <string-array name="main_list">
+        <item>Informasjon</item>
+        <item>Nyheter</item>
+        <item>Studier</item>
+        <item>Videoer</item>
+        <item>Dokumenter</item>
+        <item>Quiz</item>
+        <item>Opptak</item>
+    </string-array>
+    
     <string name="name">Per Olsen</string>
     <string name="info">Info</string>
 </resources>

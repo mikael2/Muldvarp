@@ -19,9 +19,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.MuldvarpService;
-import no.hials.muldvarp.domain.Alternative;
-import no.hials.muldvarp.domain.Question;
-import no.hials.muldvarp.domain.Task;
+import no.hials.muldvarp.v2.domain.Alternative;
+import no.hials.muldvarp.v2.domain.Question;
+import no.hials.muldvarp.v2.domain.Task;
 
 /**
  *

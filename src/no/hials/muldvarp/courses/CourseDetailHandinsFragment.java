@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Course;
-import no.hials.muldvarp.domain.ObligatoryTask;
+import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.domain.ObligatoryTask;
 
 /**
  *

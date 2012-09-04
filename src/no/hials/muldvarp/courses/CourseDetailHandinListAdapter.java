@@ -4,7 +4,7 @@
  */
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.domain.ObligatoryTask;
+import no.hials.muldvarp.v2.domain.ObligatoryTask;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

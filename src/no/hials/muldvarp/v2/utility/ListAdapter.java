@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.courses;
+package no.hials.muldvarp.v2.utility;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,24 +14,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Course;
 import no.hials.muldvarp.utility.DrawableManager;
+import no.hials.muldvarp.v2.domain.ListItem;
 
-/**
- *
- * @author kristoffer
- */
-public class CourseListAdapter extends ArrayAdapter {
+public class ListAdapter extends ArrayAdapter {
     private LayoutInflater mInflater;
     private List items;
     private Context context;
     private int resource;
     private boolean showdetails;
     private List orig_items;
-    
+        
     DrawableManager dm = new DrawableManager();
     
-    public CourseListAdapter(Context context, int resource, int textViewResourceId, List items, boolean showdetails) {
+    public ListAdapter(Context context, int resource, int textViewResourceId, List items, boolean showdetails) {
         super(context, textViewResourceId, items);
         mInflater = LayoutInflater.from(context);
         this.orig_items = items;
@@ -49,7 +45,7 @@ public class CourseListAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-
+        
         if (convertView == null) {
             convertView = mInflater.inflate(resource, parent, false);
             holder = new ViewHolder();
@@ -62,20 +58,16 @@ public class CourseListAdapter extends ArrayAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Course c = (Course)items.get(position);
-
+        ListItem c = (ListItem)items.get(position);
         
-        //set text from layout
         holder.name.setText(c.getName());
         
-        holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
-        
-        if (showdetails == true) {
+        if (showdetails) {
             holder.detail.setText(c.getDetail());
         }
         
-        if (c.getImageurl() != null && !c.getImageurl().equals("")) {            
-            dm.fetchDrawableOnThread(c.getImageurl(), holder.icon); 
+        if (c.getIcon() != 0) {            
+            holder.icon.setImageResource(c.getIcon());
         } else {
             holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
         }
@@ -89,11 +81,10 @@ public class CourseListAdapter extends ArrayAdapter {
         TextView detail;
     }
     
-    public void filter(CharSequence filter)
-    {
+    public void filter(CharSequence filter) {
         ArrayList filtered = new ArrayList();
         
-        for (Course c : (ArrayList<Course>)orig_items)
+        for (ListItem c : (ArrayList<ListItem>)orig_items)
         {
             if (c.getName().toLowerCase().contains(filter.toString().toLowerCase()))
             {

@@ -13,8 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Course;
-import no.hials.muldvarp.domain.Exam;
+import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.domain.Exam;
 
 /**
  *

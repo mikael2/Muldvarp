@@ -2,26 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.courses;
+package no.hials.muldvarp.v2.fragments;
 
 import android.app.Fragment;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ListView;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.courses.*;
+import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.utility.ListAdapter;
 
 /**
  *
@@ -29,10 +25,8 @@ import no.hials.muldvarp.domain.Course;
  */
 public class CourseListFragment extends Fragment {
     private EditText filterText;
-    CourseListAdapter adapter;
+    ListAdapter adapter;
     ListView listview;
-    GridView gridview;
-    Boolean isGrid;
     View fragmentView;
     List<Course> items;
     CourseActivity activity;
@@ -45,16 +39,10 @@ public class CourseListFragment extends Fragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        activity = (CourseActivity)CourseListFragment.this.getActivity();
-        isGrid = activity.getIsGrid();
+//        activity = (CourseActivity)CourseListFragment.this.getActivity();
         if(fragmentView == null) {
-            if(isGrid) {
-                fragmentView = inflater.inflate(R.layout.course_grid, container, false);
-                gridview = (GridView)fragmentView.findViewById(R.id.gridview);
-            } else {
-                fragmentView = inflater.inflate(R.layout.course_list, container, false);
-                listview = (ListView)fragmentView.findViewById(R.id.listview);
-            }
+            fragmentView = inflater.inflate(R.layout.course_list, container, false);
+            listview = (ListView)fragmentView.findViewById(R.id.listview);
         }
         
         return fragmentView;
@@ -64,88 +52,52 @@ public class CourseListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(items != null) {
-            itemsReady();
+            //itemsReady();
         }
     }
     
-    public void itemsReady() {
-        
-        if(items == null) {
-            items = activity.getCourseList();
-        }
-        
-        //listview = (ListView)fragmentView.findViewById(R.id.listview);
-        if(isGrid) {
-            gridview.setAdapter(
-                new CourseListAdapter(
-                        fragmentView.getContext(),
-                        R.layout.course_grid_list_item,
-                        R.id.courselisttext,
-                        items,
-                        false)
-                );
-            adapter = (CourseListAdapter)gridview.getAdapter();
-        } else {
-           listview.setAdapter(
-            new CourseListAdapter(
-                    fragmentView.getContext(), 
-                    R.layout.course_list_item, 
-                    R.id.courselisttext, 
-                    items,
-                    true
-                    )
-            ); 
-           adapter = (CourseListAdapter)listview.getAdapter();
-        }
-
-        filterText = (EditText)fragmentView.findViewById(R.id.search_box);
-        filterText.addTextChangedListener(filterTextWatcher);
-               
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(fragmentView.getContext());
-        String username = prefs.getString("username", "");
-        
-        if(isGrid) {
-            if(!username.equals("")) {
-                gridview.setOnItemClickListener(new OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        Course selectedItem = (Course)items.get(position);
-                        Intent myIntent = new Intent(view.getContext(), CourseDetailActivity.class);
-                        myIntent.putExtra("id", selectedItem.getId());
-                        startActivityForResult(myIntent, 0);
-                    }  
-                });
-            } else {
-                gridview.setOnItemClickListener(new OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        Course selectedItem = (Course)items.get(position);
-                        Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);
-                        myIntent.putExtra("id", selectedItem.getId());
-                        startActivityForResult(myIntent, 0);
-                    }  
-                }); 
-            }
-        } else {
-            if(!username.equals("")) {
-                listview.setOnItemClickListener(new OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        Course selectedItem = (Course)items.get(position);
-                        Intent myIntent = new Intent(view.getContext(), CourseDetailActivity.class);
-                        myIntent.putExtra("id", selectedItem.getId());
-                        startActivityForResult(myIntent, 0);
-                    }  
-                });
-            } else {
-                listview.setOnItemClickListener(new OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        Course selectedItem = (Course)items.get(position);
-                        Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);
-                        myIntent.putExtra("id", selectedItem.getId());
-                        startActivityForResult(myIntent, 0);
-                    }  
-                }); 
-            }
-        } 
-    }
+//    public void itemsReady() {
+//        if(items == null) {
+//            items = activity.getCourseList();
+//        }
+//        
+//        listview.setAdapter(
+//            new CourseListAdapter(
+//                    fragmentView.getContext(), 
+//                    R.layout.course_list_item, 
+//                    R.id.courselisttext, 
+//                    items,
+//                    true
+//                    )
+//            ); 
+//        adapter = (ListAdapter)listview.getAdapter();
+//           
+//        filterText = (EditText)fragmentView.findViewById(R.id.search_box);
+//        filterText.addTextChangedListener(filterTextWatcher);
+//               
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(fragmentView.getContext());
+//        String username = prefs.getString("username", "");
+//        
+//        if(!username.equals("")) {
+//            listview.setOnItemClickListener(new OnItemClickListener() {
+//                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+//                    Course selectedItem = (Course)items.get(position);
+//                    Intent myIntent = new Intent(view.getContext(), CourseDetailActivity.class);
+//                    myIntent.putExtra("id", selectedItem.getId());
+//                    startActivityForResult(myIntent, 0);
+//                }  
+//            });
+//        } else {
+//            listview.setOnItemClickListener(new OnItemClickListener() {
+//                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+//                    Course selectedItem = (Course)items.get(position);
+//                    Intent myIntent = new Intent(view.getContext(), CoursePublicDetailActivity.class);
+//                    myIntent.putExtra("id", selectedItem.getId());
+//                    startActivityForResult(myIntent, 0);
+//                }  
+//            }); 
+//        }
+//    }
     
     private TextWatcher filterTextWatcher = new TextWatcher() {
 

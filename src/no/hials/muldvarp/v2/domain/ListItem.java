@@ -2,73 +2,54 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.entities;
+package no.hials.muldvarp.v2.domain;
 
-import android.graphics.Bitmap;
-import java.io.Serializable;
+public class ListItem {
+    String name;
+    String detail;
+    String description;
+    int icon;
 
-/**
- * Class defining a general item in a list. Implements serializable, and can be
- * passed between activities in a Bundle.
- * 
- * @author johan
- */
-public class ListItem implements Serializable{
-    
-    public String itemName;
-    public String smallDetail;
-    public String itemDescription;
-    public String itemType;
-    public Bitmap itemThumbnail;
-    
-    public ListItem(String itemName, String smallDetail, String itemDescription, String itemType, Bitmap itemThumbnail) {
-        
-        this.itemName = itemName;
-        this.smallDetail = smallDetail;
-        this.itemDescription = itemDescription;
-        this.itemType = itemType;
-        this.itemThumbnail = itemThumbnail;
-        
-    }
-
-    public String getSmallDetail() {
-        return smallDetail;
-    }
-
-    public void setSmallDetail(String smallDetail) {
-        this.smallDetail = smallDetail;
-    }
-
-    public String getItemDescription() {
-        return itemDescription;
-    }
-
-    public void setItemDescription(String itemDescription) {
-        this.itemDescription = itemDescription;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public Bitmap getItemThumbnail() {
-        return itemThumbnail;
-    }
-
-    public void setItemThumbnail(Bitmap itemThumbnail) {
-        this.itemThumbnail = itemThumbnail;
-    }
-
-    public String getItemType() {
-        return itemType;
-    }
-
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
+    public ListItem(String name) {
+        this.name = name;
     }
     
+    public ListItem(String name, String detail, String description, int icon) {
+        this.name = name;
+        this.detail = detail;
+        this.description = description;
+        this.icon = icon;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
+    }
 }

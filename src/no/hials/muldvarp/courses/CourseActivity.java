@@ -25,7 +25,7 @@ import no.hials.muldvarp.MainActivity;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**

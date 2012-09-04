@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import java.io.File;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
 
 public class MainActivity extends Activity

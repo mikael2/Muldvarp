@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <style name="MuldvarpTheme" parent="@android:style/Theme.Holo">        
+    <style name="MuldvarpTheme" parent="@android:style/Theme.Holo.Light">        
     </style>
     
     <style name="DesktopButtonStyle" parent="@android:style/Widget.Holo.Button">

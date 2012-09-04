@@ -19,9 +19,9 @@ import android.view.ViewGroup;
 import android.widget.*;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Course;
-import no.hials.muldvarp.domain.Task;
-import no.hials.muldvarp.domain.Theme;
+import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.domain.Task;
+import no.hials.muldvarp.v2.domain.Theme;
 import no.hials.muldvarp.utility.DownloadUtilities;
 import no.hials.muldvarp.video.VideoActivity;
 

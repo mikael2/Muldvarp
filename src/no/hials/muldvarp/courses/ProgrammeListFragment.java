@@ -18,7 +18,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.domain.Programme;
+import no.hials.muldvarp.v2.domain.Programme;
 
 /**
  *

@@ -4,7 +4,7 @@
  */
 package no.hials.muldvarp.courses;
 
-import no.hials.muldvarp.domain.Course;
+import no.hials.muldvarp.v2.domain.Course;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;

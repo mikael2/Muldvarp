@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.utility;
+package no.hials.muldvarp.v2.utility;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
