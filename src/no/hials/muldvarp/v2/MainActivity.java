@@ -35,19 +35,20 @@ import no.hials.muldvarp.v2.utility.utils;
 
 public class MainActivity extends Activity {
     
-    private List<Fragment> fragmentList = new ArrayList<Fragment>();
+    public List<Fragment> fragmentList = new ArrayList<Fragment>();
     private List<Programme> programmeList = new ArrayList<Programme>();
     private Activity activity = this;
+    public ActionBar actionBar;
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
         if(fragmentList.isEmpty()) {
             fragmentList.add(new InformationFragment());
-            fragmentList.add(new NewsFragment());
+            fragmentList.add(new NewsFragment());            
             fragmentList.add(new ProgrammeListFragment());
             fragmentList.add(new VideoFragment());
             fragmentList.add(new QuizFragment());
@@ -56,7 +57,7 @@ public class MainActivity extends Activity {
             fragmentList.add(new DateFragment());
         }
         
-        ActionBar actionBar = getActionBar();
+        actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -65,8 +66,8 @@ public class MainActivity extends Activity {
           android.R.layout.simple_spinner_dropdown_item);
         
         OnNavigationListener mOnNavigationListener = new OnNavigationListener() {
-            String[] strings = getResources().getStringArray(R.array.main_list);
-
+            private String[] strings = getResources().getStringArray(R.array.main_list);
+            
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
                 return utils.changeFragment(activity, fragmentList, strings, R.id.desktop, position);
