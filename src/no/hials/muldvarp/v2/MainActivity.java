@@ -8,10 +8,8 @@ import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,14 +22,22 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.fragments.CourseListFragment;
+import no.hials.muldvarp.v2.fragments.DateFragment;
+import no.hials.muldvarp.v2.fragments.DocumentFragment;
+import no.hials.muldvarp.v2.fragments.InformationFragment;
+import no.hials.muldvarp.v2.fragments.NewsFragment;
 import no.hials.muldvarp.v2.fragments.ProgrammeListFragment;
-import no.hials.muldvarp.v2.fragments.TaskListFragment;
+import no.hials.muldvarp.v2.fragments.QuizFragment;
+import no.hials.muldvarp.v2.fragments.RequirementFragment;
+import no.hials.muldvarp.v2.fragments.VideoFragment;
 import no.hials.muldvarp.v2.utility.TabListener;
+import no.hials.muldvarp.v2.utility.utils;
 
 public class MainActivity extends Activity {
     
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private List<Programme> programmeList = new ArrayList<Programme>();
+    private Activity activity = this;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -40,9 +46,14 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         
         if(fragmentList.isEmpty()) {
-            fragmentList.add(new TaskListFragment());
-            fragmentList.add(new TaskListFragment());
+            fragmentList.add(new InformationFragment());
+            fragmentList.add(new NewsFragment());
             fragmentList.add(new ProgrammeListFragment());
+            fragmentList.add(new VideoFragment());
+            fragmentList.add(new QuizFragment());
+            fragmentList.add(new DocumentFragment());
+            fragmentList.add(new RequirementFragment());
+            fragmentList.add(new DateFragment());
         }
         
         ActionBar actionBar = getActionBar();
@@ -58,19 +69,7 @@ public class MainActivity extends Activity {
 
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
-                try {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    if(fragmentList.get(position) != null) {
-                        ft.replace(R.id.desktop, fragmentList.get(position), strings[position]);
-                    } else {
-                        ft.replace(R.id.desktop, fragmentList.get(0), strings[0]);
-                    }
-                    ft.commit();
-                } catch(IndexOutOfBoundsException e) {
-                    Log.e(getLocalClassName(), e.getMessage());
-                    return false;
-                }
-                return true;
+                return utils.changeFragment(activity, fragmentList, strings, R.id.desktop, position);
             }
         };
         

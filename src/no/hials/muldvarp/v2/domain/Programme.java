@@ -70,11 +70,6 @@ public class Programme extends ListItem {
         getCourses().remove(c);
     }
 
-//    @Override
-//    public String toString() {
-//        return name;
-//    }
-
     public String getImageurl() {
         return imageurl;
     }

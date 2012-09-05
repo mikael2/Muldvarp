@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.utility.DownloadUtilities;
+import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.utility.TabListener;
 import no.hials.muldvarp.view.FragmentPager;
 

@@ -68,9 +68,10 @@
         <item>Nyheter</item>
         <item>Studier</item>
         <item>Videoer</item>
-        <item>Dokumenter</item>
         <item>Quiz</item>
+        <item>Dokumenter</item>
         <item>Opptak</item>
+        <item>Datoer</item>
     </string-array>
     
     <string name="name">Per Olsen</string>
