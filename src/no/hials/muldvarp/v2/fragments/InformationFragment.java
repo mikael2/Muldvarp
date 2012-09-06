@@ -86,14 +86,14 @@ public class InformationFragment extends Fragment {
         }
         
         private int[] icons = {
-            R.drawable.icon_news,
-            R.drawable.icon_news,
-            R.drawable.icon_course,
-            R.drawable.icon_video,
-            R.drawable.icon_directory,
-            R.drawable.icon_library,
-            R.drawable.icon_directory,
-            R.drawable.icon_directory
+            R.drawable.stolen_contacts,
+            R.drawable.stolen_tikl,
+            R.drawable.stolen_smsalt,
+            R.drawable.stolen_youtube,
+            R.drawable.stolen_calculator,
+            R.drawable.stolen_dictonary,
+            R.drawable.stolen_notes,
+            R.drawable.stolen_calender
         };
     }
 }

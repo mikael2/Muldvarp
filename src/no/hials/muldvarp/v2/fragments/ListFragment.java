@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.CourseActivity;
 import no.hials.muldvarp.v2.MainActivity;
+import no.hials.muldvarp.v2.domain.ListItem;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
@@ -27,13 +29,20 @@ import no.hials.muldvarp.v2.utility.ListAdapter;
  *
  * @author kristoffer
  */
-public class ProgrammeListFragment extends Fragment {
+public class ListFragment extends Fragment {
     private EditText filterText;
     ListAdapter adapter;
     ListView listview;
     View fragmentView;
-    List<Programme> items = new ArrayList<Programme>();
-    MainActivity activity;
+    List<ListItem> items = new ArrayList<ListItem>();
+    public enum Type {
+        PROGRAMME, VIDEO, COURSES, DOCUMENTS           
+    }
+    Type type;
+
+    public ListFragment(Type type) {
+        this.type = type;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,6 @@ public class ProgrammeListFragment extends Fragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        activity = (MainActivity)ProgrammeListFragment.this.getActivity();
         if(fragmentView == null) {
             fragmentView = inflater.inflate(R.layout.course_list, container, false);
             listview = (ListView)fragmentView.findViewById(R.id.listview);
@@ -61,16 +69,13 @@ public class ProgrammeListFragment extends Fragment {
 //    }
     
     public void itemsReady() {
-//        if(items.isEmpty()) {
-//            List<Programme> programmes = activity.getProgrammeList();
-//            for(int i = 0; i < programmes.size(); i++) {
-//                Programme p = programmes.get(i);
-//                items.add(new ListItem(p.getName(), p.getDetail(), null, 0, p));
-//            }
-//        }
-        
         if(items.isEmpty()) {
-            items = activity.getProgrammeList();
+            switch(type) {
+                case PROGRAMME:
+                    MainActivity activity = (MainActivity)ListFragment.this.getActivity();
+                    items.addAll(activity.getProgrammeList());
+                    break;
+            }    
         }
         
         listview.setAdapter(new ListAdapter(
