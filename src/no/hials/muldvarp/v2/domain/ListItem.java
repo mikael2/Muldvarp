@@ -5,6 +5,7 @@
 package no.hials.muldvarp.v2.domain;
 
 public class ListItem {
+    Integer id;
     String name;
     String detail;
     String description;
@@ -19,6 +20,14 @@ public class ListItem {
         this.detail = detail;
         this.description = description;
         this.icon = icon;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

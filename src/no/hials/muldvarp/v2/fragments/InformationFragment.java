@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -16,7 +17,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.MainActivity;
 
 /**
  *
@@ -24,23 +24,40 @@ import no.hials.muldvarp.v2.MainActivity;
  */
 public class InformationFragment extends Fragment {
     InformationFragment.ImageAdapter adapter;
-    MainActivity activity;
-    GridView gridview;
+    Activity activity;
+    public enum Type {MAIN, PROGRAMME, COURSE, TASK}
+    Type type;
+    int stringlist;
+
+    public InformationFragment(Type type) {
+        this.type = type;
+        switch(type) {
+            case MAIN:
+                stringlist = R.array.main_list;
+                break;
+            case PROGRAMME:
+                stringlist = R.array.programme_list;
+                break;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        activity = (MainActivity)InformationFragment.this.getActivity();
+        activity = InformationFragment.this.getActivity();
         // Inflate the layout for this fragment
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
 
-        gridview = (GridView) retVal.findViewById(R.id.gridview);
+        GridView gridview = (GridView) retVal.findViewById(R.id.gridview);
+        TextView textView = (TextView) retVal.findViewById(R.id.textview);
+        
+        textView.setText(activity.getTitle());
     
         adapter = new InformationFragment.ImageAdapter(getActivity());
         gridview.setAdapter(adapter);
         
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                activity.actionBar.setSelectedNavigationItem(position);
+                activity.getActionBar().setSelectedNavigationItem(position);
             }
         });
         
@@ -77,7 +94,7 @@ public class InformationFragment extends Fragment {
                 TextView  textView  = (TextView) retVal.findViewById(R.id.grid_item_label);
 
                 imageView.setImageResource(icons[position]);
-                textView.setText(getResources().getStringArray(R.array.main_list)[position]);
+                textView.setText(getResources().getStringArray(stringlist)[position]);
             } else {
                 retVal = convertView;
             }

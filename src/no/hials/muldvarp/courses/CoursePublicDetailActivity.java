@@ -85,7 +85,7 @@ public class CoursePublicDetailActivity extends Activity {
     
     private class getCourseFromCache extends AsyncTask<String, Void, Course> {
         protected Course doInBackground(String... urls) {
-            Course c = new Course();
+            Course c = new Course("");
             try{
                 File f = new File(getCacheDir(), urls[0]);
                 c = DownloadUtilities.buildGson().fromJson(new FileReader(f), Course.class);

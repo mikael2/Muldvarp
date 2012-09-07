@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         if(fragmentList.isEmpty()) {
-            fragmentList.add(new InformationFragment());
+            fragmentList.add(new InformationFragment(InformationFragment.Type.MAIN));
             fragmentList.add(new NewsFragment());            
             fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
             fragmentList.add(new VideoFragment());
@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
     }
     
     public List<Programme> getProgrammeList() {
-        programmeList.add(new Programme("test"));
+        programmeList.add(new Programme("Bachelor Dataingeniør"));
         return programmeList;
     }
 }

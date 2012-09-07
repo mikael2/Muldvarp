@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Programme extends ListItem {
-    private Integer id;
     List<Course> courses;
     String imageurl;
     
@@ -20,14 +19,6 @@ public class Programme extends ListItem {
      */
     public Programme(String name) {
         super(name);
-    }
-    
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
     
     @Override

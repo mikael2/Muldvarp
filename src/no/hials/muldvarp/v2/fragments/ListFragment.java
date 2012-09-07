@@ -4,7 +4,6 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,8 +20,8 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.CourseActivity;
 import no.hials.muldvarp.v2.MainActivity;
+import no.hials.muldvarp.v2.ProgrammeActivity;
 import no.hials.muldvarp.v2.domain.ListItem;
-import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
 /**
@@ -35,10 +34,9 @@ public class ListFragment extends Fragment {
     ListView listview;
     View fragmentView;
     List<ListItem> items = new ArrayList<ListItem>();
-    public enum Type {
-        PROGRAMME, VIDEO, COURSES, DOCUMENTS           
-    }
+    public enum Type {PROGRAMME, VIDEO, COURSES, DOCUMENTS}
     Type type;
+    Class destination;
 
     public ListFragment(Type type) {
         this.type = type;
@@ -72,10 +70,16 @@ public class ListFragment extends Fragment {
         if(items.isEmpty()) {
             switch(type) {
                 case PROGRAMME:
-                    MainActivity activity = (MainActivity)ListFragment.this.getActivity();
-                    items.addAll(activity.getProgrammeList());
+                    MainActivity mainactivity = (MainActivity)ListFragment.this.getActivity();
+                    items.addAll(mainactivity.getProgrammeList());
+                    destination = ProgrammeActivity.class;
                     break;
-            }    
+                case COURSES:
+                    ProgrammeActivity progactivity = (ProgrammeActivity)ListFragment.this.getActivity();
+                    items.addAll(progactivity.getCourseList());
+                    destination = CourseActivity.class;
+                    break;
+            }
         }
         
         listview.setAdapter(new ListAdapter(
@@ -91,13 +95,11 @@ public class ListFragment extends Fragment {
         filterText.addTextChangedListener(filterTextWatcher);
         
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                Programme selectedItem = (Programme)items.get(position);
-                if(selectedItem.getCourses().size() > 0) {
-                    Intent myIntent = new Intent(view.getContext(), CourseActivity.class);
-                    myIntent.putExtra("id", selectedItem.getId());
-                    startActivityForResult(myIntent, 0);
-                }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListItem selectedItem = items.get(position);
+                Intent myIntent = new Intent(view.getContext(), destination);
+                myIntent.putExtra("id", selectedItem.getId());
+                startActivityForResult(myIntent, 0);
             }  
         });
     }

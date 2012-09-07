@@ -6,10 +6,7 @@ import java.util.ArrayList;
  *
  * @author kristoffer
  */
-public class Course {
-    Integer id;
-    String name;
-    String detail;
+public class Course extends ListItem {
     String imageurl;
     
     Integer revision;
@@ -17,18 +14,14 @@ public class Course {
     ArrayList<ObligatoryTask> obligatoryTasks;
     ArrayList<Exam> exams;
     
-    public Course() {
-        
+    public Course(String name) {
+        super(name);
     }
     
     public Course(String name, String detail, String url) {
-        this.name = name;
-        this.detail = detail;
+        super(name);
+        super.detail = detail;
         this.imageurl = url;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getImageurl() {
@@ -37,27 +30,6 @@ public class Course {
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
-    }
-
-    public Course(String name, String detail) {
-        this.name = name;
-        this.detail = detail;
-    }
-    
-    public String getDetail() {
-        return detail != null ? detail : "";
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public String getName() {
-        return name != null ? name : "";
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Integer getRevision() {

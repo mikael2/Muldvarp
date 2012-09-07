@@ -117,7 +117,7 @@ public class CourseDetailActivity extends FragmentActivity {
     
     private class GetCourseFromCache extends AsyncTask<String, Void, Course> {
         protected Course doInBackground(String... urls) {
-            Course c = new Course();
+            Course c = new Course("");
             try{
 //                String url = "http://master.uials.no:8080/muldvarp/resources/course/1";
 //                Reader json = new InputStreamReader(DownloadUtilities.getJSONData(url));

@@ -18,17 +18,15 @@
                 </intent-filter>
         </activity>
 
-        <service android:name=".MuldvarpService" />
-
-        <activity android:name=".CourseActivity"
-                  android:label="Courses"/>
+        <service android:name=".v2.MuldvarpService" />
         
-        <activity android:name=".ProgrammeActivity"
-                  android:label="Programmes">
-        </activity>
+        <activity android:name=".v2.ProgrammeActivity"
+                  android:label="Studieløp"/>
         
-        <activity android:name=".TaskActivity"
-                  android:label="Programmes">
-        </activity>
+        <activity android:name=".v2.CourseActivity"
+                  android:label="Fag"/>
+        
+        <activity android:name=".v2.TaskActivity"
+                  android:label="Delemne"/>
     </application>    
 </manifest>
