@@ -8,37 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Programme extends ListItem {
-    List<Course> courses;
+    List<Course> courses = new ArrayList<Course>();;
     String imageurl;
     
-    /**
-     * This is the constructor for the Programme JPA class.
-     * 
-     * @param name name of the Programme.
-     * @param detail details about the Programme.
-     */
     public Programme(String name) {
         super(name);
-    }
-    
-    @Override
-    public String getDetail() {
-        return detail;
-    }
-
-    @Override
-    public void setDetail(String detail) {
-        super.detail = detail;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        super.name = name;
     }
     
     public void addCourse(Course c) {
@@ -46,10 +20,6 @@ public class Programme extends ListItem {
     }
 
     public List<Course> getCourses() {
-        if(courses == null) {
-            courses = new ArrayList<Course>();
-        }
-        
         return courses;
     }
 

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.fragments.DateFragment;
 import no.hials.muldvarp.v2.fragments.DocumentFragment;
 import no.hials.muldvarp.v2.fragments.InformationFragment;
@@ -30,7 +31,7 @@ import no.hials.muldvarp.v2.utility.utils;
  */
 public class ProgrammeActivity extends Activity {
     public List<Fragment> fragmentList = new ArrayList<Fragment>();
-    private List<Course> courseList = new ArrayList<Course>();
+    private Programme selectedProgramme = new Programme("Dataingeniør");
     private Activity activity = this;
     public ActionBar actionBar;
     
@@ -71,8 +72,11 @@ public class ProgrammeActivity extends Activity {
     }
     
     public List<Course> getCourseList() {
-        courseList.add(new Course("Matematikk B"));
-        courseList.add(new Course("Programmering"));
-        return courseList;
+        selectedProgramme.addCourse(new Course("Programmering"));
+        return selectedProgramme.getCourses();
+    }
+
+    public Programme getSelectedProgramme() {
+        return selectedProgramme;
     }
 }

@@ -17,6 +17,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.ProgrammeActivity;
+import no.hials.muldvarp.v2.domain.Programme;
 
 /**
  *
@@ -28,21 +30,26 @@ public class InformationFragment extends Fragment {
     public enum Type {MAIN, PROGRAMME, COURSE, TASK}
     Type type;
     int stringlist;
+    String title = "Høgskulen i Ålesund";
 
     public InformationFragment(Type type) {
         this.type = type;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         switch(type) {
             case MAIN:
                 stringlist = R.array.main_list;
                 break;
             case PROGRAMME:
+                ProgrammeActivity progactivity = (ProgrammeActivity)InformationFragment.this.getActivity();
+                Programme p = progactivity.getSelectedProgramme();
+                title = p.getName();
                 stringlist = R.array.programme_list;
                 break;
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        
         activity = InformationFragment.this.getActivity();
         // Inflate the layout for this fragment
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
@@ -50,7 +57,7 @@ public class InformationFragment extends Fragment {
         GridView gridview = (GridView) retVal.findViewById(R.id.gridview);
         TextView textView = (TextView) retVal.findViewById(R.id.textview);
         
-        textView.setText(activity.getTitle());
+        textView.setText(title);
     
         adapter = new InformationFragment.ImageAdapter(getActivity());
         gridview.setAdapter(adapter);
