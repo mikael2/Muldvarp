@@ -4,7 +4,6 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,7 +27,7 @@ import no.hials.muldvarp.v2.utility.ListAdapter;
  *
  * @author kristoffer
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends MuldvarpFragment {
     private EditText filterText;
     ListAdapter adapter;
     ListView listview;

@@ -4,12 +4,10 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
-import android.app.Fragment;
-
 /**
  *
  * @author kristoffer
  */
-public class DateFragment extends Fragment {
+public class DateFragment extends MuldvarpFragment {
     
 }

@@ -4,12 +4,10 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
-import android.app.Fragment;
-
 /**
  *
  * @author kristoffer
  */
-public class TaskListFragment extends Fragment {
+public class TaskListFragment extends MuldvarpFragment {
     
 }

@@ -5,7 +5,6 @@
 package no.hials.muldvarp.v2.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,7 @@ import no.hials.muldvarp.v2.MainActivity;
  *
  * @author kristoffer
  */
-public class VideoFragment extends Fragment {
+public class VideoFragment extends MuldvarpFragment {
     Activity activity;
     
     @Override

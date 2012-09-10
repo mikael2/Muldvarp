@@ -29,19 +29,11 @@ import no.hials.muldvarp.v2.utility.utils;
  *
  * @author kristoffer
  */
-public class ProgrammeActivity extends Activity {
+public class ProgrammeActivity extends MuldvarpActivity {
     public List<Fragment> fragmentList = new ArrayList<Fragment>();
     private Programme selectedProgramme;
     private Activity activity = this;
     public ActionBar actionBar;
-
-    @Override
-    public void onBackPressed() {
-        if(actionBar.getSelectedNavigationIndex() > 0)
-            actionBar.setSelectedNavigationItem(0);
-        else
-            super.onBackPressed();
-    }
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -54,7 +46,8 @@ public class ProgrammeActivity extends Activity {
         
         if(fragmentList.isEmpty()) {
             fragmentList.add(new InformationFragment(InformationFragment.Type.PROGRAMME));
-            fragmentList.add(new NewsFragment());            
+            fragmentList.add(new NewsFragment());
+            fragmentList.add(new NewsFragment());
             fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
             fragmentList.add(new VideoFragment());
             fragmentList.add(new QuizFragment());

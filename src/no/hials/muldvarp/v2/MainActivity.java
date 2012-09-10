@@ -25,61 +25,57 @@ import no.hials.muldvarp.v2.fragments.CourseListFragment;
 import no.hials.muldvarp.v2.fragments.DateFragment;
 import no.hials.muldvarp.v2.fragments.DocumentFragment;
 import no.hials.muldvarp.v2.fragments.InformationFragment;
-import no.hials.muldvarp.v2.fragments.NewsFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
+import no.hials.muldvarp.v2.fragments.NewsFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
 import no.hials.muldvarp.v2.fragments.RequirementFragment;
 import no.hials.muldvarp.v2.fragments.VideoFragment;
 import no.hials.muldvarp.v2.utility.TabListener;
 import no.hials.muldvarp.v2.utility.utils;
 
-public class MainActivity extends Activity {
+public class MainActivity extends MuldvarpActivity {
     public List<Fragment> fragmentList = new ArrayList<Fragment>();
     private List<Programme> programmeList = new ArrayList<Programme>();
     private Activity activity = this;
     public ActionBar actionBar;
-
-    @Override
-    public void onBackPressed() {
-        actionBar.setSelectedNavigationItem(0);
-    }
     
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        if(fragmentList.isEmpty()) {
-            fragmentList.add(new InformationFragment(InformationFragment.Type.MAIN));
-            fragmentList.add(new NewsFragment());            
-            fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
-            fragmentList.add(new VideoFragment());
-            fragmentList.add(new QuizFragment());
-            fragmentList.add(new DocumentFragment());
-            fragmentList.add(new RequirementFragment());
-            fragmentList.add(new DateFragment());
-        }
+        
+        fragmentList.add(new InformationFragment(InformationFragment.Type.MAIN));
+        fragmentList.add(new NewsFragment());
+        fragmentList.add(new NewsFragment());
+        fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
+        fragmentList.add(new VideoFragment());
+        fragmentList.add(new QuizFragment());
+        fragmentList.add(new DocumentFragment());
+        fragmentList.add(new RequirementFragment());
+        fragmentList.add(new DateFragment());
         
         actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setDisplayShowTitleEnabled(false);
-        
+
         SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.main_list,
           android.R.layout.simple_spinner_dropdown_item);
-        
+
         OnNavigationListener mOnNavigationListener = new OnNavigationListener() {
             String[] strings = getResources().getStringArray(R.array.main_list);
-            
+
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
                 return utils.changeFragment(activity, fragmentList, strings, R.id.desktop, position);
             }
         };
-        
+
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
         
-        //createTabs(actionBar);
+        if(savedInstanceState != null)
+            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab"));
     }
     
     @Override
@@ -132,5 +128,11 @@ public class MainActivity extends Activity {
     public List<Programme> getProgrammeList() {
         programmeList.add(new Programme("Bachelor Dataingeniør"));
         return programmeList;
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
 }
