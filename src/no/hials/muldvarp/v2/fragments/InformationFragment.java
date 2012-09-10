@@ -32,9 +32,12 @@ public class InformationFragment extends Fragment {
     int stringlist;
     String title = "Høgskulen i Ålesund";
 
+    
     public InformationFragment(Type type) {
         this.type = type;
     }
+    
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
