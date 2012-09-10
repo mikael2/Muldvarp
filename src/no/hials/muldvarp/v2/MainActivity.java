@@ -38,6 +38,11 @@ public class MainActivity extends Activity {
     private List<Programme> programmeList = new ArrayList<Programme>();
     private Activity activity = this;
     public ActionBar actionBar;
+
+    @Override
+    public void onBackPressed() {
+        actionBar.setSelectedNavigationItem(0);
+    }
     
     @Override
     public void onCreate(Bundle savedInstanceState)

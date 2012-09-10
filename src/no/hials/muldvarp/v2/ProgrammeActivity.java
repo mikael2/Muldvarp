@@ -31,15 +31,27 @@ import no.hials.muldvarp.v2.utility.utils;
  */
 public class ProgrammeActivity extends Activity {
     public List<Fragment> fragmentList = new ArrayList<Fragment>();
-    private Programme selectedProgramme = new Programme("Dataingeniør");
+    private Programme selectedProgramme;
     private Activity activity = this;
     public ActionBar actionBar;
+
+    @Override
+    public void onBackPressed() {
+        if(actionBar.getSelectedNavigationIndex() > 0)
+            actionBar.setSelectedNavigationItem(0);
+        else
+            super.onBackPressed();
+    }
     
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        selectedProgramme = new Programme("Dataingeniør");
+        selectedProgramme.addCourse(new Course("Programmering"));
+        
         if(fragmentList.isEmpty()) {
             fragmentList.add(new InformationFragment(InformationFragment.Type.PROGRAMME));
             fragmentList.add(new NewsFragment());            
@@ -72,7 +84,6 @@ public class ProgrammeActivity extends Activity {
     }
     
     public List<Course> getCourseList() {
-        selectedProgramme.addCourse(new Course("Programmering"));
         return selectedProgramme.getCourses();
     }
 
