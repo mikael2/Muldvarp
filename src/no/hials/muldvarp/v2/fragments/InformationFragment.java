@@ -5,7 +5,6 @@
 package no.hials.muldvarp.v2.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,7 +23,7 @@ import no.hials.muldvarp.v2.domain.Programme;
  *
  * @author kristoffer
  */
-public class InformationFragment extends Fragment {
+public class InformationFragment extends MuldvarpFragment {
     InformationFragment.ImageAdapter adapter;
     Activity activity;
     public enum Type {MAIN, PROGRAMME, COURSE, TASK}
@@ -37,8 +36,6 @@ public class InformationFragment extends Fragment {
         this.type = type;
     }
     
-    
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         switch(type) {
@@ -67,7 +64,7 @@ public class InformationFragment extends Fragment {
         
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                activity.getActionBar().setSelectedNavigationItem(position);
+                activity.getActionBar().setSelectedNavigationItem(position+1);
             }
         });
         
@@ -104,7 +101,7 @@ public class InformationFragment extends Fragment {
                 TextView  textView  = (TextView) retVal.findViewById(R.id.grid_item_label);
 
                 imageView.setImageResource(icons[position]);
-                textView.setText(getResources().getStringArray(stringlist)[position]);
+                textView.setText(getResources().getStringArray(stringlist)[position+1]);
             } else {
                 retVal = convertView;
             }

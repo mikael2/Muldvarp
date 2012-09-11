@@ -4,12 +4,10 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.MainActivity;
 
@@ -17,7 +15,7 @@ import no.hials.muldvarp.v2.MainActivity;
  *
  * @author terje
  */
-public class MetadataDocumentVideo extends Fragment {
+public class MetadataDocumentVideo extends MuldvarpFragment {
     MainActivity activity;
     View fragmentView;
     
