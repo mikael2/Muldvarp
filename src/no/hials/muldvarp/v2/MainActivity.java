@@ -120,6 +120,11 @@ public class MainActivity extends MuldvarpActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;    
+            case R.id.test:
+                intent = new Intent(this, DetailActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;        
             default:
                 return super.onOptionsItemSelected(item);
         }
