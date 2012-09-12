@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.ProgrammeActivity;
-import no.hials.muldvarp.v2.domain.Programme;
 
 /**
  *
@@ -44,8 +43,7 @@ public class InformationFragment extends MuldvarpFragment {
                 break;
             case PROGRAMME:
                 ProgrammeActivity progactivity = (ProgrammeActivity)InformationFragment.this.getActivity();
-                Programme p = progactivity.getSelectedProgramme();
-                title = p.getName();
+                title = progactivity.getSelectedProgramme().getName();
                 stringlist = R.array.programme_list;
                 break;
         }

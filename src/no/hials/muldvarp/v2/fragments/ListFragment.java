@@ -40,12 +40,6 @@ public class ListFragment extends MuldvarpFragment {
     public ListFragment(Type type) {
         this.type = type;
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

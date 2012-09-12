@@ -61,7 +61,7 @@ public class ProgrammeActivity extends MuldvarpActivity {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setDisplayShowTitleEnabled(false);
         
-        SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.main_list,
+        SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.programme_list,
           android.R.layout.simple_spinner_dropdown_item);
         
         ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {

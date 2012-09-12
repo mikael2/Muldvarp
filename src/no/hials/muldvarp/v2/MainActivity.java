@@ -45,6 +45,8 @@ public class MainActivity extends MuldvarpActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        programmeList.add(new Programme("Bachelor Dataingeniør"));
+        
         fragmentList.add(new InformationFragment(InformationFragment.Type.MAIN));
         fragmentList.add(new NewsFragment());
         fragmentList.add(new NewsFragment());
@@ -74,9 +76,6 @@ public class MainActivity extends MuldvarpActivity {
         };
 
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
-        
-        if(savedInstanceState != null)
-            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab"));
     }
     
     @Override
@@ -127,7 +126,6 @@ public class MainActivity extends MuldvarpActivity {
     }
     
     public List<Programme> getProgrammeList() {
-        programmeList.add(new Programme("Bachelor Dataingeniør"));
         return programmeList;
     }
     
