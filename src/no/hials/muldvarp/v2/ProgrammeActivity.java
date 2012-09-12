@@ -16,14 +16,12 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.fragments.DateFragment;
-import no.hials.muldvarp.v2.fragments.DocumentFragment;
 import no.hials.muldvarp.v2.fragments.InformationFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MetaFragment;
 import no.hials.muldvarp.v2.fragments.NewsFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
 import no.hials.muldvarp.v2.fragments.RequirementFragment;
-import no.hials.muldvarp.v2.fragments.VideoFragment;
 import no.hials.muldvarp.v2.utility.utils;
 
 /**
