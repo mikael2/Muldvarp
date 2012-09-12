@@ -4,7 +4,6 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,18 +23,12 @@ import no.hials.muldvarp.v2.ProgrammeActivity;
  */
 public class FrontPageFragment extends MuldvarpFragment {
     FrontPageFragment.ImageAdapter adapter;
-    Activity activity;
     public enum Type {MAIN, PROGRAMME, COURSE, TASK}
     Type type;
     int stringlist;
     String title = "Høgskulen i Ålesund";
 
-<<<<<<< HEAD
-    
-    public InformationFragment(Type type) {
-=======
     public FrontPageFragment(Type type) {
->>>>>>> more stuff
         this.type = type;
     }
     
@@ -51,8 +44,6 @@ public class FrontPageFragment extends MuldvarpFragment {
                 stringlist = R.array.programme_list;
                 break;
         }
-        
-        activity = FrontPageFragment.this.getActivity();
         // Inflate the layout for this fragment
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
 

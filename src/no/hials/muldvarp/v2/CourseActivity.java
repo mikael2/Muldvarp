@@ -16,7 +16,7 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.fragments.DateFragment;
-import no.hials.muldvarp.v2.fragments.InformationFragment;
+import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MetaFragment;
 import no.hials.muldvarp.v2.fragments.NewsFragment;
@@ -44,7 +44,7 @@ public class CourseActivity extends MuldvarpActivity {
         selectedProgramme.addCourse(new Course("Programmering"));
         
         if(fragmentList.isEmpty()) {
-            fragmentList.add(new InformationFragment(InformationFragment.Type.PROGRAMME));
+            fragmentList.add(new FrontPageFragment(FrontPageFragment.Type.PROGRAMME));
             fragmentList.add(new NewsFragment());
             fragmentList.add(new NewsFragment());
             fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
@@ -69,17 +69,19 @@ public class CourseActivity extends MuldvarpActivity {
             
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
-                return utils.changeFragment(activity, fragmentList, strings, R.id.desktop, position);
+                return utils.changeFragment(activity, fragmentList, position);
             }
         };
         
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
     }
     
+    @Override
     public List<Course> getCourseList() {
         return selectedProgramme.getCourses();
     }
 
+    @Override
     public Programme getSelectedProgramme() {
         return selectedProgramme;
     }

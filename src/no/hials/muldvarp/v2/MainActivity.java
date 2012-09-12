@@ -23,19 +23,10 @@ import no.hials.muldvarp.desktop.MainPreferenceActivity;
 import no.hials.muldvarp.v2.domain.News;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.fragments.CourseListFragment;
-<<<<<<< HEAD
-import no.hials.muldvarp.v2.fragments.DateFragment;
-import no.hials.muldvarp.v2.fragments.InformationFragment;
-=======
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
->>>>>>> more stuff
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
-<<<<<<< HEAD
-import no.hials.muldvarp.v2.fragments.RequirementFragment;
-=======
 import no.hials.muldvarp.v2.fragments.TextFragment;
->>>>>>> more stuff
 import no.hials.muldvarp.v2.utility.TabListener;
 import no.hials.muldvarp.v2.utility.utils;
 

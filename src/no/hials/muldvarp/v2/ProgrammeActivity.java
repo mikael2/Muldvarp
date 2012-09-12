@@ -16,11 +16,7 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.fragments.DateFragment;
-<<<<<<< HEAD
-import no.hials.muldvarp.v2.fragments.InformationFragment;
-=======
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
->>>>>>> more stuff
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MetaFragment;
 import no.hials.muldvarp.v2.fragments.NewsFragment;
