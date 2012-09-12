@@ -16,6 +16,9 @@ import no.hials.muldvarp.R;
  */
 public class DetailActivity extends MuldvarpActivity {
     
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         

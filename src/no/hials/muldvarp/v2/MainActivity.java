@@ -121,7 +121,7 @@ public class MainActivity extends MuldvarpActivity {
                 startActivity(intent);
                 return true;    
             case R.id.test:
-                intent = new Intent(this, DetailActivity.class);
+                intent = new Intent(this, QuizActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;        

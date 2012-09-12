@@ -30,5 +30,7 @@
                   android:label="Delemne"/>
         <activity android:name=".v2.DetailActivity"
                   android:label="Detaljer"/>
+       <activity android:name=".v2.QuizActivity"
+                  android:label="Quiz"/>
     </application>    
 </manifest>
