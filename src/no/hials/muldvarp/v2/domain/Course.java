@@ -6,7 +6,7 @@ import java.util.ArrayList;
  *
  * @author kristoffer
  */
-public class Course extends ListItem {
+public class Course extends Domain {
     String imageurl;
     
     Integer revision;

@@ -16,7 +16,11 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.fragments.DateFragment;
+<<<<<<< HEAD
 import no.hials.muldvarp.v2.fragments.InformationFragment;
+=======
+import no.hials.muldvarp.v2.fragments.FrontPageFragment;
+>>>>>>> more stuff
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MetaFragment;
 import no.hials.muldvarp.v2.fragments.NewsFragment;
@@ -44,13 +48,13 @@ public class ProgrammeActivity extends MuldvarpActivity {
         selectedProgramme.addCourse(new Course("Programmering"));
         
         if(fragmentList.isEmpty()) {
-            fragmentList.add(new InformationFragment(InformationFragment.Type.PROGRAMME));
+            fragmentList.add(new FrontPageFragment(FrontPageFragment.Type.PROGRAMME));
             fragmentList.add(new NewsFragment());
-            fragmentList.add(new NewsFragment());
+            fragmentList.add(new ListFragment(ListFragment.Type.NEWS));
             fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
-            fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
+            fragmentList.add(new ListFragment(ListFragment.Type.VIDEO));
             fragmentList.add(new QuizFragment());
-            fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
+            fragmentList.add(new ListFragment(ListFragment.Type.DOCUMENTS));
             fragmentList.add(new RequirementFragment());
             fragmentList.add(new DateFragment());
             fragmentList.add(new MetaFragment());
@@ -69,17 +73,19 @@ public class ProgrammeActivity extends MuldvarpActivity {
             
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
-                return utils.changeFragment(activity, fragmentList, strings, R.id.desktop, position);
+                return utils.changeFragment(activity, fragmentList, position);
             }
         };
         
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
     }
     
+    @Override
     public List<Course> getCourseList() {
         return selectedProgramme.getCourses();
     }
 
+    @Override
     public Programme getSelectedProgramme() {
         return selectedProgramme;
     }

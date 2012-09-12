@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,9 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.CourseActivity;
-import no.hials.muldvarp.v2.MainActivity;
 import no.hials.muldvarp.v2.ProgrammeActivity;
-import no.hials.muldvarp.v2.domain.ListItem;
+import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
 /**
@@ -32,10 +32,12 @@ public class ListFragment extends MuldvarpFragment {
     ListAdapter adapter;
     ListView listview;
     View fragmentView;
-    List<ListItem> items = new ArrayList<ListItem>();
-    public enum Type {PROGRAMME, VIDEO, COURSES, DOCUMENTS}
+    List<Domain> items = new ArrayList<Domain>();
+    public enum Type {PROGRAMME, VIDEO, COURSES, DOCUMENTS, NEWS}
     Type type;
     Class destination;
+    boolean destinationIsFragment;
+    Fragment fragment;
 
     public ListFragment(Type type) {
         this.type = type;
@@ -63,14 +65,21 @@ public class ListFragment extends MuldvarpFragment {
         if(items.isEmpty()) {
             switch(type) {
                 case PROGRAMME:
-                    MainActivity mainactivity = (MainActivity)ListFragment.this.getActivity();
-                    items.addAll(mainactivity.getProgrammeList());
+                    items.addAll(activity.getProgrammeList());
                     destination = ProgrammeActivity.class;
                     break;
                 case COURSES:
-                    ProgrammeActivity progactivity = (ProgrammeActivity)ListFragment.this.getActivity();
-                    items.addAll(progactivity.getCourseList());
+                    items.addAll(activity.getCourseList());
                     destination = CourseActivity.class;
+                    break;
+                case NEWS:
+                    items.addAll(activity.getNewsList());
+                    break;
+                case VIDEO:
+                    items.addAll(activity.getVideoList());
+                    break;
+                case DOCUMENTS:
+                    items.addAll(activity.getDocumentList());
                     break;
             }
         }
@@ -89,7 +98,7 @@ public class ListFragment extends MuldvarpFragment {
         
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListItem selectedItem = items.get(position);
+                Domain selectedItem = items.get(position);
                 Intent myIntent = new Intent(view.getContext(), destination);
                 myIntent.putExtra("id", selectedItem.getId());
                 startActivityForResult(myIntent, 0);

@@ -6,6 +6,15 @@ package no.hials.muldvarp.v2;
 
 import android.app.Activity;
 import android.os.Bundle;
+import java.util.Collection;
+import java.util.List;
+import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.domain.Date;
+import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Help;
+import no.hials.muldvarp.v2.domain.News;
+import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.domain.Requirement;
 
 /**
  *
@@ -39,5 +48,41 @@ public class MuldvarpActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+    }
+    
+    public List<Programme> getProgrammeList() {
+        return null;
+    }
+    
+    public List<Course> getCourseList() {
+        return null;
+    }
+    
+    public Programme getSelectedProgramme() {
+        return null;
+    }
+
+    public Requirement getRequirement() {
+        return null;
+    }
+
+    public Help getHelp() {
+        return null;
+    }
+
+    public Date getDate() {
+        return null;
+    }
+
+    public List<News> getNewsList() {
+        return null;
+    }
+
+    public Collection<? extends Domain> getVideoList() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public Collection<? extends Domain> getDocumentList() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

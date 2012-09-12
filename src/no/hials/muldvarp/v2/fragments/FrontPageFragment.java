@@ -22,16 +22,20 @@ import no.hials.muldvarp.v2.ProgrammeActivity;
  *
  * @author kristoffer
  */
-public class InformationFragment extends MuldvarpFragment {
-    InformationFragment.ImageAdapter adapter;
+public class FrontPageFragment extends MuldvarpFragment {
+    FrontPageFragment.ImageAdapter adapter;
     Activity activity;
     public enum Type {MAIN, PROGRAMME, COURSE, TASK}
     Type type;
     int stringlist;
     String title = "Høgskulen i Ålesund";
 
+<<<<<<< HEAD
     
     public InformationFragment(Type type) {
+=======
+    public FrontPageFragment(Type type) {
+>>>>>>> more stuff
         this.type = type;
     }
     
@@ -42,13 +46,13 @@ public class InformationFragment extends MuldvarpFragment {
                 stringlist = R.array.main_list;
                 break;
             case PROGRAMME:
-                ProgrammeActivity progactivity = (ProgrammeActivity)InformationFragment.this.getActivity();
+                ProgrammeActivity progactivity = (ProgrammeActivity)FrontPageFragment.this.getActivity();
                 title = progactivity.getSelectedProgramme().getName();
                 stringlist = R.array.programme_list;
                 break;
         }
         
-        activity = InformationFragment.this.getActivity();
+        activity = FrontPageFragment.this.getActivity();
         // Inflate the layout for this fragment
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
 
@@ -57,7 +61,7 @@ public class InformationFragment extends MuldvarpFragment {
         
         textView.setText(title);
     
-        adapter = new InformationFragment.ImageAdapter(getActivity());
+        adapter = new FrontPageFragment.ImageAdapter(getActivity());
         gridview.setAdapter(adapter);
         
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

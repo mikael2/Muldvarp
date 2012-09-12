@@ -20,15 +20,22 @@ import java.util.List;
 import no.hials.muldvarp.LoginActivity;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
+import no.hials.muldvarp.v2.domain.News;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.fragments.CourseListFragment;
+<<<<<<< HEAD
 import no.hials.muldvarp.v2.fragments.DateFragment;
 import no.hials.muldvarp.v2.fragments.InformationFragment;
+=======
+import no.hials.muldvarp.v2.fragments.FrontPageFragment;
+>>>>>>> more stuff
 import no.hials.muldvarp.v2.fragments.ListFragment;
-import no.hials.muldvarp.v2.fragments.MetaFragment;
-import no.hials.muldvarp.v2.fragments.NewsFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
+<<<<<<< HEAD
 import no.hials.muldvarp.v2.fragments.RequirementFragment;
+=======
+import no.hials.muldvarp.v2.fragments.TextFragment;
+>>>>>>> more stuff
 import no.hials.muldvarp.v2.utility.TabListener;
 import no.hials.muldvarp.v2.utility.utils;
 
@@ -37,6 +44,7 @@ public class MainActivity extends MuldvarpActivity {
     private List<Programme> programmeList = new ArrayList<Programme>();
     private Activity activity = this;
     public ActionBar actionBar;
+    public List<News> newsList = new ArrayList<News>();
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -46,17 +54,18 @@ public class MainActivity extends MuldvarpActivity {
         setContentView(R.layout.main);
         
         programmeList.add(new Programme("Bachelor Dataingeniør"));
+        newsList.add(new News("Tittel", "Tekst"));
         
-        fragmentList.add(new InformationFragment(InformationFragment.Type.MAIN));
-        fragmentList.add(new NewsFragment());
-        fragmentList.add(new NewsFragment());
+        fragmentList.add(new FrontPageFragment(FrontPageFragment.Type.MAIN));
+        fragmentList.add(new TextFragment(TextFragment.Type.NEWS));
+        fragmentList.add(new ListFragment(ListFragment.Type.NEWS));
         fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
-        fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
+        fragmentList.add(new ListFragment(ListFragment.Type.VIDEO));
         fragmentList.add(new QuizFragment());
-        fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
-        fragmentList.add(new RequirementFragment());
-        fragmentList.add(new DateFragment());
-        fragmentList.add(new MetaFragment());
+        fragmentList.add(new ListFragment(ListFragment.Type.DOCUMENTS));
+        fragmentList.add(new TextFragment(TextFragment.Type.REQUIREMENT));
+        fragmentList.add(new TextFragment(TextFragment.Type.DATE));
+        fragmentList.add(new TextFragment(TextFragment.Type.HELP));
         
         actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
@@ -71,7 +80,7 @@ public class MainActivity extends MuldvarpActivity {
 
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
-                return utils.changeFragment(activity, fragmentList, strings, R.id.desktop, position);
+                return utils.changeFragment(activity, fragmentList, position);
             }
         };
 
@@ -130,8 +139,14 @@ public class MainActivity extends MuldvarpActivity {
         }
     }
     
+    @Override
     public List<Programme> getProgrammeList() {
         return programmeList;
+    }
+
+    @Override
+    public List<News> getNewsList() {
+        return newsList;
     }
     
     @Override
