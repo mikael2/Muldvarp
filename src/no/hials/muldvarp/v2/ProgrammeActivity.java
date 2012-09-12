@@ -40,6 +40,18 @@ public class ProgrammeActivity extends MuldvarpActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        icons = new int[] {
+            R.drawable.stolen_contacts,
+            R.drawable.stolen_tikl,
+            R.drawable.stolen_smsalt,
+            R.drawable.stolen_youtube,
+            R.drawable.stolen_calculator,
+            R.drawable.stolen_dictonary,
+            R.drawable.stolen_notes,
+            R.drawable.stolen_calender,
+            R.drawable.stolen_help
+        };
+        
         selectedProgramme = new Programme("Dataingeniør");
         selectedProgramme.addCourse(new Course("Programmering"));
         

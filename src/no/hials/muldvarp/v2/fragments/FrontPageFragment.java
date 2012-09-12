@@ -73,11 +73,11 @@ public class FrontPageFragment extends MuldvarpFragment {
         }
 
         public int getCount() {
-            return icons.length;
+            return activity.icons.length;
         }
 
         public Object getItem(int position) {
-            return icons[position];
+            return activity.icons[position];
         }
 
         public long getItemId(int position) {
@@ -93,7 +93,7 @@ public class FrontPageFragment extends MuldvarpFragment {
                 ImageView imageView = (ImageView) retVal.findViewById(R.id.grid_item_image);
                 TextView  textView  = (TextView) retVal.findViewById(R.id.grid_item_label);
 
-                imageView.setImageResource(icons[position]);
+                imageView.setImageResource(activity.icons[position]);
                 textView.setText(getResources().getStringArray(stringlist)[position+1]);
             } else {
                 retVal = convertView;
@@ -101,17 +101,5 @@ public class FrontPageFragment extends MuldvarpFragment {
 
             return retVal;
         }
-        
-        private int[] icons = {
-            R.drawable.stolen_contacts,
-            R.drawable.stolen_tikl,
-            R.drawable.stolen_smsalt,
-            R.drawable.stolen_youtube,
-            R.drawable.stolen_calculator,
-            R.drawable.stolen_dictonary,
-            R.drawable.stolen_notes,
-            R.drawable.stolen_calender,
-            R.drawable.book_icon
-        };
     }
 }

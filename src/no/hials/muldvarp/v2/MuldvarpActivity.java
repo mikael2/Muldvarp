@@ -22,6 +22,7 @@ import no.hials.muldvarp.v2.domain.Video;
  */
 public class MuldvarpActivity extends Activity {
     Bundle savedInstanceState;
+    public int icons[];
     
     @Override
     public void onBackPressed() {

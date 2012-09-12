@@ -39,7 +39,7 @@ public class MainActivity extends MuldvarpActivity {
     public ActionBar actionBar;
     public List<News> newsList = new ArrayList<News>();
     public List<Video> videoList = new ArrayList<Video>();
-    public List<Document> documentList = new ArrayList<Document>();
+    public List<Document> documentList = new ArrayList<Document>(); 
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -47,6 +47,18 @@ public class MainActivity extends MuldvarpActivity {
         
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        icons = new int[] {
+            R.drawable.stolen_contacts,
+            R.drawable.stolen_tikl,
+            R.drawable.stolen_smsalt,
+            R.drawable.stolen_youtube,
+            R.drawable.stolen_calculator,
+            R.drawable.stolen_dictonary,
+            R.drawable.stolen_notes,
+            R.drawable.stolen_calender,
+            R.drawable.stolen_help
+        };
         
         programmeList.add(new Programme("Bachelor Dataingeniør"));
         newsList.add(new News("Tittel", "Tekst"));
