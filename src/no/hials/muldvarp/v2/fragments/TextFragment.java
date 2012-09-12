@@ -55,6 +55,9 @@ public class TextFragment extends MuldvarpFragment {
             case DATE:
                 item = activity.getDate();
                 break;
+            case INFO:
+                item = activity.getInfo();
+                break;
         }
         title.setText(item.getName());
         text.setText(item.getDetail());

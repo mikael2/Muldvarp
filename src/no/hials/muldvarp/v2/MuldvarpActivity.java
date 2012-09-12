@@ -11,6 +11,7 @@ import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Date;
 import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Help;
+import no.hials.muldvarp.v2.domain.Info;
 import no.hials.muldvarp.v2.domain.News;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Requirement;
@@ -84,6 +85,10 @@ public class MuldvarpActivity extends Activity {
     }
 
     public List<Document> getDocumentList() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public Info getInfo() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

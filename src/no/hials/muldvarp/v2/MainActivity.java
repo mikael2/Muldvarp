@@ -20,9 +20,13 @@ import java.util.List;
 import no.hials.muldvarp.LoginActivity;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
+import no.hials.muldvarp.v2.domain.Date;
 import no.hials.muldvarp.v2.domain.Document;
+import no.hials.muldvarp.v2.domain.Help;
+import no.hials.muldvarp.v2.domain.Info;
 import no.hials.muldvarp.v2.domain.News;
 import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.domain.Requirement;
 import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.fragments.CourseListFragment;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
@@ -39,7 +43,11 @@ public class MainActivity extends MuldvarpActivity {
     public ActionBar actionBar;
     public List<News> newsList = new ArrayList<News>();
     public List<Video> videoList = new ArrayList<Video>();
-    public List<Document> documentList = new ArrayList<Document>(); 
+    public List<Document> documentList = new ArrayList<Document>();
+    public Info info = new Info("Informasjon", "Blablablabl");
+    public Requirement req = new Requirement("Opptakskrav", "blablabla");
+    public Help help = new Help("Hjelpeside", "Dette gjør du blablabla");
+    public Date date = new Date("Datoer", "blablablal");
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -166,6 +174,26 @@ public class MainActivity extends MuldvarpActivity {
     @Override
     public List<Document> getDocumentList() {
         return documentList;
+    }
+
+    @Override
+    public Info getInfo() {
+        return info;
+    }
+
+    @Override
+    public Requirement getRequirement() {
+        return req;
+    }
+
+    @Override
+    public Help getHelp() {
+        return help;
+    }
+
+    @Override
+    public Date getDate() {
+        return date;
     }
     
     @Override
