@@ -20,15 +20,19 @@ import java.util.List;
 import no.hials.muldvarp.LoginActivity;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
+import no.hials.muldvarp.v2.domain.Date;
+import no.hials.muldvarp.v2.domain.Document;
+import no.hials.muldvarp.v2.domain.Help;
+import no.hials.muldvarp.v2.domain.Info;
+import no.hials.muldvarp.v2.domain.News;
 import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.domain.Requirement;
+import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.fragments.CourseListFragment;
-import no.hials.muldvarp.v2.fragments.DateFragment;
-import no.hials.muldvarp.v2.fragments.InformationFragment;
+import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
-import no.hials.muldvarp.v2.fragments.MetaFragment;
-import no.hials.muldvarp.v2.fragments.NewsFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
-import no.hials.muldvarp.v2.fragments.RequirementFragment;
+import no.hials.muldvarp.v2.fragments.TextFragment;
 import no.hials.muldvarp.v2.utility.TabListener;
 import no.hials.muldvarp.v2.utility.utils;
 
@@ -37,6 +41,13 @@ public class MainActivity extends MuldvarpActivity {
     private List<Programme> programmeList = new ArrayList<Programme>();
     private Activity activity = this;
     public ActionBar actionBar;
+    public List<News> newsList = new ArrayList<News>();
+    public List<Video> videoList = new ArrayList<Video>();
+    public List<Document> documentList = new ArrayList<Document>();
+    public Info info = new Info("Informasjon", "Blablablabl");
+    public Requirement req = new Requirement("Opptakskrav", "blablabla");
+    public Help help = new Help("Hjelpeside", "Dette gjør du blablabla");
+    public Date date = new Date("Datoer", "blablablal");
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -45,18 +56,33 @@ public class MainActivity extends MuldvarpActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        programmeList.add(new Programme("Bachelor Dataingeniør"));
+        icons = new int[] {
+            R.drawable.stolen_contacts,
+            R.drawable.stolen_tikl,
+            R.drawable.stolen_smsalt,
+            R.drawable.stolen_youtube,
+            R.drawable.stolen_calculator,
+            R.drawable.stolen_dictonary,
+            R.drawable.stolen_notes,
+            R.drawable.stolen_calender,
+            R.drawable.stolen_help
+        };
         
-        fragmentList.add(new InformationFragment(InformationFragment.Type.MAIN));
-        fragmentList.add(new NewsFragment());
-        fragmentList.add(new NewsFragment());
+        programmeList.add(new Programme("Bachelor Dataingeniør"));
+        newsList.add(new News("Tittel", "Tekst"));
+        videoList.add(new Video("Videotittel", "Beskrivelse"));
+        documentList.add(new Document("Dokumenttittel", "Beskrivelse"));
+        
+        fragmentList.add(new FrontPageFragment(FrontPageFragment.Type.MAIN));
+        fragmentList.add(new TextFragment(TextFragment.Type.INFO));
+        fragmentList.add(new ListFragment(ListFragment.Type.NEWS));
         fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
-        fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
+        fragmentList.add(new ListFragment(ListFragment.Type.VIDEO));
         fragmentList.add(new QuizFragment());
-        fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
-        fragmentList.add(new RequirementFragment());
-        fragmentList.add(new DateFragment());
-        fragmentList.add(new MetaFragment());
+        fragmentList.add(new ListFragment(ListFragment.Type.DOCUMENTS));
+        fragmentList.add(new TextFragment(TextFragment.Type.REQUIREMENT));
+        fragmentList.add(new TextFragment(TextFragment.Type.DATE));
+        fragmentList.add(new TextFragment(TextFragment.Type.HELP));
         
         actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
@@ -71,7 +97,7 @@ public class MainActivity extends MuldvarpActivity {
 
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
-                return utils.changeFragment(activity, fragmentList, strings, R.id.desktop, position);
+                return utils.changeFragment(activity, fragmentList, position);
             }
         };
 
@@ -130,8 +156,44 @@ public class MainActivity extends MuldvarpActivity {
         }
     }
     
+    @Override
     public List<Programme> getProgrammeList() {
         return programmeList;
+    }
+
+    @Override
+    public List<News> getNewsList() {
+        return newsList;
+    }
+
+    @Override
+    public List<Video> getVideoList() {
+        return videoList;
+    }
+
+    @Override
+    public List<Document> getDocumentList() {
+        return documentList;
+    }
+
+    @Override
+    public Info getInfo() {
+        return info;
+    }
+
+    @Override
+    public Requirement getRequirement() {
+        return req;
+    }
+
+    @Override
+    public Help getHelp() {
+        return help;
+    }
+
+    @Override
+    public Date getDate() {
+        return date;
     }
     
     @Override

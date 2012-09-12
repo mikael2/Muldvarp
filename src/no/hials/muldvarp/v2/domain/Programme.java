@@ -7,7 +7,7 @@ package no.hials.muldvarp.v2.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Programme extends ListItem {
+public class Programme extends Domain {
     List<Course> courses = new ArrayList<Course>();;
     String imageurl;
     

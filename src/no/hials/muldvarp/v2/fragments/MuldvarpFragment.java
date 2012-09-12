@@ -4,17 +4,27 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import no.hials.muldvarp.v2.MuldvarpActivity;
 
 /**
  *
  * @author kristoffer
  */
 public class MuldvarpFragment extends Fragment {
+    MuldvarpActivity activity;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (MuldvarpActivity)activity;
     }
 }

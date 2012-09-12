@@ -9,18 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.MainActivity;
 
 /**
  *
  * @author kristoffer
  */
 public class NewsFragment extends MuldvarpFragment {
-    MainActivity activity;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        activity = (MainActivity)NewsFragment.this.getActivity();
         // Inflate the layout for this fragment
         View retVal = inflater.inflate(R.layout.news, container, false);
 

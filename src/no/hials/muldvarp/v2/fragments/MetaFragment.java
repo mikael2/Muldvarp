@@ -32,7 +32,7 @@ public class MetaFragment extends MuldvarpFragment {
             textItemTitle.setText("Hardkodet Tittel");
 
             TextView textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
-            textItemDescription.setText("Hardkodet Tittel");
+            textItemDescription.setText("Hardkodet beskrivelse av tingen");
             
         }
         return fragmentView;

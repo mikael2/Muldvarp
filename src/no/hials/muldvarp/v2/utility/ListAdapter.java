@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.utility.DrawableManager;
-import no.hials.muldvarp.v2.domain.ListItem;
+import no.hials.muldvarp.v2.domain.Domain;
 
 public class ListAdapter extends ArrayAdapter {
     private LayoutInflater mInflater;
@@ -58,7 +58,7 @@ public class ListAdapter extends ArrayAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ListItem c = (ListItem)items.get(position);
+        Domain c = (Domain)items.get(position);
         
         holder.name.setText(c.getName());
         
@@ -84,7 +84,7 @@ public class ListAdapter extends ArrayAdapter {
     public void filter(CharSequence filter) {
         ArrayList filtered = new ArrayList();
         
-        for (ListItem c : (ArrayList<ListItem>)orig_items)
+        for (Domain c : (ArrayList<Domain>)orig_items)
         {
             if (c.getName().toLowerCase().contains(filter.toString().toLowerCase()))
             {

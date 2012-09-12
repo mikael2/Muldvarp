@@ -4,18 +4,18 @@
  */
 package no.hials.muldvarp.v2.domain;
 
-public class ListItem {
+public class Domain {
     Integer id;
     String name;
     String detail;
     String description;
     int icon;
 
-    public ListItem(String name) {
+    public Domain(String name) {
         this.name = name;
     }
     
-    public ListItem(String name, String detail, String description, int icon) {
+    public Domain(String name, String detail, String description, int icon) {
         this.name = name;
         this.detail = detail;
         this.description = description;
