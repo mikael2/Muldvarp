@@ -116,7 +116,8 @@ public class InformationFragment extends MuldvarpFragment {
             R.drawable.stolen_calculator,
             R.drawable.stolen_dictonary,
             R.drawable.stolen_notes,
-            R.drawable.stolen_calender
+            R.drawable.stolen_calender,
+            R.drawable.book_icon
         };
     }
 }
