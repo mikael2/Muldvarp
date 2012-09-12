@@ -10,10 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.domain.Date;
 import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.Help;
-import no.hials.muldvarp.v2.domain.Requirement;
 
 /**
  *
@@ -22,7 +19,7 @@ import no.hials.muldvarp.v2.domain.Requirement;
 public class TextFragment extends MuldvarpFragment {
     View fragmentView;
     private TextView text;
-    public enum Type {NEWS, REQUIREMENT, HELP, DATE}
+    public enum Type {REQUIREMENT, HELP, DATE, INFO}
     TextFragment.Type type;
     TextView title;
     Domain item;
@@ -49,25 +46,17 @@ public class TextFragment extends MuldvarpFragment {
     
     public void itemsReady() {
         switch(type) {
-            case NEWS:
-                title.setText(item.getName());
-                text.setText(item.getDetail());
-                break;
             case REQUIREMENT:
-                Requirement r = activity.getRequirement();
-                title.setText(r.getName());
-                text.setText(r.getDetail());
+                item = activity.getRequirement();
                 break;
             case HELP:
-                Help h = activity.getHelp();
-                title.setText(h.getName());
-                text.setText(h.getDetail());
+                item = activity.getHelp();
                 break;
             case DATE:
-                Date d = activity.getDate();
-                title.setText(d.getName());
-                text.setText(d.getDetail());
+                item = activity.getDate();
                 break;
         }
+        title.setText(item.getName());
+        text.setText(item.getDetail());
     }
 }

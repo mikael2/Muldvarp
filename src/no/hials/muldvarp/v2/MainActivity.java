@@ -20,8 +20,10 @@ import java.util.List;
 import no.hials.muldvarp.LoginActivity;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
+import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.News;
 import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.fragments.CourseListFragment;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
@@ -36,6 +38,8 @@ public class MainActivity extends MuldvarpActivity {
     private Activity activity = this;
     public ActionBar actionBar;
     public List<News> newsList = new ArrayList<News>();
+    public List<Video> videoList = new ArrayList<Video>();
+    public List<Document> documentList = new ArrayList<Document>();
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -46,9 +50,11 @@ public class MainActivity extends MuldvarpActivity {
         
         programmeList.add(new Programme("Bachelor Dataingeniør"));
         newsList.add(new News("Tittel", "Tekst"));
+        videoList.add(new Video("Videotittel", "Beskrivelse"));
+        documentList.add(new Document("Dokumenttittel", "Beskrivelse"));
         
         fragmentList.add(new FrontPageFragment(FrontPageFragment.Type.MAIN));
-        fragmentList.add(new TextFragment(TextFragment.Type.NEWS));
+        fragmentList.add(new TextFragment(TextFragment.Type.INFO));
         fragmentList.add(new ListFragment(ListFragment.Type.NEWS));
         fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
         fragmentList.add(new ListFragment(ListFragment.Type.VIDEO));
@@ -138,6 +144,16 @@ public class MainActivity extends MuldvarpActivity {
     @Override
     public List<News> getNewsList() {
         return newsList;
+    }
+
+    @Override
+    public List<Video> getVideoList() {
+        return videoList;
+    }
+
+    @Override
+    public List<Document> getDocumentList() {
+        return documentList;
     }
     
     @Override

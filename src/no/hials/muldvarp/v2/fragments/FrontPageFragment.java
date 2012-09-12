@@ -44,7 +44,7 @@ public class FrontPageFragment extends MuldvarpFragment {
                 stringlist = R.array.programme_list;
                 break;
         }
-        // Inflate the layout for this fragment
+        
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
 
         GridView gridview = (GridView) retVal.findViewById(R.id.gridview);

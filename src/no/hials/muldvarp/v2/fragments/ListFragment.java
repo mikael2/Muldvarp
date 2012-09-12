@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.CourseActivity;
+import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.ProgrammeActivity;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.utility.ListAdapter;
@@ -74,12 +75,15 @@ public class ListFragment extends MuldvarpFragment {
                     break;
                 case NEWS:
                     items.addAll(activity.getNewsList());
+                    destination = DetailActivity.class;
                     break;
                 case VIDEO:
                     items.addAll(activity.getVideoList());
+                    destination = DetailActivity.class;
                     break;
                 case DOCUMENTS:
                     items.addAll(activity.getDocumentList());
+                    destination = DetailActivity.class;
                     break;
             }
         }
@@ -100,6 +104,7 @@ public class ListFragment extends MuldvarpFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Domain selectedItem = items.get(position);
                 Intent myIntent = new Intent(view.getContext(), destination);
+                myIntent.setType(type.toString());
                 myIntent.putExtra("id", selectedItem.getId());
                 startActivityForResult(myIntent, 0);
             }  

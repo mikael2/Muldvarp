@@ -6,15 +6,15 @@ package no.hials.muldvarp.v2;
 
 import android.app.Activity;
 import android.os.Bundle;
-import java.util.Collection;
 import java.util.List;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Date;
-import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Help;
 import no.hials.muldvarp.v2.domain.News;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Requirement;
+import no.hials.muldvarp.v2.domain.Video;
 
 /**
  *
@@ -78,11 +78,11 @@ public class MuldvarpActivity extends Activity {
         return null;
     }
 
-    public Collection<? extends Domain> getVideoList() {
+    public List<Video> getVideoList() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public Collection<? extends Domain> getDocumentList() {
+    public List<Document> getDocumentList() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }
