@@ -5,6 +5,7 @@
 package no.hials.muldvarp.v2.fragments;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,6 @@ public class TextFragment extends MuldvarpFragment {
                 break;
         }
         title.setText(item.getName());
-        text.setText(item.getDetail());
+        text.setText(Html.fromHtml(item.getDetail()));
     }
 }

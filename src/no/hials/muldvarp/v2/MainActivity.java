@@ -28,12 +28,10 @@ import no.hials.muldvarp.v2.domain.News;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Requirement;
 import no.hials.muldvarp.v2.domain.Video;
-import no.hials.muldvarp.v2.fragments.CourseListFragment;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
-import no.hials.muldvarp.v2.utility.TabListener;
 import no.hials.muldvarp.v2.utility.utils;
 
 public class MainActivity extends MuldvarpActivity {
@@ -44,15 +42,14 @@ public class MainActivity extends MuldvarpActivity {
     public List<News> newsList = new ArrayList<News>();
     public List<Video> videoList = new ArrayList<Video>();
     public List<Document> documentList = new ArrayList<Document>();
-    public Info info = new Info("Informasjon", "Blablablabl");
-    public Requirement req = new Requirement("Opptakskrav", "blablabla");
-    public Help help = new Help("Hjelpeside", "Dette gjør du blablabla");
-    public Date date = new Date("Datoer", "blablablal");
+    Info info;
+    Requirement req;
+    Help help;
+    Date date;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
@@ -68,10 +65,15 @@ public class MainActivity extends MuldvarpActivity {
             R.drawable.stolen_help
         };
         
+        // testdata
         programmeList.add(new Programme("Bachelor Dataingeniør"));
         newsList.add(new News("Tittel", "Tekst"));
         videoList.add(new Video("Videotittel", "Beskrivelse"));
         documentList.add(new Document("Dokumenttittel", "Beskrivelse"));
+        info = new Info("Informasjon", "Blablablabl");
+        req = new Requirement("Opptakskrav", "blablabla");
+        help = new Help("Hjelpeside", "Dette gjør du blablabla");
+        date = new Date("Datoer", "<h2>Test</h2><p>babvavasvas</p>");
         
         fragmentList.add(new FrontPageFragment(FrontPageFragment.Type.MAIN));
         fragmentList.add(new TextFragment(TextFragment.Type.INFO));
@@ -111,21 +113,21 @@ public class MainActivity extends MuldvarpActivity {
         return true;
     }
 
-    private void createTabs(ActionBar actionBar) {
-        actionBar.addTab(actionBar.newTab()
-                .setText("Simple")
-                .setTabListener(new TabListener<CourseListFragment>(
-                        this,
-                        "Tema",
-                        CourseListFragment.class)));
-        
-        actionBar.addTab(actionBar.newTab()
-                .setText("Simple")
-                .setTabListener(new TabListener<CourseListFragment>(
-                        this,
-                        "Tema",
-                        CourseListFragment.class)));
-    }
+//    private void createTabs(ActionBar actionBar) {
+//        actionBar.addTab(actionBar.newTab()
+//                .setText("Simple")
+//                .setTabListener(new TabListener<CourseListFragment>(
+//                        this,
+//                        "Tema",
+//                        CourseListFragment.class)));
+//        
+//        actionBar.addTab(actionBar.newTab()
+//                .setText("Simple")
+//                .setTabListener(new TabListener<CourseListFragment>(
+//                        this,
+//                        "Tema",
+//                        CourseListFragment.class)));
+//    }
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

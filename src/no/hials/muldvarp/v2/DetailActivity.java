@@ -49,7 +49,7 @@ public class DetailActivity extends MuldvarpActivity {
                 textItemDescription = (TextView) findViewById(R.id.item_description);
                 break;
         }
-        
+        getActionBar().setTitle(item.getName());
         textItemTitle.setText(item.getName());
         textItemDescription.setText(item.getDetail());
     }
