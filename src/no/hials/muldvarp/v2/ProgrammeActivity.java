@@ -19,6 +19,7 @@ import no.hials.muldvarp.v2.fragments.DateFragment;
 import no.hials.muldvarp.v2.fragments.DocumentFragment;
 import no.hials.muldvarp.v2.fragments.InformationFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
+import no.hials.muldvarp.v2.fragments.MetaFragment;
 import no.hials.muldvarp.v2.fragments.NewsFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
 import no.hials.muldvarp.v2.fragments.RequirementFragment;
@@ -49,11 +50,12 @@ public class ProgrammeActivity extends MuldvarpActivity {
             fragmentList.add(new NewsFragment());
             fragmentList.add(new NewsFragment());
             fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
-            fragmentList.add(new VideoFragment());
+            fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
             fragmentList.add(new QuizFragment());
-            fragmentList.add(new DocumentFragment());
+            fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
             fragmentList.add(new RequirementFragment());
             fragmentList.add(new DateFragment());
+            fragmentList.add(new MetaFragment());
         }
         
         actionBar = getActionBar();

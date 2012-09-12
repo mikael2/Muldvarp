@@ -10,6 +10,6 @@ import android.app.Activity;
  *
  * @author kristoffer
  */
-public class CourseActivity extends Activity {
+public class CourseActivity extends MuldvarpActivity {
     
 }

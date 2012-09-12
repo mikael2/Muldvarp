@@ -15,16 +15,20 @@ import no.hials.muldvarp.v2.MainActivity;
  *
  * @author terje
  */
-public class MetadataDocumentVideo extends MuldvarpFragment {
+public class MetaFragment extends MuldvarpFragment {
     MainActivity activity;
     View fragmentView;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        activity = (MainActivity)MetadataDocumentVideo.this.getActivity();
+        activity = (MainActivity)MetaFragment.this.getActivity();
         if(fragmentView == null) {
-            fragmentView = inflater.inflate(R.layout.course_list, container, false);
+            fragmentView = inflater.inflate(R.layout.metadata, container, false);
         }
         return fragmentView;
+    }
+    
+    public void fillFields(Object o){
+        
     }
 }

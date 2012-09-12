@@ -73,6 +73,7 @@
         <item>Dokumenter</item>
         <item>Opptak</item>
         <item>Datoer</item>
+        <item>TestItem</item>
     </string-array>
     
     <string-array name="programme_list">
@@ -85,6 +86,7 @@
         <item>Dokumenter</item>
         <item>Opptak</item>
         <item>Datoer</item>
+        <item>TestItem</item>
     </string-array>
     
     <string name="name">Per Olsen</string>
