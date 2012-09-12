@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>  
+    
+    <string-array name="programme_list_dummmy">
+        <item>Bachelor, data</item>            
+        <item>Bachelor, bygg</item>
+        <item>Bachelor, skipsteknikk</item>
+        <item>Bachelor, produkt og systemdesign</item>
+        <item>Helsefag</item>
+        <item>Maritime fag</item>
+        <item>Biologiske fag</item>
+    </string-array>
+    
+    <string-array name="document_list_dummy">
+        <item>Document 1</item>
+        <item>Document 2</item>
+        <item>Document 3</item>
+        <item>Document 4</item>
+        <item>Document 5</item>
+        <item>Document 6</item>
+        
+    </string-array>
+
+</resources>

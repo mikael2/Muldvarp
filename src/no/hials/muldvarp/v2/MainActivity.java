@@ -30,6 +30,7 @@ import no.hials.muldvarp.v2.fragments.NewsFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
 import no.hials.muldvarp.v2.fragments.RequirementFragment;
 import no.hials.muldvarp.v2.fragments.VideoFragment;
+import no.hials.muldvarp.v2.testpackages.IconGridFragment;
 import no.hials.muldvarp.v2.utility.TabListener;
 import no.hials.muldvarp.v2.utility.utils;
 
@@ -46,7 +47,7 @@ public class MainActivity extends MuldvarpActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        fragmentList.add(new InformationFragment(InformationFragment.Type.MAIN));
+        fragmentList.add(new IconGridFragment());
         fragmentList.add(new NewsFragment());
         fragmentList.add(new NewsFragment());
         fragmentList.add(new ListFragment(ListFragment.Type.PROGRAMME));
