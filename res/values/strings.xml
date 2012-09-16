@@ -89,6 +89,19 @@
         <item>Hjelp</item>
     </string-array>
     
+    <string-array name="course_list">
+        <item>Startside</item>
+        <item>Informasjon</item>
+        <item>Nyheter</item>
+        <item>Fag</item>
+        <item>Videoer</item>
+        <item>Quiz</item>
+        <item>Dokumenter</item>
+        <item>Opptak</item>
+        <item>Datoer</item>
+        <item>Hjelp</item>
+    </string-array>
+    
     <string name="name">Per Olsen</string>
     <string name="info">Info</string>
 </resources>

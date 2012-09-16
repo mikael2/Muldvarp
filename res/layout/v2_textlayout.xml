@@ -3,20 +3,20 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
+    android:layout_marginLeft="50px">
     <TextView 
         android:id="@+id/title"
         android:text="Tittel"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:gravity="center" />
+        android:textSize="30dp"
+        android:gravity="left" />
     <TextView 
         android:id="@+id/text"
         android:text="Tekst"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="10dp"
-        android:gravity="center" />
+        android:textSize="15dp"
+        android:gravity="left" />
 </LinearLayout>
 

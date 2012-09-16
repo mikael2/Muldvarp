@@ -15,13 +15,10 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Programme;
-import no.hials.muldvarp.v2.fragments.DateFragment;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
-import no.hials.muldvarp.v2.fragments.MetaFragment;
-import no.hials.muldvarp.v2.fragments.NewsFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
-import no.hials.muldvarp.v2.fragments.RequirementFragment;
+import no.hials.muldvarp.v2.fragments.TextFragment;
 import no.hials.muldvarp.v2.utility.utils;
 
 /**
@@ -40,20 +37,29 @@ public class CourseActivity extends MuldvarpActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        selectedProgramme = new Programme("Dataingeniør");
-        selectedProgramme.addCourse(new Course("Programmering"));
+        icons = new int[] {
+            R.drawable.stolen_contacts,
+            R.drawable.stolen_tikl,
+            R.drawable.stolen_smsalt,
+            R.drawable.stolen_youtube,
+            R.drawable.stolen_calculator,
+            R.drawable.stolen_dictonary,
+            R.drawable.stolen_notes,
+            R.drawable.stolen_calender,
+            R.drawable.stolen_help
+        };
         
         if(fragmentList.isEmpty()) {
-            fragmentList.add(new FrontPageFragment(FrontPageFragment.Type.PROGRAMME));
-            fragmentList.add(new NewsFragment());
-            fragmentList.add(new NewsFragment());
-            fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
-            fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
-            fragmentList.add(new QuizFragment());
-            fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
-            fragmentList.add(new RequirementFragment());
-            fragmentList.add(new DateFragment());
-            fragmentList.add(new MetaFragment());
+//            fragmentList.add(new FrontPageFragment(FrontPageFragment.Type.PROGRAMME));
+//            fragmentList.add(new TextFragment(TextFragment.Type.INFO));
+//            fragmentList.add(new ListFragment(ListFragment.Type.NEWS));
+//            fragmentList.add(new ListFragment(ListFragment.Type.COURSES));
+//            fragmentList.add(new ListFragment(ListFragment.Type.VIDEO));
+//            fragmentList.add(new QuizFragment());
+//            fragmentList.add(new ListFragment(ListFragment.Type.DOCUMENTS));
+//            fragmentList.add(new TextFragment(TextFragment.Type.REQUIREMENT));
+//            fragmentList.add(new TextFragment(TextFragment.Type.DATE));
+//            fragmentList.add(new TextFragment(TextFragment.Type.HELP));
         }
         
         actionBar = getActionBar();

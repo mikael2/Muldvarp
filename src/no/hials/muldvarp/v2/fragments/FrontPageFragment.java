@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.courses.CourseActivity;
 import no.hials.muldvarp.v2.ProgrammeActivity;
 
 /**
@@ -43,6 +44,10 @@ public class FrontPageFragment extends MuldvarpFragment {
                 title = progactivity.getSelectedProgramme().getName();
                 stringlist = R.array.programme_list;
                 break;
+            case COURSE:
+                CourseActivity courseactivity = (CourseActivity)FrontPageFragment.this.getActivity();
+                title = "heisann";
+                stringlist = R.array.course_list;
         }
         
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
