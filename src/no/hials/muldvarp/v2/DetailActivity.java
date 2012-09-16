@@ -32,6 +32,9 @@ public class DetailActivity extends MuldvarpActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = Type.valueOf(getIntent().getType());
+        
+        //TODO: Legg inn bundles og greier
+        
         switch(type) {
             case NEWS:
                 item = new News("Nyhetstittel", "Tekst");
