@@ -102,27 +102,7 @@ public class QuizActivity extends Activity {
     }
     
     public void makeTestData(){
-        
-//        List<Alternative> alt = new ArrayList<Alternative>();
-//        Alternative a1 = new Alternative("Svaralternativ 1");
-//        a1.setId(1);
-//        alt.add(a1);
-//        Alternative a2 = new Alternative("Svaralternativ 2");
-//        a2.setId(2);
-//        alt.add(a2);
-//        Alternative a3 = new Alternative("Svaralternativ 3");
-//        a3.setId(3);
-//        alt.add(a3);
-//        Alternative a4 = new Alternative("Svaralternativ 4");
-//        a4.setId(4);
-//        alt.add(a4);
-//        Alternative a5 = new Alternative("Svaralternativ 5");
-//        a5.setId(5);
-//        alt.add(a5);
-//        
-//        Question q = new Question("Hvilket svaralternativ er riktig?", alt, a2);
-//        questions.add(q);
-//        
+
         for (int i = 1; i < 4; i++) {
             
             List<Alternative> alternatives = new ArrayList<Alternative>();
@@ -137,9 +117,7 @@ public class QuizActivity extends Activity {
             Question currentQuestion = new Question("Hvilket svaralternativ er riktig?", alternatives, correctAnswer);
             questions.add(currentQuestion);
             
-        }
-        
-        
+        }       
         
     }
 }
