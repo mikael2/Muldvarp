@@ -35,7 +35,6 @@ public class ProgrammeActivity extends MuldvarpActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
         
         icons = new int[] {
             R.drawable.stolen_contacts,

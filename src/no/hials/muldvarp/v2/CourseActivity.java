@@ -50,7 +50,6 @@ public class CourseActivity extends MuldvarpActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
         
         info = new Info("Informasjon", "Blablablabl");
         req = new Requirement("Opptakskrav", "blablabla");
@@ -116,6 +115,7 @@ public class CourseActivity extends MuldvarpActivity {
         return selectedCourse;
     }
     
+    @Override
     public Info getInfo(){
         return info;
     }
