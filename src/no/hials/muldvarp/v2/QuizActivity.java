@@ -4,7 +4,6 @@
  */
 package no.hials.muldvarp.v2;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +11,11 @@ import android.view.ViewGroup;
 import android.widget.*;
 import java.util.ArrayList;
 import java.util.List;
-import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Alternative;
 import no.hials.muldvarp.v2.domain.Question;
 
 /**
- * This class defines an Activity used for Quiz-functionality. 
+ * This class defines an Activity used for Quiz-functionality. Should encapsulate a fragment, but NYI
  * 
  * @author johan
  */
