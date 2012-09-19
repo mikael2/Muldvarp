@@ -4,22 +4,24 @@
  */
 package no.hials.muldvarp.v2;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.domain.Date;
+import no.hials.muldvarp.v2.domain.Document;
+import no.hials.muldvarp.v2.domain.Help;
+import no.hials.muldvarp.v2.domain.Info;
+import no.hials.muldvarp.v2.domain.News;
 import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.domain.Requirement;
+import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
-import no.hials.muldvarp.v2.utility.utils;
 
 /**
  *
@@ -28,13 +30,29 @@ import no.hials.muldvarp.v2.utility.utils;
 public class ProgrammeActivity extends MuldvarpActivity {
     public List<Fragment> fragmentList = new ArrayList<Fragment>();
     private Programme selectedProgramme;
-    private Activity activity = this;
-    public ActionBar actionBar;
+    private Info info;
+    private Requirement req;
+    private Help help;
+    private Date date;
+    public List<News> newsList = new ArrayList<News>();
+    public List<Video> videoList = new ArrayList<Video>();
+    public List<Document> documentList = new ArrayList<Document>();
     
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        // testdata
+        info = new Info("Informasjon", "Blablablabl");
+        req = new Requirement("Opptakskrav", "blablabla");
+        help = new Help("Hjelpeside", "Dette gjør du blablabla");
+        date = new Date("Datoer", "<h2>Test</h2><p>babvavasvas</p>");
+        newsList.add(new News("Tittel", "Tekst"));
+        videoList.add(new Video("Videotittel", "Beskrivelse"));
+        documentList.add(new Document("Dokumenttittel", "Beskrivelse"));
+        selectedProgramme = new Programme("Dataingeniør");
+        selectedProgramme.addCourse(new Course("Programmering"));
         
         icons = new int[] {
             R.drawable.stolen_contacts,
@@ -47,9 +65,6 @@ public class ProgrammeActivity extends MuldvarpActivity {
             R.drawable.stolen_calender,
             R.drawable.stolen_help
         };
-        
-        selectedProgramme = new Programme("Dataingeniør");
-        selectedProgramme.addCourse(new Course("Programmering"));
         
         if(fragmentList.isEmpty()) {
             fragmentList.add(new FrontPageFragment(FrontPageFragment.Type.PROGRAMME));
@@ -64,24 +79,7 @@ public class ProgrammeActivity extends MuldvarpActivity {
             fragmentList.add(new TextFragment(TextFragment.Type.HELP));
         }
         
-        actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        actionBar.setDisplayShowTitleEnabled(false);
-        
-        SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.programme_list,
-          android.R.layout.simple_spinner_dropdown_item);
-        
-        ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
-            String[] strings = getResources().getStringArray(R.array.programme_list);
-            
-            @Override
-            public boolean onNavigationItemSelected(int position, long itemId) {
-                return utils.changeFragment(activity, fragmentList, position);
-            }
-        };
-        
-        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+        getSpinnerList(this, fragmentList, R.array.programme_list, android.R.layout.simple_spinner_dropdown_item);
     }
     
     @Override
@@ -92,5 +90,40 @@ public class ProgrammeActivity extends MuldvarpActivity {
     @Override
     public Programme getSelectedProgramme() {
         return selectedProgramme;
+    }
+
+    @Override
+    public Info getInfo() {
+        return info;
+    }
+
+    @Override
+    public Help getHelp() {
+        return help;
+    }
+
+    @Override
+    public List<News> getNewsList() {
+        return newsList;
+    }
+
+    @Override
+    public List<Document> getDocumentList() {
+        return documentList;
+    }
+
+    @Override
+    public Requirement getRequirement() {
+        return req;
+    }
+
+    @Override
+    public Date getDate() {
+        return date;
+    }
+
+    @Override
+    public List<Video> getVideoList() {
+        return videoList;
     }
 }
