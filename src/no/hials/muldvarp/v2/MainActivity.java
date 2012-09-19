@@ -51,7 +51,6 @@ public class MainActivity extends MuldvarpActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
         
         icons = new int[] {
             R.drawable.stolen_contacts,
@@ -87,7 +86,6 @@ public class MainActivity extends MuldvarpActivity {
         fragmentList.add(new TextFragment(TextFragment.Type.HELP));
         
         actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setDisplayShowTitleEnabled(false);
 
@@ -99,6 +97,8 @@ public class MainActivity extends MuldvarpActivity {
 
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
+                if(rbmView.isMenuVisible())
+                    rbmView.hideMenu();
                 return utils.changeFragment(activity, fragmentList, position);
             }
         };
@@ -128,35 +128,6 @@ public class MainActivity extends MuldvarpActivity {
 //                        "Tema",
 //                        CourseListFragment.class)));
 //    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // app icon in action bar clicked; go home
-                Intent intent = new Intent(this, no.hials.muldvarp.v2.MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
-            case R.id.menu_settings:
-                Intent prefs = new Intent(this, MainPreferenceActivity.class);
-                prefs.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(prefs);
-                return true;
-            case R.id.login:
-                intent = new Intent(this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;    
-            case R.id.test:
-                intent = new Intent(this, DetailActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;        
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
     
     @Override
     public List<Programme> getProgrammeList() {
