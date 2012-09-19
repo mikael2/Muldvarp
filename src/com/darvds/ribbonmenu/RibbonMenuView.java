@@ -26,6 +26,7 @@ public class RibbonMenuView extends LinearLayout {
 
 	private ListView rbmListView;
 	private View rbmOutsideView;
+        private LinearLayout loginlayout;
 	
 	private iRibbonMenuCallback callback;
 	
@@ -79,6 +80,7 @@ public class RibbonMenuView extends LinearLayout {
 		
 		rbmListView = (ListView) findViewById(R.id.rbm_listview);
 		rbmOutsideView = (View) findViewById(R.id.rbm_outside_view);
+                loginlayout = (LinearLayout) findViewById(R.id.loginlayout);
 				
 		rbmOutsideView.setOnClickListener(new OnClickListener() {
 			
@@ -137,21 +139,23 @@ public class RibbonMenuView extends LinearLayout {
 	
 	
 	public void showMenu(){
-		rbmOutsideView.setVisibility(View.VISIBLE);	
-				
+		rbmOutsideView.setVisibility(View.VISIBLE);
+                loginlayout.setVisibility(View.VISIBLE);
 		rbmListView.setVisibility(View.VISIBLE);	
 		rbmListView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rbm_in_from_left));
-		
+		loginlayout.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rbm_in_from_left));
 	}
 	
 	
 	public void hideMenu(){
 		
 		rbmOutsideView.setVisibility(View.GONE);
-		rbmListView.setVisibility(View.GONE);	
+		rbmListView.setVisibility(View.GONE);
+                
+                loginlayout.setVisibility(View.GONE);
 		
 		rbmListView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rbm_out_to_left));
-		
+		loginlayout.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rbm_out_to_left));
 	}
 	
 	
@@ -169,13 +173,12 @@ public class RibbonMenuView extends LinearLayout {
 		
 		menuItems = new ArrayList<RibbonMenuView.RibbonMenuItem>();
 		
-		
 		try{
 			XmlResourceParser xpp = getResources().getXml(menu);
 			
 			xpp.next();
 			int eventType = xpp.getEventType();
-			
+			int count = 0;
 			
 			while(eventType != XmlPullParser.END_DOCUMENT){
 				
@@ -194,7 +197,7 @@ public class RibbonMenuView extends LinearLayout {
 						
 						
 						RibbonMenuItem item = new RibbonMenuItem();
-						item.id = Integer.valueOf(resId.replace("@", ""));
+						item.id = count++;
 						item.text = resourceIdToString(textId);
 						item.icon = Integer.valueOf(iconId.replace("@", ""));
 						
