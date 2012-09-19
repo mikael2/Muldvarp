@@ -5,12 +5,8 @@
 package no.hials.muldvarp.v2;
 
 import android.os.Bundle;
-import android.widget.TextView;
-import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.domain.Document;
-import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.News;
-import no.hials.muldvarp.v2.domain.Video;
+import no.hials.muldvarp.v2.fragments.DetailFragment;
+import no.hials.muldvarp.v2.utility.utils;
 
 /**
  * This class defines a Activity used for displaying information about an item, 
@@ -19,38 +15,11 @@ import no.hials.muldvarp.v2.domain.Video;
  * @author johan
  */
 public class DetailActivity extends MuldvarpActivity {
-    private TextView textItemTitle;
-    private TextView textItemDescription;
     public enum Type {NEWS, VIDEO, DOCUMENTS}
-    Type type;
-    Domain item;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        type = Type.valueOf(getIntent().getType());
-        switch(type) {
-            case NEWS:
-                item = new News("Nyhetstittel", "Tekst");
-                setContentView(R.layout.v2_textlayout);
-                textItemTitle = (TextView) findViewById(R.id.title);
-                textItemDescription = (TextView) findViewById(R.id.text);
-                break;
-            case VIDEO:
-                item = new Video("Videotittel", "Beskrivelse");
-                setContentView(R.layout.metadata);
-                textItemTitle = (TextView) findViewById(R.id.item_title);
-                textItemDescription = (TextView) findViewById(R.id.item_description);
-                break;
-            case DOCUMENTS:
-                item = new Document("Dokumenttittel", "Beskrivelse");
-                setContentView(R.layout.metadata);
-                textItemTitle = (TextView) findViewById(R.id.item_title);
-                textItemDescription = (TextView) findViewById(R.id.item_description);
-                break;
-        }
-        getActionBar().setTitle(item.getName());
-        textItemTitle.setText(item.getName());
-        textItemDescription.setText(item.getDetail());
+        utils.changeFragmentWithoutList(this, new DetailFragment(), RESULT_OK);
     }
 }
