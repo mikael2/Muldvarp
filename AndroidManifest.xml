@@ -10,7 +10,7 @@
               android:targetSdkVersion="14" />
     <application android:label="@string/app_name" android:icon="@drawable/mole_icon"
                  android:debuggable="true" android:theme="@android:style/Theme.Holo.Light">
-        <activity android:name=".v2.TopActivity"
+        <activity android:name=".v2.MainActivity"
                   android:label="@string/app_name">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
