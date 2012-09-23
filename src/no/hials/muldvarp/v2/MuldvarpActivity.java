@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import java.util.List;
@@ -65,6 +66,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
         rbmView.setMenuItems(R.menu.ribbon_menu);
+        TextView loginname = (TextView) findViewById(R.id.loginname);
+        loginname.setText("Ola Nordmann");
         
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -169,9 +172,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     
     @Override
     public void RibbonMenuItemClick(int itemId) {
-        itemId = itemId % 10;
         switch(itemId) {
-            case 1:
+            case 0:
                 Intent intent = new Intent(this, ProgrammeActivity.class);
                 intent.putExtra("tab", 3);
                 startActivity(intent);
