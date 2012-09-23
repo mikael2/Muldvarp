@@ -4,7 +4,9 @@
  */
 package no.hials.muldvarp.v2.domain;
 
-public class Domain {
+import java.io.Serializable;
+
+public class Domain implements Serializable {
     Integer id;
     String name;
     String detail;

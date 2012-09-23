@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.QuizActivity;
+import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.*;
 import no.hials.muldvarp.v2.testClasses.TopActivity;
 
@@ -19,6 +20,23 @@ import no.hials.muldvarp.v2.testClasses.TopActivity;
  * @author johan
  */
 public class DummyDataProvider {
+    
+    MuldvarpDataSource muldvarpDataSource;
+    
+    public static ArrayList<Domain> getFromDatabase(Context context){
+        
+        MuldvarpDataSource muldvarpDataSource = new MuldvarpDataSource(context);
+        muldvarpDataSource.open();
+        
+        muldvarpDataSource.createprogramme("hurrrrrr5");
+        muldvarpDataSource.createprogramme("hurrrrrr4");
+        muldvarpDataSource.createprogramme("hurrrrrr3");
+        muldvarpDataSource.createprogramme("hurrrrrr2");
+        muldvarpDataSource.createprogramme("hurrrrrr1");
+        
+        return muldvarpDataSource.getAllProgrammes();
+        
+    }
     
     //Return list of programmes. Should be rewritten to just accept something else than a context.
     public static ArrayList<Domain> getProgrammeList(Context context){
