@@ -6,9 +6,13 @@ package no.hials.muldvarp.v2;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,6 +34,7 @@ import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Requirement;
 import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.utility.utils;
+import android.widget.PopupWindow;
 
 /**
  *
@@ -135,9 +140,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 startActivity(prefs);
                 return true;
             case R.id.login:
-                intent = new Intent(this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                showDialog(0);
                 return true;    
             case R.id.test:
                 intent = new Intent(this, DetailActivity.class);
@@ -147,6 +150,14 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.login);
+        dialog.setTitle("Login");
+        return dialog;
     }
     
     @Override

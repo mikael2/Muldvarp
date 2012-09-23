@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="5dip" >
+    <GridLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/grid"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:columnCount="2">
+    <TextView
+        android:id="@+id/logintext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Velkommen til Muldvarp."
+        android:textSize="33px" />
+    <EditText android:id="@+id/serverpath" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="serverpath"
+        android:inputType="text"
+        android:maxLines="1"
+        android:layout_below="@id/logintext"/>
+    <EditText android:id="@+id/username" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="username"
+        android:inputType="text"
+        android:maxLines="1"
+        android:layout_below="@id/serverpath"/>
+    <EditText android:id="@+id/password" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="password"
+        android:inputType="text"
+        android:maxLines="1"
+        android:layout_below="@id/username"/>
+     <Button android:id="@+id/login" 
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Login"
+        android:onClick="logIn"
+        android:layout_below="@id/password" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/login"
+            android:layout_below="@id/password">
+            <CheckBox android:id="@+id/rememberme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" 
+                android:layout_below="@id/password"/>
+            <TextView
+                android:id="@+id/remembermetext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Husk meg"
+                android:textSize="33px"
+                android:layout_toLeftOf="@id/rememberme" />
+        </LinearLayout>
+        </GridLayout>
+</RelativeLayout>
