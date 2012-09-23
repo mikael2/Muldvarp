@@ -6,17 +6,9 @@
     android:orientation="vertical"
     android:focusable="true" 
     android:focusableInTouchMode="true" >
-        
-        <!--
-    <EditText android:id="@+id/search_box" 
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="type to filter"
-            android:inputType="text"
-            android:maxLines="1"/>
-            -->
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android" 
+        android:layoutAnimation="@anim/layout_list_slide_right"
         android:id="@+id/layoutlistview"
         android:layout_width="fill_parent" 
         android:layout_height="fill_parent"

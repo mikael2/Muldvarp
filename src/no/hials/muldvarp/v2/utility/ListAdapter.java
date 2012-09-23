@@ -84,8 +84,7 @@ public class ListAdapter extends ArrayAdapter {
     public void filter(CharSequence filter) {
         ArrayList filtered = new ArrayList();
         
-        for (Domain c : (ArrayList<Domain>)orig_items)
-        {
+        for (Domain c : (ArrayList<Domain>)orig_items) {
             if (c.getName().toLowerCase().contains(filter.toString().toLowerCase()))
             {
                 filtered.add(c);

@@ -10,6 +10,7 @@ public class Domain {
     String detail;
     String description;
     int icon;
+    Class activity;
 
     public Domain(String name) {
         this.name = name;
@@ -20,6 +21,14 @@ public class Domain {
         this.detail = detail;
         this.description = description;
         this.icon = icon;
+    }
+    
+    public Domain(String name, String detail, String description, int icon, Class activity) {
+        this.name = name;
+        this.detail = detail;
+        this.description = description;
+        this.icon = icon;
+        this.activity = activity;
     }
 
     public Integer getId() {
@@ -61,4 +70,14 @@ public class Domain {
     public void setIcon(int icon) {
         this.icon = icon;
     }
+
+    public Class getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Class activity) {
+        this.activity = activity;
+    }
+    
+    
 }

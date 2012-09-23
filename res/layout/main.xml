@@ -10,11 +10,13 @@
     android:orientation="vertical"
     android:gravity="bottom"
     android:padding="5dip" >
-        <TextView 
-            android:text="Development Build\nProject Muldvarp - Rodent Corporation - Ålesund University College"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="10dp"
-            android:gravity="center" />
+        
+    <TextView 
+        android:text="Development Build\nProject Muldvarp - Rodent Corporation - Ålesund University College"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:gravity="center" />
+        
     </LinearLayout>
 </FrameLayout>

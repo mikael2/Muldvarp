@@ -11,6 +11,7 @@
         android:textSize="30dp"
         android:gravity="center" />
     <GridView
+        android:layoutAnimation="@anim/layout_grid_scale_to_full"
         android:id="@+id/gridview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

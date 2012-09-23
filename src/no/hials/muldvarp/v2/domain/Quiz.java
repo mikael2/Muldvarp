@@ -10,16 +10,11 @@ import java.util.List;
  *
  * @author kristoffer
  */
-public class Quiz {
-    String name;
+public class Quiz extends Domain{
     List<Question> questions;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    
+    public Quiz(String name){
+        super(name);
     }
 
     public List<Question> getQuestions() {
