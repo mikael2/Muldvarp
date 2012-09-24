@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
+import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -46,21 +47,21 @@ public class TextFragment extends MuldvarpFragment {
     }
     
     public void itemsReady() {
-        switch(type) {
-            case REQUIREMENT:
-                item = activity.getRequirement();
-                break;
-            case HELP:
-                item = activity.getHelp();
-                break;
-            case DATE:
-                item = activity.getDate();
-                break;
-            case INFO:
-                item = activity.getInfo();
-                break;
-        }
-        title.setText(item.getName());
-        text.setText(Html.fromHtml(item.getDetail()));
+//        switch(type) {
+//            case REQUIREMENT:
+//                item = owningActivity.getRequirement();
+//                break;
+//            case HELP:
+//                item = owningActivity.getHelp();
+//                break;
+//            case DATE:
+//                item = owningActivity.getDate();
+//                break;
+//            case INFO:
+//                item = owningActivity.getInfo();
+//                break;
+//        }
+//        title.setText(item.getName());
+//        text.setText(Html.fromHtml(item.getDetail()));
     }
 }

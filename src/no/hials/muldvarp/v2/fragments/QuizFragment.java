@@ -4,6 +4,8 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
+import no.hials.muldvarp.v2.fragments.deprecated.MuldvarpFragment;
+
 /**
  *
  * @author kristoffer

@@ -36,7 +36,7 @@ public class DetailFragment extends MuldvarpFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        detailactivity = (DetailActivity)this.activity;
+        detailactivity = (DetailActivity) this.owningActivity;
         type = Type.valueOf(detailactivity.getIntent().getType());
         switch(type) {
             case NEWS:

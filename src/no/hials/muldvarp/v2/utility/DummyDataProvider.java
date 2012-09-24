@@ -11,7 +11,7 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.QuizActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.*;
-import no.hials.muldvarp.v2.testClasses.TopActivity;
+import no.hials.muldvarp.v2.TopActivity;
 
 /**
  *  Temporary class to provide already formatted data based on String arrays in XML files.

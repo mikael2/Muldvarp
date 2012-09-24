@@ -16,7 +16,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.LibraryItem;
-import no.hials.muldvarp.v2.MuldvarpActivity;
+import no.hials.muldvarp.v2.deprecated.MuldvarpActivity;
 
 /**
  *

@@ -21,29 +21,21 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
-import no.hials.muldvarp.v2.domain.Course;
-import no.hials.muldvarp.v2.domain.Date;
-import no.hials.muldvarp.v2.domain.Document;
-import no.hials.muldvarp.v2.domain.Help;
-import no.hials.muldvarp.v2.domain.Info;
-import no.hials.muldvarp.v2.domain.News;
-import no.hials.muldvarp.v2.domain.Programme;
-import no.hials.muldvarp.v2.domain.Requirement;
-import no.hials.muldvarp.v2.domain.Video;
+import no.hials.muldvarp.v2.DetailActivity;
+import no.hials.muldvarp.v2.ProgrammeActivity;
 import no.hials.muldvarp.v2.utility.utils;
 
 /**
  *
- * @author kristoffer
+ * @author johan
  */
 public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     Bundle savedInstanceState;
-    public int icons[];
     public RibbonMenuView rbmView;
     
     @Override
     public void onBackPressed() {
-        if(rbmView.isMenuVisible())
+         if(rbmView.isMenuVisible())
             rbmView.hideMenu();
         if(getActionBar().getSelectedNavigationIndex() > 0)
             getActionBar().setSelectedNavigationItem(0);
@@ -72,9 +64,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     @Override
     protected void onResume() {
         super.onResume();
-        if(getIntent().getIntExtra("tab", 0) > 0)
-            getActionBar().setSelectedNavigationItem(getIntent().getIntExtra("tab", 0));
-        else if(savedInstanceState != null)
+        if(savedInstanceState != null)
             getActionBar().setSelectedNavigationItem(savedInstanceState.getInt("tab"));
     }
     
@@ -84,46 +74,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
     
-    public List<Programme> getProgrammeList() {
-        return null;
-    }
-    
-    public List<Course> getCourseList() {
-        return null;
-    }
-    
-    public Programme getSelectedProgramme() {
-        return null;
-    }
-
-    public Requirement getRequirement() {
-        return null;
-    }
-
-    public Help getHelp() {
-        return null;
-    }
-
-    public Date getDate() {
-        return null;
-    }
-
-    public List<News> getNewsList() {
-        return null;
-    }
-
-    public List<Video> getVideoList() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public List<Document> getDocumentList() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public Info getInfo() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = null;
@@ -188,4 +138,5 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         };
         getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
     }
+    
 }

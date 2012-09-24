@@ -9,69 +9,92 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
+import java.util.ArrayList;
+import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.CourseActivity;
-import no.hials.muldvarp.v2.ProgrammeActivity;
+import no.hials.muldvarp.v2.TopActivity;
 
 /**
- *
- * @author kristoffer
+ * This class defines a MuldvarpFragment which purpose is to store data and provide logic
+ * to display a gridview of Fragment selections in a MuldvarpActivity.
+ * This Fragment does not actually handle any switching of fragments.
+ * 
+ * @author johan
  */
 public class FrontPageFragment extends MuldvarpFragment {
+    
     FrontPageFragment.ImageAdapter adapter;
-    public enum Type {MAIN, PROGRAMME, COURSE, TASK}
-    Type type;
-    int stringlist;
-    String title = "Høgskolen i Ålesund";
-
-    public FrontPageFragment(Type type) {
-        this.type = type;
+    TopActivity topActivity;
+    List<MuldvarpFragment> currentFragmentList;
+    List<MuldvarpFragment> fragmentList;
+    
+    public FrontPageFragment(){
+        
+    }
+    
+    /**
+     * Constructor for the FrontPageFragment class.
+     * 
+     * @param iconIesourceID 
+     */
+    public FrontPageFragment(String fragmentTitle, int iconResourceID) {
+        super.fragmentTitle = fragmentTitle;
+        super.iconResourceID = iconResourceID;
     }
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        switch(type) {
-            case MAIN:
-                stringlist = R.array.main_list;
-                break;
-            case PROGRAMME:
-                ProgrammeActivity progactivity = (ProgrammeActivity)FrontPageFragment.this.getActivity();
-                title = progactivity.getSelectedProgramme().getName();
-                stringlist = R.array.programme_list;
-                break;
-            case COURSE:
-                CourseActivity courseactivity = (CourseActivity)FrontPageFragment.this.getActivity();
-                title = courseactivity.getSelectedCourse().getName();
-                stringlist = R.array.course_list;
-                break;
-        }
+        
+        //set some stuff, neato burrito
+        topActivity = (TopActivity) owningActivity;        
+        currentFragmentList = getFragments();
+        fragmentList = currentFragmentList;
         
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
-
-        GridView gridview = (GridView) retVal.findViewById(R.id.gridview);
-        TextView textView = (TextView) retVal.findViewById(R.id.textview);
         
-        textView.setText(title);
+        GridView gridview = (GridView) retVal.findViewById(R.id.gridview);
+        TextView headerTitle = (TextView) retVal.findViewById(R.id.textview);   
+        
+        fragmentTitle = topActivity.activityName;
+        headerTitle.setText(fragmentTitle);      
     
         adapter = new FrontPageFragment.ImageAdapter(getActivity());
         gridview.setAdapter(adapter);
         
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                activity.getActionBar().setSelectedNavigationItem(position+1);
+                owningActivity.getActionBar().setSelectedNavigationItem(position+1);
             }
         });
         
         return retVal;
     }
+    
+    public ArrayList<MuldvarpFragment> getFragments() {
+        
+        ArrayList<MuldvarpFragment> retVal = new ArrayList<MuldvarpFragment>();
+        
+        for (int i = 1; i < topActivity.fragmentList.size(); i++) {
+            
+            retVal.add(topActivity.fragmentList.get(i));
+        }
+        
+        return retVal;
+    }
+    
+    @Override
+    public void queryText(String text){
+        
+        if(adapter!= null) {
+            
+            adapter.filter(text);
+        }
+        
+    }
 
     class ImageAdapter extends BaseAdapter {
-
+        
         private Context mContext;
 
         public ImageAdapter(Context c) {
@@ -79,11 +102,16 @@ public class FrontPageFragment extends MuldvarpFragment {
         }
 
         public int getCount() {
-            return activity.icons.length;
+                
+            return currentFragmentList.size();
         }
 
         public Object getItem(int position) {
-            return activity.icons[position];
+            
+            MuldvarpFragment muldvarpFragment = (MuldvarpFragment) currentFragmentList.get(position);
+                        
+            return muldvarpFragment.getIconResourceID();
+
         }
 
         public long getItemId(int position) {
@@ -98,14 +126,33 @@ public class FrontPageFragment extends MuldvarpFragment {
                 retVal = li.inflate(R.layout.desktop_icon, null);
                 ImageView imageView = (ImageView) retVal.findViewById(R.id.grid_item_image);
                 TextView  textView  = (TextView) retVal.findViewById(R.id.grid_item_label);
-
-                imageView.setImageResource(activity.icons[position]);
-                textView.setText(getResources().getStringArray(stringlist)[position+1]);
+             
+                imageView.setImageResource(currentFragmentList.get(position).getIconResourceID());
+                textView.setText(currentFragmentList.get(position).getFragmentTitle());
             } else {
                 retVal = convertView;
             }
 
             return retVal;
+        }
+        
+        public void filter(CharSequence filterText) {
+                        
+            ArrayList filtered = new ArrayList();
+        
+            for (MuldvarpFragment m : (ArrayList<MuldvarpFragment>) fragmentList) {
+                if (m.getFragmentTitle().toLowerCase().contains(filterText.toString().toLowerCase())) {
+                    filtered.add(m);
+                }
+            }
+
+            currentFragmentList = filtered;
+
+            if("".equals(filterText.toString())) {
+                currentFragmentList = fragmentList;
+            }
+
+            notifyDataSetChanged();   
         }
     }
 }

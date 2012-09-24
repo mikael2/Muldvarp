@@ -10,11 +10,20 @@ import android.os.Bundle;
 import no.hials.muldvarp.v2.MuldvarpActivity;
 
 /**
- *
- * @author kristoffer
+ * This class defines a Fragment in the context of the Muldvarp application.
+ * It contains global variables with get/set methods and logic common for all Fragments that are
+ * used in the Muldvarp application.
+ * 
+ * @author johan
  */
 public class MuldvarpFragment extends Fragment {
-    MuldvarpActivity activity;
+    
+    //Global variables
+    MuldvarpActivity owningActivity;
+    String fragmentTitle;
+    int iconResourceID;    
+    String searchQuery;
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,6 +34,28 @@ public class MuldvarpFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (MuldvarpActivity)activity;
+        this.owningActivity = (MuldvarpActivity) activity;
     }
+    
+    public void queryText(String text){
+        System.out.println("Not yet Implemented, override in Fragment");
+    }
+    
+    public int getIconResourceID() {
+        return iconResourceID;
+    }
+
+    public void setIconResourceID(int iconResourceID) {
+        this.iconResourceID = iconResourceID;
+    }
+
+    public String getFragmentTitle() {
+        return fragmentTitle;
+    }
+
+    public void setFragmentTitle(String fragmentTitle) {
+        this.fragmentTitle = fragmentTitle;
+    }
+    
+    
 }

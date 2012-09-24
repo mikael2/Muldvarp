@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.v2;
 
+import no.hials.muldvarp.v2.deprecated.MuldvarpActivity;
 import android.app.Fragment;
 import android.os.Bundle;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ import no.hials.muldvarp.v2.domain.News;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Requirement;
 import no.hials.muldvarp.v2.domain.Video;
-import no.hials.muldvarp.v2.fragments.FrontPageFragment;
-import no.hials.muldvarp.v2.fragments.ListFragment;
+import no.hials.muldvarp.v2.fragments.deprecated.FrontPageFragment;
+import no.hials.muldvarp.v2.fragments.deprecated.ListFragment;
 import no.hials.muldvarp.v2.fragments.QuizFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
 
