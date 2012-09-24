@@ -7,7 +7,6 @@ package no.hials.muldvarp.v2;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,9 +20,8 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
-import no.hials.muldvarp.v2.DetailActivity;
-import no.hials.muldvarp.v2.ProgrammeActivity;
-import no.hials.muldvarp.v2.utility.utils;
+import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
+import no.hials.muldvarp.v2.utility.testUtils;
 
 /**
  *
@@ -64,7 +62,9 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     @Override
     protected void onResume() {
         super.onResume();
-        if(savedInstanceState != null)
+        if(getIntent().getIntExtra("tab", 0) > 0)
+            getActionBar().setSelectedNavigationItem(getIntent().getIntExtra("tab", 0));
+        else if(savedInstanceState != null)
             getActionBar().setSelectedNavigationItem(savedInstanceState.getInt("tab"));
     }
     
@@ -119,21 +119,21 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     public void RibbonMenuItemClick(int itemId) {
         switch(itemId) {
             case 0:
-                Intent intent = new Intent(this, ProgrammeActivity.class);
+                Intent intent = new Intent(this, TopActivity.class);
                 intent.putExtra("tab", 3);
                 startActivity(intent);
                 break;
         }
     }
     
-    public void getSpinnerList(final Activity activity, final List<Fragment> fragmentList, int strings, int layout) {
+    public void getSpinnerList(final Activity activity, final List<MuldvarpFragment> fragmentList, int strings, int layout) {
         SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, strings, layout);
         ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
                 if(rbmView.isMenuVisible())
                     rbmView.hideMenu();
-                return utils.changeFragment(activity, fragmentList, position);
+                return testUtils.changeFragment(activity, fragmentList, position);
             }
         };
         getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);

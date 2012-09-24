@@ -47,7 +47,7 @@ public class TopActivity extends MuldvarpActivity{
         
         super.onCreate(icicle);             
         //Set layout according to xml resource
-        setContentView(R.layout.main);
+//        setContentView(R.layout.main);
                 
         //See if the Activity was started with an Intent that included a Domain object
         if(getIntent().hasExtra("Domain")){
@@ -109,30 +109,6 @@ public class TopActivity extends MuldvarpActivity{
         return true;
     }
 
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // app icon in action bar clicked; go home
-                Intent intent = new Intent(this, no.hials.muldvarp.v2.TopActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
-            case R.id.menu_settings:
-                Intent prefs = new Intent(this, MuldvarpPreferenceActivity.class);
-                prefs.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(prefs);
-                return true;
-            case R.id.test:
-                intent = new Intent(this, QuizActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;        
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }   
     
     @Override
     protected void onSaveInstanceState(Bundle outState) {

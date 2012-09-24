@@ -15,8 +15,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.CourseActivity;
-import no.hials.muldvarp.v2.ProgrammeActivity;
+import no.hials.muldvarp.v2.deprecated.CourseActivity;
+import no.hials.muldvarp.v2.deprecated.ProgrammeActivity;
 
 /**
  *

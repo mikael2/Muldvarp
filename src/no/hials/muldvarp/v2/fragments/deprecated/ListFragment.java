@@ -19,9 +19,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.CourseActivity;
+import no.hials.muldvarp.v2.deprecated.CourseActivity;
 import no.hials.muldvarp.v2.DetailActivity;
-import no.hials.muldvarp.v2.ProgrammeActivity;
+import no.hials.muldvarp.v2.deprecated.ProgrammeActivity;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
