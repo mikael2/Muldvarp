@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="Login"
-        android:onClick="logIn"
+        android:clickable="true"
         android:layout_below="@id/password" />
         <LinearLayout
             android:layout_width="wrap_content"

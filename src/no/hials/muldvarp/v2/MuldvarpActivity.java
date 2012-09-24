@@ -7,19 +7,31 @@ package no.hials.muldvarp.v2;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
+import no.hials.muldvarp.v2.MuldvarpService.LocalBinder;
+import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.domain.Person_v2;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.testUtils;
 
@@ -30,6 +42,12 @@ import no.hials.muldvarp.v2.utility.testUtils;
 public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     Bundle savedInstanceState;
     public RibbonMenuView rbmView;
+    MuldvarpService mService;
+    boolean mBound = false;
+    boolean loggedIn = false;
+    TextView loginname;
+    
+    
     
     @Override
     public void onBackPressed() {
@@ -51,12 +69,16 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
         rbmView.setMenuItems(R.menu.ribbon_menu);
-        TextView loginname = (TextView) findViewById(R.id.loginname);
-        loginname.setText("Ola Nordmann");
+
+        loginname = (TextView) findViewById(R.id.loginname);
+        loginname.setText("ikke innlogget");
         
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getActionBar().setDisplayShowTitleEnabled(false);
+        
+        Intent intent = new Intent(this, MuldvarpService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -100,11 +122,37 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         }
     }
 
+    /**
+     * Method onCreateDialog, of class MuldvarpActivity.
+     * This method displays a focusable dialog on top of the current view.
+     * Enter the id of the desired dialog.
+     * 0: Login dialog
+     * No further dialogs supported for now.
+     * @param id
+     * @return Dialog
+     */
     @Override
     protected Dialog onCreateDialog(int id) {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.login);
-        dialog.setTitle("Login");
+        final Dialog dialog = new Dialog(this);
+        switch(id){
+            case 0:                                                                                     //Displays the Login dialog to the user.
+                dialog.setContentView(R.layout.login);
+                final Button button;
+                button = (Button) dialog.findViewById(R.id.login);
+                 button.setOnClickListener(new View.OnClickListener() {
+                     public void onClick(View v) {
+                        EditText username = (EditText)dialog.findViewById(R.id.username);
+                        EditText password = (EditText)dialog.findViewById(R.id.password);
+                        mService.login(username.getText().toString(), password.getText().toString());   //Sends the logindata to muldvarpservice which authenticates the user, and then stores the user data.
+                        loggedIn = true;                                                                //Sets the flag which indicates that the user is logged in.
+                        loginname.setText(mService.getUser().getName());                                //Sets the users name in the ribbon menu.
+                        Toast toast = Toast.makeText(getApplicationContext(), "logged in as: " + mService.getUser().getName(), Toast.LENGTH_SHORT);
+                        toast.show();                                                                   //Tells the user that he/she is logged in.
+                        dialog.dismiss();
+                        
+             }
+         });
+        }
         return dialog;
     }
     
@@ -139,4 +187,38 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
     }
     
+    
+     private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            LocalBinder binder = (LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
+     
+     /**
+      * Returns the Muldvarpservice object reference.
+      * Typically used by the activity's fragments.
+      * @return MuldvarpService
+      */
+     public MuldvarpService getService(){
+         return mService;
+     }
+     
+     /**
+      * Returns true if the user is logged in.
+      * @return loggedIn
+      */
+     public boolean getLoggedIn(){
+         return loggedIn;
+     }
 }

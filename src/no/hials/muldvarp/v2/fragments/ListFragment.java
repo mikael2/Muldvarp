@@ -4,8 +4,10 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
+import android.app.AlertDialog;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import no.hials.muldvarp.v2.utility.ListAdapter;
@@ -103,14 +106,53 @@ public class ListFragment extends MuldvarpFragment {
                 }
                 
                 
-            }  
+            }
         });
-    }
+        
+        
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {   //triggers if a listitem is pressed and held.
+            Domain selectedItem = items.get(pos);                                       //Saves the clicked item in the selectedItem variable.
+            if(owningActivity.getLoggedIn() && selectedItem instanceof Course | true){  //TEST: remove the "| true" when the course level is working. - If the long-clicked item is a course, it is added to the users list of courses.
+ //               Course course = (Course) selectedItem;                                //TEST: remove this comment line when the course level is working.
+                createDialog(selectedItem);                                             //Creates a new alertDialog asking whether the user wants to add the course to his/her favourites.
+                return true;                                                            //Tells the activity that the click has been "consumed", meaning that onItemClick should not be triggered.
+        }
+            else{                                                                       //If the clicked item isn't a course
+                return false;                                                           //Tells the activity that the click has not been "consumed", meaning that onItemClick will be triggered.
+            }   
+        }
+    });
+
+  }
+    
     
     @Override
     public void queryText(String text){
         
         listAdapter.filter(text);
     }
+    
+    public void createDialog(final Domain c){                                                        //TEST: Change the argument type for this method to Course when the course level works
+        AlertDialog.Builder builder = new AlertDialog.Builder(owningActivity);
+        builder.setMessage("vil du legge til " + c.getName() + " i mine fag?")
+               .setCancelable(false)
+               .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                        //owningActivity.getService().getUser().addCourse(c);                        //TEST: uncomment this line when the course level works.
+                        Toast toast = Toast.makeText(fragmentView.getContext(),                      //Shows a short toast to the user as feedback, telling him/her that the course has been added to the user list.
+                        "Faget " + c.getName() + " er lagt til i mine fag.", Toast.LENGTH_SHORT);
+                        toast.show();
+                   }
+               })
+               .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();                                                              //Dismisses the dialog without doing anything.
+                   }
+               });
+        AlertDialog alert = builder.create();
+        alert.show();
+            }
 
 }

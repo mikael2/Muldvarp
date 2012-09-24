@@ -11,6 +11,7 @@ import android.util.Base64;
 import no.hials.muldvarp.*;
 import no.hials.muldvarp.asyncutilities.CachedWebRequest;
 import no.hials.muldvarp.utility.DownloadTask;
+import no.hials.muldvarp.v2.domain.Person_v2;
 
 /**
  *
@@ -33,6 +34,7 @@ public class MuldvarpService extends Service {
     public static final String ACTION_PROGRAMMES_LOAD     = "no.hials.muldvarp.ACTION_PROGRAMMES_LOAD";
     public static final String ACTION_UPDATE_FAILED       = "no.hials.muldvarp.ACTION_UPDATE_FAILED";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
+    private Person_v2 user;
     
     
     // Binder given to clients
@@ -192,4 +194,24 @@ public class MuldvarpService extends Service {
     }
     
     
+    public void login(String name, String password){
+        if(checkCredentials(name, password)){
+            user = new Person_v2(name, password);
+        }
+    }
+    
+    /**
+     * implement security here!
+     * @param id
+     * @param password
+     * @return 
+     */
+    public boolean checkCredentials(String username, String password){
+        return true;
+    }
+    
+    public Person_v2 getUser(){
+        return user;
+    }
+
 }
