@@ -43,10 +43,11 @@ public class MuldvarpSQLDatabaseHelper extends SQLiteOpenHelper {
 
     public MuldvarpSQLDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        context.deleteDatabase(DATABASE_NAME);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase database) {
+    public void onCreate(SQLiteDatabase database) {        
         database.execSQL(DATABASE_CREATE);
     }
 
