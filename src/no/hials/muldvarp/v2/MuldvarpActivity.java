@@ -8,11 +8,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +19,6 @@ import android.widget.TextView;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import java.util.List;
-import no.hials.muldvarp.LoginActivity;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
 import no.hials.muldvarp.v2.domain.Course;
@@ -35,7 +31,6 @@ import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Requirement;
 import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.utility.utils;
-import android.widget.PopupWindow;
 
 /**
  *
