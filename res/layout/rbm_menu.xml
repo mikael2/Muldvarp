@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+    android:id="@+id/loginlayout"
+    android:layout_width="@dimen/rbm_menu_width"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/rbm_menu_background"
+    android:visibility="gone">
+        <TextView
+        android:id="@+id/logindesc"
+        android:text="Innlogget som:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textColor="@color/rbm_item_text_color" />
+    <TextView 
+        android:id="@+id/loginname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textColor="@color/rbm_item_text_color" />
+        
+    </LinearLayout>
+    
+    
+    <ListView 
+        android:id="@+id/rbm_listview"
+        android:layout_width="@dimen/rbm_menu_width"
+        android:layout_height="match_parent" 
+        android:background="@color/rbm_menu_background"   
+        android:visibility="gone"
+        android:cacheColorHint="#00000000">
+    </ListView>    
+    
+    <!-- simple drop shadow -->
+    <View 
+        android:id="@+id/rbm_outside_view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"        
+        android:layout_weight="1"
+        android:clickable="true"
+        android:visibility="gone"
+        />
+    
+    
+
+</LinearLayout>

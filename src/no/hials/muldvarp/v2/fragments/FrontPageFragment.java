@@ -15,7 +15,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.courses.CourseActivity;
+import no.hials.muldvarp.v2.CourseActivity;
 import no.hials.muldvarp.v2.ProgrammeActivity;
 
 /**
@@ -27,7 +27,7 @@ public class FrontPageFragment extends MuldvarpFragment {
     public enum Type {MAIN, PROGRAMME, COURSE, TASK}
     Type type;
     int stringlist;
-    String title = "Høgskulen i Ålesund";
+    String title = "Høgskolen i Ålesund";
 
     public FrontPageFragment(Type type) {
         this.type = type;
@@ -46,8 +46,9 @@ public class FrontPageFragment extends MuldvarpFragment {
                 break;
             case COURSE:
                 CourseActivity courseactivity = (CourseActivity)FrontPageFragment.this.getActivity();
-                title = "heisann";
+                title = courseactivity.getSelectedCourse().getName();
                 stringlist = R.array.course_list;
+                break;
         }
         
         View retVal = inflater.inflate(R.layout.desktop_fragment, container, false);
