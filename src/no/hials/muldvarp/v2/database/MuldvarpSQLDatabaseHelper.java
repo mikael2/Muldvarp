@@ -16,17 +16,29 @@ import android.util.Log;
  */
 public class MuldvarpSQLDatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String TABLE_PROGRAMMES = "programmes";
+    //General
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_PROGRAMME = "programme";
-
+    public static final String COLUMN_NAME = "_name";
+    public static final String COLUMN_UPDATED = "_updated";
     private static final String DATABASE_NAME = "muldvarp.db";
     private static final int DATABASE_VERSION = 1;
+    //Programmes
+    public static final String TABLE_PROGRAMME = "programmes";    
+    public static final String COLUMN_PROGRAMME_NAME = "name";    
+    //Courses
+    public static final String TABLE_COURSES = "courses";    
+    public static final String COLUMN_COURSENAME = "name";    
+    //Quizzes
+    public static final String TABLE_QUIZ = "Quiz";    
+    public static final String COLUMN_QUIZNAME = "quizname";    
+    
+    
+    
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
-        + TABLE_PROGRAMMES + "(" + COLUMN_ID
-        + " integer primary key autoincrement, " + COLUMN_PROGRAMME
+        + TABLE_PROGRAMME + "(" + COLUMN_ID
+        + " integer primary key autoincrement, " + COLUMN_PROGRAMME_NAME
         + " text not null);";
 
     public MuldvarpSQLDatabaseHelper(Context context) {
@@ -43,7 +55,7 @@ public class MuldvarpSQLDatabaseHelper extends SQLiteOpenHelper {
         Log.w(MuldvarpSQLDatabaseHelper.class.getName(),
             "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROGRAMMES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROGRAMME);
         onCreate(db);
     }
 

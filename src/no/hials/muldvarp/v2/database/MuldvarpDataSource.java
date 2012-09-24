@@ -10,12 +10,11 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
-import java.util.List;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
 
 /**
- *
+ * This class is responsible for managing the SQLITE datasource.
  * @author johan
  */
 public class MuldvarpDataSource {
@@ -24,7 +23,7 @@ public class MuldvarpDataSource {
   private SQLiteDatabase database;
   private MuldvarpSQLDatabaseHelper dbHelper;
   private String[] allColumns = { MuldvarpSQLDatabaseHelper.COLUMN_ID,
-      MuldvarpSQLDatabaseHelper.COLUMN_PROGRAMME };
+      MuldvarpSQLDatabaseHelper.COLUMN_PROGRAMME_NAME };
 
   public MuldvarpDataSource(Context context) {
     dbHelper = new MuldvarpSQLDatabaseHelper(context);
@@ -40,10 +39,10 @@ public class MuldvarpDataSource {
 
   public Programme createprogramme(String programme) {
     ContentValues values = new ContentValues();
-    values.put(MuldvarpSQLDatabaseHelper.COLUMN_PROGRAMME, programme);
-    long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMMES, null,
+    values.put(MuldvarpSQLDatabaseHelper.COLUMN_PROGRAMME_NAME, programme);
+    long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, null,
         values);
-    Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMMES,
+    Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
         allColumns, MuldvarpSQLDatabaseHelper.COLUMN_ID + " = " + insertId, null,
         null, null, null);
     cursor.moveToFirst();
@@ -55,14 +54,14 @@ public class MuldvarpDataSource {
   public void deleteProgramme(Programme programme) {
     long id = programme.getId();
     System.out.println("programme deleted with id: " + id);
-    database.delete(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMMES, MuldvarpSQLDatabaseHelper.COLUMN_ID
+    database.delete(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, MuldvarpSQLDatabaseHelper.COLUMN_ID
         + " = " + id, null);
   }
 
   public ArrayList<Domain> getAllProgrammes() {
     ArrayList<Domain> programmes = new ArrayList<Domain>();
 
-    Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMMES,
+    Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
         allColumns, null, null, null, null, null);
 
     cursor.moveToFirst();
