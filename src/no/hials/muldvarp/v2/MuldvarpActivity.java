@@ -33,9 +33,9 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     
     @Override
     public void onBackPressed() {
-         if(rbmView.isMenuVisible())
+        if(rbmView.isMenuVisible())
             rbmView.hideMenu();
-        if(getActionBar().getSelectedNavigationIndex() > 0)
+        else if(getActionBar().getSelectedNavigationIndex() > 0)
             getActionBar().setSelectedNavigationItem(0);
         else
             super.onBackPressed();
@@ -55,6 +55,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         loginname.setText("Ola Nordmann");
         
         getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getActionBar().setDisplayShowTitleEnabled(false);
     }
