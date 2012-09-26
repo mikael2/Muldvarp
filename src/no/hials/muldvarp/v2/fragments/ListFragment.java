@@ -18,8 +18,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.domain.Task;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
@@ -71,7 +74,17 @@ public class ListFragment extends MuldvarpFragment {
 
         //If the items are empty, add temporary dummydata from database
         if(items.isEmpty()) {
-            items.addAll(DummyDataProvider.getFromDatabase(owningActivity));                    
+            if(owningActivity.domain == null) {
+                items.addAll(DummyDataProvider.getFromDatabase(owningActivity));
+            } else if(owningActivity.domain instanceof Programme) {
+                List<Course> courseList = new ArrayList<Course>();
+                courseList.add(new Course("Matte"));
+                items.addAll(courseList);
+            } else if(owningActivity.domain instanceof Course) {
+                List<Task> taskList = new ArrayList<Task>();
+                taskList.add(new Task("Integrering"));
+                items.addAll(taskList);
+            }
         }
         
         listView.setAdapter(new ListAdapter(
@@ -89,16 +102,18 @@ public class ListFragment extends MuldvarpFragment {
                 //The idea is that one click should start a corresponding activity.
                 Domain selectedItem = items.get(position);
                 
-                if(selectedItem.getActivity() != null){
+                if(selectedItem.getActivity() != null) {
                     destination = selectedItem.getActivity();
                     Intent myIntent = new Intent(view.getContext(), destination);
                     myIntent.putExtra("Domain", selectedItem);
                     startActivityForResult(myIntent, 0);
                 } else {
-                    
+                    Intent myIntent = new Intent(view.getContext(), TopActivity.class);
+                    myIntent.putExtra("Domain", selectedItem);
+                    startActivityForResult(myIntent, 0);
                     //Burde erstattes med en feilbeskjed fra en string i xml-fil
-                    Toast show = Toast.makeText(owningActivity, "Muldvarp vet ikke hvordan det skal åpne dette innlegget.", Toast.LENGTH_SHORT);
-                    show.show();
+//                    Toast show = Toast.makeText(owningActivity, "Muldvarp vet ikke hvordan det skal åpne dette innlegget.", Toast.LENGTH_SHORT);
+//                    show.show();
                 }
                 
                 
