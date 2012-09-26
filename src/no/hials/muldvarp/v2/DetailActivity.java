@@ -15,7 +15,6 @@ import no.hials.muldvarp.v2.utility.FragmentUtils;
  * @author johan
  */
 public class DetailActivity extends MuldvarpActivity {
-    public enum Type {NEWS, VIDEO, DOCUMENTS}
     
     /**
      * Called when the activity is first created.
@@ -25,4 +24,5 @@ public class DetailActivity extends MuldvarpActivity {
         super.onCreate(savedInstanceState);
         FragmentUtils.changeFragmentWithoutList(this, new DetailFragment());
     }
+    
 }

@@ -14,11 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.DetailActivity;
-import no.hials.muldvarp.v2.DetailActivity.Type;
-import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.News;
-import no.hials.muldvarp.v2.domain.Video;
 
 /**
  *
@@ -29,7 +25,6 @@ public class DetailFragment extends MuldvarpFragment {
     DetailActivity detailactivity;
     private TextView textItemTitle;
     private TextView textItemDescription;
-    DetailActivity.Type type;
     Domain item;
     
 
@@ -37,29 +32,35 @@ public class DetailFragment extends MuldvarpFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         detailactivity = (DetailActivity) this.owningActivity;
-        type = Type.valueOf(detailactivity.getIntent().getType());
-        switch(type) {
-            case NEWS:
-                item = new News("Nyhetstittel", "Tekst");
-                fragmentView = inflater.inflate(R.layout.v2_textlayout, container, false);
-                textItemTitle = (TextView) fragmentView.findViewById(R.id.title);
-                textItemDescription = (TextView) fragmentView.findViewById(R.id.text);
-                break;
-            case VIDEO:
-                item = new Video("Videotittel", "Beskrivelse");
-                fragmentView = inflater.inflate(R.layout.metadata, container, false);
-                textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
-                textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
-                break;
-            case DOCUMENTS:
-                item = new Document("Dokumenttittel", "Beskrivelse");
-                fragmentView = inflater.inflate(R.layout.metadata, container, false);
-                textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
-                textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
-                break;
-        }
-        System.out.println(item);
-        System.out.println(item.getName());
+        
+        fragmentView = inflater.inflate(R.layout.metadata, container, false);
+        textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
+        textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
+        
+        //get extra
+        item = (Domain) getActivity().getIntent().getExtras().get("Domain"); 
+//        
+//        switch(type) {
+//            case NEWS:
+//                item = new News("Nyhetstittel", "Tekst");
+//                fragmentView = inflater.inflate(R.layout.v2_textlayout, container, false);
+//                textItemTitle = (TextView) fragmentView.findViewById(R.id.title);
+//                textItemDescription = (TextView) fragmentView.findViewById(R.id.text);
+//                break;
+//            case VIDEO:
+//                item = new Video("Videotittel", "Beskrivelse");
+//                fragmentView = inflater.inflate(R.layout.metadata, container, false);
+//                textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
+//                textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
+//                break;
+//            case DOCUMENTS:
+//                item = new Document("Dokumenttittel", "Beskrivelse");
+//                fragmentView = inflater.inflate(R.layout.metadata, container, false);
+//                textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
+//                textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
+//                break;
+//        }
+                
         detailactivity.getActionBar().setTitle(item.getName());
         textItemTitle.setText(item.getName());
         textItemDescription.setText(item.getDetail());
