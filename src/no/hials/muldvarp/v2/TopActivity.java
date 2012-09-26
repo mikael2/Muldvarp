@@ -4,25 +4,20 @@
  */
 package no.hials.muldvarp.v2;
 
-import no.hials.muldvarp.v2.fragments.ListFragment;
-import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
-import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.SearchView;
 import android.widget.SpinnerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.utility.testUtils;
+import no.hials.muldvarp.v2.fragments.FrontPageFragment;
+import no.hials.muldvarp.v2.fragments.ListFragment;
+import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
+import no.hials.muldvarp.v2.utility.testUtils;
 
 /**
  * This class defines a top-level activity for a given level. This activity-class
@@ -34,10 +29,7 @@ import no.hials.muldvarp.v2.utility.DummyDataProvider;
 public class TopActivity extends MuldvarpActivity{
     
     //Global variables
-    public ActionBar actionBar;
     private Activity thisActivity = this;
-    public List<MuldvarpFragment> fragmentList = new ArrayList<MuldvarpFragment>();
-    public String activityName;
         
     /**
      * Called when the activity is first created.
@@ -62,13 +54,7 @@ public class TopActivity extends MuldvarpActivity{
         //Add fragments to list if not empty:
         if(fragmentList.isEmpty()){            
             setupContent();
-        }        
-       
-        //Get action bar and make changes
-        actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        actionBar.setDisplayShowTitleEnabled(false);
+        }
         
         //Get dropdown menu
         SpinnerAdapter mSpinnerAdapter = new ArrayAdapter(this, 
@@ -83,32 +69,8 @@ public class TopActivity extends MuldvarpActivity{
                 return testUtils.changeFragment(thisActivity, fragmentList, position);
             }
         };        
-        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);              
+        getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);              
     }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity, menu);
-        
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        //Create Listener for the search bar in the top actionbar
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            public boolean onQueryTextSubmit(String query) {                
-                return false;
-            }
-            public boolean onQueryTextChange(String newText) {
-                //Get current Fragment based on the currently selected index
-                MuldvarpFragment tempFragment = fragmentList.get(getActionBar().getSelectedNavigationIndex());
-                tempFragment.queryText(newText);                
-                return true;
-            }
-        };
-        searchView.setOnQueryTextListener(queryTextListener);
-        
-        return true;
-    }
-
     
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -117,9 +79,6 @@ public class TopActivity extends MuldvarpActivity{
     }
     
     public void setupContent() {
-        
-        
-        
         //Add main fragment ("home fragment").
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
         //Then the rest.        

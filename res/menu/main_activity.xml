@@ -11,5 +11,5 @@
           android:title="@string/login"/>
     <item android:id="@+id/about"
           android:iconifiedByDefault="false"
-          android:title="Om oss"/> 
+          android:title="Om oss"/>
 </menu>

@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.*;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.MuldvarpActivity;
 import no.hials.muldvarp.v2.TopActivity;
 
 /**
@@ -25,7 +27,6 @@ import no.hials.muldvarp.v2.TopActivity;
 public class FrontPageFragment extends MuldvarpFragment {
     
     FrontPageFragment.ImageAdapter adapter;
-    TopActivity topActivity;
     List<MuldvarpFragment> currentFragmentList;
     List<MuldvarpFragment> fragmentList;
     
@@ -47,7 +48,6 @@ public class FrontPageFragment extends MuldvarpFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         
         //set some stuff, neato burrito
-        topActivity = (TopActivity) owningActivity;        
         currentFragmentList = getFragments();
         fragmentList = currentFragmentList;
         
@@ -56,7 +56,7 @@ public class FrontPageFragment extends MuldvarpFragment {
         GridView gridview = (GridView) retVal.findViewById(R.id.gridview);
         TextView headerTitle = (TextView) retVal.findViewById(R.id.textview);   
         
-        fragmentTitle = topActivity.activityName;
+        fragmentTitle = owningActivity.activityName;
         headerTitle.setText(fragmentTitle);      
     
         adapter = new FrontPageFragment.ImageAdapter(getActivity());
@@ -75,9 +75,9 @@ public class FrontPageFragment extends MuldvarpFragment {
         
         ArrayList<MuldvarpFragment> retVal = new ArrayList<MuldvarpFragment>();
         
-        for (int i = 1; i < topActivity.fragmentList.size(); i++) {
+        for (int i = 1; i < owningActivity.fragmentList.size(); i++) {
             
-            retVal.add(topActivity.fragmentList.get(i));
+            retVal.add(owningActivity.fragmentList.get(i));
         }
         
         return retVal;

@@ -21,19 +21,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+<<<<<<< HEAD
 import android.widget.Button;
 import android.widget.EditText;
+=======
+import android.widget.SearchView;
+>>>>>>> removed unused menu items
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+<<<<<<< HEAD
 import no.hials.muldvarp.desktop.MainPreferenceActivity;
 import no.hials.muldvarp.v2.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Person_v2;
+=======
+>>>>>>> removed unused menu items
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.testUtils;
 
@@ -44,12 +52,18 @@ import no.hials.muldvarp.v2.utility.testUtils;
 public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     Bundle savedInstanceState;
     public RibbonMenuView rbmView;
+<<<<<<< HEAD
     MuldvarpService mService;
     boolean mBound = false;
     boolean loggedIn = false;
     TextView loginname;
     
     
+=======
+    public List<MuldvarpFragment> fragmentList = new ArrayList<MuldvarpFragment>();
+    public String activityName;
+    public SearchView searchView;
+>>>>>>> removed unused menu items
     
     @Override
     public void onBackPressed() {
@@ -116,7 +130,10 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 return true;    
             case R.id.about:
                 showDialog(1);
-                return true;        
+                return true;
+            case R.id.login:
+                showDialog(0);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -191,6 +208,22 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity, menu);
+        
+        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        //Create Listener for the search bar in the top actionbar
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextSubmit(String query) {                
+                return false;
+            }
+            public boolean onQueryTextChange(String newText) {
+                //Get current Fragment based on the currently selected index
+                MuldvarpFragment tempFragment = fragmentList.get(getActionBar().getSelectedNavigationIndex());
+                tempFragment.queryText(newText);                
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+        
         return true;
     }
     
