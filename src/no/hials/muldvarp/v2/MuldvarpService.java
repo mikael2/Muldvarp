@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import no.hials.muldvarp.*;
 import no.hials.muldvarp.asyncutilities.CachedWebRequest;
 import no.hials.muldvarp.utility.DownloadTask;
@@ -253,7 +254,8 @@ public class MuldvarpService extends Service {
                     break;
                 case COURSES:
                     InputStreamReader is = new InputStreamReader(DownloadUtilities.getJSONData(getURL(R.string.programmeCourseResPath),header));
-                    //need to handle this inputstream. Put it in the database...
+                    String data = is.toString();
+                    updateDatabase(parse(data));
                     break;
                 case VIDEOS:
                     break;
@@ -263,6 +265,16 @@ public class MuldvarpService extends Service {
                     break;
             }
         }
+    }
+    
+    public HashMap parse(String data){
+        HashMap retval = new HashMap();
+        //Parse the data
+        return retval;
+    }
+    
+    public void updateDatabase(HashMap data){
+        //Update the database
     }
 
 }
