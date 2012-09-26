@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.MuldvarpService.LocalBinder;
+import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
@@ -49,6 +50,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     public List<MuldvarpFragment> fragmentList = new ArrayList<MuldvarpFragment>();
     public String activityName;
     public SearchView searchView;
+    public Domain domain;
     
     @Override
     public void onBackPressed() {
