@@ -71,31 +71,31 @@ public class DummyDataProvider {
         return programmeList;
     }
     
-    public static ArrayList<Programme> getCourseList(Context context) {
-        ArrayList<Programme> programmeList = new ArrayList<Programme>();
+    public static ArrayList<Domain> getCourseList(Context context) {
+        ArrayList<Domain> courseList = new ArrayList<Domain>();
         
         //Get arraylist from XML resource, create Programme objects and place them in an array.
-        String[] tempList = context.getResources().getStringArray(R.array.programme_list_dummmy);   
+        String[] tempList = context.getResources().getStringArray(R.array.course_list_dummy);   
         
         if (tempList != null) {
             for (int i = 0; i < tempList.length; i++) {
-                Programme currentProgram = new Programme(tempList[i]);
-                programmeList.add(currentProgram);
+                Course currentCourse = new Course(tempList[i]);
+                courseList.add(currentCourse);
 
                 //debug check:
-                System.out.println("Created:" + currentProgram.getName());
+                System.out.println("Created:" + currentCourse.getName());
             }
         }       
         
         //Check if list wasn't empty just to be sure, and generate dumb data if not
-        if(programmeList.isEmpty()) {
+        if(courseList.isEmpty()) {
             for (int n = 0; n < 10; n++) {
-                Programme dumbProgram = new Programme("Program " + n);
-                programmeList.add(dumbProgram);
+                Course dumbCourse = new Course("Course " + n);
+                courseList.add(dumbCourse);
             }
         }
         
-        return programmeList;
+        return courseList;
     }
     
     public static ArrayList<Domain> getQuizList() {
