@@ -114,13 +114,13 @@ public class TopActivity extends MuldvarpActivity{
         } else if(domain instanceof Course) {
             
             ListFragment gridFragmentList = new ListFragment("Delemne", R.drawable.stolen_smsalt);
-            gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
+            gridFragmentList.setListItems(DummyDataProvider.getTopicList(this));
             fragmentList.add(gridFragmentList);
         } else if(domain instanceof Topic) {
             
-            ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
-            gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
-            fragmentList.add(gridFragmentList);
+//            ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
+//            gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
+//            fragmentList.add(gridFragmentList);
         }
     }
     
