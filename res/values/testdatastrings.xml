@@ -26,6 +26,34 @@
         
     </string-array>
     
+    <string-array name="course_list_dummy">
+        <item>Sexologi</item>
+        <item>Matte</item>
+        <item>3D Programmering</item>
+        <item>Cola-lære</item>
+        <item>Stikk-kontaktprosessering</item>
+        <item>Vinduskunnskap</item>
+        <item>Gardinkoding</item>
+        <item>Skjermbildeifsering</item>
+        <item>Energidrikktesting</item>
+        <item>Ketchupkrigshistories</item>
+        <item>Muldvarpbiologi 101</item>
+        
+    </string-array>
+    
+    <string-array name="topic_list_dummy">
+        <item>Emnelære</item>
+        <item>Vektorer</item>
+        <item>Laplace-transformasjoner</item>
+        <item>JUNIT Testing</item>
+        <item>Teknologibruksetikk</item>
+        <item>Conceptual Design</item>
+        <item>Scenario Corpus</item>
+        <item>Brukerpsykologi</item>
+        <item>MATLAB</item>
+        
+    </string-array>
+    
     <string-array name="document_list_dummy">
         <item>Necronomicon</item>
         <item>Verdens Gang, 1984</item>

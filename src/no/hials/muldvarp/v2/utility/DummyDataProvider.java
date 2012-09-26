@@ -80,6 +80,7 @@ public class DummyDataProvider {
         if (tempList != null) {
             for (int i = 0; i < tempList.length; i++) {
                 Course currentCourse = new Course(tempList[i]);
+                currentCourse.setActivity(TopActivity.class);
                 courseList.add(currentCourse);
 
                 //debug check:
@@ -96,6 +97,34 @@ public class DummyDataProvider {
         }
         
         return courseList;
+    }
+    
+    public static ArrayList<Domain> getTopicList(Context context) {
+        ArrayList<Domain> topicList = new ArrayList<Domain>();
+        
+        //Get arraylist from XML resource, create Programme objects and place them in an array.
+        String[] tempList = context.getResources().getStringArray(R.array.course_list_dummy);   
+        
+        if (tempList != null) {
+            for (int i = 0; i < tempList.length; i++) {
+                Topic currentTopic = new Topic(tempList[i]);
+                currentTopic.setActivity(TopActivity.class);
+                topicList.add(currentTopic);
+
+                //debug check:
+                System.out.println("Created:" + currentTopic.getName());
+            }
+        }       
+        
+        //Check if list wasn't empty just to be sure, and generate dumb data if not
+        if(topicList.isEmpty()) {
+            for (int n = 0; n < 10; n++) {
+                Topic dumbTopic = new Topic("Topic " + n);
+                topicList.add(dumbTopic);
+            }
+        }
+        
+        return topicList;
     }
     
     public static ArrayList<Domain> getQuizList() {

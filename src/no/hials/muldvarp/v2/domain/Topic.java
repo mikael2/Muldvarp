@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author kristoffer
  */
-public class Task extends Domain {
+public class Topic extends Domain {
     Integer id;
     String name;
     Boolean done = false;
@@ -18,7 +18,7 @@ public class Task extends Domain {
     String contentType;
     List<Question> questions;
     
-    public Task(String name) {
+    public Topic(String name) {
         super(name);
     }
 

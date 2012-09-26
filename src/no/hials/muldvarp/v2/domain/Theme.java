@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Theme {
     Integer id;
     String name;
-    ArrayList<Task> tasks;
+    ArrayList<Topic> tasks;
     
     public Theme() {
         
@@ -31,7 +31,7 @@ public class Theme {
         Integer numberOfTasks = 0;
         Integer completedTasks = 0;
         Integer completion = 100;
-        for(Task task : tasks) {
+        for(Topic task : tasks) {
             numberOfTasks++;
             if(task.getDone() == true) {
                 completedTasks++;
@@ -51,11 +51,11 @@ public class Theme {
         this.name = name;
     }
 
-    public ArrayList<Task> getTasks() {
+    public ArrayList<Topic> getTasks() {
         return tasks;
     }
 
-    public void setTasks(ArrayList<Task> tasks) {
+    public void setTasks(ArrayList<Topic> tasks) {
         this.tasks = tasks;
     }
 }
