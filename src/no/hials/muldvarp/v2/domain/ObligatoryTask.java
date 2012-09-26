@@ -19,9 +19,6 @@ public class ObligatoryTask extends Task {
     public ObligatoryTask(String name) {
         super(name);
     }
-
-    public ObligatoryTask() {
-    }
     
     @Override
     public void acceptTask() {
