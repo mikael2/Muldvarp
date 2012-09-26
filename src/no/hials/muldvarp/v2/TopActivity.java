@@ -104,18 +104,28 @@ public class TopActivity extends MuldvarpActivity{
             ListFragment gridFragmentList = new ListFragment("Fag", R.drawable.stolen_smsalt);
             gridFragmentList.setListItems(DummyDataProvider.getCourseList(this));
             fragmentList.add(gridFragmentList);
+            fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));      
+            fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
+            fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
+            
             
         } else if(domain instanceof Course) {            
             ListFragment gridFragmentList = new ListFragment("Delemne", R.drawable.stolen_smsalt);
             gridFragmentList.setListItems(DummyDataProvider.getTopicList(this));
             fragmentList.add(gridFragmentList);
+            fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));      
+            fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
+            fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
             
         } else if(domain instanceof Topic) {
             
 //            ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
 //            gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
 //            fragmentList.add(gridFragmentList);
+            fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));      
+            fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
         }
+        
     }
     
     public List getDropDownMenuOptions(List<MuldvarpFragment> fragmentList){
