@@ -71,11 +71,11 @@ public class ListFragment extends MuldvarpFragment {
     public void itemsReady() {        
 
         //If the items are empty, add temporary dummydata from database
-        if(items.isEmpty()) {
-            if(owningActivity.domain == null) {
-                items.addAll(DummyDataProvider.getFromDatabase(owningActivity));
-            } 
-        }
+//        if(items.isEmpty()) {
+//            if(owningActivity.domain == null) {
+//                items.addAll(DummyDataProvider.getFromDatabase(owningActivity));
+//            } 
+//        }
         
         listView.setAdapter(new ListAdapter(
                     fragmentView.getContext(), 
