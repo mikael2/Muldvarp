@@ -37,7 +37,10 @@ import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
 /**
- *
+ * This Activity class defines a MuldvarpActivity class for use in the Muldvarp
+ * application. The class contains functionality inherent to all Activities within
+ * the Muldvarp application.
+ * 
  * @author johan
  */
 public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {

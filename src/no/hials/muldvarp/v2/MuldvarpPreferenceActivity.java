@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.preference.*;
 
 /**
- *
+ * This etc etc..
  * @author johan
  */
 public class MuldvarpPreferenceActivity extends PreferenceActivity{
