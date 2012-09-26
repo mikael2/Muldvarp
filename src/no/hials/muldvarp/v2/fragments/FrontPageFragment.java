@@ -83,16 +83,7 @@ public class FrontPageFragment extends MuldvarpFragment {
         return retVal;
     }
     
-    @Override
-    public void queryText(String text){
-        
-        if(adapter!= null) {
-            
-            adapter.filter(text);
-        }
-        
-    }
-
+    
     class ImageAdapter extends BaseAdapter {
         
         private Context mContext;
