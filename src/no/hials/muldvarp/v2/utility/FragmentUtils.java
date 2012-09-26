@@ -4,20 +4,26 @@
  */
 package no.hials.muldvarp.v2.utility;
 
-import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.util.Log;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 
 /**
  *
  * @author kristoffer
  */
-public class testUtils {
-    
+public class FragmentUtils {
+    /**
+     * Swaps the fragment in position with specified fragment from list
+     * 
+     * @param activity
+     * @param fragmentList
+     * @param position
+     * @return 
+     */
     public static boolean changeFragment(Activity activity, List<MuldvarpFragment> fragmentList, int position) {
         try {
             FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
@@ -32,7 +38,14 @@ public class testUtils {
         return true;
     }
     
-    public static boolean changeFragmentWithoutList(Activity activity, Fragment fragment) {
+    /**
+     * Swaps the fragment in position with specified fragment
+     * 
+     * @param activity
+     * @param fragment
+     * @return 
+     */
+    public static boolean changeFragmentWithoutList(Activity activity, MuldvarpFragment fragment) {
         try {
             FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
             ft.replace(R.id.desktop, fragment);

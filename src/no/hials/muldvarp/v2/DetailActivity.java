@@ -6,7 +6,7 @@ package no.hials.muldvarp.v2;
 
 import android.os.Bundle;
 import no.hials.muldvarp.v2.fragments.DetailFragment;
-import no.hials.muldvarp.v2.utility.utils;
+import no.hials.muldvarp.v2.utility.FragmentUtils;
 
 /**
  * This class defines a Activity used for displaying information about an item, 
@@ -23,6 +23,6 @@ public class DetailActivity extends MuldvarpActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        utils.changeFragmentWithoutList(this, new DetailFragment(), RESULT_OK);
+        FragmentUtils.changeFragmentWithoutList(this, new DetailFragment());
     }
 }

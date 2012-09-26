@@ -5,19 +5,12 @@
 package no.hials.muldvarp.v2.utility;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.support.v4.content.LocalBroadcastManager;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
 import java.net.URI;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.MuldvarpService;
-import no.hials.muldvarp.utility.DownloadTask;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -32,8 +25,6 @@ public class ServerConnection {
     public ServerConnection(Context ctx) {
         this.ctx = ctx;
     }
-    
-    
     
     /**
      * Method checkServer, of class ServerConnection.
@@ -51,7 +42,6 @@ public class ServerConnection {
         return false;
     }
     
-    
     /**
      * Method isNetworkAvailable, of class ServerConnection.
      * This method checks whether the device has access to any kind of network.
@@ -59,20 +49,17 @@ public class ServerConnection {
      * @return boolean hasNetwork
      */
     private boolean isNetworkAvailable() {
-        boolean retval = false;
         ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         if ( cm.getActiveNetworkInfo() != null ) {
-            retval = true;
+            return true;
         }
-        return retval;
+        return false;
     }
     
     public static InputStream getJSONData(String url, String header) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         URI uri;
         InputStream data = null;
-        System.out.println(url);
-        System.out.println(header);
         try {
             uri = new URI(url);
             HttpGet method = new HttpGet(uri);

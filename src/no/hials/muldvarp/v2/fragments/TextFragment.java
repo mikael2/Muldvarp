@@ -4,9 +4,7 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
-import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +20,14 @@ public class TextFragment extends MuldvarpFragment {
     View fragmentView;
     private TextView text;
     public enum Type {REQUIREMENT, HELP, DATE, INFO}
-    TextFragment.Type type;
+    Type type;
     TextView title;
     Domain item;
     
-    public TextFragment(TextFragment.Type type) {
+    public TextFragment(String title, TextFragment.Type type, int iconResourceID) {
+        super.fragmentTitle = title;
         this.type = type;
+        super.iconResourceID = iconResourceID;
     }
 
     public TextFragment(TextFragment.Type type, Domain item) {
@@ -47,21 +47,7 @@ public class TextFragment extends MuldvarpFragment {
     }
     
     public void itemsReady() {
-//        switch(type) {
-//            case REQUIREMENT:
-//                item = owningActivity.getRequirement();
-//                break;
-//            case HELP:
-//                item = owningActivity.getHelp();
-//                break;
-//            case DATE:
-//                item = owningActivity.getDate();
-//                break;
-//            case INFO:
-//                item = owningActivity.getInfo();
-//                break;
-//        }
-//        title.setText(item.getName());
-//        text.setText(Html.fromHtml(item.getDetail()));
+        title.setText("Tittel");
+        text.setText("Tekst");
     }
 }

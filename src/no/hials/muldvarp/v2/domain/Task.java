@@ -4,14 +4,13 @@
  */
 package no.hials.muldvarp.v2.domain;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author kristoffer
  */
-public class Task implements Serializable {
+public class Task extends Domain {
     Integer id;
     String name;
     Boolean done = false;
@@ -20,11 +19,7 @@ public class Task implements Serializable {
     List<Question> questions;
     
     public Task(String name) {
-        this.name = name;
-    }
-    
-    public Task() {
-        
+        super(name);
     }
 
     public Integer getId() {

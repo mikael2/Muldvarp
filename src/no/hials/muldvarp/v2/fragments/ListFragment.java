@@ -5,7 +5,6 @@
 package no.hials.muldvarp.v2.fragments;
 
 import android.app.AlertDialog;
-import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -61,12 +60,10 @@ public class ListFragment extends MuldvarpFragment {
     }
     
     public void setListItems(List<Domain> items){
-        
         this.items = items;
     }
     
     public void setDestinationClass(Class destinationClass) {
-        
         this.destination = destinationClass;
     }
     
@@ -74,7 +71,6 @@ public class ListFragment extends MuldvarpFragment {
 
         //If the items are empty, add temporary dummydata from database
         if(items.isEmpty()) {
-            
             items.addAll(DummyDataProvider.getFromDatabase(owningActivity));                    
         }
         
@@ -111,22 +107,20 @@ public class ListFragment extends MuldvarpFragment {
         
         
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {   //triggers if a listitem is pressed and held.
-            Domain selectedItem = items.get(pos);                                       //Saves the clicked item in the selectedItem variable.
-            if(owningActivity.getLoggedIn() && selectedItem instanceof Course | true){  //TEST: remove the "| true" when the course level is working. - If the long-clicked item is a course, it is added to the users list of courses.
- //               Course course = (Course) selectedItem;                                //TEST: remove this comment line when the course level is working.
-                createDialog(selectedItem);                                             //Creates a new alertDialog asking whether the user wants to add the course to his/her favourites.
-                return true;                                                            //Tells the activity that the click has been "consumed", meaning that onItemClick should not be triggered.
-        }
-            else{                                                                       //If the clicked item isn't a course
-                return false;                                                           //Tells the activity that the click has not been "consumed", meaning that onItemClick will be triggered.
-            }   
-        }
-    });
-
-  }
-    
+            @Override
+            public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {   //triggers if a listitem is pressed and held.
+                Domain selectedItem = items.get(pos);                                       //Saves the clicked item in the selectedItem variable.
+                if(owningActivity.getLoggedIn() && selectedItem instanceof Course | true){  //TEST: remove the "| true" when the course level is working. - If the long-clicked item is a course, it is added to the users list of courses.
+     //               Course course = (Course) selectedItem;                                //TEST: remove this comment line when the course level is working.
+                    createDialog(selectedItem);                                             //Creates a new alertDialog asking whether the user wants to add the course to his/her favourites.
+                    return true;                                                            //Tells the activity that the click has been "consumed", meaning that onItemClick should not be triggered.
+                }
+                else{                                                                       //If the clicked item isn't a course
+                    return false;                                                           //Tells the activity that the click has not been "consumed", meaning that onItemClick will be triggered.
+                }   
+            }
+        });
+    }
     
     @Override
     public void queryText(String text){
@@ -153,6 +147,5 @@ public class ListFragment extends MuldvarpFragment {
                });
         AlertDialog alert = builder.create();
         alert.show();
-            }
-
+    }
 }

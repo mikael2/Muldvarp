@@ -8,12 +8,12 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import no.hials.muldvarp.*;
 import no.hials.muldvarp.asyncutilities.CachedWebRequest;
 import no.hials.muldvarp.utility.DownloadTask;
 import no.hials.muldvarp.utility.DownloadUtilities;
+import no.hials.muldvarp.v2.MuldvarpService;
 import no.hials.muldvarp.v2.domain.Person_v2;
 import no.hials.muldvarp.v2.utility.ServerConnection;
 
@@ -209,11 +209,11 @@ public class MuldvarpService extends Service {
      * @return authentification
      */
         public boolean login(String name, String password){
-        if(checkCredentials(name, password)){
+        if(checkCredentials(name, password)) {
             user = new Person_v2(name, password);
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
@@ -242,33 +242,26 @@ public class MuldvarpService extends Service {
      * Method requested, of class MuldvarpService.
      * This method updates the requested part of the local database from the server.
      * The request argument indicates which part of the database will be updated.
-     * 1: The entire database.
-     * 2: Courses
-     * 3: Videos
-     * 4: Documents
-     * 5: Programs
      * @param requested 
      */
-    public void update(int requested){
-        switch(requested){
-            case 1:
-                break;
-                
-            case 2:
-                if(server.checkServer()){
+    public enum DataTypes {ALL, COURSES, VIDEOS, DOCUMENTS, PROGRAMS}
+    
+    public void update(DataTypes type){
+        if(server.checkServer()){
+            switch(type){
+                case ALL:
+                    break;
+                case COURSES:
                     InputStreamReader is = new InputStreamReader(DownloadUtilities.getJSONData(getURL(R.string.programmeCourseResPath),header));
                     //need to handle this inputstream. Put it in the database...
-                }
-                break;
-                
-            case 3:
-                break;
-                
-            case 4:
-                break;
-                
-            case 5:
-                break;
+                    break;
+                case VIDEOS:
+                    break;
+                case DOCUMENTS:
+                    break;
+                case PROGRAMS:
+                    break;
+            }
         }
     }
 

@@ -33,7 +33,7 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
-import no.hials.muldvarp.v2.utility.testUtils;
+import no.hials.muldvarp.v2.utility.FragmentUtils;
 
 /**
  *
@@ -227,7 +227,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             public boolean onNavigationItemSelected(int position, long itemId) {
                 if(rbmView.isMenuVisible())
                     rbmView.hideMenu();
-                return testUtils.changeFragment(activity, fragmentList, position);
+                return FragmentUtils.changeFragment(activity, fragmentList, position);
             }
         };
         getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
