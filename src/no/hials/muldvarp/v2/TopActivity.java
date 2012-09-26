@@ -15,7 +15,7 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
-import no.hials.muldvarp.v2.domain.Task;
+import no.hials.muldvarp.v2.domain.Topic;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
@@ -110,13 +110,13 @@ public class TopActivity extends MuldvarpActivity{
             fragmentList.add(gridFragmentList);
         } else if(domain instanceof Course) {
             ListFragment gridFragmentList = new ListFragment("Delemne", R.drawable.stolen_smsalt);
-            gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
+            gridFragmentList.setListItems(DummyDataProvider.getTopicList(this));
             fragmentList.add(gridFragmentList);
-        } else if(domain instanceof Task) {
-            ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
-            gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
-            fragmentList.add(gridFragmentList);
-            fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
+        } else if(domain instanceof Topic) {
+            
+//            ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
+//            gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
+//            fragmentList.add(gridFragmentList);
         }
     }
     

@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author kristoffer
  */
-public class ObligatoryTask extends Task {
+public class ObligatoryTask extends Topic {
 //    Date dueDate;
 //    Date acceptedDate;
     Long dueDate;

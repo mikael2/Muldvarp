@@ -24,6 +24,7 @@ public class DummyDataProvider {
     MuldvarpDataSource muldvarpDataSource;
     
     public static ArrayList<Domain> getFromDatabase(Context context) {    
+        
         MuldvarpDataSource muldvarpDataSource = new MuldvarpDataSource(context);
         muldvarpDataSource.open();
         
@@ -64,14 +65,14 @@ public class DummyDataProvider {
                 
                 Programme dumbProgram = new Programme("Program " + n);
                 programmeList.add(dumbProgram);
-            }
-            
+            }            
         }
         
         return programmeList;
     }
     
     public static ArrayList<Domain> getCourseList(Context context) {
+        
         ArrayList<Domain> courseList = new ArrayList<Domain>();
         
         //Get arraylist from XML resource, create Programme objects and place them in an array.
@@ -79,7 +80,9 @@ public class DummyDataProvider {
         
         if (tempList != null) {
             for (int i = 0; i < tempList.length; i++) {
+                
                 Course currentCourse = new Course(tempList[i]);
+                currentCourse.setActivity(TopActivity.class);
                 courseList.add(currentCourse);
 
                 //debug check:
@@ -90,6 +93,7 @@ public class DummyDataProvider {
         //Check if list wasn't empty just to be sure, and generate dumb data if not
         if(courseList.isEmpty()) {
             for (int n = 0; n < 10; n++) {
+                
                 Course dumbCourse = new Course("Course " + n);
                 courseList.add(dumbCourse);
             }
@@ -98,7 +102,39 @@ public class DummyDataProvider {
         return courseList;
     }
     
+    public static ArrayList<Domain> getTopicList(Context context) {
+        
+        ArrayList<Domain> topicList = new ArrayList<Domain>();
+        
+        //Get arraylist from XML resource, create Programme objects and place them in an array.
+        String[] tempList = context.getResources().getStringArray(R.array.topic_list_dummy);   
+        
+        if (tempList != null) {
+            for (int i = 0; i < tempList.length; i++) {
+                
+                Topic currentTopic = new Topic(tempList[i]);
+                currentTopic.setActivity(TopActivity.class);
+                topicList.add(currentTopic);
+
+                //debug check:
+                System.out.println("Created:" + currentTopic.getName());
+            }
+        }       
+        
+        //Check if list wasn't empty just to be sure, and generate dumb data if not
+        if(topicList.isEmpty()) {            
+            for (int n = 0; n < 10; n++) {
+                
+                Topic dumbTopic = new Topic("Topic " + n);
+                topicList.add(dumbTopic);
+            }
+        }
+        
+        return topicList;
+    }
+    
     public static ArrayList<Domain> getQuizList() {
+        
         //Setup questions
         ArrayList<Question> questions = new ArrayList<Question>();
         for (int i = 1; i < 4; i++) {
@@ -128,6 +164,6 @@ public class DummyDataProvider {
         }
         
         return quizzes;
-    }
+    }    
     
 }

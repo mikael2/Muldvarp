@@ -8,15 +8,15 @@ import java.util.List;
 
 /**
  *
- * @author kristoffer
+ * @author johan
  */
-public class Task extends Domain {
+public class Topic extends Domain {
     Boolean done = false;
     String content_url;
     String contentType;
     List<Question> questions;
     
-    public Task(String name) {
+    public Topic(String name) {
         super(name);
     }
     

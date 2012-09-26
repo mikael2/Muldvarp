@@ -26,6 +26,19 @@
         
     </string-array>
     
+    <string-array name="topic_list_dummy">
+        <item>Emnelære</item>
+        <item>Vektorer</item>
+        <item>Laplace-transformasjoner</item>
+        <item>JUNIT Testing</item>
+        <item>Teknologibruksetikk</item>
+        <item>Conceptual Design</item>
+        <item>Scenario Corpus</item>
+        <item>Brukerpsykologi</item>
+        <item>MATLAB</item>
+        
+    </string-array>
+    
     <string-array name="document_list_dummy">
         <item>Necronomicon</item>
         <item>Verdens Gang, 1984</item>
