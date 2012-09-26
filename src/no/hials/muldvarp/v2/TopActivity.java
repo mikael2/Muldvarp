@@ -119,11 +119,7 @@ public class TopActivity extends MuldvarpActivity{
             fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
             fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
             
-        } else if(domain instanceof Topic) {
-            
-//            ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
-//            gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
-//            fragmentList.add(gridFragmentList);
+        } else if(domain instanceof Topic) {            
             fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));      
             fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
         }
