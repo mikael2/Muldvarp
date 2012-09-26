@@ -46,10 +46,8 @@ public class TopActivity extends MuldvarpActivity{
             
             domain = (Domain) getIntent().getExtras().get("Domain");            
             activityName = domain.getName();
-        } else {
-            
-            activityName = getResources().getString(R.string.app_logo_top);
-            
+        } else {            
+            activityName = getResources().getString(R.string.app_logo_top);            
         }
         
         //Add fragments to list if not empty:
