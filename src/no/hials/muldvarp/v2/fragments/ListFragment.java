@@ -52,10 +52,10 @@ public class ListFragment extends MuldvarpFragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(fragmentView == null) {
+//        if(fragmentView == null) {
             fragmentView = inflater.inflate(R.layout.layout_listview, container, false);
             listView = (ListView)fragmentView.findViewById(R.id.layoutlistview);
-        }
+//        }
         itemsReady();
         return fragmentView;
     }
