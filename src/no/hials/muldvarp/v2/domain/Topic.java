@@ -8,11 +8,9 @@ import java.util.List;
 
 /**
  *
- * @author kristoffer
+ * @author johan
  */
 public class Topic extends Domain {
-    Integer id;
-    String name;
     Boolean done = false;
     String content_url;
     String contentType;
@@ -20,10 +18,6 @@ public class Topic extends Domain {
     
     public Topic(String name) {
         super(name);
-    }
-
-    public Integer getId() {
-        return id;
     }
     
     public void acceptTask() {
@@ -36,14 +30,6 @@ public class Topic extends Domain {
 
     public void setDone(Boolean done) {
         this.done = done;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getContent_url() {
