@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.Menu;
@@ -21,12 +20,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-<<<<<<< HEAD
 import android.widget.Button;
 import android.widget.EditText;
-=======
 import android.widget.SearchView;
->>>>>>> removed unused menu items
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,13 +31,7 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-<<<<<<< HEAD
-import no.hials.muldvarp.desktop.MainPreferenceActivity;
 import no.hials.muldvarp.v2.MuldvarpService.LocalBinder;
-import no.hials.muldvarp.v2.domain.Course;
-import no.hials.muldvarp.v2.domain.Person_v2;
-=======
->>>>>>> removed unused menu items
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.testUtils;
 
@@ -52,18 +42,13 @@ import no.hials.muldvarp.v2.utility.testUtils;
 public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     Bundle savedInstanceState;
     public RibbonMenuView rbmView;
-<<<<<<< HEAD
     MuldvarpService mService;
     boolean mBound = false;
     boolean loggedIn = false;
     TextView loginname;
-    
-    
-=======
     public List<MuldvarpFragment> fragmentList = new ArrayList<MuldvarpFragment>();
     public String activityName;
     public SearchView searchView;
->>>>>>> removed unused menu items
     
     @Override
     public void onBackPressed() {
@@ -130,9 +115,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 return true;    
             case R.id.about:
                 showDialog(1);
-                return true;
-            case R.id.login:
-                showDialog(0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
