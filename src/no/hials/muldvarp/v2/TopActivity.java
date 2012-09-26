@@ -85,11 +85,12 @@ public class TopActivity extends MuldvarpActivity{
      * 
      */
     public void setupContent() {
+        
         //Fragments that are considered "default"
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
         fragmentList.add(new TextFragment("Informasjon", TextFragment.Type.INFO, R.drawable.stolen_contacts));
         fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl));
-        if(domain == null) {
+        if(domain == null) {            
             ListFragment gridFragmentList = new ListFragment("Studier", R.drawable.stolen_smsalt);
             gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
             fragmentList.add(gridFragmentList);
@@ -104,14 +105,17 @@ public class TopActivity extends MuldvarpActivity{
             fragmentList.add(new TextFragment("Opptak", TextFragment.Type.REQUIREMENT, R.drawable.stolen_notes));
             fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
             fragmentList.add(new TextFragment("Hjelp", TextFragment.Type.HELP, R.drawable.stolen_help));
-        } else if(domain instanceof Programme) {
+            
+        } else if(domain instanceof Programme) {            
             ListFragment gridFragmentList = new ListFragment("Fag", R.drawable.stolen_smsalt);
             gridFragmentList.setListItems(DummyDataProvider.getCourseList(this));
             fragmentList.add(gridFragmentList);
-        } else if(domain instanceof Course) {
+            
+        } else if(domain instanceof Course) {            
             ListFragment gridFragmentList = new ListFragment("Delemne", R.drawable.stolen_smsalt);
             gridFragmentList.setListItems(DummyDataProvider.getTopicList(this));
             fragmentList.add(gridFragmentList);
+            
         } else if(domain instanceof Topic) {
             
 //            ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
@@ -121,6 +125,7 @@ public class TopActivity extends MuldvarpActivity{
     }
     
     public List getDropDownMenuOptions(List<MuldvarpFragment> fragmentList){
+        
         List retVal = new ArrayList();        
         for (int i = 0; i < fragmentList.size(); i++) {
             retVal.add(fragmentList.get(i).getFragmentTitle());

@@ -21,8 +21,6 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.Programme;
-import no.hials.muldvarp.v2.domain.Task;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
@@ -76,15 +74,7 @@ public class ListFragment extends MuldvarpFragment {
         if(items.isEmpty()) {
             if(owningActivity.domain == null) {
                 items.addAll(DummyDataProvider.getFromDatabase(owningActivity));
-            } else if(owningActivity.domain instanceof Programme) {
-                List<Course> courseList = new ArrayList<Course>();
-                courseList.add(new Course("Matte"));
-                items.addAll(courseList);
-            } else if(owningActivity.domain instanceof Course) {
-                List<Task> taskList = new ArrayList<Task>();
-                taskList.add(new Task("Integrering"));
-                items.addAll(taskList);
-            }
+            } 
         }
         
         listView.setAdapter(new ListAdapter(
@@ -144,6 +134,7 @@ public class ListFragment extends MuldvarpFragment {
     }
     
     public void createDialog(final Domain c){                                                        //TEST: Change the argument type for this method to Course when the course level works
+        
         AlertDialog.Builder builder = new AlertDialog.Builder(owningActivity);
         builder.setMessage("vil du legge til " + c.getName() + " i mine fag?")
                .setCancelable(false)
