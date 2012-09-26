@@ -90,29 +90,31 @@ public class TopActivity extends MuldvarpActivity{
         fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl));
         
         if(domain == null) {            
-            ListFragment gridFragmentList = new ListFragment("Studier", R.drawable.stolen_smsalt);
-            gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
-            fragmentList.add(gridFragmentList);
+            ListFragment nextLevelList = new ListFragment("Studier", R.drawable.stolen_smsalt);
+            nextLevelList.setListItems(DummyDataProvider.getProgrammeList(this));
+            fragmentList.add(nextLevelList);
             fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));      
             fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
-            fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary));
+            ListFragment documentListFragment = new ListFragment("Dokumenter", R.drawable.stolen_dictonary);
+            documentListFragment.setListItems(DummyDataProvider.getDocumentList(this));
+            fragmentList.add(documentListFragment);
             fragmentList.add(new TextFragment("Opptak", TextFragment.Type.REQUIREMENT, R.drawable.stolen_notes));
             fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
             fragmentList.add(new TextFragment("Hjelp", TextFragment.Type.HELP, R.drawable.stolen_help));
             
         } else if(domain instanceof Programme) {            
-            ListFragment gridFragmentList = new ListFragment("Fag", R.drawable.stolen_smsalt);
-            gridFragmentList.setListItems(DummyDataProvider.getCourseList(this));
-            fragmentList.add(gridFragmentList);
+            ListFragment nextLevelList = new ListFragment("Fag", R.drawable.stolen_smsalt);
+            nextLevelList.setListItems(DummyDataProvider.getCourseList(this));
+            fragmentList.add(nextLevelList);
             fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));      
             fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
             fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
             
             
         } else if(domain instanceof Course) {            
-            ListFragment gridFragmentList = new ListFragment("Delemne", R.drawable.stolen_smsalt);
-            gridFragmentList.setListItems(DummyDataProvider.getTopicList(this));
-            fragmentList.add(gridFragmentList);
+            ListFragment nextLevelList = new ListFragment("Delemne", R.drawable.stolen_smsalt);
+            nextLevelList.setListItems(DummyDataProvider.getTopicList(this));
+            fragmentList.add(nextLevelList);
             fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));      
             fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
             fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));

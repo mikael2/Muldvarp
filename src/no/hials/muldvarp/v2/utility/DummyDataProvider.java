@@ -8,6 +8,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.QuizActivity;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
@@ -165,5 +166,37 @@ public class DummyDataProvider {
         
         return quizzes;
     }    
+    
+    public static ArrayList<Domain> getDocumentList(Context context) {
+        
+        ArrayList<Domain> documentList = new ArrayList<Domain>();
+        
+        //Get arraylist from XML resource, create Programme objects and place them in an array.
+        String[] tempList = context.getResources().getStringArray(R.array.document_list_dummy);   
+        
+        if (tempList != null) {
+            for (int i = 0; i < tempList.length; i++) {
+                
+                Document currentDocument = new Document(tempList[i], "Lorem Ipsum bla bla bla! HØASDJLSAHDOISAHD!");
+                currentDocument.setActivity(DetailActivity.class);
+                documentList.add(currentDocument);
+
+                //debug check:
+                System.out.println("Created:" + currentDocument.getName());
+            }
+        }       
+        
+        //Check if list wasn't empty just to be sure, and generate dumb data if not
+        if(documentList.isEmpty()) {            
+            for (int n = 0; n < 10; n++) {
+                
+                Topic dumbTopic = new Topic("Topic " + n);
+                documentList.add(dumbTopic);
+            }
+        }
+        
+        return documentList;
+    }
+    
     
 }
