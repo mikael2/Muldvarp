@@ -8,10 +8,14 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import no.hials.muldvarp.*;
 import no.hials.muldvarp.asyncutilities.CachedWebRequest;
 import no.hials.muldvarp.utility.DownloadTask;
+import no.hials.muldvarp.utility.DownloadUtilities;
 import no.hials.muldvarp.v2.domain.Person_v2;
+import no.hials.muldvarp.v2.utility.ServerConnection;
 
 /**
  *
@@ -45,12 +49,15 @@ public class MuldvarpService extends Service {
     Integer courseId;
     SharedPreferences preferences;
     LocalBroadcastManager mLocalBroadcastManager;
+    ServerConnection server;
+    private String header;
 
     @Override
     public void onCreate() {
         // The service is being created
         super.onCreate();
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+        server = new ServerConnection(this);
     }
 
     @Override
@@ -186,17 +193,28 @@ public class MuldvarpService extends Service {
     
     public String loadLogin() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
-        String username = settings.getString("username", "");
-        String password = settings.getString("password", "");
-        
-        return username + ":" + password; 
+        return user.getName() + ":" + user.getPassword(); 
     }
     
     
-    public void login(String name, String password){
+    //----------------Everything belov ithis lineis new in Muldvarp mk. II----------------------\\
+    
+    
+    /**
+     * Method login, of class MuldvarpService.
+     * This method is used to login to the server remotely. Input the username and password, and the method returns a boolean which is true if the info is correct.
+     * Note: pr. 26.09.2012, this method returns true regardless of what info you input.
+     * @param name
+     * @param password
+     * @return authentification
+     */
+        public boolean login(String name, String password){
         if(checkCredentials(name, password)){
             user = new Person_v2(name, password);
+            return true;
+        }
+        else{
+            return false;
         }
     }
     
@@ -210,8 +228,48 @@ public class MuldvarpService extends Service {
         return true;
     }
     
+   /**
+    * Method getUser, of class MuldvarpService.
+    * This method returns the user object reference when called.
+    * Note that this can only be called when the user is already logged in, or the method will return null.
+    * @return Person_v2
+    */
     public Person_v2 getUser(){
         return user;
+    }
+    
+    /**
+     * Method requested, of class MuldvarpService.
+     * This method updates the requested part of the local database from the server.
+     * The request argument indicates which part of the database will be updated.
+     * 1: The entire database.
+     * 2: Courses
+     * 3: Videos
+     * 4: Documents
+     * 5: Programs
+     * @param requested 
+     */
+    public void update(int requested){
+        switch(requested){
+            case 1:
+                break;
+                
+            case 2:
+                if(server.checkServer()){
+                    InputStreamReader is = new InputStreamReader(DownloadUtilities.getJSONData(getURL(R.string.programmeCourseResPath),header));
+                    //need to handle this inputstream. Put it in the database...
+                }
+                break;
+                
+            case 3:
+                break;
+                
+            case 4:
+                break;
+                
+            case 5:
+                break;
+        }
     }
 
 }

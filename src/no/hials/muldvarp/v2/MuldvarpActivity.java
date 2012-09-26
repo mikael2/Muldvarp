@@ -6,9 +6,11 @@ package no.hials.muldvarp.v2;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
@@ -51,12 +53,16 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     
     @Override
     public void onBackPressed() {
-        if(rbmView.isMenuVisible())
+        if(rbmView.isMenuVisible()){
             rbmView.hideMenu();
-        else if(getActionBar().getSelectedNavigationIndex() > 0)
+        }
+        else if(getActionBar().getSelectedNavigationIndex() > 0){
             getActionBar().setSelectedNavigationItem(0);
-        else
+        }
+        else{
+//            showDialog(2);
             super.onBackPressed();
+        }
     }
 
     @Override
@@ -105,18 +111,11 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             case android.R.id.home:
                 rbmView.toggleMenu();
                 return true;
-            case R.id.menu_settings:
-                Intent prefs = new Intent(this, MainPreferenceActivity.class);
-                prefs.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(prefs);
-                return true;
             case R.id.login:
                 showDialog(0);
                 return true;    
-            case R.id.test:
-                intent = new Intent(this, DetailActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+            case R.id.about:
+                showDialog(1);
                 return true;        
             default:
                 return super.onOptionsItemSelected(item);
@@ -128,6 +127,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      * This method displays a focusable dialog on top of the current view.
      * Enter the id of the desired dialog.
      * 0: Login dialog
+     * 1: About page for Aalesund University College as defined in directory_campus.xml.
+     * 2: AlertDialog asking the user whether he/she really wants to exit the application.
      * No further dialogs supported for now.
      * @param id
      * @return Dialog
@@ -138,22 +139,51 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         switch(id){
             case 0:                                                                                     //Displays the Login dialog to the user.
                 dialog.setContentView(R.layout.login);
+                dialog.setTitle("Login");
                 final Button button;
                 button = (Button) dialog.findViewById(R.id.login);
                  button.setOnClickListener(new View.OnClickListener() {
                      public void onClick(View v) {
                         EditText username = (EditText)dialog.findViewById(R.id.username);
                         EditText password = (EditText)dialog.findViewById(R.id.password);
-                        mService.login(username.getText().toString(), password.getText().toString());   //Sends the logindata to muldvarpservice which authenticates the user, and then stores the user data.
-                        loggedIn = true;                                                                //Sets the flag which indicates that the user is logged in.
-                        loginname.setText(mService.getUser().getName());                                //Sets the users name in the ribbon menu.
-                        Toast toast = Toast.makeText(getApplicationContext(), "logged in as: " + mService.getUser().getName(), Toast.LENGTH_SHORT);
-                        toast.show();                                                                   //Tells the user that he/she is logged in.
-                        dialog.dismiss();
+                        if(mService.login(username.getText().toString(), password.getText().toString())){//Sends the logindata to muldvarpservice which authenticates the user, and then stores the user data.
+                            loggedIn = true;                                                            //Sets the flag which indicates that the user is logged in.
+                            loginname.setText(mService.getUser().getName());                            //Sets the users name in the ribbon menu.
+                            Toast toast = Toast.makeText(getApplicationContext(), "logged in as: " + mService.getUser().getName(), Toast.LENGTH_SHORT);
+                            toast.show();                                                               //Tells the user that he/she is logged in.
+                            dialog.dismiss();
+                        }
+                        else{                                                                           //If authentification fails
+                            Toast toast = Toast.makeText(getApplicationContext(), "Wrong username and/or password.", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                         
              }
          });
+                break;
+            case 1:
+                dialog.setContentView(R.layout.directory_campus);
+                dialog.setTitle("Om oss");
+                break;
+        
+            case 2:     //This dialog is not currently used due to issues with accuratly triggering it when the application would otherwise finish.
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Er du sikker på at du vil avslutte?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                           }
+                       })
+                       .setNegativeButton("Nei", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                           }
+                       });
+            AlertDialog alert = builder.create();
+            return alert;
         }
+
         return dialog;
     }
     
@@ -222,4 +252,5 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      public boolean getLoggedIn(){
          return loggedIn;
      }
+     
 }

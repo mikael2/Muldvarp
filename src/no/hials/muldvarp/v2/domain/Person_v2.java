@@ -21,7 +21,7 @@ public class Person_v2 extends Domain {
     public Person_v2(String name, String password) {
         super(name);
         this.password = password;
-        userCourses = new ArrayList();
+        userCourses = new ArrayList();              //List of courses favourited by the user.
     }
     
     public int getUserId() {
