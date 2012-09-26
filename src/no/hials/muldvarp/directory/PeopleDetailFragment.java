@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.domain.Person;
+import no.hials.muldvarp.entities.Person;
 
 /**
  *

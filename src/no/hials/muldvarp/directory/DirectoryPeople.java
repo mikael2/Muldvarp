@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.domain.Person;
+import no.hials.muldvarp.entities.Person;
 import no.hials.muldvarp.utility.DownloadUtilities;
 
 /**

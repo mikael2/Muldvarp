@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.desktop.DesktopFragment;
-import no.hials.muldvarp.v2.domain.Person;
+import no.hials.muldvarp.entities.Person;
 import no.hials.muldvarp.view.FragmentPager;
 
 

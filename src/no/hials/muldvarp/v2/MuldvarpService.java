@@ -1,6 +1,7 @@
 package no.hials.muldvarp.v2;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
@@ -9,14 +10,22 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import no.hials.muldvarp.*;
 import no.hials.muldvarp.asyncutilities.CachedWebRequest;
+import no.hials.muldvarp.entities.Course;
+import no.hials.muldvarp.entities.ListItem;
+import no.hials.muldvarp.entities.Programme;
+import no.hials.muldvarp.entities.Video;
 import no.hials.muldvarp.utility.DownloadTask;
 import no.hials.muldvarp.utility.DownloadUtilities;
 import no.hials.muldvarp.v2.MuldvarpService;
+import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Person_v2;
 import no.hials.muldvarp.v2.utility.ServerConnection;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -255,7 +264,8 @@ public class MuldvarpService extends Service {
                 case COURSES:
                     InputStreamReader is = new InputStreamReader(DownloadUtilities.getJSONData(getURL(R.string.programmeCourseResPath),header));
                     String data = is.toString();
-                    updateDatabase(parse(data));
+                    ArrayList datalist = new ArrayList(createListItemsFromJSONString(data, DataTypes.COURSES, this));
+                    convertToNewEntity(datalist);
                     break;
                 case VIDEOS:
                     break;
@@ -267,14 +277,117 @@ public class MuldvarpService extends Service {
         }
     }
     
-    public HashMap parse(String data){
-        HashMap retval = new HashMap();
-        //Parse the data
-        return retval;
-    }
-    
-    public void updateDatabase(HashMap data){
+    public void updateDatabase(ArrayList data){
         //Update the database
     }
 
+    
+    /**
+     * This function creates an ArrayList of ListItems from a JSONArray represented
+     * by a String. Currently supports Video, Programmes, Course.
+     * 
+     * @param jsonString String value of JSONArray
+     * @param type The type of JSONArray represented by it's cache name
+     * @param context The application context to get the cache String name
+     * @return ArrayList<ListItem>
+     */
+    public static ArrayList<ListItem> createListItemsFromJSONString(String jsonString, DataTypes type, Context context) {
+        ArrayList itemList = new ArrayList();        
+        
+        try {
+            System.out.println("WebResourceUtilities: Printing JSONString: " + jsonString);
+            JSONArray jArray = new JSONArray(jsonString);            
+                       
+            if (type == DataTypes.COURSES
+                    || type.equals(context.getString(R.string.videoBookmarks))
+                    || type.equals(context.getString(R.string.cacheVideoStudentList))
+                    || type.equals(context.getString(R.string.cacheCourseVideoList))) {
+                
+                //Video BS her
+                System.out.println("WebresourceUtilities: Array length: " + jArray.length());
+                for (int i = 0; i < jArray.length(); i++) {
+                    JSONObject currentObject = jArray.getJSONObject(i);
+                    itemList.add(new Video(currentObject.getString("id"),
+                            currentObject.getString("videoName"),
+                            currentObject.getString("videoDetail"),
+                            currentObject.getString("videoDescription"),
+                            currentObject.getString("videoType"),
+                            null,
+                            currentObject.getString("videoURI")));
+                }
+
+            } else if (type.equals(context.getString(R.string.cacheCourseList))) {
+
+                //Course BS her
+                for (int i = 0; i < jArray.length(); i++) {
+
+                    JSONObject currentObject = jArray.getJSONObject(i);
+
+                    itemList.add(new Course(currentObject.getInt("id"),
+                            currentObject.getString("name"),
+                            currentObject.getString("detail"),
+                            currentObject.getString("detail"),
+                            "Course",
+                            null));
+
+                }
+            } else if (type.equals(context.getString(R.string.cacheProgrammeList))) {
+
+                //Course BS her
+                for (int i = 0; i < jArray.length(); i++) {
+
+                    JSONObject currentObject = jArray.getJSONObject(i);
+
+                    itemList.add(new Programme(currentObject.getString("id"), 
+                            currentObject.getString("name"),
+                            currentObject.getString("detail"),  //no small description
+                            currentObject.getString("detail"),
+                            "Programme", //no type
+                            null)); //no bitmap (yet)
+
+                }
+            } else {
+
+                System.out.println("WebResourceUtilities: It was null. or irrelevant");
+            }
+        } catch (Exception ex) {
+            System.out.println("WebResourceUtilities: Failed to convert String of alleged type " + type );
+            ex.printStackTrace();
+        }
+
+        return itemList;
+    }
+    
+    /**
+     * Method convertToNewEntity, of class MuldvarpService.
+     * This method converts a list of old entity classes(from muldvarp 1.0) to the new entityclasses in muldvarp mk. II.
+     * @param datalist 
+     */
+    private ArrayList convertToNewEntity(ArrayList datalist) {
+        ArrayList retval = new ArrayList<Domain>();
+        if(datalist.get(0) instanceof no.hials.muldvarp.entities.Course){
+            for(Object o : datalist){
+                no.hials.muldvarp.entities.Course c = (no.hials.muldvarp.entities.Course)o;
+                no.hials.muldvarp.v2.domain.Course newCourse = new no.hials.muldvarp.v2.domain.Course(c.getItemName(), c.getSmallDetail(), c.getImageurl());
+                retval.add(newCourse);
+            }
+        }
+        else if(datalist.get(0) instanceof no.hials.muldvarp.entities.Programme){
+            for(Object o : datalist){
+                no.hials.muldvarp.entities.Programme p = (no.hials.muldvarp.entities.Programme)o;
+                no.hials.muldvarp.v2.domain.Programme newProgramme = new no.hials.muldvarp.v2.domain.Programme((p.getItemName()));
+                newProgramme.setCourses(convertToNewEntity(p.getCoursesInProgramme()));
+                newProgramme.setDetail(p.getSmallDetail());
+                retval.add(newProgramme);
+            }
+        }
+        else if(datalist.get(0) instanceof no.hials.muldvarp.entities.Person){
+            for(Object o : datalist){
+                no.hials.muldvarp.entities.Person p = (no.hials.muldvarp.entities.Person)o;
+                no.hials.muldvarp.v2.domain.Person_v2 newPerson = new no.hials.muldvarp.v2.domain.Person_v2(p.getName(), null);
+                newPerson.setId(p.getId().intValue());
+            }
+        }
+        return retval;
+    }
 }
