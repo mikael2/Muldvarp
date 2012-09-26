@@ -4,7 +4,6 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,8 +13,6 @@ import android.widget.*;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.MuldvarpActivity;
-import no.hials.muldvarp.v2.TopActivity;
 
 /**
  * This class defines a MuldvarpFragment which purpose is to store data and provide logic

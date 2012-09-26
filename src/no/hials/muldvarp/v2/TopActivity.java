@@ -90,15 +90,11 @@ public class TopActivity extends MuldvarpActivity{
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
         fragmentList.add(new TextFragment("Informasjon", TextFragment.Type.INFO, R.drawable.stolen_contacts));
         fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl));
+        
         if(domain == null) {            
             ListFragment gridFragmentList = new ListFragment("Studier", R.drawable.stolen_smsalt);
             gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
             fragmentList.add(gridFragmentList);
-            fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
-            fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
-            fragmentList.add(new TextFragment("Informasjon", TextFragment.Type.INFO, R.drawable.stolen_contacts));
-            fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl));
-            fragmentList.add(new ListFragment("Studier", R.drawable.stolen_smsalt));
             fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));      
             fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
             fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary));
