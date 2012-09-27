@@ -14,17 +14,21 @@ public class Domain implements Serializable {
     int icon;
     Class activity;
 
+    public Domain() {
+        
+    }
+
     public Domain(String name) {
         this.name = name;
     }
-    
+
     public Domain(String name, String detail, String description, int icon) {
         this.name = name;
         this.detail = detail;
         this.description = description;
         this.icon = icon;
     }
-    
+
     public Domain(String name, String detail, String description, int icon, Class activity) {
         this.name = name;
         this.detail = detail;
@@ -80,6 +84,6 @@ public class Domain implements Serializable {
     public void setActivity(Class activity) {
         this.activity = activity;
     }
-    
-    
+
+
 }

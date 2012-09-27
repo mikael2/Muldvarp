@@ -8,16 +8,20 @@ import java.util.ArrayList;
  */
 public class Course extends Domain {
     String imageurl;
-    
+
     Integer revision;
     ArrayList<Theme> themes;
     ArrayList<ObligatoryTask> obligatoryTasks;
     ArrayList<Exam> exams;
-    
+
+    public Course() {
+        
+    }
+
     public Course(String name) {
         super(name);
     }
-    
+
     public Course(String name, String detail, String url) {
         super(name);
         super.detail = detail;
