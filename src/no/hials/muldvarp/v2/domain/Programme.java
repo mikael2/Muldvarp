@@ -10,11 +10,15 @@ import java.util.List;
 public class Programme extends Domain {
     List<Course> courses = new ArrayList<Course>();;
     String imageurl;
-    
+
+    public Programme() {
+        
+    }
+
     public Programme(String name) {
         super(name);
     }
-    
+
     public void addCourse(Course c) {
         getCourses().add(c);
     }

@@ -10,6 +10,10 @@ package no.hials.muldvarp.v2.domain;
  */
 public class Video extends Domain {
 
+    public Video() {
+        
+    }
+
     public Video(String name, String detail) {
         super(name);
         super.detail = detail;

@@ -10,9 +10,13 @@ package no.hials.muldvarp.v2.domain;
  */
 public class Document extends Domain {
 
+    public Document() {
+
+    }
+
     public Document(String name, String detail) {
         super(name);
         super.detail = detail;
     }
-    
+
 }

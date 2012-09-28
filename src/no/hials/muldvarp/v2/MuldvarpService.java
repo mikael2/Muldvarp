@@ -8,23 +8,22 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Base64;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import no.hials.muldvarp.*;
-import no.hials.muldvarp.asyncutilities.CachedWebRequest;
-import no.hials.muldvarp.entities.Course;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import no.hials.muldvarp.R;
 import no.hials.muldvarp.entities.ListItem;
-import no.hials.muldvarp.entities.Programme;
-import no.hials.muldvarp.entities.Video;
-import no.hials.muldvarp.utility.DownloadTask;
 import no.hials.muldvarp.utility.DownloadUtilities;
-import no.hials.muldvarp.v2.MuldvarpService;
+import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Person_v2;
+import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.utility.ServerConnection;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -49,8 +48,8 @@ public class MuldvarpService extends Service {
     public static final String ACTION_UPDATE_FAILED       = "no.hials.muldvarp.ACTION_UPDATE_FAILED";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
     private Person_v2 user;
-    
-    
+
+
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
@@ -101,115 +100,115 @@ public class MuldvarpService extends Service {
             return MuldvarpService.this;
         }
     }
-    
+
     private String getURL(int path) {
         //return getString(R.string.serverPath) + getString(path);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        
+
         return "http://" + settings.getString("url", "") + ":8080/muldvarp/" + getString(path);
     }
-    
+
     private String getYoutubeUserUploadsURL(String user){
-        
+
         return getString(R.string.youtubeAPIPath) + "users/" + user + "/uploads?alt=json";
     }
-    
-    public void requestCourses() {
-        new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
-                .execute(getURL(R.string.programmeCourseResPath),
-                        getString(R.string.cacheCourseList));
-    }
-    
-    public void requestCourses(Integer progid) {
-        new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
-                .execute(getURL(R.string.programmeCourseResPath) + progid.toString(),
-                        getString(R.string.cacheCourseList));
-    }
 
-    public void requestPeople() {
-        new DownloadTask(this,new Intent(ACTION_PEOPLE_UPDATE),getHttpHeader())
-                .execute(getURL(R.string.peopleResPath), getString(R.string.cachePeopleCache));
-    }
-    
-    public void requestCourse(Integer id) {
-        new DownloadTask(this,new Intent(ACTION_SINGLECOURSE_UPDATE),getHttpHeader())
-                .execute(getURL(R.string.courseResPath) + id.toString(),
-                         getString(R.string.cacheCourseSingle), id.toString());        
-    }
-    
-    public void requestLibrary(){
-        new DownloadTask(this, new Intent(ACTION_LIBRARY_UPDATE),getHttpHeader())
-                .execute(getURL(R.string.libraryResPath), getString(R.string.cacheLibraryPath));
-    }
-    
-    public void requestVideos(){
-        
-        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOCOURSE_UPDATE),
-                                                                                this,
-                                                                                getURL(R.string.videoResPath),
-                                                                                getString(R.string.cacheVideoCourseList),
-                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
-        asyncCachedWebRequest.setHeader("Authorization", getHttpHeader());
-        asyncCachedWebRequest.startRequest();        
-    }
-    
-    public void requestStudentVideos(){
-        
-        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOSTUDENT_UPDATE),
-                                                                                this,
-                                                                                getYoutubeUserUploadsURL(getString(R.string.youtubeHialsUser)),
-                                                                                getString(R.string.cacheVideoStudentList),
-                                                                                CachedWebRequest.CACHEDWEBREQ_YOUTUBE);
-        asyncCachedWebRequest.startRequest();        
-    }
-            
-    public void requestVideo(String videoID){
-        
-        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_SINGLEVIDEO_UPDATE),
-                                                                                this,
-                                                                                getURL(R.string.videoResPath) + videoID,
-                                                                                getString(R.string.cacheVideoCourseList),
-                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
-        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
-        asyncCachedWebRequest.startRequest();
-        
-    }
-    
-    public void requestProgrammes(){
-        
-        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_PROGRAMMES_UPDATE),
-                                                                                this,
-                                                                                getURL(R.string.programmesResPath),
-                                                                                getString(R.string.cacheProgrammeList),
-                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
-        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
-        asyncCachedWebRequest.startRequest();         
-    }
-    
-    public void requestVideosInCourse(Integer id){
-        
-        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_COURSEVIDEO_UPDATE),
-                                                                                this,
-                                                                                getURL(R.string.videoCourseResPath) + id,
-                                                                                getString(R.string.cacheCourseVideoList),
-                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
-        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
-        asyncCachedWebRequest.startRequest();
-    }
-        
-    public String getHttpHeader() {
-        return "Basic " + Base64.encodeToString(loadLogin().getBytes(), Base64.NO_WRAP);
-    }
-    
-    public String loadLogin() {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        return user.getName() + ":" + user.getPassword(); 
-    }
-    
-    
+//    public void requestCourses() {
+//        new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
+//                .execute(getURL(R.string.programmeCourseResPath),
+//                        getString(R.string.cacheCourseList));
+//    }
+//
+//    public void requestCourses(Integer progid) {
+//        new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
+//                .execute(getURL(R.string.programmeCourseResPath) + progid.toString(),
+//                        getString(R.string.cacheCourseList));
+//    }
+//
+//    public void requestPeople() {
+//        new DownloadTask(this,new Intent(ACTION_PEOPLE_UPDATE),getHttpHeader())
+//                .execute(getURL(R.string.peopleResPath), getString(R.string.cachePeopleCache));
+//    }
+//
+//    public void requestCourse(Integer id) {
+//        new DownloadTask(this,new Intent(ACTION_SINGLECOURSE_UPDATE),getHttpHeader())
+//                .execute(getURL(R.string.courseResPath) + id.toString(),
+//                         getString(R.string.cacheCourseSingle), id.toString());
+//    }
+//
+//    public void requestLibrary(){
+//        new DownloadTask(this, new Intent(ACTION_LIBRARY_UPDATE),getHttpHeader())
+//                .execute(getURL(R.string.libraryResPath), getString(R.string.cacheLibraryPath));
+//    }
+//
+//    public void requestVideos(){
+//
+//        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOCOURSE_UPDATE),
+//                                                                                this,
+//                                                                                getURL(R.string.videoResPath),
+//                                                                                getString(R.string.cacheVideoCourseList),
+//                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
+//        asyncCachedWebRequest.setHeader("Authorization", getHttpHeader());
+//        asyncCachedWebRequest.startRequest();
+//    }
+//
+//    public void requestStudentVideos(){
+//
+//        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOSTUDENT_UPDATE),
+//                                                                                this,
+//                                                                                getYoutubeUserUploadsURL(getString(R.string.youtubeHialsUser)),
+//                                                                                getString(R.string.cacheVideoStudentList),
+//                                                                                CachedWebRequest.CACHEDWEBREQ_YOUTUBE);
+//        asyncCachedWebRequest.startRequest();
+//    }
+//
+//    public void requestVideo(String videoID){
+//
+//        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_SINGLEVIDEO_UPDATE),
+//                                                                                this,
+//                                                                                getURL(R.string.videoResPath) + videoID,
+//                                                                                getString(R.string.cacheVideoCourseList),
+//                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
+//        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
+//        asyncCachedWebRequest.startRequest();
+//
+//    }
+//
+//    public void requestProgrammes(){
+//
+//        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_PROGRAMMES_UPDATE),
+//                                                                                this,
+//                                                                                getURL(R.string.programmesResPath),
+//                                                                                getString(R.string.cacheProgrammeList),
+//                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
+//        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
+//        asyncCachedWebRequest.startRequest();
+//    }
+//
+//    public void requestVideosInCourse(Integer id){
+//
+//        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_COURSEVIDEO_UPDATE),
+//                                                                                this,
+//                                                                                getURL(R.string.videoCourseResPath) + id,
+//                                                                                getString(R.string.cacheCourseVideoList),
+//                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
+//        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
+//        asyncCachedWebRequest.startRequest();
+//    }
+//
+//    public String getHttpHeader() {
+//        return "Basic " + Base64.encodeToString(loadLogin().getBytes(), Base64.NO_WRAP);
+//    }
+//
+//    public String loadLogin() {
+//        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+//        return user.getName() + ":" + user.getPassword();
+//    }
+
+
     //----------------Everything belov ithis lineis new in Muldvarp mk. II----------------------\\
-    
-    
+
+
     /**
      * Method login, of class MuldvarpService.
      * This method is used to login to the server remotely. Input the username and password, and the method returns a boolean which is true if the info is correct.
@@ -227,17 +226,17 @@ public class MuldvarpService extends Service {
             return false;
         }
     }
-    
+
     /**
      * implement security here!
      * @param id
      * @param password
-     * @return 
+     * @return
      */
     public boolean checkCredentials(String username, String password){
         return true;
     }
-    
+
    /**
     * Method getUser, of class MuldvarpService.
     * This method returns the user object reference when called.
@@ -247,25 +246,23 @@ public class MuldvarpService extends Service {
     public Person_v2 getUser(){
         return user;
     }
-    
+
     /**
      * Method requested, of class MuldvarpService.
      * This method updates the requested part of the local database from the server.
      * The request argument indicates which part of the database will be updated.
-     * @param requested 
+     * @param requested
      */
     public enum DataTypes {ALL, COURSES, VIDEOS, DOCUMENTS, PROGRAMS}
-    
-    public void update(DataTypes type){
-        if(server.checkServer()){
+
+    public boolean update(DataTypes type) {
+        if(server.checkServer()) {
+            InputStreamReader is = null;
             switch(type){
                 case ALL:
                     break;
                 case COURSES:
-                    InputStreamReader is = new InputStreamReader(DownloadUtilities.getJSONData(getURL(R.string.programmeCourseResPath),header));
-                    String data = is.toString();
-                    ArrayList datalist = new ArrayList(createListItemsFromJSONString(data, DataTypes.COURSES, this));
-                    convertToNewEntity(datalist);
+                    is = new InputStreamReader(DownloadUtilities.getJSONData(getURL(R.string.programmeCourseResPath),header));
                     break;
                 case VIDEOS:
                     break;
@@ -274,94 +271,142 @@ public class MuldvarpService extends Service {
                 case PROGRAMS:
                     break;
             }
+            try {
+                updateDatabase(JSONtoList(is.toString(), type));
+                return true;
+            } catch (JSONException ex) {
+                Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NullPointerException ex) {
+                Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+        return false;
     }
-    
+
     public void updateDatabase(ArrayList data){
         //Update the database
     }
 
-    
+
+//    /**
+//     * This function creates an ArrayList of ListItems from a JSONArray represented
+//     * by a String. Currently supports Video, Programmes, Course.
+//     *
+//     * @param jsonString String value of JSONArray
+//     * @param type The type of JSONArray represented by it's cache name
+//     * @param context The application context to get the cache String name
+//     * @return ArrayList<ListItem>
+//     */
+//    public static ArrayList<ListItem> createListItemsFromJSONString(String jsonString, DataTypes type, Context context) {
+//        ArrayList itemList = new ArrayList();
+//
+//        try {
+//            System.out.println("WebResourceUtilities: Printing JSONString: " + jsonString);
+//            JSONArray jArray = new JSONArray(jsonString);
+//
+//            if (type == DataTypes.COURSES
+//                    || type.equals(context.getString(R.string.videoBookmarks))
+//                    || type.equals(context.getString(R.string.cacheVideoStudentList))
+//                    || type.equals(context.getString(R.string.cacheCourseVideoList))) {
+//
+//                //Video BS her
+//                System.out.println("WebresourceUtilities: Array length: " + jArray.length());
+//                for (int i = 0; i < jArray.length(); i++) {
+//                    JSONObject currentObject = jArray.getJSONObject(i);
+//                    itemList.add(new Video(currentObject.getString("id"),
+//                            currentObject.getString("videoName"),
+//                            currentObject.getString("videoDetail"),
+//                            currentObject.getString("videoDescription"),
+//                            currentObject.getString("videoType"),
+//                            null,
+//                            currentObject.getString("videoURI")));
+//                }
+//
+//            } else if (type.equals(context.getString(R.string.cacheCourseList))) {
+//
+//                //Course BS her
+//                for (int i = 0; i < jArray.length(); i++) {
+//
+//                    JSONObject currentObject = jArray.getJSONObject(i);
+//
+//                    itemList.add(new Course(currentObject.getInt("id"),
+//                            currentObject.getString("name"),
+//                            currentObject.getString("detail"),
+//                            currentObject.getString("detail"),
+//                            "Course",
+//                            null));
+//
+//                }
+//            } else if (type.equals(context.getString(R.string.cacheProgrammeList))) {
+//
+//                //Course BS her
+//                for (int i = 0; i < jArray.length(); i++) {
+//
+//                    JSONObject currentObject = jArray.getJSONObject(i);
+//
+//                    itemList.add(new Programme(currentObject.getString("id"),
+//                            currentObject.getString("name"),
+//                            currentObject.getString("detail"),  //no small description
+//                            currentObject.getString("detail"),
+//                            "Programme", //no type
+//                            null)); //no bitmap (yet)
+//
+//                }
+//            } else {
+//
+//                System.out.println("WebResourceUtilities: It was null. or irrelevant");
+//            }
+//        } catch (Exception ex) {
+//            System.out.println("WebResourceUtilities: Failed to convert String of alleged type " + type );
+//            ex.printStackTrace();
+//        }
+//
+//        return itemList;
+//    }
+
     /**
-     * This function creates an ArrayList of ListItems from a JSONArray represented
-     * by a String. Currently supports Video, Programmes, Course.
-     * 
-     * @param jsonString String value of JSONArray
-     * @param type The type of JSONArray represented by it's cache name
-     * @param context The application context to get the cache String name
-     * @return ArrayList<ListItem>
+     * Converts a JSON array to list
+     *
+     * @param jsonString
+     * @param type
+     * @return
+     * @throws JSONException
      */
-    public static ArrayList<ListItem> createListItemsFromJSONString(String jsonString, DataTypes type, Context context) {
-        ArrayList itemList = new ArrayList();        
-        
-        try {
-            System.out.println("WebResourceUtilities: Printing JSONString: " + jsonString);
-            JSONArray jArray = new JSONArray(jsonString);            
-                       
-            if (type == DataTypes.COURSES
-                    || type.equals(context.getString(R.string.videoBookmarks))
-                    || type.equals(context.getString(R.string.cacheVideoStudentList))
-                    || type.equals(context.getString(R.string.cacheCourseVideoList))) {
-                
-                //Video BS her
-                System.out.println("WebresourceUtilities: Array length: " + jArray.length());
-                for (int i = 0; i < jArray.length(); i++) {
-                    JSONObject currentObject = jArray.getJSONObject(i);
-                    itemList.add(new Video(currentObject.getString("id"),
-                            currentObject.getString("videoName"),
-                            currentObject.getString("videoDetail"),
-                            currentObject.getString("videoDescription"),
-                            currentObject.getString("videoType"),
-                            null,
-                            currentObject.getString("videoURI")));
-                }
+    public ArrayList<Domain> JSONtoList(String jsonString, DataTypes type) throws JSONException {
+        ArrayList<Domain> itemList = new ArrayList<Domain>();
+        JSONArray jArray = new JSONArray(jsonString);
 
-            } else if (type.equals(context.getString(R.string.cacheCourseList))) {
+        Domain d = null;
+        switch(type) {
+            case COURSES:
+                d = new Course();
+                break;
+            case PROGRAMS:
+                d = new Programme();
+                break;
+            case DOCUMENTS:
+                d = new Document();
+                break;
+            case VIDEOS:
+                d = new Video();
+                break;
+        }
 
-                //Course BS her
-                for (int i = 0; i < jArray.length(); i++) {
-
-                    JSONObject currentObject = jArray.getJSONObject(i);
-
-                    itemList.add(new Course(currentObject.getInt("id"),
-                            currentObject.getString("name"),
-                            currentObject.getString("detail"),
-                            currentObject.getString("detail"),
-                            "Course",
-                            null));
-
-                }
-            } else if (type.equals(context.getString(R.string.cacheProgrammeList))) {
-
-                //Course BS her
-                for (int i = 0; i < jArray.length(); i++) {
-
-                    JSONObject currentObject = jArray.getJSONObject(i);
-
-                    itemList.add(new Programme(currentObject.getString("id"), 
-                            currentObject.getString("name"),
-                            currentObject.getString("detail"),  //no small description
-                            currentObject.getString("detail"),
-                            "Programme", //no type
-                            null)); //no bitmap (yet)
-
-                }
-            } else {
-
-                System.out.println("WebResourceUtilities: It was null. or irrelevant");
-            }
-        } catch (Exception ex) {
-            System.out.println("WebResourceUtilities: Failed to convert String of alleged type " + type );
-            ex.printStackTrace();
+        for(int i = 0; i < jArray.length(); i++) {
+            JSONObject currentObject = jArray.getJSONObject(i);
+            d.setId(currentObject.getInt("id"));
+            d.setName(currentObject.getString("name"));
+            d.setDetail(currentObject.getString("detail"));
+            itemList.add(d);
         }
 
         return itemList;
     }
-    
+
     /**
      * Method convertToNewEntity, of class MuldvarpService.
      * This method converts a list of old entity classes(from muldvarp 1.0) to the new entityclasses in muldvarp mk. II.
-     * @param datalist 
+     * @param datalist
      */
     private ArrayList convertToNewEntity(ArrayList datalist) {
         ArrayList retval = new ArrayList<Domain>();
