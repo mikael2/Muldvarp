@@ -23,7 +23,7 @@ public class MuldvarpDataSource {
   private SQLiteDatabase database;
   private MuldvarpSQLDatabaseHelper dbHelper;
   private String[] allColumns = { MuldvarpSQLDatabaseHelper.COLUMN_ID,
-      MuldvarpSQLDatabaseHelper.COLUMN_PROGRAMME_NAME };
+      MuldvarpSQLDatabaseHelper.COLUMN_NAME };
 
   public MuldvarpDataSource(Context context) {
     dbHelper = new MuldvarpSQLDatabaseHelper(context);
@@ -39,7 +39,7 @@ public class MuldvarpDataSource {
 
   public Programme createprogramme(String programme) {
     ContentValues values = new ContentValues();
-    values.put(MuldvarpSQLDatabaseHelper.COLUMN_PROGRAMME_NAME, programme);
+    values.put(MuldvarpSQLDatabaseHelper.COLUMN_NAME, programme);
     long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, null,
         values);
     Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
