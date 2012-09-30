@@ -36,6 +36,14 @@ public class MuldvarpDataSource {
   public void close() {
     dbHelper.close();
   }
+  
+  public void createRelation(){
+      
+  }
+  
+  public void deleteRelation(){
+      
+  }
 
   public Programme createprogramme(String programme) {
     ContentValues values = new ContentValues();
