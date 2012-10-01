@@ -1,7 +1,6 @@
 package no.hials.muldvarp.v2;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.entities.ListItem;
 import no.hials.muldvarp.utility.DownloadUtilities;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Document;
@@ -260,6 +258,10 @@ public class MuldvarpService extends Service {
             InputStreamReader is = null;
             switch(type){
                 case ALL:
+                    update(DataTypes.COURSES);
+                    update(DataTypes.VIDEOS);
+                    update(DataTypes.DOCUMENTS);
+                    update(DataTypes.PROGRAMS);
                     break;
                 case COURSES:
                     is = new InputStreamReader(DownloadUtilities.getJSONData(getURL(R.string.programmeCourseResPath),header));

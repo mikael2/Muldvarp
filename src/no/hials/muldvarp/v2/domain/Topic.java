@@ -4,7 +4,12 @@
  */
 package no.hials.muldvarp.v2.domain;
 
+import android.content.Context;
 import java.util.List;
+import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.fragments.ListFragment;
+import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
+import no.hials.muldvarp.v2.utility.DummyDataProvider;
 
 /**
  *
@@ -15,11 +20,11 @@ public class Topic extends Domain {
     String content_url;
     String contentType;
     List<Question> questions;
-    
+
     public Topic(String name) {
         super(name);
     }
-    
+
     public void acceptTask() {
         done = true;
     }
@@ -55,5 +60,15 @@ public class Topic extends Domain {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
-    
+
+    @Override
+    public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
+        super.populateList(fragmentList, context);
+//        ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
+//        gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
+//        fragmentList.add(gridFragmentList);
+        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
+        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
+    }
+
 }

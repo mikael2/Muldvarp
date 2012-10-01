@@ -51,7 +51,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     public String activityName;
     public SearchView searchView;
     public Domain domain;
-    
+
     @Override
     public void onBackPressed() {
         if(rbmView.isMenuVisible()){
@@ -70,21 +70,21 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
-        
+
         setContentView(R.layout.main);
-        
+
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
         rbmView.setMenuItems(R.menu.ribbon_menu);
 
         loginname = (TextView) findViewById(R.id.loginname);
         loginname.setText("ikke innlogget");
-        
+
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getActionBar().setDisplayShowTitleEnabled(false);
-        
+
         Intent intent = new Intent(this, MuldvarpService.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
@@ -97,13 +97,13 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         else if(savedInstanceState != null)
             getActionBar().setSelectedNavigationItem(savedInstanceState.getInt("tab"));
     }
-    
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = null;
@@ -114,7 +114,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 return true;
             case R.id.login:
                 showDialog(0);
-                return true;    
+                return true;
             case R.id.about:
                 showDialog(1);
                 return true;
@@ -158,7 +158,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                             Toast toast = Toast.makeText(getApplicationContext(), "Wrong username and/or password.", Toast.LENGTH_SHORT);
                             toast.show();
                         }
-                        
+
              }
          });
                 break;
@@ -166,7 +166,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 dialog.setContentView(R.layout.directory_campus);
                 dialog.setTitle("Om oss");
                 break;
-        
+
             case 2:     //This dialog is not currently used due to issues with accuratly triggering it when the application would otherwise finish.
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Er du sikker på at du vil avslutte?");
@@ -187,30 +187,30 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
 
         return dialog;
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity, menu);
-        
+
         searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         //Create Listener for the search bar in the top actionbar
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            public boolean onQueryTextSubmit(String query) {                
+            public boolean onQueryTextSubmit(String query) {
                 return false;
             }
             public boolean onQueryTextChange(String newText) {
                 //Get current Fragment based on the currently selected index
                 MuldvarpFragment tempFragment = fragmentList.get(getActionBar().getSelectedNavigationIndex());
-                tempFragment.queryText(newText);                
+                tempFragment.queryText(newText);
                 return true;
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
-        
+
         return true;
     }
-    
+
     @Override
     public void RibbonMenuItemClick(int itemId) {
         switch(itemId) {
@@ -221,7 +221,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 break;
         }
     }
-    
+
     public void getSpinnerList(final Activity activity, final List<MuldvarpFragment> fragmentList, int strings, int layout) {
         SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, strings, layout);
         ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
@@ -234,8 +234,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         };
         getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
     }
-    
-    
+
+
      private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
@@ -252,7 +252,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             mBound = false;
         }
     };
-     
+
      /**
       * Returns the Muldvarpservice object reference.
       * Typically used by the activity's fragments.
@@ -261,7 +261,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      public MuldvarpService getService(){
          return mService;
      }
-     
+
      /**
       * Returns true if the user is logged in.
       * @return loggedIn
@@ -269,5 +269,5 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      public boolean getLoggedIn(){
          return loggedIn;
      }
-     
+
 }
