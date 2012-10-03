@@ -1,6 +1,7 @@
 package no.hials.muldvarp.v2.domain;
 
 import android.content.Context;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
@@ -13,7 +14,7 @@ import no.hials.muldvarp.v2.utility.DummyDataProvider;
  *
  * @author kristoffer
  */
-public class Course extends Domain {
+public class Course extends Domain implements Serializable {
     String imageurl;
 
     Integer revision;

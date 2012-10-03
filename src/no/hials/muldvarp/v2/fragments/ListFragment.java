@@ -21,7 +21,6 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
 /**

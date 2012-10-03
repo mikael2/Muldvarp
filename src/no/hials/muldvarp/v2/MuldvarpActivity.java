@@ -33,6 +33,7 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Person_v2;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
@@ -71,6 +72,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println(savedInstanceState);
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
 
@@ -90,6 +92,12 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
 
         Intent intent = new Intent(this, MuldvarpService.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        if(savedInstanceState != null){
+            if(savedInstanceState.getSerializable("user") != null){
+                mService.reLog((Person_v2)savedInstanceState.getSerializable("user"));
+                loginname.setText(mService.getUser().getName());
+            }
+        }
     }
 
     @Override
@@ -105,6 +113,9 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+         if(mService.getUser() != null){
+            outState.putSerializable("user", mService.getUser());
+        }
     }
 
     @Override
@@ -272,5 +283,4 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      public boolean getLoggedIn(){
          return loggedIn;
      }
-
 }

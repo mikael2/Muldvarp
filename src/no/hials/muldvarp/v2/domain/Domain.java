@@ -105,7 +105,7 @@ public class Domain implements Serializable {
         fragmentList.add(new TextFragment("Informasjon", TextFragment.Type.INFO, R.drawable.stolen_contacts));
         fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl));
 
-        if(this.getClass().getSuperclass() == Object.class) {
+        if(this.getClass().getSuperclass() == Object.class) { // if this class has no superclass (except object)
             defaultList(fragmentList, context);
         }
     }
