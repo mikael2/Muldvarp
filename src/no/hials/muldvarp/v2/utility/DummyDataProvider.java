@@ -39,7 +39,7 @@ public class DummyDataProvider {
              
                 Programme currentProgram = new Programme(tempList[i]);
                 currentProgram.setActivity(TopActivity.class);
-                muldvarpDataSource.createProgramme(currentProgram);
+                muldvarpDataSource.insertProgramme(currentProgram);
 
                 //debug check:
                 System.out.println("Created:" + currentProgram.getName());

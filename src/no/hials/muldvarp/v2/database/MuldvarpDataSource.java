@@ -28,8 +28,7 @@ public class MuldvarpDataSource {
   }
 
   public void open() throws SQLException {
-    database = dbHelper.getWritableDatabase();
-    
+    database = dbHelper.getWritableDatabase();    
   }
 
   public void close() {
@@ -44,22 +43,7 @@ public class MuldvarpDataSource {
       
   }
 
-  public Programme createprogramme(String programme) {
-    ContentValues values = new ContentValues();
-    values.put(MuldvarpSQLDatabaseHelper.COLUMN_NAME, programme);
-    values.put(MuldvarpSQLDatabaseHelper.COLUMN_REVISION, 15);
-    values.put(MuldvarpSQLDatabaseHelper.COLUMN_UPDATED, programme);
-    long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, null,
-        values);
-    Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
-        MuldvarpSQLDatabaseHelper.getColumns(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpSQLDatabaseHelper.COLUMN_ID + " = " + insertId, null,
-        null, null, null);
-    cursor.moveToFirst();
-    Programme newprogramme = cursorToProgramme(cursor);
-    cursor.close();
-    return newprogramme;
-  }
-    public Programme createProgramme(Programme programme) {
+  public Programme insertProgramme(Programme programme) {
         ContentValues values = new ContentValues();
         values.put(MuldvarpSQLDatabaseHelper.COLUMN_NAME, programme.getName());
         values.put(MuldvarpSQLDatabaseHelper.COLUMN_REVISION, 15);
@@ -156,5 +140,20 @@ public String[][] getAll(String query){
         return array;
     }
 
-    
+//  public Programme createprogramme(String programme) {
+//    ContentValues values = new ContentValues();
+//    values.put(MuldvarpSQLDatabaseHelper.COLUMN_NAME, programme);
+//    values.put(MuldvarpSQLDatabaseHelper.COLUMN_REVISION, 15);
+//    values.put(MuldvarpSQLDatabaseHelper.COLUMN_UPDATED, programme);
+//    long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, null,
+//        values);
+//    Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
+//        MuldvarpSQLDatabaseHelper.getColumns(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpSQLDatabaseHelper.COLUMN_ID + " = " + insertId, null,
+//        null, null, null);
+//    cursor.moveToFirst();
+//    Programme newprogramme = cursorToProgramme(cursor);
+//    cursor.close();
+//    return newprogramme;
+//  }
+//    
 }

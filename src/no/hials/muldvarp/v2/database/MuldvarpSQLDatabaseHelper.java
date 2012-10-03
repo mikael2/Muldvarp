@@ -52,6 +52,36 @@ public class MuldvarpSQLDatabaseHelper extends SQLiteOpenHelper {
     
     public static final String TABLE_USER_COURSES ="usercourses";
 
+    public static final String[][] TABLE_PROGRAMME_HAS_COURSE_COLUMNS = {
+      {TABLE_PROGRAMME + COLUMN_ID, " integer not null"},
+      {TABLE_COURSE + COLUMN_ID, " integer not null"}
+    };
+    
+    public static final String[][] TABLE_PROGRAMME_HAS_QUIZ_COLUMNS = {
+      {TABLE_PROGRAMME + COLUMN_ID, " integer not null"},
+      {TABLE_QUIZ + COLUMN_ID, " integer not null"}
+    };
+    
+    public static final String[][] TABLE_PROGRAMME_HAS_DOCUMENT_COLUMNS = {
+      {TABLE_PROGRAMME + COLUMN_ID, " integer not null"},
+      {TABLE_DOCUMENT + COLUMN_ID, " integer not null"}
+    };
+    
+    public static final String[][] TABLE_COURSE_HAS_TOPIC_COLUMNS = {
+      {TABLE_COURSE + COLUMN_ID, " integer not null"},
+      {TABLE_TOPIC + COLUMN_ID, " integer not null"}
+    };
+    
+    public static final String[][] TABLE_COURSE_HAS_QUIZ_COLUMNS = {
+      {TABLE_COURSE + COLUMN_ID, " integer not null"},
+      {TABLE_QUIZ + COLUMN_ID, " integer not null"}
+    };
+    
+    public static final String[][] TABLE_COURSE_HAS_DOCUMENT_COLUMNS = {
+      {TABLE_COURSE + COLUMN_ID, " integer not null"},
+      {TABLE_DOCUMENT + COLUMN_ID, " integer not null"}
+    };
+    
     public static final String[][] TABLE_PROGRAMME_COLUMNS = {
       {COLUMN_ID, " integer primary key autoincrement"},
       {COLUMN_NAME, " text not null "},
