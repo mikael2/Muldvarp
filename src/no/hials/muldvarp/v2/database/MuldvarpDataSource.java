@@ -14,24 +14,14 @@ import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
 
 /**
- * This class is responsible for managing the SQLITE datasource.
+ * This class is responsible for managing the SQLITE data source.
  * @author johan
  */
 public class MuldvarpDataSource {
     
   // Database fields
   private SQLiteDatabase database;
-  private MuldvarpSQLDatabaseHelper dbHelper;
-  private String[] allColumns = { MuldvarpSQLDatabaseHelper.COLUMN_ID,
-                                  MuldvarpSQLDatabaseHelper.COLUMN_NAME,
-                                  MuldvarpSQLDatabaseHelper.COLUMN_DESCRIPTION,
-                                  MuldvarpSQLDatabaseHelper.COLUMN_REVISION,
-                                  MuldvarpSQLDatabaseHelper.COLUMN_UPDATED,
-                                  MuldvarpSQLDatabaseHelper.COLUMN_URI };
-  
-  private String[] derColumns = {
-      "ere"
-  };
+  private MuldvarpSQLDatabaseHelper dbHelper;  
   
   public MuldvarpDataSource(Context context) {
     dbHelper = new MuldvarpSQLDatabaseHelper(context);
@@ -57,16 +47,34 @@ public class MuldvarpDataSource {
   public Programme createprogramme(String programme) {
     ContentValues values = new ContentValues();
     values.put(MuldvarpSQLDatabaseHelper.COLUMN_NAME, programme);
+    values.put(MuldvarpSQLDatabaseHelper.COLUMN_REVISION, 15);
+    values.put(MuldvarpSQLDatabaseHelper.COLUMN_UPDATED, programme);
     long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, null,
         values);
     Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
-        allColumns, MuldvarpSQLDatabaseHelper.COLUMN_ID + " = " + insertId, null,
+        MuldvarpSQLDatabaseHelper.getColumns(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpSQLDatabaseHelper.COLUMN_ID + " = " + insertId, null,
         null, null, null);
     cursor.moveToFirst();
     Programme newprogramme = cursorToProgramme(cursor);
     cursor.close();
     return newprogramme;
   }
+    public Programme createProgramme(Programme programme) {
+        ContentValues values = new ContentValues();
+        values.put(MuldvarpSQLDatabaseHelper.COLUMN_NAME, programme.getName());
+        values.put(MuldvarpSQLDatabaseHelper.COLUMN_REVISION, 15);
+        values.put(MuldvarpSQLDatabaseHelper.COLUMN_UPDATED, "sadasd");
+        long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, null,
+            values);
+        Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
+            MuldvarpSQLDatabaseHelper.getColumns(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpSQLDatabaseHelper.COLUMN_ID + " = " + insertId, null,
+            null, null, null);
+        cursor.moveToFirst();
+        Programme newprogramme = cursorToProgramme(cursor);
+        cursor.close();
+    return newprogramme;
+  }
+  
 
   public void deleteProgramme(Programme programme) {
     long id = programme.getId();
@@ -85,7 +93,7 @@ public class MuldvarpDataSource {
     ArrayList<Domain> programmes = new ArrayList<Domain>();
 
     Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
-        allColumns, null, null, null, null, null);
+        MuldvarpSQLDatabaseHelper.getColumns(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME_COLUMNS), null, null, null, null, null);
 
     cursor.moveToFirst();
     while (!cursor.isAfterLast()) {

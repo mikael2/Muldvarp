@@ -12,6 +12,7 @@ import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.QuizActivity;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
+import no.hials.muldvarp.v2.database.MuldvarpSQLDatabaseHelper;
 import no.hials.muldvarp.v2.domain.*;
 
 /**
@@ -28,12 +29,23 @@ public class DummyDataProvider {
         
         MuldvarpDataSource muldvarpDataSource = new MuldvarpDataSource(context);
         muldvarpDataSource.open();
+                
+        //Get arraylist from XML resource, create Programme objects and place them in an array.
+        String[] tempList = context.getResources().getStringArray(R.array.programme_list_dummmy);   
         
-        muldvarpDataSource.createprogramme("hurrrrrr5");
-        muldvarpDataSource.createprogramme("hurrrrrr4");
-        muldvarpDataSource.createprogramme("hurrrrrr3");
-        muldvarpDataSource.createprogramme("hurrrrrr2");
-        muldvarpDataSource.createprogramme("hurrrrrr1");
+        if (tempList != null) {
+            
+            for (int i = 0; i < tempList.length; i++) {
+             
+                Programme currentProgram = new Programme(tempList[i]);
+                currentProgram.setActivity(TopActivity.class);
+                muldvarpDataSource.createProgramme(currentProgram);
+
+                //debug check:
+                System.out.println("Created:" + currentProgram.getName());
+            }
+            
+        }       
         
         return muldvarpDataSource.getAllProgrammes();
     }
