@@ -43,7 +43,7 @@ public class MuldvarpDataSource {
     }
 
 
-    public Programme insertProgramme(Programme programme) {
+    public long insertProgramme(Programme programme) {
 
         //Get text/int value fields from Domain and insert into table
         ContentValues values = new ContentValues();
@@ -52,13 +52,29 @@ public class MuldvarpDataSource {
         values.put(MuldvarpDBHelper.COLUMN_UPDATED, "sadasd");
         long insertId = database.insert(MuldvarpDBHelper.TABLE_PROGRAMME, null,
             values);
+        
+        //Set up relation 
+        String[] columns = MuldvarpDBHelper.getColumns(MuldvarpDBHelper.TABLE_PROGRAMME_HAS_COURSE_COLUMNS);
+        values = new ContentValues();
+        
+        ArrayList<Course> courseList = new ArrayList<Course>();
+        courseList = (ArrayList<Course>) programme.getCourses();
+        
+        if (courseList != null) {
+            for (int i = 0; i < courseList.size(); i++) {
+                values.put(columns[0], insertId);
+                values.put(columns[1], insertCourse(courseList.get(i)));
+            }
+        }
+                        
         Cursor cursor = database.query(MuldvarpDBHelper.TABLE_PROGRAMME,
             MuldvarpDBHelper.getColumns(MuldvarpDBHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpDBHelper.COLUMN_ID + " = " + insertId, null,
             null, null, null);
         cursor.moveToFirst();
+        
         Programme newprogramme = cursorToProgramme(cursor);
         cursor.close();
-        return newprogramme;
+        return insertId;
     }
 
 
@@ -95,7 +111,7 @@ public class MuldvarpDataSource {
         return programmes;
     }
 
-    public Programme insertCourse(Course course) {
+    public long insertCourse(Course course) {
         ContentValues values = new ContentValues();
         values.put(MuldvarpDBHelper.COLUMN_NAME, course.getName());
         values.put(MuldvarpDBHelper.COLUMN_REVISION, 15);
@@ -108,7 +124,7 @@ public class MuldvarpDataSource {
         cursor.moveToFirst();
         Programme retVal = cursorToProgramme(cursor);
         cursor.close();
-        return retVal;
+        return insertId;
     }
 
 
