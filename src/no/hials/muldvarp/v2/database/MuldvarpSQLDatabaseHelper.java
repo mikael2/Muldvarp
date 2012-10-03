@@ -192,6 +192,12 @@ public class MuldvarpSQLDatabaseHelper extends SQLiteOpenHelper {
         database.execSQL(getTableCreationString(TABLE_VIDEO, TABLE_COLUMNS_VIDEO));
         database.execSQL(getTableCreationString(TABLE_DOCUMENT, TABLE_COLUMNS_DOCUMENT));
         database.execSQL(getTableCreationString(TABLE_QUIZ, TABLE_COLUMNS_QUIZ));
+        database.execSQL(getTableCreationString(TABLE_PROGRAMME_HAS_COURSE, TABLE_PROGRAMME_HAS_COURSE_COLUMNS));
+        database.execSQL(getTableCreationString(TABLE_PROGRAMME_HAS_DOCUMENT, TABLE_PROGRAMME_HAS_DOCUMENT_COLUMNS));
+        database.execSQL(getTableCreationString(TABLE_PROGRAMME_HAS_QUIZ, TABLE_PROGRAMME_HAS_QUIZ_COLUMNS));
+        database.execSQL(getTableCreationString(TABLE_COURSE_HAS_DOCUMENT, TABLE_COURSE_HAS_DOCUMENT_COLUMNS));
+        database.execSQL(getTableCreationString(TABLE_COURSE_HAS_TOPIC, TABLE_COURSE_HAS_TOPIC_COLUMNS));
+        
     }
 
     @Override
