@@ -23,14 +23,23 @@ public class MuldvarpDataSource {
   private SQLiteDatabase database;
   private MuldvarpSQLDatabaseHelper dbHelper;
   private String[] allColumns = { MuldvarpSQLDatabaseHelper.COLUMN_ID,
-      MuldvarpSQLDatabaseHelper.COLUMN_NAME };
-
+                                  MuldvarpSQLDatabaseHelper.COLUMN_NAME,
+                                  MuldvarpSQLDatabaseHelper.COLUMN_DESCRIPTION,
+                                  MuldvarpSQLDatabaseHelper.COLUMN_REVISION,
+                                  MuldvarpSQLDatabaseHelper.COLUMN_UPDATED,
+                                  MuldvarpSQLDatabaseHelper.COLUMN_URI };
+  
+  private String[] derColumns = {
+      "ere"
+  };
+  
   public MuldvarpDataSource(Context context) {
     dbHelper = new MuldvarpSQLDatabaseHelper(context);
   }
 
   public void open() throws SQLException {
     database = dbHelper.getWritableDatabase();
+    
   }
 
   public void close() {
@@ -65,7 +74,13 @@ public class MuldvarpDataSource {
     database.delete(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, MuldvarpSQLDatabaseHelper.COLUMN_ID
         + " = " + id, null);
   }
-
+  
+  public Domain getProgrammeFromDB(String name){
+      
+      
+      return null;
+  }
+  
   public ArrayList<Domain> getAllProgrammes() {
     ArrayList<Domain> programmes = new ArrayList<Domain>();
 
@@ -84,7 +99,7 @@ public class MuldvarpDataSource {
   }
 
   private Programme cursorToProgramme(Cursor cursor) {
-    Programme programme = new Programme(cursor.getString(1));
+    Programme programme = new Programme();
     int id = (int) cursor.getLong(0);
     programme.setId(id);
     programme.setName(cursor.getString(1));
@@ -92,5 +107,46 @@ public class MuldvarpDataSource {
   }
   
   
+  
+public String[][] getAll(String query){
+        String[][] array = null;
+        Cursor cursor = null;
+        
+        try {
+            cursor = database.rawQuery(query, null);
+            
+            if(!cursor.isFirst()){
+                cursor.moveToFirst();
+            }
+            
+            int rowCount = cursor.getCount();
+            int columnCount = cursor.getColumnCount();
+            
+            array = new String[rowCount][columnCount];
+            
+            int index =0;
+            
+            if(cursor.isFirst()){
+                do{
+                    for(int j=0;j<columnCount;j++){
+                        array[index][j]= cursor.getString(j); 
+                        System.out.println(cursor.getColumnName(j)+":"+cursor.getString(j));
+                        System.out.println();
+                    }
+                    index++;
+                }while(cursor.moveToNext());
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            if(cursor!=null)
+            cursor.close();
+            if(database!=null)
+            database.close();
+        }
+        return array;
+    }
+
     
 }
