@@ -4,10 +4,11 @@
  */
 package no.hials.muldvarp.v2.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Person_v2 extends Domain {
+public class Person_v2 extends Domain implements Serializable {
     private int userId;
     private String password;
     private ArrayList<Course> userCourses;

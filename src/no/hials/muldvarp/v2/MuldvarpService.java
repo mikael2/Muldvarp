@@ -224,6 +224,10 @@ public class MuldvarpService extends Service {
             return false;
         }
     }
+        
+        public void reLog(Person_v2 person){
+            user = person;
+        }
 
     /**
      * implement security here!
