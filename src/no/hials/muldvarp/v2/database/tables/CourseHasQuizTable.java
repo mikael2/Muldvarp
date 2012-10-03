@@ -16,5 +16,6 @@ public class CourseHasQuizTable extends MuldvarpTable {
       {CourseTable.TABLE_NAME + COLUMN_ID, " integer not null"},
       {QuizTable.TABLE_NAME + COLUMN_ID, " integer not null"}
     };
+
     
 }

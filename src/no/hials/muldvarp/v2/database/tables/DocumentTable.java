@@ -19,4 +19,5 @@ public class DocumentTable extends MuldvarpTable {
       {COLUMN_URI," text not null"},
       {COLUMN_UPDATED, " text not null"}
     };
+    
 }
