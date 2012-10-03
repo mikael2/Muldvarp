@@ -10,177 +10,165 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
-import no.hials.muldvarp.v2.domain.Course;
-import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.domain.*;
 
 /**
  * This class is responsible for managing the SQLITE data source.
  * @author johan
  */
 public class MuldvarpDataSource {
-    
-  // Database fields
-  private SQLiteDatabase database;
-  private MuldvarpSQLDatabaseHelper dbHelper;  
-  
-  public MuldvarpDataSource(Context context) {
-    dbHelper = new MuldvarpSQLDatabaseHelper(context);
-  }
 
-  public void open() throws SQLException {
-    database = dbHelper.getWritableDatabase();    
-  }
+    // Database fields
+    private SQLiteDatabase database;
+    private MuldvarpDBHelper dbHelper;  
 
-  public void close() {
-    dbHelper.close();
-  }
-  
-  public void createRelation(String table, String id1, String id2){
-      
-      
-      
-      ContentValues values = new ContentValues();
-  }
-  
-  public void deleteRelation(String table, String id1, String id2){
-      
-  }
+    public MuldvarpDataSource(Context context) {
+        dbHelper = new MuldvarpDBHelper(context);
+    }
 
-  public Programme insertProgramme(Programme programme) {
+    public void open() throws SQLException {
+        database = dbHelper.getWritableDatabase();    
+    }
+
+    public void close() {
+        dbHelper.close();
+    }
+
+    public void createRelation(String table, String id1, String id2){
         ContentValues values = new ContentValues();
-        values.put(MuldvarpSQLDatabaseHelper.COLUMN_NAME, programme.getName());
-        values.put(MuldvarpSQLDatabaseHelper.COLUMN_REVISION, 15);
-        values.put(MuldvarpSQLDatabaseHelper.COLUMN_UPDATED, "sadasd");
-        long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, null,
+    }
+
+    public void deleteRelation(String table, String id1, String id2){
+
+    }
+
+
+    public Programme insertProgramme(Programme programme) {
+
+        //Get text/int value fields from Domain and insert into table
+        ContentValues values = new ContentValues();
+        values.put(MuldvarpDBHelper.COLUMN_NAME, programme.getName());
+        values.put(MuldvarpDBHelper.COLUMN_REVISION, 15);
+        values.put(MuldvarpDBHelper.COLUMN_UPDATED, "sadasd");
+        long insertId = database.insert(MuldvarpDBHelper.TABLE_PROGRAMME, null,
             values);
-        Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
-            MuldvarpSQLDatabaseHelper.getColumns(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpSQLDatabaseHelper.COLUMN_ID + " = " + insertId, null,
+        Cursor cursor = database.query(MuldvarpDBHelper.TABLE_PROGRAMME,
+            MuldvarpDBHelper.getColumns(MuldvarpDBHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpDBHelper.COLUMN_ID + " = " + insertId, null,
             null, null, null);
         cursor.moveToFirst();
         Programme newprogramme = cursorToProgramme(cursor);
         cursor.close();
-    return newprogramme;
-  }
-  
-
-  public void deleteProgramme(Programme programme) {
-    long id = programme.getId();
-    System.out.println("programme deleted with id: " + id);
-    database.delete(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, MuldvarpSQLDatabaseHelper.COLUMN_ID
-        + " = " + id, null);
-  }
-  
-  public Programme getProgramme(String name){
-      
-      Cursor cursor = database.rawQuery("SELECT * FROM tbl1 WHERE name = '"+name+"'", null);
-      Programme retVal = new Programme();
-      int id = (int) cursor.getLong(0);
-      retVal.setId(id);
-      retVal.setName(cursor.getString(1));
-      
-      return retVal;
-  }
-  
-  public ArrayList<Domain> getAllProgrammes() {
-    ArrayList<Domain> programmes = new ArrayList<Domain>();
-
-    Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
-        MuldvarpSQLDatabaseHelper.getColumns(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME_COLUMNS), null, null, null, null, null);
-
-    cursor.moveToFirst();
-    while (!cursor.isAfterLast()) {
-      Programme programme = cursorToProgramme(cursor);
-      programmes.add(programme);
-      cursor.moveToNext();
+        return newprogramme;
     }
-    // Make sure to close the cursor
-    cursor.close();
-    return programmes;
-  }
 
-  private Programme cursorToProgramme(Cursor cursor) {
-    Programme programme = new Programme();
-    int id = (int) cursor.getLong(0);
-    programme.setId(id);
-    programme.setName(cursor.getString(1));
-    return programme;
-  }
-  
-  public Programme insertCourse(Course course) {
+
+    public void deleteProgramme(Programme programme) {
+        long id = programme.getId();
+        System.out.println("programme deleted with id: " + id);
+        database.delete(MuldvarpDBHelper.TABLE_PROGRAMME, MuldvarpDBHelper.COLUMN_ID
+            + " = " + id, null);
+    }
+
+    public Programme getProgramme(String name){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + MuldvarpDBHelper.TABLE_PROGRAMME + " WHERE name = '"+name+"'", null);
+        Programme retVal = new Programme();
+        retVal = cursorToProgramme(cursor);
+        return retVal;
+    }
+
+    public ArrayList<Domain> getAllProgrammes() {
+        ArrayList<Domain> programmes = new ArrayList<Domain>();
+
+        Cursor cursor = database.query(MuldvarpDBHelper.TABLE_PROGRAMME,
+            MuldvarpDBHelper.getColumns(MuldvarpDBHelper.TABLE_PROGRAMME_COLUMNS),
+            null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+        Programme programme = cursorToProgramme(cursor);
+        programmes.add(programme);
+        cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return programmes;
+    }
+
+    public Programme insertCourse(Course course) {
         ContentValues values = new ContentValues();
-        values.put(MuldvarpSQLDatabaseHelper.COLUMN_NAME, course.getName());
-        values.put(MuldvarpSQLDatabaseHelper.COLUMN_REVISION, 15);
-        values.put(MuldvarpSQLDatabaseHelper.COLUMN_UPDATED, "sadasd");
-        long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, null,
+        values.put(MuldvarpDBHelper.COLUMN_NAME, course.getName());
+        values.put(MuldvarpDBHelper.COLUMN_REVISION, 15);
+        values.put(MuldvarpDBHelper.COLUMN_UPDATED, "sadasd");
+        long insertId = database.insert(MuldvarpDBHelper.TABLE_PROGRAMME, null,
             values);
-        Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
-            MuldvarpSQLDatabaseHelper.getColumns(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpSQLDatabaseHelper.COLUMN_ID + " = " + insertId, null,
+        Cursor cursor = database.query(MuldvarpDBHelper.TABLE_PROGRAMME,
+            MuldvarpDBHelper.getColumns(MuldvarpDBHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpDBHelper.COLUMN_ID + " = " + insertId, null,
             null, null, null);
         cursor.moveToFirst();
         Programme retVal = cursorToProgramme(cursor);
         cursor.close();
-    return retVal;
-  }
-  
-
-  public void deleteCourse(Course course) {
-    long id = course.getId();
-    System.out.println("programme deleted with id: " + id);
-    database.delete(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, MuldvarpSQLDatabaseHelper.COLUMN_ID
-        + " = " + id, null);
-  }
-  
-  public Programme getCourse(String name){
-      
-      Cursor cursor = database.rawQuery("SELECT * FROM tbl1 WHERE name = '"+name+"'", null);
-      Programme retVal = new Programme();
-      int id = (int) cursor.getLong(0);
-      retVal.setId(id);
-      retVal.setName(cursor.getString(1));
-      
-      return retVal;
-  }
-  
-  
-  
-public String[][] getAll(String query){
-        String[][] array = null;
-        Cursor cursor = null;
-        
-        try {
-            cursor = database.rawQuery(query, null);
-            
-            if(!cursor.isFirst()){
-                cursor.moveToFirst();
-            }
-            
-            int rowCount = cursor.getCount();
-            int columnCount = cursor.getColumnCount();
-            
-            array = new String[rowCount][columnCount];
-            
-            int index =0;
-            
-            if(cursor.isFirst()){
-                do{
-                    for(int j=0;j<columnCount;j++){
-                        array[index][j]= cursor.getString(j); 
-                        System.out.println(cursor.getColumnName(j)+":"+cursor.getString(j));
-                        System.out.println();
-                    }
-                    index++;
-                }while(cursor.moveToNext());
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            if(cursor!=null)
-            cursor.close();
-            if(database!=null)
-            database.close();
-        }
-        return array;
+        return retVal;
     }
+
+
+    public void deleteCourse(Course course) {
+        long id = course.getId();
+        System.out.println("programme deleted with id: " + id);
+        database.delete(MuldvarpDBHelper.TABLE_PROGRAMME, MuldvarpDBHelper.COLUMN_ID
+            + " = " + id, null);
+    }
+
+    public Programme getCourse(String name){
+
+        Cursor cursor = database.rawQuery("SELECT * FROM tbl1 WHERE name = '"+name+"'", null);
+        Programme retVal = new Programme();
+        int id = (int) cursor.getLong(0);
+        retVal.setId(id);
+        retVal.setName(cursor.getString(1));      
+        return retVal;
+    }
+    
+    public ArrayList<Course> getCoursesByProgramme(Programme programme){
+        
+        Cursor cursor = database.rawQuery("SELECT "+ MuldvarpDBHelper.COLUMN_ID
+                +" FROM "+  MuldvarpDBHelper.TABLE_PROGRAMME
+                +" WHERE "+ MuldvarpDBHelper.COLUMN_NAME
+                +" = '"+programme.getName()+"'", null);
+        
+        return null;
+    }
+
+    private Programme cursorToProgramme(Cursor cursor) {
+        Programme programme = new Programme();
+        int id = (int) cursor.getLong(0);
+        programme.setId(id);
+        programme.setName(cursor.getString(1));
+        return programme;
+    }
+
+    private Course cursorToCourse(Cursor cursor) {
+        Course course = new Course();
+        int id = (int) cursor.getLong(0);
+        course.setId(id);
+        course.setName(cursor.getString(1));
+        return course;
+    }
+
+    private Topic cursorToTopic(Cursor cursor) {
+        Topic topic = new Topic();
+        int id = (int) cursor.getLong(0);
+        topic.setId(id);
+        topic.setName(cursor.getString(1));
+        return topic;
+    }
+
+    private Video cursorToVideo(Cursor cursor) {
+        Video video = new Video();
+        int id = (int) cursor.getLong(0);
+        video.setId(id);
+        video.setName(cursor.getString(1));
+        return video;
+    }
+  
 }

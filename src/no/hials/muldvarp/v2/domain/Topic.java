@@ -21,6 +21,10 @@ public class Topic extends Domain {
     String contentType;
     List<Question> questions;
 
+    public Topic(){
+        
+    }
+    
     public Topic(String name) {
         super(name);
     }

@@ -16,7 +16,7 @@ import android.util.Log;
  * 
  * @author johan
  */
-public class MuldvarpSQLDatabaseHelper extends SQLiteOpenHelper {
+public class MuldvarpDBHelper extends SQLiteOpenHelper {
 
     //General
     private static final String DATABASE_NAME = "muldvarp.db";
@@ -136,7 +136,7 @@ public class MuldvarpSQLDatabaseHelper extends SQLiteOpenHelper {
     };
     
 
-    public MuldvarpSQLDatabaseHelper(Context context) {
+    public MuldvarpDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         context.deleteDatabase(DATABASE_NAME);
     }
@@ -202,7 +202,7 @@ public class MuldvarpSQLDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(MuldvarpSQLDatabaseHelper.class.getName(),
+        Log.w(MuldvarpDBHelper.class.getName(),
             "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROGRAMME);

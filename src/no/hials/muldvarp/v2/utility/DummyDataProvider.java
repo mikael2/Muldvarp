@@ -12,7 +12,7 @@ import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.QuizActivity;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
-import no.hials.muldvarp.v2.database.MuldvarpSQLDatabaseHelper;
+import no.hials.muldvarp.v2.database.MuldvarpDBHelper;
 import no.hials.muldvarp.v2.domain.*;
 
 /**
