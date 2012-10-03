@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
+import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
 
@@ -35,11 +36,14 @@ public class MuldvarpDataSource {
     dbHelper.close();
   }
   
-  public void createRelation(){
+  public void createRelation(String table, String id1, String id2){
       
+      
+      
+      ContentValues values = new ContentValues();
   }
   
-  public void deleteRelation(){
+  public void deleteRelation(String table, String id1, String id2){
       
   }
 
@@ -67,10 +71,15 @@ public class MuldvarpDataSource {
         + " = " + id, null);
   }
   
-  public Domain getProgrammeFromDB(String name){
+  public Programme getProgramme(String name){
       
+      Cursor cursor = database.rawQuery("SELECT * FROM tbl1 WHERE name = '"+name+"'", null);
+      Programme retVal = new Programme();
+      int id = (int) cursor.getLong(0);
+      retVal.setId(id);
+      retVal.setName(cursor.getString(1));
       
-      return null;
+      return retVal;
   }
   
   public ArrayList<Domain> getAllProgrammes() {
@@ -96,6 +105,41 @@ public class MuldvarpDataSource {
     programme.setId(id);
     programme.setName(cursor.getString(1));
     return programme;
+  }
+  
+  public Programme insertCourse(Course course) {
+        ContentValues values = new ContentValues();
+        values.put(MuldvarpSQLDatabaseHelper.COLUMN_NAME, course.getName());
+        values.put(MuldvarpSQLDatabaseHelper.COLUMN_REVISION, 15);
+        values.put(MuldvarpSQLDatabaseHelper.COLUMN_UPDATED, "sadasd");
+        long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, null,
+            values);
+        Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
+            MuldvarpSQLDatabaseHelper.getColumns(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpSQLDatabaseHelper.COLUMN_ID + " = " + insertId, null,
+            null, null, null);
+        cursor.moveToFirst();
+        Programme retVal = cursorToProgramme(cursor);
+        cursor.close();
+    return retVal;
+  }
+  
+
+  public void deleteCourse(Course course) {
+    long id = course.getId();
+    System.out.println("programme deleted with id: " + id);
+    database.delete(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, MuldvarpSQLDatabaseHelper.COLUMN_ID
+        + " = " + id, null);
+  }
+  
+  public Programme getCourse(String name){
+      
+      Cursor cursor = database.rawQuery("SELECT * FROM tbl1 WHERE name = '"+name+"'", null);
+      Programme retVal = new Programme();
+      int id = (int) cursor.getLong(0);
+      retVal.setId(id);
+      retVal.setName(cursor.getString(1));
+      
+      return retVal;
   }
   
   
@@ -139,21 +183,4 @@ public String[][] getAll(String query){
         }
         return array;
     }
-
-//  public Programme createprogramme(String programme) {
-//    ContentValues values = new ContentValues();
-//    values.put(MuldvarpSQLDatabaseHelper.COLUMN_NAME, programme);
-//    values.put(MuldvarpSQLDatabaseHelper.COLUMN_REVISION, 15);
-//    values.put(MuldvarpSQLDatabaseHelper.COLUMN_UPDATED, programme);
-//    long insertId = database.insert(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME, null,
-//        values);
-//    Cursor cursor = database.query(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME,
-//        MuldvarpSQLDatabaseHelper.getColumns(MuldvarpSQLDatabaseHelper.TABLE_PROGRAMME_COLUMNS), MuldvarpSQLDatabaseHelper.COLUMN_ID + " = " + insertId, null,
-//        null, null, null);
-//    cursor.moveToFirst();
-//    Programme newprogramme = cursorToProgramme(cursor);
-//    cursor.close();
-//    return newprogramme;
-//  }
-//    
 }
