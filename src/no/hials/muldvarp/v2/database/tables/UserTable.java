@@ -11,4 +11,6 @@ package no.hials.muldvarp.v2.database.tables;
 public class UserTable extends MuldvarpTable {
    
     public static final String TABLE_NAME = "user";    
+    
+    
 }

@@ -11,33 +11,16 @@ package no.hials.muldvarp.v2.database.tables;
  * @author johan
  */
 public class MuldvarpTable {
-    
-    public static final String TABLE_NAME = "muldvarpTable";
-    
+        
     //Fields
     public static final String COLUMN_ID = "id";
+    public static final String COLUMN_UNIQUEID = "uniqueid";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DESCRIPTION = "description";
     public static final String COLUMN_URI = "uri";
     public static final String COLUMN_REVISION = "revision";
     public static final String COLUMN_UPDATED = "updated";    
-    
-    public static final String[][] TABLE_COLUMNS = {
-    };
-    
-    public static String[] getColumns() {
-        String[] retVal = new String[TABLE_COLUMNS .length];
-        
-        if(TABLE_COLUMNS.length > 0) {
             
-            for (int i = 0; i < TABLE_COLUMNS .length; i++) {
-            retVal[i] = TABLE_COLUMNS [i][0];
-            }
-        }           
-                
-        return retVal;
-    }
-    
     /**
      * This method returns the field names of a table.
      * 
@@ -54,23 +37,7 @@ public class MuldvarpTable {
         
         return retVal;
     }
-    
-    public static String getTableCreationString(){
         
-        String retVal = "CREATE TABLE " + TABLE_NAME + "(";
-        for (int i = 0; i < TABLE_COLUMNS.length; i++) {
-            for (int j = 0; j < TABLE_COLUMNS[i].length; j++) {
-                retVal += TABLE_COLUMNS[i][j];                
-            }
-            if(i < (TABLE_COLUMNS.length -1)){
-                retVal +=",";
-            }
-        }
-        retVal += ");";
-        
-        return retVal;
-    }
-    
     /**
      * This function creates a SQL-creation statement based on a String name for the
      * table, and a multi-dimensional array of String values containing field names

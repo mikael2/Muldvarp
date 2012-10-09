@@ -12,12 +12,11 @@ import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.QuizActivity;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
-import no.hials.muldvarp.v2.database.MuldvarpDBHelper;
 import no.hials.muldvarp.v2.domain.*;
 
 /**
  *  Temporary class to provide already formatted data based on String arrays in XML files.
- *  This is only temporary, proper database solution is needed.
+ *  Some database functionality implemented.
  * 
  * @author johan
  */
@@ -25,10 +24,16 @@ public class DummyDataProvider {
     
     MuldvarpDataSource muldvarpDataSource;
     
-    public static ArrayList<Domain> getFromDatabase(Context context) {    
+    public static ArrayList<Domain> getProgrammesFromDB(Context context) {    
         
         MuldvarpDataSource muldvarpDataSource = new MuldvarpDataSource(context);
         muldvarpDataSource.open();
+        makeAndInsertProgrammes(muldvarpDataSource, context);
+        
+        return muldvarpDataSource.getAllProgrammes();
+    }
+    
+    public static void makeAndInsertProgrammes(MuldvarpDataSource muldvarpDataSource, Context context) {    
                 
         //Get arraylist from XML resource, create Programme objects and place them in an array.
         String[] tempList = context.getResources().getStringArray(R.array.programme_list_dummmy);   
@@ -38,16 +43,15 @@ public class DummyDataProvider {
             for (int i = 0; i < tempList.length; i++) {
              
                 Programme currentProgram = new Programme(tempList[i]);
+                currentProgram.setId(i*2);
+                currentProgram.setRevision(i);
                 currentProgram.setActivity(TopActivity.class);
                 muldvarpDataSource.insertProgramme(currentProgram);
 
                 //debug check:
                 System.out.println("Created:" + currentProgram.getName());
             }
-            
         }       
-        
-        return muldvarpDataSource.getAllProgrammes();
     }
     
     //Return list of programmes. Should be rewritten to just accept something else than a context.

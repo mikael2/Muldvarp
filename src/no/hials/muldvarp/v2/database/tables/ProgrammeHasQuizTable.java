@@ -16,5 +16,4 @@ public class ProgrammeHasQuizTable extends MuldvarpTable {
       {ProgrammeTable.TABLE_NAME + COLUMN_ID, " integer not null"},
       {QuizTable.TABLE_NAME + COLUMN_ID, " integer not null"}
     };
-    
 }

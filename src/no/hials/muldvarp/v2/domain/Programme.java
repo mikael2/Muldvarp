@@ -13,9 +13,14 @@ import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 
+/**
+ * 
+ * @author johan
+ */
 public class Programme extends Domain {
     List<Course> courses = new ArrayList<Course>();;
     String imageurl;
+    int revision;
 
     public Programme() {
 
@@ -48,6 +53,16 @@ public class Programme extends Domain {
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
     }
+
+    public int getRevision() {
+        return revision;
+    }
+
+    public void setRevision(int revision) {
+        this.revision = revision;
+    }
+    
+    
 
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
