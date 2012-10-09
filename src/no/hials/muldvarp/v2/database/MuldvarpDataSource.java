@@ -214,12 +214,15 @@ public class MuldvarpDataSource {
     
     public ArrayList<Domain> getCoursesByProgramme(Programme programme){
         
+        System.out.println("getprogrammeid " + getProgrammeId(programme));
+        
         ArrayList<Domain> courses = new ArrayList<Domain>();
         Cursor cursor = database.rawQuery("SELECT " + CourseTable.TABLE_NAME + CourseTable.COLUMN_ID 
                 + " FROM " +  ProgrammeHasCourseTable.TABLE_NAME
                 + " WHERE " + ProgrammeTable.TABLE_NAME + ProgrammeTable.COLUMN_ID
                 + " = '" + getProgrammeId(programme) + "'", null);
         cursor.moveToFirst();
+        System.out.println("GET COURSES BY PROGRAM SIZE " + cursor.getCount());
         while (!cursor.isAfterLast()) {
             Cursor tableCursor = database.rawQuery("SELECT * FROM " 
                 + CourseTable.TABLE_NAME 
