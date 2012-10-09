@@ -10,10 +10,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
-import no.hials.muldvarp.v2.database.tables.CourseTable;
-import no.hials.muldvarp.v2.database.tables.MuldvarpTable;
-import no.hials.muldvarp.v2.database.tables.ProgrammeHasCourseTable;
-import no.hials.muldvarp.v2.database.tables.ProgrammeTable;
+import no.hials.muldvarp.v2.database.tables.*;
 import no.hials.muldvarp.v2.domain.*;
 
 /**
@@ -56,14 +53,12 @@ public class MuldvarpDataSource {
                 + table + " WHERE " 
                 + field + " = '" 
                 + value + "'", null);
-        
-        return (cursor == null);
+        System.out.println("cursor size " + cursor.getCount());
+        return (cursor.getCount() > 0);
     }
     
     public long insertProgramme(Programme programme) {
         
-        System.out.println("inserting " + programme.getName());
-
         //Get text/int value fields from Domain and insert into table
         ContentValues values = new ContentValues();
         values.put(ProgrammeTable.COLUMN_UNIQUEID, programme.getId());
@@ -73,8 +68,12 @@ public class MuldvarpDataSource {
         values.put(ProgrammeTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
         if(checkRecord(ProgrammeTable.TABLE_NAME, ProgrammeTable.COLUMN_NAME, programme.getName())){
-            insertId = database.update(ProgrammeTable.TABLE_NAME, values, null, null);
+            System.out.println("updating " + programme.getName());
+            insertId = database.update(ProgrammeTable.TABLE_NAME, values,
+                    ProgrammeTable.COLUMN_ID + "='" + getProgrammeId(programme) + "'",
+                    null);
         } else {
+            System.out.println("inserting " + programme.getName());
             insertId = database.insert(ProgrammeTable.TABLE_NAME, null,
             values);
         }
@@ -97,7 +96,6 @@ public class MuldvarpDataSource {
             null, null, null);
         cursor.moveToFirst();
         
-        Programme newprogramme = cursorToProgramme(cursor);
         cursor.close();
         return insertId;
     }
@@ -118,6 +116,23 @@ public class MuldvarpDataSource {
         Programme retVal = cursorToProgramme(cursor);
         return retVal;
     }
+    
+    public long getProgrammeId(Programme programme){
+                
+        System.out.println(programme.getName());
+        Cursor cursor = database.rawQuery("SELECT "
+                + "*" + " FROM " 
+                + ProgrammeTable.TABLE_NAME 
+                + " WHERE " + ProgrammeTable.COLUMN_NAME 
+                + " = '"+programme.getName()+"'", null);
+        
+        cursor.moveToFirst();
+        System.out.println("size " + cursor.getCount());
+        long retVal = cursor.getLong(0);
+        cursor.close();
+        
+        return retVal;
+    }
 
     public ArrayList<Domain> getAllProgrammes() {
         ArrayList<Domain> programmes = new ArrayList<Domain>();
@@ -136,49 +151,87 @@ public class MuldvarpDataSource {
         cursor.close();
         return programmes;
     }
+    
+    
 
     public long insertCourse(Course course) {
         ContentValues values = new ContentValues();
         values.put(CourseTable.COLUMN_NAME, course.getName());        
-        values.put(ProgrammeTable.COLUMN_UNIQUEID, course.getId());
+        values.put(CourseTable.COLUMN_UNIQUEID, course.getId());
         values.put(CourseTable.COLUMN_REVISION, course.getRevision());
         values.put(CourseTable.COLUMN_UPDATED, getTimeStamp());
-        long insertId = database.insert(CourseTable.TABLE_NAME, null,
+        long insertId;
+        if(checkRecord(CourseTable.TABLE_NAME, CourseTable.COLUMN_NAME, course.getName())){
+            insertId = database.update(CourseTable.TABLE_NAME, values, null, null);
+                    System.out.println("updating " + course.getName());
+
+        } else {
+                    System.out.println("inserting " + course.getName());
+
+            insertId = database.insert(CourseTable.TABLE_NAME, null,
             values);
+        }
+        
+        //Set up relation 
+        String[] columns = MuldvarpDBHelper.getColumns(CourseHasTopicTable.TABLE_COLUMNS);        
+        ArrayList<Topic> topicList = (ArrayList<Topic>) course.getTopics();
+        
+        if (topicList != null) {
+            for (int i = 0; i < topicList.size(); i++) {
+                values = new ContentValues();
+                values.put(columns[1], insertId);
+                values.put(columns[2], 1);
+//                values.put(columns[2], insertTask(topicList.get(i)));
+                database.insert(CourseHasTopicTable.TABLE_NAME, null, values);
+            }
+        }
+        
+        
         Cursor cursor = database.query(CourseTable.TABLE_NAME,
             MuldvarpTable.getColumns(CourseTable.TABLE_COLUMNS), CourseTable.COLUMN_ID + " = " + insertId, null,
             null, null, null);
         cursor.moveToFirst();
-        Programme retVal = cursorToProgramme(cursor);
+        Course retVal = cursorToCourse(cursor);
         cursor.close();
         return insertId;
     }
 
     public void deleteCourse(Course course) {
         long id = course.getId();
-        System.out.println("programme deleted with id: " + id);
+        System.out.println("Course deleted with id: " + id);
         database.delete(CourseTable.TABLE_NAME, MuldvarpTable.COLUMN_ID
             + " = " + id, null);
     }
 
-    public Programme getCourse(String name){
-
-        Cursor cursor = database.rawQuery("SELECT * FROM tbl1 WHERE name = '"+name+"'", null);
-        Programme retVal = new Programme();
-        int id = (int) cursor.getLong(0);
-        retVal.setId(id);
-        retVal.setName(cursor.getString(1));      
+    public Course getCourse(String name){
+        Cursor cursor = database.rawQuery("SELECT * FROM " 
+                + CourseTable.TABLE_NAME 
+                + " WHERE " + CourseTable.COLUMN_NAME 
+                + " = '"+name+"'", null);
+        Course retVal = cursorToCourse(cursor);
         return retVal;
     }
     
-    public ArrayList<Course> getCoursesByProgramme(Programme programme){
+    public ArrayList<Domain> getCoursesByProgramme(Programme programme){
         
-        Cursor cursor = database.rawQuery("SELECT " + MuldvarpTable.COLUMN_ID
-                + " FROM " +  ProgrammeTable.TABLE_NAME
-                + " WHERE " + ProgrammeTable.COLUMN_NAME
-                + " = '" + programme.getName() + "'", null);
-        
-        return null;
+        ArrayList<Domain> courses = new ArrayList<Domain>();
+        Cursor cursor = database.rawQuery("SELECT " + CourseTable.TABLE_NAME + CourseTable.COLUMN_ID 
+                + " FROM " +  ProgrammeHasCourseTable.TABLE_NAME
+                + " WHERE " + ProgrammeTable.TABLE_NAME + ProgrammeTable.COLUMN_ID
+                + " = '" + getProgrammeId(programme) + "'", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Cursor tableCursor = database.rawQuery("SELECT * FROM " 
+                + CourseTable.TABLE_NAME 
+                + " WHERE " + CourseTable.COLUMN_ID
+                + " = '"+cursor.getFloat(0)+"'", null);
+            Course course = cursorToCourse(tableCursor);
+            courses.add(course);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return courses;
     }
 
     private Programme cursorToProgramme(Cursor cursor) {
@@ -191,14 +244,14 @@ public class MuldvarpDataSource {
 
     private Course cursorToCourse(Cursor cursor) {
         Course course = new Course();
-        int id = (int) cursor.getLong(0);
+        int id = (int) cursor.getLong(1);
         course.setId(id);
-        course.setName(cursor.getString(1));
+        course.setName(cursor.getString(2));
         return course;
     }
 
-    private Topic cursorToTopic(Cursor cursor) {
-        Topic topic = new Topic();
+    private Task cursorToTopic(Cursor cursor) {
+        Task topic = new Task();
         int id = (int) cursor.getLong(0);
         topic.setId(id);
         topic.setName(cursor.getString(1));

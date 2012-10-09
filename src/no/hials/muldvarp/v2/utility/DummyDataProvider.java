@@ -33,6 +33,15 @@ public class DummyDataProvider {
         return muldvarpDataSource.getAllProgrammes();
     }
     
+    public static ArrayList<Domain> getCoursesFromDB(Context context, Programme programme) {    
+        
+        MuldvarpDataSource muldvarpDataSource = new MuldvarpDataSource(context);
+        muldvarpDataSource.open();
+        makeAndInsertCourses(muldvarpDataSource, context);
+        
+        return muldvarpDataSource.getCoursesByProgramme(programme);
+    }
+    
     public static void makeAndInsertProgrammes(MuldvarpDataSource muldvarpDataSource, Context context) {    
                 
         //Get arraylist from XML resource, create Programme objects and place them in an array.
@@ -61,18 +70,15 @@ public class DummyDataProvider {
         //Get arraylist from XML resource, create Programme objects and place them in an array.
         String[] tempList = context.getResources().getStringArray(R.array.programme_list_dummmy);   
         
-        if (tempList != null) {
-            
-            for (int i = 0; i < tempList.length; i++) {
-             
+        if (tempList != null) {            
+            for (int i = 0; i < tempList.length; i++) {             
                 Programme currentProgram = new Programme(tempList[i]);
                 currentProgram.setActivity(TopActivity.class);
                 programmeList.add(currentProgram);
 
                 //debug check:
                 System.out.println("Created:" + currentProgram.getName());
-            }
-            
+            }            
         }       
         
         //Check if list wasn't empty just to be sure, and generate dumb data if not
@@ -86,6 +92,27 @@ public class DummyDataProvider {
         }
         
         return programmeList;
+    }
+    
+    public static void makeAndInsertCourses(MuldvarpDataSource muldvarpDataSource, Context context) {    
+                
+        //Get arraylist from XML resource, create Programme objects and place them in an array.
+        String[] tempList = context.getResources().getStringArray(R.array.course_list_dummy);   
+        
+        if (tempList != null) {
+            
+            for (int i = 0; i < tempList.length; i++) {
+             
+                Course currentCourse = new Course(tempList[i]);
+                currentCourse.setId(i*2);
+                currentCourse.setRevision(i);
+                currentCourse.setActivity(TopActivity.class);
+                muldvarpDataSource.insertCourse(currentCourse);
+
+                //debug check:
+                System.out.println("Created:" + currentCourse.getName());
+            }
+        }       
     }
     
     public static ArrayList<Domain> getCourseList(Context context) {
@@ -129,7 +156,7 @@ public class DummyDataProvider {
         if (tempList != null) {
             for (int i = 0; i < tempList.length; i++) {
                 
-                Topic currentTopic = new Topic(tempList[i]);
+                Task currentTopic = new Task(tempList[i]);
                 currentTopic.setActivity(TopActivity.class);
                 topicList.add(currentTopic);
 
@@ -142,7 +169,7 @@ public class DummyDataProvider {
         if(topicList.isEmpty()) {            
             for (int n = 0; n < 10; n++) {
                 
-                Topic dumbTopic = new Topic("Topic " + n);
+                Task dumbTopic = new Task("Topic " + n);
                 topicList.add(dumbTopic);
             }
         }
@@ -206,7 +233,7 @@ public class DummyDataProvider {
         if(documentList.isEmpty()) {            
             for (int n = 0; n < 10; n++) {
                 
-                Topic dumbTopic = new Topic("Topic " + n);
+                Task dumbTopic = new Task("Topic " + n);
                 documentList.add(dumbTopic);
             }
         }

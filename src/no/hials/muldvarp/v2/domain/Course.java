@@ -18,7 +18,7 @@ public class Course extends Domain implements Serializable {
     String imageurl;
 
     Integer revision;
-    ArrayList<Theme> themes;
+    ArrayList<Topic> themes;
     ArrayList<ObligatoryTask> obligatoryTasks;
     ArrayList<Exam> exams;
 
@@ -52,11 +52,11 @@ public class Course extends Domain implements Serializable {
         this.revision = revision;
     }
 
-    public ArrayList<Theme> getThemes() {
+    public ArrayList<Topic> getTopics() {
         return themes;
     }
 
-    public void setThemes(ArrayList<Theme> themes) {
+    public void setThemes(ArrayList<Topic> themes) {
         this.themes = themes;
     }
 

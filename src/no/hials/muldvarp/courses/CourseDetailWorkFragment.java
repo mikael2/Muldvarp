@@ -20,8 +20,8 @@ import android.widget.*;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.domain.Task;
 import no.hials.muldvarp.v2.domain.Topic;
-import no.hials.muldvarp.v2.domain.Theme;
 import no.hials.muldvarp.utility.DownloadUtilities;
 import no.hials.muldvarp.video.VideoActivity;
 
@@ -54,18 +54,18 @@ public class CourseDetailWorkFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(c != null) {
-            ArrayList<Theme> themes = c.getThemes();
-            ArrayList<ArrayList<Topic>> allTasks = new ArrayList<ArrayList<Topic>>();
-            for(Theme theme : themes){
-                ArrayList<Topic> tasks = new ArrayList<Topic>();
-                for(Topic task : theme.getTasks()) {
-                    tasks.add(task);
-                }
-                allTasks.add(tasks);
-            }
+//            ArrayList<Topic> themes = c.getThemes();
+//            ArrayList<ArrayList<Task>> allTasks = new ArrayList<ArrayList<Task>>();
+//            for(Topic theme : themes){
+//                ArrayList<Task> tasks = new ArrayList<Task>();
+//                for(Task task : theme.getTasks()) {
+//                    tasks.add(task);
+//                }
+//                allTasks.add(tasks);
+//            }
 
-            TaskAdapter adapter = new TaskAdapter(fragmentView.getContext(), themes, allTasks);
-            listview.setAdapter(adapter);
+//            TaskAdapter adapter = new TaskAdapter(fragmentView.getContext(), themes, allTasks);
+//            listview.setAdapter(adapter);
         }
     }
     
@@ -74,19 +74,19 @@ public class CourseDetailWorkFragment extends Fragment {
 ////            CourseDetailActivity activity = (CourseDetailActivity)CourseDetailWorkFragment.this.getActivity();
 ////            c = activity.getActiveCourse();
 //        }
-        this.c = course;
-        ArrayList<Theme> themes = c.getThemes();
-        ArrayList<ArrayList<Topic>> allTasks = new ArrayList<ArrayList<Topic>>();
-        for(Theme theme : themes){
-            ArrayList<Topic> tasks = new ArrayList<Topic>();
-            for(Topic task : theme.getTasks()) {
-                tasks.add(task);
-            }
-            allTasks.add(tasks);
-        }
-
-        TaskAdapter adapter = new TaskAdapter(fragmentView.getContext(), themes, allTasks);
-        listview.setAdapter(adapter);
+//        this.c = course;
+//        ArrayList<Topic> themes = c.getThemes();
+//        ArrayList<ArrayList<Task>> allTasks = new ArrayList<ArrayList<Task>>();
+//        for(Topic theme : themes){
+//            ArrayList<Task> tasks = new ArrayList<Task>();
+//            for(Task task : theme.getTasks()) {
+//                tasks.add(task);
+//            }
+//            allTasks.add(tasks);
+//        }
+//
+//        TaskAdapter adapter = new TaskAdapter(fragmentView.getContext(), themes, allTasks);
+//        listview.setAdapter(adapter);
         
 //        registerForContextMenu(listview);
     }
@@ -122,13 +122,13 @@ public class CourseDetailWorkFragment extends Fragment {
     public class TaskAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<Theme> themes;
-    private ArrayList<ArrayList<Topic>> tasks;
+    private ArrayList<Topic> themes;
+    private ArrayList<ArrayList<Task>> tasks;
     private LayoutInflater inflater;
 
     public TaskAdapter(Context context, 
-                        ArrayList<Theme> themes,
-			ArrayList<ArrayList<Topic>> tasks ) { 
+                        ArrayList<Topic> themes,
+			ArrayList<ArrayList<Task>> tasks ) { 
         this.context = context;
 		this.themes = themes;
         this.tasks = tasks;
@@ -149,8 +149,8 @@ public class CourseDetailWorkFragment extends Fragment {
             v = convertView;
         else
             v = inflater.inflate(R.layout.course_work_child, parent, false);
-        final Theme gt = (Theme)getGroup( groupPosition );
-        final Topic t = (Topic)getChild( groupPosition, childPosition );
+        final Topic gt = (Topic)getGroup( groupPosition );
+        final Task t = (Task)getChild( groupPosition, childPosition );
 		TextView name = (TextView)v.findViewById( R.id.childname );
                 ImageView icon = (ImageView)v.findViewById(R.id.icon);
 		if( name != null ) {
@@ -253,7 +253,7 @@ public class CourseDetailWorkFragment extends Fragment {
             v = convertView;
         else
             v = inflater.inflate(R.layout.course_work_group, parent, false); 
-        Theme gt = (Theme)getGroup( groupPosition );
+        Topic gt = (Topic)getGroup( groupPosition );
 		TextView themeGroup = (TextView)v.findViewById( R.id.childname );
 		if( gt != null ) {
                     themeGroup.setText( gt.getName() + " " + gt.getCompletion() + "%" );

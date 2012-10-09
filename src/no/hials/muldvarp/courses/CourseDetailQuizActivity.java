@@ -21,7 +21,7 @@ import java.util.List;
 import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.v2.domain.Alternative;
 import no.hials.muldvarp.v2.domain.Question;
-import no.hials.muldvarp.v2.domain.Topic;
+import no.hials.muldvarp.v2.domain.Task;
 
 /**
  *
@@ -74,7 +74,7 @@ public class CourseDetailQuizActivity extends Activity {
         makeTestData();
         
         if(getIntent().getSerializableExtra("task") != null) {
-            Topic task = (Topic) getIntent().getSerializableExtra("task");
+            Task task = (Task) getIntent().getSerializableExtra("task");
             questions = task.getQuestions();
         }
         
