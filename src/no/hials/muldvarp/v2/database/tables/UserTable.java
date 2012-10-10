@@ -10,7 +10,12 @@ package no.hials.muldvarp.v2.database.tables;
  */
 public class UserTable extends MuldvarpTable {
    
-    public static final String TABLE_NAME = "user";    
-    
+    public static final String TABLE_NAME = "user";
+    public static final String COLUMN_PASSWORD = "password";
+    public static final String[][] TABLE_COLUMNS = {
+      {COLUMN_ID, " integer primary key autoincrement"},
+      {COLUMN_NAME, " text not null "},
+      {COLUMN_PASSWORD," text not null"},
+    };
     
 }

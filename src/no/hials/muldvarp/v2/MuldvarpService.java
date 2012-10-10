@@ -16,7 +16,7 @@ import no.hials.muldvarp.utility.DownloadUtilities;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.Person_v2;
+import no.hials.muldvarp.v2.domain.User;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.utility.ServerConnection;
@@ -45,7 +45,7 @@ public class MuldvarpService extends Service {
     public static final String ACTION_PROGRAMMES_LOAD     = "no.hials.muldvarp.ACTION_PROGRAMMES_LOAD";
     public static final String ACTION_UPDATE_FAILED       = "no.hials.muldvarp.ACTION_UPDATE_FAILED";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
-    private Person_v2 user;
+    private User user;
 
 
     // Binder given to clients
@@ -217,7 +217,7 @@ public class MuldvarpService extends Service {
      */
         public boolean login(String name, String password){
         if(checkCredentials(name, password)) {
-            user = new Person_v2(name, password);
+            user = new User(name, password);
             return true;
         }
         else {
@@ -225,7 +225,7 @@ public class MuldvarpService extends Service {
         }
     }
         
-        public void reLog(Person_v2 person){
+        public void reLog(User person){
             user = person;
         }
 
@@ -245,7 +245,7 @@ public class MuldvarpService extends Service {
     * Note that this can only be called when the user is already logged in, or the method will return null.
     * @return Person_v2
     */
-    public Person_v2 getUser(){
+    public User getUser(){
         return user;
     }
 
@@ -435,7 +435,7 @@ public class MuldvarpService extends Service {
         else if(datalist.get(0) instanceof no.hials.muldvarp.entities.Person){
             for(Object o : datalist){
                 no.hials.muldvarp.entities.Person p = (no.hials.muldvarp.entities.Person)o;
-                no.hials.muldvarp.v2.domain.Person_v2 newPerson = new no.hials.muldvarp.v2.domain.Person_v2(p.getName(), null);
+                no.hials.muldvarp.v2.domain.User newPerson = new no.hials.muldvarp.v2.domain.User(p.getName(), null);
                 newPerson.setId(p.getId().intValue());
             }
         }
