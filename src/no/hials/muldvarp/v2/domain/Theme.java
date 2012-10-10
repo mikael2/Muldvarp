@@ -5,26 +5,26 @@
 package no.hials.muldvarp.v2.domain;
 
 import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
  * @author kristoffer
  */
-public class Theme {
-    Integer id;
-    String name;
+public class Theme extends Domain {
     ArrayList<Topic> tasks;
-    
+
     public Theme() {
-        
+
     }
 
     public Theme(String name) {
-        this.name = name;
+        super(name);
     }
 
-    public Integer getId() {
-        return id;
+    public Theme(JSONObject json) throws JSONException {
+        super(json);
     }
 
     public Integer getCompletion() {
@@ -41,14 +41,6 @@ public class Theme {
             completion = (completedTasks*100)/numberOfTasks;
         }
         return completion;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public ArrayList<Topic> getTasks() {

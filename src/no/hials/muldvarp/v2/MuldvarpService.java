@@ -7,22 +7,19 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.utility.DownloadUtilities;
-import no.hials.muldvarp.v2.domain.Course;
-import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Person_v2;
-import no.hials.muldvarp.v2.domain.Programme;
-import no.hials.muldvarp.v2.domain.Video;
+import no.hials.muldvarp.v2.utility.JSONUtilities;
 import no.hials.muldvarp.v2.utility.ServerConnection;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  *
@@ -224,7 +221,7 @@ public class MuldvarpService extends Service {
             return false;
         }
     }
-        
+
         public void reLog(Person_v2 person){
             user = person;
         }
@@ -259,7 +256,7 @@ public class MuldvarpService extends Service {
 
     public boolean update(DataTypes type) {
         if(server.checkServer()) {
-            InputStreamReader is = null;
+            String json = "";
             switch(type){
                 case ALL:
                     update(DataTypes.COURSES);
@@ -268,7 +265,11 @@ public class MuldvarpService extends Service {
                     update(DataTypes.PROGRAMS);
                     break;
                 case COURSES:
-                    is = new InputStreamReader(DownloadUtilities.getJSONData(getURL(R.string.programmeCourseResPath),header));
+                    try {
+                        json = JSONUtilities.getData(getURL(R.string.programmeCourseResPath));
+                    } catch (IOException ex) {
+                        Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     break;
                 case VIDEOS:
                     break;
@@ -278,7 +279,7 @@ public class MuldvarpService extends Service {
                     break;
             }
             try {
-                updateDatabase(JSONtoList(is.toString(), type));
+                updateDatabase(JSONUtilities.JSONtoList(json, type));
                 return true;
             } catch (JSONException ex) {
                 Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
@@ -289,7 +290,7 @@ public class MuldvarpService extends Service {
         return false;
     }
 
-    public void updateDatabase(ArrayList data){
+    public void updateDatabase(List<Domain> data){
         //Update the database
     }
 
@@ -370,44 +371,6 @@ public class MuldvarpService extends Service {
 //        return itemList;
 //    }
 
-    /**
-     * Converts a JSON array to list
-     *
-     * @param jsonString
-     * @param type
-     * @return
-     * @throws JSONException
-     */
-    public ArrayList<Domain> JSONtoList(String jsonString, DataTypes type) throws JSONException {
-        ArrayList<Domain> itemList = new ArrayList<Domain>();
-        JSONArray jArray = new JSONArray(jsonString);
-
-        Domain d = null;
-        switch(type) {
-            case COURSES:
-                d = new Course();
-                break;
-            case PROGRAMS:
-                d = new Programme();
-                break;
-            case DOCUMENTS:
-                d = new Document();
-                break;
-            case VIDEOS:
-                d = new Video();
-                break;
-        }
-
-        for(int i = 0; i < jArray.length(); i++) {
-            JSONObject currentObject = jArray.getJSONObject(i);
-            d.setId(currentObject.getInt("id"));
-            d.setName(currentObject.getString("name"));
-            d.setDetail(currentObject.getString("detail"));
-            itemList.add(d);
-        }
-
-        return itemList;
-    }
 
     /**
      * Method convertToNewEntity, of class MuldvarpService.

@@ -13,6 +13,8 @@ import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Domain implements Serializable {
     Integer id;
@@ -24,6 +26,11 @@ public class Domain implements Serializable {
 
     public Domain() {
 
+    }
+
+    public Domain(JSONObject json) throws JSONException {
+        this.id = json.getInt("id");
+        this.name = json.getString("name");
     }
 
     public Domain(String name) {
