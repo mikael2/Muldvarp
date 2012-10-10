@@ -118,7 +118,7 @@ public class Domain implements Serializable {
      */
     public void defaultList(List<MuldvarpFragment> fragmentList, Context context) {
         ListFragment gridFragmentList = new ListFragment("Studier", R.drawable.stolen_smsalt);
-        gridFragmentList.setListItems(DummyDataProvider.getProgrammesFromDB(context));
+        gridFragmentList.setListItems(DummyDataProvider.requestProgrammes(context));
         fragmentList.add(gridFragmentList);
         fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));

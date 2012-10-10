@@ -12,6 +12,7 @@ import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.QuizActivity;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
+import no.hials.muldvarp.v2.database.tables.ProgrammeHasCourseTable;
 import no.hials.muldvarp.v2.domain.*;
 
 /**
@@ -24,6 +25,11 @@ public class DummyDataProvider {
     
     MuldvarpDataSource muldvarpDataSource;
     
+    public static ArrayList<Domain> requestProgrammes(Context context) {    
+        
+        return getProgrammesFromDB(context);
+    }
+    
     public static ArrayList<Domain> getProgrammesFromDB(Context context) {    
         
         MuldvarpDataSource muldvarpDataSource = new MuldvarpDataSource(context);
@@ -33,7 +39,9 @@ public class DummyDataProvider {
         return muldvarpDataSource.getAllProgrammes();
     }
     
-    public static ArrayList<Domain> getCoursesFromDB(Context context, Programme programme) {    
+    public static ArrayList<Domain> requestCoursesbyProgrammeFromDB(Context context, Programme programme) {    
+        
+        
         
         MuldvarpDataSource muldvarpDataSource = new MuldvarpDataSource(context);
         muldvarpDataSource.open();
@@ -107,7 +115,8 @@ public class DummyDataProvider {
                 currentCourse.setId(i*2);
                 currentCourse.setRevision(i);
                 currentCourse.setActivity(TopActivity.class);
-                muldvarpDataSource.insertCourse(currentCourse);
+                long insertCourse = muldvarpDataSource.insertCourse(currentCourse);
+                muldvarpDataSource.createProgrammeCourseRelation(1, insertCourse);
 
                 //debug check:
                 System.out.println("Created:" + currentCourse.getName());

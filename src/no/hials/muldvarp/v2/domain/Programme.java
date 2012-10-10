@@ -68,7 +68,7 @@ public class Programme extends Domain {
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         super.populateList(fragmentList, context);
         ListFragment gridFragmentList = new ListFragment("Fag", R.drawable.stolen_smsalt);
-        gridFragmentList.setListItems(DummyDataProvider.getCoursesFromDB(context, this));
+        gridFragmentList.setListItems(DummyDataProvider.requestCoursesbyProgrammeFromDB(context, this));
         fragmentList.add(gridFragmentList);
         fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));

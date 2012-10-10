@@ -40,10 +40,17 @@ public class MuldvarpDataSource {
         return (System.currentTimeMillis() / 1000L);
     }
     
-    public long createRelation(String tableName, String table1, String table2){
+    public long createProgrammeCourseRelation(long id1, long id2){
         ContentValues values = new ContentValues();
-        values.put(table1 + MuldvarpTable.COLUMN_ID, "");
-        values.put(table2 + MuldvarpTable.COLUMN_ID, "");
+        values.put(ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1);
+        values.put(CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
+        
+        return database.insert(ProgrammeHasCourseTable.TABLE_NAME, null, values);
+    }
+    public long createRelastion(String tableName, String table1, int id1, String table2, int id2){
+        ContentValues values = new ContentValues();
+        values.put(table1 + MuldvarpTable.COLUMN_ID, id1);
+        values.put(table2 + MuldvarpTable.COLUMN_ID, id2);
         
         return database.insert(tableName, null, values);
     }
