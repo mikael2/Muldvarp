@@ -15,9 +15,14 @@ import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * 
+ * @author johan
+ */
 public class Programme extends Domain {
     List<Course> courses = new ArrayList<Course>();;
     String imageurl;
+    int revision;
 
     public Programme() {
 
@@ -56,11 +61,21 @@ public class Programme extends Domain {
         this.imageurl = imageurl;
     }
 
+    public int getRevision() {
+        return revision;
+    }
+
+    public void setRevision(int revision) {
+        this.revision = revision;
+    }
+    
+    
+
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         super.populateList(fragmentList, context);
         ListFragment gridFragmentList = new ListFragment("Fag", R.drawable.stolen_smsalt);
-        gridFragmentList.setListItems(DummyDataProvider.getCourseList(context));
+        gridFragmentList.setListItems(DummyDataProvider.getCoursesFromDB(context, this));
         fragmentList.add(gridFragmentList);
         fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));

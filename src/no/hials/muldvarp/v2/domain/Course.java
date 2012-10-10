@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class Course extends Domain implements Serializable {
     String imageurl;
     Integer revision;
-    ArrayList<Theme> themes;
+    ArrayList<Topic> themes;
     ArrayList<ObligatoryTask> obligatoryTasks;
     ArrayList<Exam> exams;
 
@@ -43,11 +43,11 @@ public class Course extends Domain implements Serializable {
         this.imageurl = url;
     }
 
-    public final ArrayList<Theme> parseThemes(JSONArray jArray) throws JSONException {
-        ArrayList<Theme> retVal = new ArrayList<Theme>();
+    public final ArrayList<Topic> parseThemes(JSONArray jArray) throws JSONException {
+        ArrayList<Topic> retVal = new ArrayList<Topic>();
         for(int i = 0; i < jArray.length(); i++) {
             JSONObject jsonObject = jArray.getJSONObject(i);
-            Theme t = new Theme(jsonObject);
+            Topic t = new Topic(jsonObject);
             retVal.add(t);
         }
         return retVal;
@@ -69,11 +69,11 @@ public class Course extends Domain implements Serializable {
         this.revision = revision;
     }
 
-    public ArrayList<Theme> getThemes() {
+    public ArrayList<Topic> getTopics() {
         return themes;
     }
 
-    public void setThemes(ArrayList<Theme> themes) {
+    public void setThemes(ArrayList<Topic> themes) {
         this.themes = themes;
     }
 

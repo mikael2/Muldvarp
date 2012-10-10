@@ -33,7 +33,7 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.Person_v2;
+import no.hials.muldvarp.v2.domain.User;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
@@ -98,7 +98,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         if(savedInstanceState != null){
             if(savedInstanceState.getSerializable("user") != null){
-                mService.reLog((Person_v2)savedInstanceState.getSerializable("user"));
+                mService.reLog((User)savedInstanceState.getSerializable("user"));
                 loginname.setText(mService.getUser().getName());
             }
         }

@@ -4,71 +4,46 @@
  */
 package no.hials.muldvarp.v2.domain;
 
-import android.content.Context;
-import java.util.List;
-import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.fragments.ListFragment;
-import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
-import no.hials.muldvarp.v2.utility.DummyDataProvider;
+import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
- * @author johan
+ * @author kristoffer
  */
 public class Topic extends Domain {
-    Boolean done = false;
-    String content_url;
-    String contentType;
-    List<Question> questions;
+    ArrayList<Task> tasks;
 
-    public Topic(String name) {
-        super(name);
+    public Topic() {
+
     }
 
-    public void acceptTask() {
-        done = true;
+    public Topic(JSONObject json) throws JSONException {
+        super(json);
     }
 
-    public Boolean getDone() {
-        return done;
+    public Integer getCompletion() {
+        Integer numberOfTasks = 0;
+        Integer completedTasks = 0;
+        Integer completion = 100;
+        for(Task task : tasks) {
+            numberOfTasks++;
+            if(task.getDone() == true) {
+                completedTasks++;
+            }
+        }
+        if(numberOfTasks != 0) {
+            completion = (completedTasks*100)/numberOfTasks;
+        }
+        return completion;
     }
 
-    public void setDone(Boolean done) {
-        this.done = done;
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 
-    public String getContent_url() {
-        return content_url;
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
     }
-
-    public void setContent_url(String content_url) {
-        this.content_url = content_url;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
-
-    @Override
-    public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
-        super.populateList(fragmentList, context);
-//        ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
-//        gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
-//        fragmentList.add(gridFragmentList);
-        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
-        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
-    }
-
 }

@@ -7,19 +7,27 @@ package no.hials.muldvarp.v2.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
-public class Person_v2 extends Domain implements Serializable {
+/**
+ * This class defines a user in the Muldvarp application.
+ * 
+ * @author johan
+ */
+public class User extends Domain implements Serializable {
     private int userId;
     private String password;
     private ArrayList<Course> userCourses;
 
-    public Person_v2(String name, String detail, String description, int icon, int id, String password) {
+    public User(){
+        
+    }
+    
+    public User(String name, String detail, String description, int icon, int id, String password) {
         super(name, detail, description, icon);
         this.userId = id;
         this.password = password;
     }
 
-    public Person_v2(String name, String password) {
+    public User(String name, String password) {
         super(name);
         this.password = password;
         userCourses = new ArrayList();              //List of courses favourited by the user.
@@ -31,6 +39,10 @@ public class Person_v2 extends Domain implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public ArrayList<Course> getUserCourses() {
