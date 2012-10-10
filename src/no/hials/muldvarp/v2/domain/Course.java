@@ -9,6 +9,9 @@ import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -16,7 +19,6 @@ import no.hials.muldvarp.v2.utility.DummyDataProvider;
  */
 public class Course extends Domain implements Serializable {
     String imageurl;
-
     Integer revision;
     ArrayList<Topic> themes;
     ArrayList<ObligatoryTask> obligatoryTasks;
@@ -24,6 +26,11 @@ public class Course extends Domain implements Serializable {
 
     public Course() {
 
+    }
+
+    public Course(JSONObject json) throws JSONException {
+        super(json);
+        this.themes = parseThemes(json.getJSONArray("themes"));
     }
 
     public Course(String name) {
@@ -34,6 +41,16 @@ public class Course extends Domain implements Serializable {
         super(name);
         super.detail = detail;
         this.imageurl = url;
+    }
+
+    public final ArrayList<Topic> parseThemes(JSONArray jArray) throws JSONException {
+        ArrayList<Topic> retVal = new ArrayList<Topic>();
+        for(int i = 0; i < jArray.length(); i++) {
+            JSONObject jsonObject = jArray.getJSONObject(i);
+            Topic t = new Topic(jsonObject);
+            retVal.add(t);
+        }
+        return retVal;
     }
 
     public String getImageurl() {

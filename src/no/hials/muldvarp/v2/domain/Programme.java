@@ -12,6 +12,8 @@ import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * 
@@ -24,6 +26,11 @@ public class Programme extends Domain {
 
     public Programme() {
 
+    }
+
+    public Programme(JSONObject json) throws JSONException {
+        this.id = json.getInt("id");
+        this.name = json.getString("name");
     }
 
     public Programme(String name) {

@@ -41,7 +41,7 @@ import no.hials.muldvarp.v2.utility.FragmentUtils;
  * This Activity class defines a MuldvarpActivity class for use in the Muldvarp
  * application. The class contains functionality inherent to all Activities within
  * the Muldvarp application.
- * 
+ *
  * @author johan
  */
 public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
@@ -55,6 +55,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     public String activityName;
     public SearchView searchView;
     public Domain domain;
+    public ArrayList<Domain> sideMenuItems = new ArrayList<Domain>();
 
     @Override
     public void onBackPressed() {
@@ -80,7 +81,10 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
 
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
-        rbmView.setMenuItems(R.menu.ribbon_menu);
+        for(int i = 0; i < 20; i++) {
+            sideMenuItems.add(new Domain("Testikon " + i));
+        }
+        rbmView.setMenuItems(sideMenuItems);
 
         loginname = (TextView) findViewById(R.id.loginname);
         loginname.setText("ikke innlogget");
@@ -113,7 +117,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
-         if(mService.getUser() != null){
+        if(mService.getUser() != null){
             outState.putSerializable("user", mService.getUser());
         }
     }

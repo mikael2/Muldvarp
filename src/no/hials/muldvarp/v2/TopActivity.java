@@ -31,7 +31,6 @@ public class TopActivity extends MuldvarpActivity{
      */
     @Override
     public void onCreate(Bundle icicle) {
-
         super.onCreate(icicle);
 
         //See if the Activity was started with an Intent that included a Domain object
@@ -70,17 +69,16 @@ public class TopActivity extends MuldvarpActivity{
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
-    
+
     /**
      * This function generates a List of String values based on the titles of
      * a List of MuldvapFragments.
-     * 
+     *
      * @param fragmentList List of MuldvarpFragments
      * @return List
      */
     public List getDropDownMenuOptions(List<MuldvarpFragment> fragmentList){
-        
-        List retVal = new ArrayList();        
+        List retVal = new ArrayList();
         for (int i = 0; i < fragmentList.size(); i++) {
             retVal.add(fragmentList.get(i).getFragmentTitle());
         }
