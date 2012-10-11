@@ -23,6 +23,7 @@ public class Programme extends Domain {
     List<Course> courses = new ArrayList<Course>();;
     String imageurl;
     int revision;
+    String programmeId;
 
     public Programme() {
 

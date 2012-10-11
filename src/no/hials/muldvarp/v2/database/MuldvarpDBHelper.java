@@ -19,9 +19,20 @@ import no.hials.muldvarp.v2.database.tables.*;
  */
 public class MuldvarpDBHelper extends SQLiteOpenHelper {
 
+    //Singleton-pattern variable
+    private static MuldvarpDBHelper mDBHelper = null;
+    
     //General
     private static final String DATABASE_NAME = "muldvarp.db";
     private static final int DATABASE_VERSION = 1;
+    
+    public static MuldvarpDBHelper getInstance(Context context){
+        if(mDBHelper == null){
+            mDBHelper = new MuldvarpDBHelper(context);
+        }
+        
+        return mDBHelper;
+    }
     
     public MuldvarpDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

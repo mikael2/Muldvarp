@@ -43,7 +43,7 @@ public class MuldvarpDataSource {
     public long createProgrammeCourseRelation(long id1, long id2){
         ContentValues values = new ContentValues();
         values.put(ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1);
-        values.put(CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
+        values.put(UserTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
         
         return database.insert(ProgrammeHasCourseTable.TABLE_NAME, null, values);
     }
@@ -97,13 +97,7 @@ public class MuldvarpDataSource {
                 database.insert(ProgrammeHasCourseTable.TABLE_NAME, null, values);
             }
         }
-                        
-        Cursor cursor = database.query(ProgrammeTable.TABLE_NAME,
-            MuldvarpDBHelper.getColumns(ProgrammeTable.TABLE_COLUMNS), MuldvarpTable.COLUMN_ID + " = " + insertId, null,
-            null, null, null);
-        cursor.moveToFirst();
         
-        cursor.close();
         return insertId;
     }
 
