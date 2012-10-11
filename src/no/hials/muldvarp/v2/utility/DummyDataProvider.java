@@ -41,8 +41,6 @@ public class DummyDataProvider {
     
     public static ArrayList<Domain> requestCoursesbyProgrammeFromDB(Context context, Programme programme) {    
         
-        
-        
         MuldvarpDataSource muldvarpDataSource = new MuldvarpDataSource(context);
         muldvarpDataSource.open();
         makeAndInsertCourses(muldvarpDataSource, context);
