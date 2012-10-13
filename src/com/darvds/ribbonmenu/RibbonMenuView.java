@@ -1,7 +1,8 @@
 package com.darvds.ribbonmenu;
 
-
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import com.darvds.ribbonmenu.RibbonMenuView.SavedState;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
@@ -25,46 +27,44 @@ public class RibbonMenuView extends LinearLayout {
     private LinearLayout loginlayout;
     private iRibbonMenuCallback callback;
     private static ArrayList<Domain> menuItems;
-
+    private Domain selectedItem;
+    private Class destination;
 
     public RibbonMenuView(Context context) {
-            super(context);
+        super(context);
 
 
-            load();
+        load();
     }
 
     public RibbonMenuView(Context context, AttributeSet attrs) {
-            super(context, attrs);
+        super(context, attrs);
 
-            load();
+        load();
     }
 
-
-
-
-    private void load(){
-        if(isInEditMode()) return;
+    private void load() {
+        if (isInEditMode()) {
+            return;
+        }
         inflateLayout();
         initUi();
     }
 
-
-    private void inflateLayout(){
-
+    private void inflateLayout() {
 
 
 
-            try{
-                    LayoutInflater.from(getContext()).inflate(R.layout.rbm_menu, this, true);
-                    } catch(Exception e){
 
-                    }
+        try {
+            LayoutInflater.from(getContext()).inflate(R.layout.rbm_menu, this, true);
+        } catch (Exception e) {
+        }
 
 
     }
 
-    private void initUi(){
+    private void initUi() {
         rbmListView = (ListView) findViewById(R.id.rbm_listview);
         rbmOutsideView = (View) findViewById(R.id.rbm_outside_view);
         loginlayout = (LinearLayout) findViewById(R.id.loginlayout);
@@ -72,37 +72,49 @@ public class RibbonMenuView extends LinearLayout {
         rbmOutsideView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                    hideMenu();
+                hideMenu();
 
             }
         });
 
         rbmListView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (callback != null) //The idea is that one click should start a corresponding activity.
+                {
+                    selectedItem = menuItems.get(position);
+                }
+                Activity a = (Activity) rbmOutsideView.getContext();
+                if (selectedItem.getActivity() != null) {
+                    destination = selectedItem.getActivity();
+                    Intent myIntent = new Intent(view.getContext(), destination);
+                    myIntent.putExtra("Domain", selectedItem);
 
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if(callback != null)
-                        callback.RibbonMenuItemClick(menuItems.get(position).getId());
+                    a.startActivityForResult(myIntent, 0);
+                } else {
+                    Intent myIntent = new Intent(view.getContext(), TopActivity.class);
+                    myIntent.putExtra("Domain", selectedItem);
+                    a.startActivityForResult(myIntent, 0);
                     hideMenu();
                 }
+            }
         });
     }
 
-
-    public void setMenuClickCallback(iRibbonMenuCallback callback){
+    public void setMenuClickCallback(iRibbonMenuCallback callback) {
         this.callback = callback;
     }
 
-    public void setMenuItems(ArrayList<Domain> menu){
+    public void setMenuItems(ArrayList<Domain> menu) {
         menuItems = menu;
         rbmListView.setAdapter(new ListAdapter(rbmListView.getContext(), R.layout.layout_listitem, R.id.text, menuItems, false));
     }
 
-    public void setBackgroundResource(int resource){
+    public void setBackgroundResource(int resource) {
         rbmListView.setBackgroundResource(resource);
     }
 
-    public void showMenu(){
+    public void showMenu() {
         rbmOutsideView.setVisibility(View.VISIBLE);
         loginlayout.setVisibility(View.VISIBLE);
         rbmListView.setVisibility(View.VISIBLE);
@@ -110,7 +122,7 @@ public class RibbonMenuView extends LinearLayout {
         loginlayout.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rbm_in_from_left));
     }
 
-    public void hideMenu(){
+    public void hideMenu() {
         rbmOutsideView.setVisibility(View.GONE);
         rbmListView.setVisibility(View.GONE);
         loginlayout.setVisibility(View.GONE);
@@ -118,47 +130,47 @@ public class RibbonMenuView extends LinearLayout {
         loginlayout.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rbm_out_to_left));
     }
 
-    public void toggleMenu(){
+    public void toggleMenu() {
 
-            if(rbmOutsideView.getVisibility() == View.GONE){
-                    showMenu();
-            } else {
-                    hideMenu();
-            }
+        if (rbmOutsideView.getVisibility() == View.GONE) {
+            showMenu();
+        } else {
+            hideMenu();
+        }
     }
 
-    private String resourceIdToString(String text){
+    private String resourceIdToString(String text) {
 
-            if(!text.contains("@")){
-                    return text;
-            } else {
+        if (!text.contains("@")) {
+            return text;
+        } else {
 
-                    String id = text.replace("@", "");
+            String id = text.replace("@", "");
 
-                    return getResources().getString(Integer.valueOf(id));
+            return getResources().getString(Integer.valueOf(id));
 
-            }
+        }
 
     }
 
-
-    public boolean isMenuVisible(){
-            return rbmOutsideView.getVisibility() == View.VISIBLE;
+    public boolean isMenuVisible() {
+        return rbmOutsideView.getVisibility() == View.VISIBLE;
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state)	{
-        SavedState ss = (SavedState)state;
+    protected void onRestoreInstanceState(Parcelable state) {
+        SavedState ss = (SavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
 
-        if (ss.bShowMenu)
+        if (ss.bShowMenu) {
             showMenu();
-        else
+        } else {
             hideMenu();
+        }
     }
 
     @Override
-    protected Parcelable onSaveInstanceState()	{
+    protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
         SavedState ss = new SavedState(superState);
 
@@ -168,6 +180,7 @@ public class RibbonMenuView extends LinearLayout {
     }
 
     static class SavedState extends BaseSavedState {
+
         boolean bShowMenu;
 
         SavedState(Parcelable superState) {
@@ -184,9 +197,7 @@ public class RibbonMenuView extends LinearLayout {
             super.writeToParcel(out, flags);
             out.writeInt(bShowMenu ? 1 : 0);
         }
-
-        public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);
             }
