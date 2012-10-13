@@ -1,7 +1,8 @@
 package com.darvds.ribbonmenu;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,11 +12,14 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView.SavedState;
 import java.util.ArrayList;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.MuldvarpActivity;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.utility.ListAdapter;
@@ -80,16 +84,16 @@ public class RibbonMenuView extends LinearLayout {
         rbmListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    MuldvarpActivity a = (MuldvarpActivity) rbmOutsideView.getContext();
                 if (callback != null) //The idea is that one click should start a corresponding activity.
                 {
                     selectedItem = menuItems.get(position);
                 }
-                Activity a = (Activity) rbmOutsideView.getContext();
+
                 if (selectedItem.getActivity() != null) {
                     destination = selectedItem.getActivity();
                     Intent myIntent = new Intent(view.getContext(), destination);
                     myIntent.putExtra("Domain", selectedItem);
-
                     a.startActivityForResult(myIntent, 0);
                 } else {
                     Intent myIntent = new Intent(view.getContext(), TopActivity.class);
@@ -97,6 +101,14 @@ public class RibbonMenuView extends LinearLayout {
                     a.startActivityForResult(myIntent, 0);
                     hideMenu();
                 }
+            }
+        });
+        rbmListView.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+            public boolean onItemLongClick(AdapterView<?> av, View view, int position, long l) {
+                selectedItem = menuItems.get(position);
+                createDialog(selectedItem);
+                return true;
             }
         });
     }
@@ -206,5 +218,28 @@ public class RibbonMenuView extends LinearLayout {
                 return new SavedState[size];
             }
         };
+    }
+    
+    public void createDialog(final Domain d){
+        final MuldvarpActivity a = (MuldvarpActivity) rbmOutsideView.getContext();
+        AlertDialog.Builder builder = new AlertDialog.Builder(a);
+        builder.setMessage("vil du fjerne " + d.getName() + " fra snarveier?")
+               .setCancelable(false)
+               .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                        a.getService().getUser().removeDomain(d);                          //Adds the domain to the list of personal shortcuts.
+                        Toast toast = Toast.makeText(a.getApplicationContext(),                      //Shows a short toast to the user as feedback, telling him/her that the domain has been added to the user list.
+                        d.getName() + " er fjernet fra mine snarveier.", Toast.LENGTH_SHORT);
+                        a.updateRBMMenu();
+                        toast.show();
+                   }
+               })
+               .setNegativeButton("Nei", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();                                                              //Dismisses the dialog without doing anything.
+                   }
+               });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

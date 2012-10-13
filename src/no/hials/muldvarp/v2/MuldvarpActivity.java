@@ -78,12 +78,9 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         this.savedInstanceState = savedInstanceState;
         startService(new Intent(this,MuldvarpService.class));
         setContentView(R.layout.main);
-
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
-
         loginname = (TextView) findViewById(R.id.loginname);
-
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -91,12 +88,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
 
         Intent intent = new Intent(this, MuldvarpService.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        if(savedInstanceState != null){
-            if(savedInstanceState.getSerializable("user") != null){
-                mService.reLog((User)savedInstanceState.getSerializable("user"));
-                loginname.setText(mService.getUser().getName());
-            }
-        }
     }
 
     @Override
@@ -112,9 +103,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
-        if(mService.getUser() != null){
-            outState.putSerializable("user", mService.getUser());
-        }
     }
 
     @Override
@@ -258,12 +246,12 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             LocalBinder binder = (LocalBinder) service;
             mService = binder.getService();
             mBound = true;
-            if(mService.getUser() != null){
-                loginname.setText(mService.getUser().getName());
-                updateRBMMenu();
+            if(mService.getUser() != null){                                     //Checks if there is a logged in user
+                loginname.setText(mService.getUser().getName());                //Sets the users name in the ribbonmenu
+                updateRBMMenu();                                                //Imports the users shortcuts into the ribbonmenu
             }
             else{
-                loginname.setText("ikke innlogget");
+                loginname.setText("ikke innlogget");                            //If there is no logged in user, a default "not logged in" string is displayed in the ribbonmenu
             }
         }
 
@@ -291,6 +279,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      }
      
      public void updateRBMMenu(){
-         rbmView.setMenuItems(mService.getUser().getUserDomains());
+         rbmView.setMenuItems(mService.getUser().getUserDomains());             //Updates the listitems in the ribbonmenu.
      }
 }
