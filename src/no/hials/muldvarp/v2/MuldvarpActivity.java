@@ -76,7 +76,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         System.out.println(savedInstanceState);
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
-
+        startService(new Intent(this,MuldvarpService.class));
         setContentView(R.layout.main);
 
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
@@ -87,7 +87,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         rbmView.setMenuItems(sideMenuItems);
 
         loginname = (TextView) findViewById(R.id.loginname);
-        loginname.setText("ikke innlogget");
 
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -263,6 +262,12 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             LocalBinder binder = (LocalBinder) service;
             mService = binder.getService();
             mBound = true;
+            if(mService.getUser() != null){
+                loginname.setText(mService.getUser().getName());
+            }
+            else{
+                loginname.setText("ikke innlogget");
+            }
         }
 
         @Override
