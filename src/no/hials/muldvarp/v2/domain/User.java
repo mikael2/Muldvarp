@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class User extends Domain implements Serializable {
     private int userId;
     private String password;
-    private ArrayList<Course> userCourses;
+    private ArrayList<Domain> userDomains;
 
     public User(){
         
@@ -30,7 +30,7 @@ public class User extends Domain implements Serializable {
     public User(String name, String password) {
         super(name);
         this.password = password;
-        userCourses = new ArrayList();              //List of courses favourited by the user.
+        userDomains = new ArrayList();              //List of domains favourited by the user.
     }
     
     public int getUserId() {
@@ -45,15 +45,15 @@ public class User extends Domain implements Serializable {
         this.password = password;
     }
 
-    public ArrayList<Course> getUserCourses() {
-        return userCourses;
+    public ArrayList<Domain> getUserDomains() {
+        return userDomains;
     }
 
-    public void addCourse(Course course){
-        userCourses.add(course);
+    public void addDomain(Domain domain){
+        userDomains.add(domain);
     }
     
-    public void removeCourse(Course course){
-        userCourses.remove(course);
+    public void removeDomain(Domain domain){
+        userDomains.remove(domain);
     }
 }

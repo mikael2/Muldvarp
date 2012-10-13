@@ -114,9 +114,9 @@ public class ListFragment extends MuldvarpFragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {   //triggers if a listitem is pressed and held.
                 Domain selectedItem = items.get(pos);                                       //Saves the clicked item in the selectedItem variable.
-                if(owningActivity.getLoggedIn() && selectedItem instanceof Course){         //If the long-clicked item is a course, it is added to the users list of courses.
-                    Course course = (Course) selectedItem;
-                    createDialog(course);                                                   //Creates a new alertDialog asking whether the user wants to add the course to his/her favourites.
+                if(owningActivity.getLoggedIn() && selectedItem instanceof Domain){         //If the long-clicked item is a course, it is added to the users list of courses.
+                    Domain domain = (Domain) selectedItem;
+                    createDialog(domain);                                                   //Creates a new alertDialog asking whether the user wants to add the course to his/her favourites.
                     return true;                                                            //Tells the activity that the click has been "consumed", meaning that onItemClick should not be triggered.
                 }
                 else{                                                                       //If the clicked item isn't a course
@@ -132,15 +132,16 @@ public class ListFragment extends MuldvarpFragment {
         listAdapter.filter(text);
     }
     
-    public void createDialog(final Course c){
+    public void createDialog(final Domain d){
         AlertDialog.Builder builder = new AlertDialog.Builder(owningActivity);
-        builder.setMessage("vil du legge til " + c.getName() + " i mine fag?")
+        builder.setMessage("vil du legge til " + d.getName() + " i mine snarveier?")
                .setCancelable(false)
                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
-                        owningActivity.getService().getUser().addCourse(c);                          //Adds the course to the list of personal courses.
-                        Toast toast = Toast.makeText(fragmentView.getContext(),                      //Shows a short toast to the user as feedback, telling him/her that the course has been added to the user list.
-                        "Faget " + c.getName() + " er lagt til i mine fag.", Toast.LENGTH_SHORT);
+                        owningActivity.getService().getUser().addDomain(d);                          //Adds the domain to the list of personal shortcuts.
+                        Toast toast = Toast.makeText(fragmentView.getContext(),                      //Shows a short toast to the user as feedback, telling him/her that the domain has been added to the user list.
+                        d.getName() + " er lagt til i mine snarveier.", Toast.LENGTH_SHORT);
+                        owningActivity.updateRBMMenu();
                         toast.show();
                    }
                })

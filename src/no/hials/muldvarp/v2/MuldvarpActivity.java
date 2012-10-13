@@ -81,10 +81,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
 
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
-        for(int i = 0; i < 20; i++) {
-            sideMenuItems.add(new Domain("Testikon " + i));
-        }
-        rbmView.setMenuItems(sideMenuItems);
 
         loginname = (TextView) findViewById(R.id.loginname);
 
@@ -264,6 +260,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             mBound = true;
             if(mService.getUser() != null){
                 loginname.setText(mService.getUser().getName());
+                updateRBMMenu();
             }
             else{
                 loginname.setText("ikke innlogget");
@@ -291,5 +288,9 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
       */
      public boolean getLoggedIn(){
          return loggedIn;
+     }
+     
+     public void updateRBMMenu(){
+         rbmView.setMenuItems(mService.getUser().getUserDomains());
      }
 }
