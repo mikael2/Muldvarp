@@ -119,7 +119,7 @@ public class RibbonMenuView extends LinearLayout {
 
     public void setMenuItems(ArrayList<Domain> menu) {
         menuItems = menu;
-        rbmListView.setAdapter(new ListAdapter(rbmListView.getContext(), R.layout.layout_listitem, R.id.text, menuItems, false));
+        rbmListView.setAdapter(new ListAdapter(rbmListView.getContext(), R.layout.layout_listitem_white, R.id.text, menuItems, false));
     }
 
     public void setBackgroundResource(int resource) {
@@ -149,20 +149,6 @@ public class RibbonMenuView extends LinearLayout {
         } else {
             hideMenu();
         }
-    }
-
-    private String resourceIdToString(String text) {
-
-        if (!text.contains("@")) {
-            return text;
-        } else {
-
-            String id = text.replace("@", "");
-
-            return getResources().getString(Integer.valueOf(id));
-
-        }
-
     }
 
     public boolean isMenuVisible() {
@@ -219,7 +205,7 @@ public class RibbonMenuView extends LinearLayout {
             }
         };
     }
-    
+
     public void createDialog(final Domain d){
         final MuldvarpActivity a = (MuldvarpActivity) rbmOutsideView.getContext();
         AlertDialog.Builder builder = new AlertDialog.Builder(a);

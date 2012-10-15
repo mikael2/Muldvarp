@@ -12,43 +12,42 @@ import no.hials.muldvarp.v2.database.tables.*;
 
 /**
  * This class is responsible for creating, maintaining and upgrading the SQLITE database.
- * Right now the database creation consists more or less hard-coded as SQL-statements, 
+ * Right now the database creation consists more or less hard-coded as SQL-statements,
  * perhaps dynamic database creation should be considered.
- * 
+ *
  * @author johan
  */
 public class MuldvarpDBHelper extends SQLiteOpenHelper {
 
     //Singleton-pattern variable
     private static MuldvarpDBHelper mDBHelper = null;
-    
+
     //General
     private static final String DATABASE_NAME = "muldvarp.db";
     private static final int DATABASE_VERSION = 1;
-    
+
     public static MuldvarpDBHelper getInstance(Context context){
         if(mDBHelper == null){
             mDBHelper = new MuldvarpDBHelper(context);
         }
-        
+
         return mDBHelper;
     }
-    
+
     public MuldvarpDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        context.deleteDatabase(DATABASE_NAME);
+        //context.deleteDatabase(DATABASE_NAME);
     }
-    
 
     @Override
-    public void onCreate(SQLiteDatabase database) {                
+    public void onCreate(SQLiteDatabase database) {
         //Create tables
         database.execSQL(getTableCreationString(ProgrammeTable.TABLE_NAME, ProgrammeTable.TABLE_COLUMNS));
         database.execSQL(getTableCreationString(CourseTable.TABLE_NAME, CourseTable.TABLE_COLUMNS));
         database.execSQL(getTableCreationString(TopicTable.TABLE_NAME, TopicTable.TABLE_COLUMNS));
         database.execSQL(getTableCreationString(VideoTable.TABLE_NAME, VideoTable.TABLE_COLUMNS));
         database.execSQL(getTableCreationString(DocumentTable.TABLE_NAME, DocumentTable.TABLE_COLUMNS));
-        database.execSQL(getTableCreationString(QuizTable.TABLE_NAME, QuizTable.TABLE_COLUMNS));        
+        database.execSQL(getTableCreationString(QuizTable.TABLE_NAME, QuizTable.TABLE_COLUMNS));
         database.execSQL(getTableCreationString(ProgrammeHasCourseTable.TABLE_NAME, ProgrammeHasCourseTable.TABLE_COLUMNS));
         database.execSQL(getTableCreationString(ProgrammeHasDocumentTable.TABLE_NAME, ProgrammeHasDocumentTable.TABLE_COLUMNS));
         database.execSQL(getTableCreationString(ProgrammeHasQuizTable.TABLE_NAME, ProgrammeHasQuizTable.TABLE_COLUMNS));
@@ -70,46 +69,46 @@ public class MuldvarpDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + QuizTable.TABLE_NAME);
         onCreate(db);
     }
-    
+
         /**
      * This method returns the field names of a table.
-     * 
+     *
      * @param tableColumns
-     * @return 
+     * @return
      */
     public static String[] getColumns(String[][] tableColumns){
-        
+
         String[] retVal = new String[tableColumns.length];
-        
+
         for (int i = 0; i < tableColumns.length; i++) {
             retVal[i] = tableColumns[i][0];
         }
-        
+
         return retVal;
     }
-        
+
     /**
      * This function creates a SQL-creation statement based on a String name for the
      * table, and a multi-dimensional array of String values containing field names
      * and their attributes.
-     * 
+     *
      * @param tableName
      * @param fields
-     * @return 
+     * @return
      */
     public static String getTableCreationString(String tableName, String[][] fields){
-        
+
         String retVal = "CREATE TABLE " + tableName + "(";
         for (int i = 0; i < fields.length; i++) {
             for (int j = 0; j < fields[i].length; j++) {
-                retVal += fields[i][j];                
+                retVal += fields[i][j];
             }
             if(i < (fields.length -1)){
                 retVal +=",";
             }
         }
         retVal += ");";
-        
+
         return retVal;
     }
 
