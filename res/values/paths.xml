@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="serverPath">http://master.uials.no:8080/muldvarp/</string>
+    <string name="serverPath">http://eapp-ub.uials.no/muldvarp/</string>
     <string name="videoResPath">resources/video/</string>
     <string name="videoStudResPath">resources/video/stud</string>
     <string name="videoCourseResPath">resources/course/videos/</string>
@@ -9,7 +9,7 @@
     <string name="courseResPath">resources/course/</string>
     <string name="peopleResPath">resources/person/</string>
     <string name="libraryResPath">resources/Library/</string>
-    
+
     <string name="youtubeAPIPath">http://gdata.youtube.com/feeds/api/</string>
     <string name="youtubeHialsUser">HogskoleniAalesund</string>
     <string name='authString'>Authorization</string>

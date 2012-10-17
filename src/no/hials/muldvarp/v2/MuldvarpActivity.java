@@ -33,7 +33,6 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.User;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
@@ -73,10 +72,10 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println(savedInstanceState);
         super.onCreate(savedInstanceState);
+        System.out.println(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
-        startService(new Intent(this,MuldvarpService.class));
+
         setContentView(R.layout.main);
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
@@ -86,7 +85,9 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getActionBar().setDisplayShowTitleEnabled(false);
 
+
         Intent intent = new Intent(this, MuldvarpService.class);
+        startService(intent);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
@@ -112,6 +113,9 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         switch (item.getItemId()) {
             case android.R.id.home:
                 rbmView.toggleMenu();
+                return true;
+            case R.id.refresh:
+                mService.update(MuldvarpService.DataTypes.ALL);
                 return true;
             case R.id.login:
                 showDialog(0);
@@ -250,9 +254,10 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 loginname.setText(mService.getUser().getName());                //Sets the users name in the ribbonmenu
                 updateRBMMenu();                                                //Imports the users shortcuts into the ribbonmenu
             }
-            else{
+            else {
                 loginname.setText("ikke innlogget");                            //If there is no logged in user, a default "not logged in" string is displayed in the ribbonmenu
             }
+            mService.update(MuldvarpService.DataTypes.PROGRAMS);
         }
 
         @Override
@@ -277,7 +282,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      public boolean getLoggedIn(){
          return loggedIn;
      }
-     
+
      public void updateRBMMenu(){
          rbmView.setMenuItems(mService.getUser().getUserDomains());             //Updates the listitems in the ribbonmenu.
      }
