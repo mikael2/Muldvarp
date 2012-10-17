@@ -40,7 +40,7 @@ public class ListFragment extends MuldvarpFragment {
     View fragmentView;
     List<Domain> items = new ArrayList<Domain>();
     Class destination;
-    public enum ListType {COURSE, PROGRAMME, DOCUMENT, VIDEO, NEWS};
+    public enum ListType {COURSE, PROGRAMME, DOCUMENT, VIDEO, NEWS, QUIZ};
     ListType type;
 
     public ListFragment(String fragmentTitle, int iconResourceID, ListType type) {
@@ -49,10 +49,11 @@ public class ListFragment extends MuldvarpFragment {
         this.type = type;
     }
 
-    public ListFragment(String fragmentTitle, int iconResourceID, List<Domain> items) {
+    public ListFragment(String fragmentTitle, int iconResourceID, List<Domain> items, ListType type) {
         super.fragmentTitle = fragmentTitle;
         super.iconResourceID = iconResourceID;
         this.items = items;
+        this.type = type;
     }
 
     @Override
@@ -83,12 +84,16 @@ public class ListFragment extends MuldvarpFragment {
     private void updateItems() {
         MuldvarpDataSource mds = new MuldvarpDataSource(getActivity());
         mds.open();
-        items.clear();
+
         switch(type) {
             case COURSE:
+                        items.clear();
                 break;
             case PROGRAMME:
+                        items.clear();
                 items.addAll(mds.getAllProgrammes());
+                break;
+            default:
                 break;
         }
         if(listAdapter != null) {
