@@ -176,8 +176,6 @@ public class MuldvarpService extends Service {
 
                     break;
                 case DOCUMENTS:
-                    new DownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type)
-                            .execute(getUrl(R.string.programmesResPath));
                     break;
                 case PROGRAMS:
                     new DownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type)

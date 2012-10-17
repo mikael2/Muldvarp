@@ -110,7 +110,7 @@ public class Domain implements Serializable {
         //Fragments that are considered "default"
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
         fragmentList.add(new TextFragment("Informasjon", TextFragment.Type.INFO, R.drawable.stolen_contacts));
-        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl));
+        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
 
         if(this.getClass().getSuperclass() == Object.class) { // if this class has no superclass (except object)
             defaultList(fragmentList, context);
@@ -127,10 +127,10 @@ public class Domain implements Serializable {
 //        ListFragment gridFragmentList = new ListFragment("Studier", R.drawable.stolen_smsalt);
 //        gridFragmentList.setListItems(DummyDataProvider.requestProgrammes(context));
 //        fragmentList.add(gridFragmentList);
-        fragmentList.add(new ListFragment("Studier", R.drawable.stolen_smsalt));
-        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
+        fragmentList.add(new ListFragment("Studier", R.drawable.stolen_smsalt, ListFragment.ListType.PROGRAMME));
+        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
-        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary));
+        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
         fragmentList.add(new TextFragment("Opptak", TextFragment.Type.REQUIREMENT, R.drawable.stolen_notes));
         fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
         fragmentList.add(new TextFragment("Hjelp", TextFragment.Type.HELP, R.drawable.stolen_help));

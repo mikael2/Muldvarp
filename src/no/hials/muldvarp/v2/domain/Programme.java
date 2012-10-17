@@ -16,7 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * 
+ *
  * @author johan
  */
 public class Programme extends Domain {
@@ -69,16 +69,16 @@ public class Programme extends Domain {
     public void setRevision(int revision) {
         this.revision = revision;
     }
-    
-    
+
+
 
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         super.populateList(fragmentList, context);
-        ListFragment gridFragmentList = new ListFragment("Fag", R.drawable.stolen_smsalt);
+        ListFragment gridFragmentList = new ListFragment("Fag", R.drawable.stolen_smsalt, ListFragment.ListType.COURSE);
         gridFragmentList.setListItems(DummyDataProvider.requestCoursesbyProgrammeFromDB(context, this));
         fragmentList.add(gridFragmentList);
-        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
+        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
         fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
     }
