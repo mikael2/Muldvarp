@@ -5,10 +5,13 @@
 package no.hials.muldvarp.v2.fragments;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +20,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
+import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.TopActivity;
-import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
@@ -36,10 +40,13 @@ public class ListFragment extends MuldvarpFragment {
     View fragmentView;
     List<Domain> items = new ArrayList<Domain>();
     Class destination;
+    public enum ListType {COURSE, PROGRAMME, DOCUMENT, VIDEO, NEWS};
+    ListType type;
 
-    public ListFragment(String fragmentTitle, int iconResourceID) {
+    public ListFragment(String fragmentTitle, int iconResourceID, ListType type) {
         super.fragmentTitle = fragmentTitle;
         super.iconResourceID = iconResourceID;
+        this.type = type;
     }
 
     public ListFragment(String fragmentTitle, int iconResourceID, List<Domain> items) {
@@ -55,7 +62,39 @@ public class ListFragment extends MuldvarpFragment {
             listView = (ListView)fragmentView.findViewById(R.id.layoutlistview);
 //        }
         itemsReady();
+
+        // We use this to send broadcasts within our local process.
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity().getApplicationContext());
+         // We are going to watch for interesting local broadcasts.
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
+        filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
+                updateItems();
+            }
+        };
+        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         return fragmentView;
+    }
+
+    private void updateItems() {
+        MuldvarpDataSource mds = new MuldvarpDataSource(getActivity());
+        mds.open();
+        items.clear();
+        switch(type) {
+            case COURSE:
+                break;
+            case PROGRAMME:
+                items.addAll(mds.getAllProgrammes());
+                break;
+        }
+        if(listAdapter != null) {
+            listAdapter.notifyDataSetChanged();
+        }
+        //mds.close(); //crash
     }
 
     public void setListItems(List<Domain> items){
@@ -74,6 +113,8 @@ public class ListFragment extends MuldvarpFragment {
 //                items.addAll(DummyDataProvider.getFromDatabase(owningActivity));
 //            }
 //        }
+
+        updateItems();
 
         listView.setAdapter(new ListAdapter(
                     fragmentView.getContext(),
@@ -127,7 +168,6 @@ public class ListFragment extends MuldvarpFragment {
 
     @Override
     public void queryText(String text){
-
         listAdapter.filter(text);
     }
 

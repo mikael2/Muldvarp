@@ -85,7 +85,7 @@ public class QuizActivity extends Activity {
                 Alternative alternative = questions.get(i).getAlternatives().get(k);
                 CheckBox checkBox = new CheckBox(this);
                 checkBox.setId(alternative.getId());
-                checkBox.setText(alternative.getName());
+                checkBox.setText(alternative.getName() + checkAnswer(question, alternative.getId()));
                 checkBox.setTextSize(16);
                 boxes.put(checkBox, question);
                 linearLayout.addView(checkBox);

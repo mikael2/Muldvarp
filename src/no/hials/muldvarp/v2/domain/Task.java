@@ -22,9 +22,9 @@ public class Task extends Domain {
     List<Question> questions;
 
     public Task(){
-        
+
     }
-    
+
     public Task(String name) {
         super(name);
     }
@@ -71,7 +71,7 @@ public class Task extends Domain {
 //        ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
 //        gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
 //        fragmentList.add(gridFragmentList);
-        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
+        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
     }
 

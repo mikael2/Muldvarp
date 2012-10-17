@@ -31,6 +31,7 @@ import org.json.JSONObject;
 public class JSONUtilities {
 
     public static String getData(String url) throws IOException {
+        System.out.println(url);
         HttpClient httpclient = new DefaultHttpClient();
         HttpGet httpget = new HttpGet(url);
         ResponseHandler<String> responseHandler = new BasicResponseHandler();
