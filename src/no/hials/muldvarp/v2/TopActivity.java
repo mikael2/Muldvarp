@@ -33,6 +33,7 @@ public class TopActivity extends MuldvarpActivity{
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
+        getApplicationContext().deleteDatabase("muldvarp.db");
         //See if the Activity was started with an Intent that included a Domain object
         if(getIntent().hasExtra("Domain")){
 

@@ -34,7 +34,8 @@ public class MuldvarpDBHelper extends SQLiteOpenHelper {
 
     public MuldvarpDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        //context.deleteDatabase(DATABASE_NAME);
+        
+        
     }
 
     @Override

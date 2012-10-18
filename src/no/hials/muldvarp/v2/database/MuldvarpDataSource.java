@@ -46,8 +46,8 @@ public class MuldvarpDataSource {
     
     public long createRelation(String tableName, String table1, long id1, String table2, long id2){
         ContentValues values = new ContentValues();
-        values.put(table1 + MuldvarpTable.COLUMN_ID, id1);
-        values.put(table2 + MuldvarpTable.COLUMN_ID, id2);
+        values.put(table1, id1);
+        values.put(table2, id2);
         
         return database.insert(tableName, null, values);
     }
@@ -138,10 +138,16 @@ public class MuldvarpDataSource {
 
     //NYI
     public void deleteProgramme(Programme programme) {
-        long id = programme.getId();
-        System.out.println("programme deleted with id: " + id);
-        database.delete(ProgrammeTable.TABLE_NAME, ProgrammeTable.COLUMN_ID
-            + " = " + id, null);
+//        long id = programme.getId();
+//        System.out.println("programme deleted with id: " + id);
+//        database.delete(ProgrammeTable.TABLE_NAME, ProgrammeTable.COLUMN_ID
+//            + " = " + id, null);
+        
+        //Now deletes based on name
+        String name = programme.getName();
+        System.out.println("programme deleted with name: " + name);
+        database.delete(ProgrammeTable.TABLE_NAME, ProgrammeTable.COLUMN_NAME
+            + " = " + name, null);
     }
 
     public Programme getProgramme(String name){
@@ -213,11 +219,12 @@ public class MuldvarpDataSource {
         
         if (topicList != null) {
             for (int i = 0; i < topicList.size(); i++) {
-                values = new ContentValues();
-                values.put(columns[1], insertId);
-                values.put(columns[2], 1);
-//                values.put(columns[2], insertTask(topicList.get(i)));
-                database.insert(CourseHasTopicTable.TABLE_NAME, null, values);
+//                values = new ContentValues();
+//                values.put(columns[1], insertId);
+//                values.put(columns[2], 1);
+////                values.put(columns[2], insertTask(topicList.get(i)));
+//                database.insert(CourseHasTopicTable.TABLE_NAME, null, values);
+                createCourseTopicRelation(insertId, insertTopic(topicList.get(i)));
             }
         }        
         return insertId;
