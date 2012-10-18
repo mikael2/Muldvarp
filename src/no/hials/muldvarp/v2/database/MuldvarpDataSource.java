@@ -36,23 +36,44 @@ public class MuldvarpDataSource {
         dbHelper.close();
     }
     
+    /**
+     * This method generates unix time.
+     * @return long unix time
+     */
     public long getTimeStamp() {        
         return (System.currentTimeMillis() / 1000L);
     }
     
-    public long createProgrammeCourseRelation(long id1, long id2){
-        ContentValues values = new ContentValues();
-        values.put(ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1);
-        values.put(CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
-        
-        return database.insert(ProgrammeHasCourseTable.TABLE_NAME, null, values);
-    }
-    public long createRelastion(String tableName, String table1, int id1, String table2, int id2){
+    public long createRelation(String tableName, String table1, long id1, String table2, long id2){
         ContentValues values = new ContentValues();
         values.put(table1 + MuldvarpTable.COLUMN_ID, id1);
         values.put(table2 + MuldvarpTable.COLUMN_ID, id2);
         
         return database.insert(tableName, null, values);
+    }
+    
+    /** 
+     * This method implements creatRelation for CourseTable and ProgrammeTable.
+     * @param id1
+     * @param id2
+     * @return long id
+     */
+    public long createProgrammeCourseRelation(long id1, long id2){
+        return createRelation(ProgrammeHasCourseTable.TABLE_NAME,
+                ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
+                CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
+    }
+    
+    /** 
+     * This method implements creatRelation for CourseTable and TopicTable.
+     * @param id1
+     * @param id2
+     * @return long id
+     */
+    public long createCourseTopicRelation(long id1, long id2){
+        return createRelation(CourseHasTopicTable.TABLE_NAME,
+                CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
+                TopicTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
     
     /**
@@ -84,7 +105,8 @@ public class MuldvarpDataSource {
         
         //Get text/int value fields from Domain and insert into table
         ContentValues values = new ContentValues();
-        values.put(ProgrammeTable.COLUMN_UNIQUEID, programme.getId());
+        values.put(ProgrammeTable.COLUMN_ID, programme.getId());
+        values.put(ProgrammeTable.COLUMN_ID, programme.getProgrammeId());
         values.put(ProgrammeTable.COLUMN_NAME, programme.getName());
         values.put(ProgrammeTable.COLUMN_DESCRIPTION, programme.getDescription());
         values.put(ProgrammeTable.COLUMN_REVISION, programme.getRevision());
@@ -107,10 +129,7 @@ public class MuldvarpDataSource {
         
         if (courseList != null) {
             for (int i = 0; i < courseList.size(); i++) {
-                values = new ContentValues();
-                values.put(columns[1], insertId);
-                values.put(columns[2], insertCourse(courseList.get(i)));
-                database.insert(ProgrammeHasCourseTable.TABLE_NAME, null, values);
+                createProgrammeCourseRelation(insertId, insertCourse(courseList.get(i)));
             }
         }
         
@@ -168,18 +187,18 @@ public class MuldvarpDataSource {
         cursor.close();
         return programmes;
     }
-    
-    
 
     public long insertCourse(Course course) {
         ContentValues values = new ContentValues();
-        values.put(CourseTable.COLUMN_NAME, course.getName());        
-        values.put(CourseTable.COLUMN_UNIQUEID, course.getId());
+        values.put(CourseTable.COLUMN_ID, course.getId());
+        values.put(CourseTable.COLUMN_NAME, course.getName());                
         values.put(CourseTable.COLUMN_REVISION, course.getRevision());
         values.put(CourseTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
         if(checkRecord(CourseTable.TABLE_NAME, CourseTable.COLUMN_NAME, course.getName())){
-            insertId = database.update(CourseTable.TABLE_NAME, values, null, null);
+            insertId = database.update(CourseTable.TABLE_NAME, values,
+                    CourseTable.COLUMN_ID + "='" + getCourse(null) + "'",
+                    null);
             System.out.println("updating " + course.getName());
 
         } else {
@@ -217,6 +236,23 @@ public class MuldvarpDataSource {
                 + " WHERE " + CourseTable.COLUMN_NAME 
                 + " = '"+name+"'", null);
         Course retVal = cursorToCourse(cursor);
+        return retVal;
+    }
+    
+    public long getCourseId(Course course){
+                
+        System.out.println(course.getName());
+        Cursor cursor = database.rawQuery("SELECT "
+                + "*" + " FROM " 
+                + CourseTable.TABLE_NAME 
+                + " WHERE " + CourseTable.COLUMN_NAME 
+                + " = '"+course.getName()+"'", null);
+        
+        cursor.moveToFirst();
+        System.out.println("size " + cursor.getCount());
+        long retVal = cursor.getLong(0);
+        cursor.close();
+        
         return retVal;
     }
     
@@ -264,6 +300,62 @@ public class MuldvarpDataSource {
         // Make sure to close the cursor
         cursor.close();
         return courses;
+    }
+    
+    /**
+     * This function inserts a Topic into the SQLITE database, and if the database
+     * record already exists, updates the table instead.
+     * 
+     * @param programme
+     * @return primary key id
+     */
+    public long insertTopic(Topic topic) {
+        
+        //Get text/int value fields from Domain and insert into table
+        ContentValues values = new ContentValues();
+        values.put(TopicTable.COLUMN_ID, topic.getId());
+        values.put(TopicTable.COLUMN_NAME, topic.getName());
+        values.put(TopicTable.COLUMN_DESCRIPTION, topic.getDescription());
+        values.put(TopicTable.COLUMN_UPDATED, getTimeStamp());
+        long insertId;
+        if(checkRecord(TopicTable.TABLE_NAME, TopicTable.COLUMN_NAME, topic.getName())){
+            System.out.println("updating " + topic.getName());
+            insertId = database.update(TopicTable.TABLE_NAME, values,
+                    TopicTable.COLUMN_ID + "='" + getTopicId(topic) + "'",
+                    null);
+        } else {
+            System.out.println("inserting " + topic.getName());
+            insertId = database.insert(TopicTable.TABLE_NAME, null,
+            values);
+        }        
+        
+        return insertId;
+    }
+    
+        public Topic getTopic(String name){
+        Cursor cursor = database.rawQuery("SELECT * FROM " 
+                + TopicTable.TABLE_NAME 
+                + " WHERE " + TopicTable.COLUMN_NAME 
+                + " = '"+name+"'", null);
+        Topic retVal = cursorToTopic(cursor);
+        return retVal;
+    }
+    
+    public long getTopicId(Topic topic){
+                
+        System.out.println(topic.getName());
+        Cursor cursor = database.rawQuery("SELECT "
+                + "*" + " FROM " 
+                + TopicTable.TABLE_NAME 
+                + " WHERE " + TopicTable.COLUMN_NAME 
+                + " = '"+topic.getName()+"'", null);
+        
+        cursor.moveToFirst();
+        System.out.println("size " + cursor.getCount());
+        long retVal = cursor.getLong(0);
+        cursor.close();
+        
+        return retVal;
     }
     
     public long insertUser(User user) {        
@@ -351,8 +443,8 @@ public class MuldvarpDataSource {
         return course;
     }
 
-    private Task cursorToTopic(Cursor cursor) {
-        Task topic = new Task();
+    private Topic cursorToTopic(Cursor cursor) {
+        Topic topic = new Topic();
         int id = (int) cursor.getLong(0);
         topic.setId(id);
         topic.setName(cursor.getString(1));

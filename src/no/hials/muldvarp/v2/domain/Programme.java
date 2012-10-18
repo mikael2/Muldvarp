@@ -69,6 +69,16 @@ public class Programme extends Domain {
     public void setRevision(int revision) {
         this.revision = revision;
     }
+
+    public String getProgrammeId() {
+        return programmeId;
+    }
+
+    public void setProgrammeId(String programmeId) {
+        this.programmeId = programmeId;
+    }
+    
+    
     
     
 

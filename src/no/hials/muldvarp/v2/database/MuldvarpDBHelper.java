@@ -11,9 +11,7 @@ import android.util.Log;
 import no.hials.muldvarp.v2.database.tables.*;
 
 /**
- * This class is responsible for creating, maintaining and upgrading the SQLITE database.
- * Right now the database creation consists more or less hard-coded as SQL-statements, 
- * perhaps dynamic database creation should be considered.
+ * This class is responsible for creating, maintaining and upgrading the SQLITE database. 
  * 
  * @author johan
  */
@@ -97,8 +95,7 @@ public class MuldvarpDBHelper extends SQLiteOpenHelper {
      * @param fields
      * @return 
      */
-    public static String getTableCreationString(String tableName, String[][] fields){
-        
+    public static String getTableCreationString(String tableName, String[][] fields){        
         String retVal = "CREATE TABLE " + tableName + "(";
         for (int i = 0; i < fields.length; i++) {
             for (int j = 0; j < fields[i].length; j++) {
@@ -108,8 +105,7 @@ public class MuldvarpDBHelper extends SQLiteOpenHelper {
                 retVal +=",";
             }
         }
-        retVal += ");";
-        
+        retVal += ");";        
         return retVal;
     }
 
