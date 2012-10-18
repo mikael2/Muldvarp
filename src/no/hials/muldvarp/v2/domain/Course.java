@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.fragments.ListFragment;
+import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
@@ -96,11 +97,11 @@ public class Course extends Domain implements Serializable {
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         super.populateList(fragmentList, context);
-        ListFragment gridFragmentList = new ListFragment("Delemne", R.drawable.stolen_smsalt);
+        ListFragment gridFragmentList = new ListFragment("Delemne", R.drawable.stolen_smsalt, ListFragment.ListType.COURSE);
         gridFragmentList.setListItems(DummyDataProvider.getTopicList(context));
         fragmentList.add(gridFragmentList);
-        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
-        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
+        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
+        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
         fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
     }
 }

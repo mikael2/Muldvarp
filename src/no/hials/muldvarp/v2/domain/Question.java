@@ -59,4 +59,13 @@ public class Question implements Serializable{
     public void removeAlternative(Alternative a) {
         alternatives.remove(a);
     }
+    
+    public String getAlternative(int id){
+        for(Alternative alternative : alternatives){
+            if(alternative.getId()==id){
+                return alternative.getName();
+            }
+        }
+        return null;
+    }
 }

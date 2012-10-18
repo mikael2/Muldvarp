@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/rbm_item_text_size"
-        android:textColor="@color/rbm_item_text_color"
+        android:textColor="@android:color/white"
         android:layout_gravity="center_vertical"
         android:paddingLeft="@dimen/rbm_item_text_padding_left"
         android:singleLine="true"

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,9 +12,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.database.MuldvarpDataSource;
+import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.utility.JSONUtilities;
 import no.hials.muldvarp.v2.domain.User;
+import no.hials.muldvarp.v2.utility.DownloadTask;
 import no.hials.muldvarp.v2.utility.ServerConnection;
 import org.json.JSONException;
 
@@ -42,6 +45,8 @@ public class MuldvarpService extends Service {
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
     private User user;
 
+    private MuldvarpDataSource mds = new MuldvarpDataSource(this);
+
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -60,6 +65,11 @@ public class MuldvarpService extends Service {
         super.onCreate();
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         server = new ServerConnection(this);
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
@@ -94,113 +104,10 @@ public class MuldvarpService extends Service {
         }
     }
 
-    private String getURL(int path) {
-        //return getString(R.string.serverPath) + getString(path);
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
-        return "http://" + settings.getString("url", "") + ":8080/muldvarp/" + getString(path);
-    }
-
     private String getYoutubeUserUploadsURL(String user){
 
         return getString(R.string.youtubeAPIPath) + "users/" + user + "/uploads?alt=json";
     }
-
-//    public void requestCourses() {
-//        new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
-//                .execute(getURL(R.string.programmeCourseResPath),
-//                        getString(R.string.cacheCourseList));
-//    }
-//
-//    public void requestCourses(Integer progid) {
-//        new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
-//                .execute(getURL(R.string.programmeCourseResPath) + progid.toString(),
-//                        getString(R.string.cacheCourseList));
-//    }
-//
-//    public void requestPeople() {
-//        new DownloadTask(this,new Intent(ACTION_PEOPLE_UPDATE),getHttpHeader())
-//                .execute(getURL(R.string.peopleResPath), getString(R.string.cachePeopleCache));
-//    }
-//
-//    public void requestCourse(Integer id) {
-//        new DownloadTask(this,new Intent(ACTION_SINGLECOURSE_UPDATE),getHttpHeader())
-//                .execute(getURL(R.string.courseResPath) + id.toString(),
-//                         getString(R.string.cacheCourseSingle), id.toString());
-//    }
-//
-//    public void requestLibrary(){
-//        new DownloadTask(this, new Intent(ACTION_LIBRARY_UPDATE),getHttpHeader())
-//                .execute(getURL(R.string.libraryResPath), getString(R.string.cacheLibraryPath));
-//    }
-//
-//    public void requestVideos(){
-//
-//        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOCOURSE_UPDATE),
-//                                                                                this,
-//                                                                                getURL(R.string.videoResPath),
-//                                                                                getString(R.string.cacheVideoCourseList),
-//                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
-//        asyncCachedWebRequest.setHeader("Authorization", getHttpHeader());
-//        asyncCachedWebRequest.startRequest();
-//    }
-//
-//    public void requestStudentVideos(){
-//
-//        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOSTUDENT_UPDATE),
-//                                                                                this,
-//                                                                                getYoutubeUserUploadsURL(getString(R.string.youtubeHialsUser)),
-//                                                                                getString(R.string.cacheVideoStudentList),
-//                                                                                CachedWebRequest.CACHEDWEBREQ_YOUTUBE);
-//        asyncCachedWebRequest.startRequest();
-//    }
-//
-//    public void requestVideo(String videoID){
-//
-//        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_SINGLEVIDEO_UPDATE),
-//                                                                                this,
-//                                                                                getURL(R.string.videoResPath) + videoID,
-//                                                                                getString(R.string.cacheVideoCourseList),
-//                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
-//        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
-//        asyncCachedWebRequest.startRequest();
-//
-//    }
-//
-//    public void requestProgrammes(){
-//
-//        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_PROGRAMMES_UPDATE),
-//                                                                                this,
-//                                                                                getURL(R.string.programmesResPath),
-//                                                                                getString(R.string.cacheProgrammeList),
-//                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
-//        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
-//        asyncCachedWebRequest.startRequest();
-//    }
-//
-//    public void requestVideosInCourse(Integer id){
-//
-//        CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_COURSEVIDEO_UPDATE),
-//                                                                                this,
-//                                                                                getURL(R.string.videoCourseResPath) + id,
-//                                                                                getString(R.string.cacheCourseVideoList),
-//                                                                                CachedWebRequest.CACHEDWEBREQ_MULDVARP);
-//        asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
-//        asyncCachedWebRequest.startRequest();
-//    }
-//
-//    public String getHttpHeader() {
-//        return "Basic " + Base64.encodeToString(loadLogin().getBytes(), Base64.NO_WRAP);
-//    }
-//
-//    public String loadLogin() {
-//        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-//        return user.getName() + ":" + user.getPassword();
-//    }
-
-
-    //----------------Everything belov ithis lineis new in Muldvarp mk. II----------------------\\
-
 
     /**
      * Method login, of class MuldvarpService.
@@ -252,10 +159,9 @@ public class MuldvarpService extends Service {
      */
     public enum DataTypes {ALL, COURSES, VIDEOS, DOCUMENTS, PROGRAMS}
 
-    public boolean update(DataTypes type) {
+    public synchronized void update(DataTypes type) {
         if(server.checkServer()) {
-            String json = "";
-            switch(type){
+            switch(type) {
                 case ALL:
                     update(DataTypes.COURSES);
                     update(DataTypes.VIDEOS);
@@ -263,29 +169,24 @@ public class MuldvarpService extends Service {
                     update(DataTypes.PROGRAMS);
                     break;
                 case COURSES:
-                    try {
-                        json = JSONUtilities.getData(getURL(R.string.programmeCourseResPath));
-                    } catch (IOException ex) {
-                        Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type)
+                            .execute(getUrl(R.string.courseResPath));
                     break;
                 case VIDEOS:
+
                     break;
                 case DOCUMENTS:
                     break;
                 case PROGRAMS:
+                    new DownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type)
+                            .execute(getUrl(R.string.programmesResPath));
                     break;
             }
-            try {
-                updateDatabase(JSONUtilities.JSONtoList(json, type));
-                return true;
-            } catch (JSONException ex) {
-                Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NullPointerException ex) {
-                Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
-        return false;
+    }
+
+    public String getUrl(int resId) {
+        return getString(R.string.serverPath) + getString(resId);
     }
 
     public void updateDatabase(List<Domain> data){

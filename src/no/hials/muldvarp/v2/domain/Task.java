@@ -8,6 +8,7 @@ import android.content.Context;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.fragments.ListFragment;
+import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 
@@ -22,9 +23,9 @@ public class Task extends Domain {
     List<Question> questions;
 
     public Task(){
-        
+
     }
-    
+
     public Task(String name) {
         super(name);
     }
@@ -71,8 +72,8 @@ public class Task extends Domain {
 //        ListFragment gridFragmentList = new ListFragment("Tutorials", R.drawable.stolen_smsalt);
 //        gridFragmentList.setListItems(DummyDataProvider.getProgrammeList(this));
 //        fragmentList.add(gridFragmentList);
-        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube));
-        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList()));
+        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
+        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
     }
 
 }

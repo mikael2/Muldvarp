@@ -373,10 +373,10 @@ public class MuldvarpDataSource {
             values);
         }
         String[] columns = MuldvarpDBHelper.getColumns(UserHasCourseTable.TABLE_COLUMNS);        
-        ArrayList<Course> courseList = (ArrayList<Course>) user.getUserCourses();
+        ArrayList<Domain> domainList = (ArrayList<Domain>) user.getUserDomains();
         
-        if (courseList != null) {
-            for (int i = 0; i < courseList.size(); i++) {
+        if (domainList != null) {
+            for (int i = 0; i < domainList.size(); i++) {
                 values = new ContentValues();
                 values.put(columns[1], insertId);
                 values.put(columns[2], 1);
