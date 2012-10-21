@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.DetailActivity;
+import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
 
 /**
@@ -38,7 +39,12 @@ public class DetailFragment extends MuldvarpFragment {
         textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
         
         //get extra
-        item = (Domain) getActivity().getIntent().getExtras().get("Domain"); 
+//        if(getActivity().getIntent().getExtras().containsKey("Domain")){
+//            item = (Domain) getActivity().getIntent().getExtras().get("Domain"); 
+//        } else {
+            item = (Domain) new Document("HEY", "YOU I DONT LIKE YOUR BOYFRIEND NO WAY NO WAY");
+//        }
+        
 //        
 //        switch(type) {
 //            case NEWS:

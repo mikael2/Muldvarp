@@ -4,15 +4,13 @@
  */
 package no.hials.muldvarp.v2;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.*;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.Menu;

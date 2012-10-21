@@ -144,10 +144,10 @@ public class MuldvarpDataSource {
 //            + " = " + id, null);
         
         //Now deletes based on name
-        String name = programme.getName();
+        String[] name = {programme.getName()};
         System.out.println("programme deleted with name: " + name);
         database.delete(ProgrammeTable.TABLE_NAME, ProgrammeTable.COLUMN_NAME
-            + " = " + name, null);
+            + "=?", name);
     }
 
     public Programme getProgramme(String name){
