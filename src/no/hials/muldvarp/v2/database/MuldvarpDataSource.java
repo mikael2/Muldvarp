@@ -106,7 +106,7 @@ public class MuldvarpDataSource {
         //Get text/int value fields from Domain and insert into table
         ContentValues values = new ContentValues();
         values.put(ProgrammeTable.COLUMN_ID, programme.getId());
-        values.put(ProgrammeTable.COLUMN_ID, programme.getProgrammeId());
+        values.put(ProgrammeTable.COLUMN_UNIQUEID, programme.getProgrammeId());
         values.put(ProgrammeTable.COLUMN_NAME, programme.getName());
         values.put(ProgrammeTable.COLUMN_DESCRIPTION, programme.getDescription());
         values.put(ProgrammeTable.COLUMN_REVISION, programme.getRevision());
