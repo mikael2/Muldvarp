@@ -206,6 +206,10 @@ public class DummyDataProvider {
         
         //Create quizzes and add in the same questions
         ArrayList<Domain> quizzes = new ArrayList<Domain>();
+        Quiz shitQuiz = new Quiz("drittquiz");
+        shitQuiz.setActivity(TestQuizActivity.class);
+        shitQuiz.setDescription(">2012\n>lage en quiz uten spørsmål\nhåper virkelig at det er ingen som gjør dette");
+        quizzes.add(shitQuiz);
         for (int n = 0; n < 10; n++) {
             
             Quiz tempQuiz = new Quiz("Quiz no."+n);

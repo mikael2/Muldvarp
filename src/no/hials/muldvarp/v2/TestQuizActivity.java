@@ -32,6 +32,8 @@ public class TestQuizActivity extends MuldvarpActivity{
     Quiz quiz;
     List<Question> questions = new ArrayList<Question>();
     int currentQuestionNumber;
+    //Fragments
+    ArrayList<QuizQuestionFragment> questionFragments;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +51,22 @@ public class TestQuizActivity extends MuldvarpActivity{
             TextView quizName = (TextView) findViewById(R.id.QuizNameText);
             quizName.setText(quiz.getName());
             
+            
+            if(quiz.getDescription() != null){
+                TextView quizDescription = (TextView) findViewById(R.id.QuizNameDescription);
+                quizDescription.setText(quiz.getDescription());
+            } 
+            
             TextView questionNumber = (TextView) findViewById(R.id.QuestionAmountNo);
             questionNumber.setText(String.valueOf(quiz.getQuestions().size()));
-            setOnClickListeners();
+            if (quiz.getQuestions().size() > 0) {
+                setOnClickListeners();
+            } else {
+                Button startQuizButton = (Button) findViewById(R.id.StartQuizButton);
+                startQuizButton.setText("Denne Quiz'en har ingen spørsmål.");
+                startQuizButton.setClickable(false);
+            }
         }        
-
     }
     
     private void setOnClickListeners(){
@@ -67,12 +80,15 @@ public class TestQuizActivity extends MuldvarpActivity{
     }
     
     public void startQuiz(){
+        //Change content view
         setContentView(R.layout.activity_quiz_question_holder);
+        //Get fragments
+//        fillFragmentList();
+        
         Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
         nextQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 currentQuestionNumber++;
-                System.out.println("LIST SIZE: " + quiz.getQuestions().size());
                 if (currentQuestionNumber < quiz.getQuestions().size()) {
                     addFragmentToStack();
                 }
@@ -113,6 +129,14 @@ public class TestQuizActivity extends MuldvarpActivity{
         ft.replace(R.id.QuizQuestionFragmentHolder, newFragment);
         ft.addToBackStack(null);
         ft.commit();
+    }
+    
+    private void fillFragmentList(){
+        
+        for (int i = 0; i < quiz.getQuestions().size(); i++) {
+            Question tempQuestion = quiz.getQuestions().get(i);
+            questionFragments.add(new QuizQuestionFragment(tempQuestion));
+        }
     }
     
 }

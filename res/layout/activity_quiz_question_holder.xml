@@ -7,13 +7,14 @@
     <FrameLayout
             android:id="@+id/QuizQuestionFragmentHolder"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
     </FrameLayout>
 
     <LinearLayout android:id="@+id/QuizLinearLayout2"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             xmlns:android="http://schemas.android.com/apk/res/android">
                 
     <Button android:id="@+id/QuizPreviousButton"
