@@ -8,7 +8,3 @@ local.properties
 /src/no/hials/muldvarp/v2/testClasses/
 /src/no/hials/muldvarp/v2/deprecated/
 /src/no/hials/muldvarp/v2/fragments/deprecated/
-/res/anim/fragment_slide_left_exit.xml
-/res/anim/fragment_slide_right_exit.xml
-/res/anim/fragment_slide_right_enter.xml
-/res/anim/fragment_slide_left_enter.xml

@@ -4,6 +4,8 @@
  */
 package no.hials.muldvarp.v2;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +19,8 @@ import no.hials.muldvarp.v2.domain.Alternative;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Question;
 import no.hials.muldvarp.v2.domain.Quiz;
+import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
+import no.hials.muldvarp.v2.fragments.QuizQuestionFragment;
 
 /**
  * This class defines an Activity used for Quiz-functionality. Should
@@ -58,7 +62,7 @@ public class TestQuizActivity extends MuldvarpActivity{
         getActionBar().setSubtitle("QUIZ!");
     }
     
-    public void setOnClickListeners(){
+    private void setOnClickListeners(){
         
         Button startQuizButton = (Button) findViewById(R.id.StartQuizButton);
         startQuizButton.setOnClickListener(new View.OnClickListener() {
@@ -66,49 +70,46 @@ public class TestQuizActivity extends MuldvarpActivity{
                 startQuiz();
             }
         });
+        
     }
     
     public void startQuiz(){
-        //Get ListView and set layout mode
-        setContentView(R.layout.quiz_activity_test);
-        listView = (ListView) findViewById(R.id.QuizListView);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        getCurrentQuestion();
-        
-    }
-    
-    public void  getCurrentQuestion(){
-        currentQuestionNumber = 0;
-        
-        ArrayList items = new ArrayList();
-        items.add("For fun");
-        items.add("For the money");
-        items.add("No reason");
-        items.add("None of the above");
-        makeQuizData("Why are we here?", items, "No reason");  
-        
-        TextView textView = (TextView) findViewById(R.id.QuestionText);
-        textView.setText(questions.get(currentQuestionNumber).getName());
-        
-        listView.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_checked, items));
-    }
-    
-    public void makeQuizData(String question, List<String> alternatives, String correctAlternative) {
-        ArrayList<Alternative> list = new ArrayList();
-        Alternative correct = null;
-        int i = 0;
-        for (String s : alternatives) {
-            Alternative alt = new Alternative(s);
-            alt.setId(i);
-            if (alt.getName().equalsIgnoreCase(correctAlternative)) {
-                correct = alt;
+        setContentView(R.layout.activity_quiz_question_holder);
+        Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
+        nextQuestionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                addFragmentToStack();
             }
-            list.add(alt);
-            i++;
-        }
-        Question q = new Question(question, list, correct);
-        questions.add(q);
+        });
+        
+        Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
+        prevQuestionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startQuiz();
+            }
+        });
+        //Get ListView and set layout mode
+        MuldvarpFragment newFragment = new QuizQuestionFragment(new Question("dera", null, null));
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.add(R.id.QuizQuestionFragmentHolder, newFragment).commit();
+        
+    }
+    
+    public void addFragmentToStack() {
+
+        // Instantiate a new fragment.
+        MuldvarpFragment newFragment = new QuizQuestionFragment(new Question("dera", null, null));
+                
+        // Add the fragment to the activity, pushing this transaction
+        // on to the back stack.
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
+                R.anim.fragment_slide_left_exit,
+                R.anim.fragment_slide_right_enter,
+                R.anim.fragment_slide_right_exit);
+        ft.replace(R.id.QuizQuestionFragmentHolder, newFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
     
 }

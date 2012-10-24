@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout android:id="@+id/QuizLinearLayout1"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView android:id="@+id/QuestionText" 
+            android:textSize="20dp"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:text="TempText"                  
+            android:layout_margin="3dp"
+            android:background="@drawable/rounded_edges"/>
+
+        <ListView android:id="@+id/QuizListView"
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent"/>
+</LinearLayout>   
