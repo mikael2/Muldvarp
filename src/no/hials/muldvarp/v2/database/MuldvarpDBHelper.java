@@ -8,10 +8,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import no.hials.muldvarp.v2.database.tables.*;
 
 /**
@@ -27,7 +23,7 @@ public class MuldvarpDBHelper extends SQLiteOpenHelper {
 
     //General
     private static final String DATABASE_NAME = "muldvarp.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static MuldvarpDBHelper getInstance(Context context){
         if(mDBHelper == null){
