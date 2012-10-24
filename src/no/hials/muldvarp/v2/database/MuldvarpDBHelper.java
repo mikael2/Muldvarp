@@ -8,6 +8,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import no.hials.muldvarp.v2.database.tables.*;
 
 /**
@@ -19,6 +23,7 @@ public class MuldvarpDBHelper extends SQLiteOpenHelper {
 
     //Singleton-pattern variable
     private static MuldvarpDBHelper mDBHelper = null;
+    private final Context dbContext;
 
     //General
     private static final String DATABASE_NAME = "muldvarp.db";
@@ -34,6 +39,7 @@ public class MuldvarpDBHelper extends SQLiteOpenHelper {
 
     public MuldvarpDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.dbContext = context;
         
         
     }
@@ -57,17 +63,25 @@ public class MuldvarpDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(MuldvarpDBHelper.class.getName(),
+        
+        if (oldVersion < newVersion) {  
+            Log.w("Database Upgrade", "Database version higher, upgrading");
+            dbContext.deleteDatabase(DATABASE_NAME);
+            Log.w(MuldvarpDBHelper.class.getName(),
             "Upgrading database from version " + oldVersion + " to "
-                + newVersion + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + ProgrammeTable.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + CourseTable.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + TopicTable.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + VideoTable.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + DocumentTable.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + QuizTable.TABLE_NAME);
-        onCreate(db);
+            + newVersion + ", which will destroy all old data");
+            db.execSQL("DROP TABLE IF EXISTS " + ProgrammeTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + CourseTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + TopicTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + VideoTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + DocumentTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + QuizTable.TABLE_NAME);
+            onCreate(db);
+        } else {
+            Log.w("Database Upgrade", "Database version lower, no upgrade,");
+        }
     }
+
 
         /**
      * This method returns the field names of a table.

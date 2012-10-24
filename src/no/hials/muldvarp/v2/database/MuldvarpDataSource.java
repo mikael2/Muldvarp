@@ -123,8 +123,7 @@ public class MuldvarpDataSource {
             values);
         }
         
-        //Inserts the courses in the Programme and sets up relations  
-        String[] columns = MuldvarpDBHelper.getColumns(ProgrammeHasCourseTable.TABLE_COLUMNS);        
+        //Inserts the courses in the Programme and sets up relations       
         ArrayList<Course> courseList = (ArrayList<Course>) programme.getCourses();
         
         if (courseList != null) {
@@ -145,10 +144,19 @@ public class MuldvarpDataSource {
             + "=?", name);
     }
 
-    public Programme getProgramme(String name){
+    public Programme getProgrammeByName(String name){
         Cursor cursor = database.rawQuery("SELECT * FROM " 
                 + ProgrammeTable.TABLE_NAME 
                 + " WHERE " + ProgrammeTable.COLUMN_NAME 
+                + " = '"+name+"'", null);
+        Programme retVal = cursorToProgramme(cursor);
+        return retVal;
+    }
+    
+    public Programme getProgrammeByUniqueId(String name){
+        Cursor cursor = database.rawQuery("SELECT * FROM " 
+                + ProgrammeTable.TABLE_NAME 
+                + " WHERE " + ProgrammeTable.COLUMN_UNIQUEID 
                 + " = '"+name+"'", null);
         Programme retVal = cursorToProgramme(cursor);
         return retVal;
@@ -192,13 +200,14 @@ public class MuldvarpDataSource {
     public long insertCourse(Course course) {
         ContentValues values = new ContentValues();
         values.put(CourseTable.COLUMN_ID, course.getId());
+        values.put(CourseTable.COLUMN_UNIQUEID, course.getCourseId());  
         values.put(CourseTable.COLUMN_NAME, course.getName());                
         values.put(CourseTable.COLUMN_REVISION, course.getRevision());
         values.put(CourseTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
         if(checkRecord(CourseTable.TABLE_NAME, CourseTable.COLUMN_NAME, course.getName())){
             insertId = database.update(CourseTable.TABLE_NAME, values,
-                    CourseTable.COLUMN_ID + "='" + getCourse(null) + "'",
+                    CourseTable.COLUMN_ID + "='" + getCourseByName(null) + "'",
                     null);
             System.out.println("updating " + course.getName());
 
@@ -208,8 +217,7 @@ public class MuldvarpDataSource {
             values);
         }
         
-        //Set up relation etc
-        String[] columns = MuldvarpDBHelper.getColumns(CourseHasTopicTable.TABLE_COLUMNS);        
+        //Set up relation etc      
         ArrayList<Topic> topicList = (ArrayList<Topic>) course.getTopics();
         
         if (topicList != null) {
@@ -228,10 +236,19 @@ public class MuldvarpDataSource {
             + "=?", name);
     }
 
-    public Course getCourse(String name){
+    public Course getCourseByName(String name){
         Cursor cursor = database.rawQuery("SELECT * FROM " 
                 + CourseTable.TABLE_NAME 
                 + " WHERE " + CourseTable.COLUMN_NAME 
+                + " = '"+name+"'", null);
+        Course retVal = cursorToCourse(cursor);
+        return retVal;
+    }
+    
+    public Course getCourseByUniqueId(String name){
+        Cursor cursor = database.rawQuery("SELECT * FROM " 
+                + CourseTable.TABLE_NAME 
+                + " WHERE " + CourseTable.COLUMN_UNIQUEID 
                 + " = '"+name+"'", null);
         Course retVal = cursorToCourse(cursor);
         return retVal;
@@ -420,7 +437,6 @@ public class MuldvarpDataSource {
         // Make sure to close the cursor
         cursor.close();
         
-        
         return courses;
         
     }
@@ -429,7 +445,10 @@ public class MuldvarpDataSource {
         Programme programme = new Programme();
         int id = (int) cursor.getLong(0);
         programme.setId(id);
-        programme.setName(cursor.getString(2));        
+        programme.setProgrammeId(cursor.getString(1));
+        programme.setName(cursor.getString(2));     
+        programme.setDescription(cursor.getString(4));
+        programme.setRevision(cursor.getInt(5));
         return programme;
     }
 
@@ -437,7 +456,9 @@ public class MuldvarpDataSource {
         Course course = new Course();
         int id = (int) cursor.getLong(0);
         course.setId(id);
+        course.setCourseId(cursor.getString(1));
         course.setName(cursor.getString(2));
+        course.setRevision(cursor.getInt(3));
         return course;
     }
 

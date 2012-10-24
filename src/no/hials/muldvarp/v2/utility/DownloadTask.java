@@ -47,13 +47,13 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                     }
                     break;
                 case PROGRAMS:
-                    List<Domain> oldProgs = mds.getAllProgrammes();
-                    for(int i = 0; i < oldProgs.size(); i++) {
-                        Domain oldProg = oldProgs.get(i);
-                        if(!d.contains(oldProg)) {
-                            mds.deleteProgramme((Programme)oldProg);
-                        }
-                    }
+//                    List<Domain> oldProgs = mds.getAllProgrammes();
+//                    for(int i = 0; i < oldProgs.size(); i++) {
+//                        Domain oldProg = oldProgs.get(i);
+//                        if(!d.contains(oldProg)) {
+//                            mds.deleteProgramme((Programme)oldProg);
+//                        }
+//                    }
                     for(int i = 0; i < d.size(); i++) {
                         mds.insertProgramme((Programme)d.get(i));
                     }

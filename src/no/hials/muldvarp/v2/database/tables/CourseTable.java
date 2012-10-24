@@ -15,7 +15,7 @@ public class CourseTable extends MuldvarpTable {
       {COLUMN_ID, " integer primary key autoincrement"},
       {COLUMN_UNIQUEID, " text "}, //removed not null req
       {COLUMN_NAME, " text not null "},
-      {COLUMN_REVISION," integer not null"},
+      {COLUMN_REVISION," integer"},
       {COLUMN_UPDATED, " text not null"}
     };
 

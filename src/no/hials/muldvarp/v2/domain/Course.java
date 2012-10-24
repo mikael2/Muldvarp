@@ -20,6 +20,7 @@ import org.json.JSONObject;
  */
 public class Course extends Domain implements Serializable {
     String imageurl;
+    String courseId;
     Integer revision;
     ArrayList<Topic> themes;
     ArrayList<ObligatoryTask> obligatoryTasks;
@@ -94,6 +95,14 @@ public class Course extends Domain implements Serializable {
         this.exams = exams;
     }
 
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+    
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         super.populateList(fragmentList, context);
