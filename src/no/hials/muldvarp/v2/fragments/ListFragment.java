@@ -101,8 +101,6 @@ public class ListFragment extends MuldvarpFragment {
                 items.clear();
                 items.addAll(mds.getAllProgrammes());
                 break;
-            default:
-                break;
         }
         if(listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -134,7 +132,7 @@ public class ListFragment extends MuldvarpFragment {
                     R.layout.layout_listitem,
                     R.id.text,
                     items,
-                    true)
+                    false)
             );
         listAdapter = (ListAdapter) listView.getAdapter();
 
