@@ -68,8 +68,15 @@ public class ListFragment extends MuldvarpFragment {
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity().getApplicationContext());
          // We are going to watch for interesting local broadcasts.
         IntentFilter filter = new IntentFilter();
-        filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
-        filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+        switch(type) {
+            case PROGRAMME:
+                filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
+                break;
+            case COURSE:
+                filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+                break;
+
+        }
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -87,10 +94,11 @@ public class ListFragment extends MuldvarpFragment {
 
         switch(type) {
             case COURSE:
-                        items.clear();
+                items.clear();
+                items.addAll(mds.getAllCourses());
                 break;
             case PROGRAMME:
-                        items.clear();
+                items.clear();
                 items.addAll(mds.getAllProgrammes());
                 break;
             default:

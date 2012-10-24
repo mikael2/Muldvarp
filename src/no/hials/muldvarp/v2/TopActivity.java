@@ -35,8 +35,7 @@ public class TopActivity extends MuldvarpActivity{
 
         getApplicationContext().deleteDatabase("muldvarp.db");
         //See if the Activity was started with an Intent that included a Domain object
-        if(getIntent().hasExtra("Domain")){
-
+        if(getIntent().hasExtra("Domain")) {
             domain = (Domain) getIntent().getExtras().get("Domain");
             activityName = domain.getName();
         } else {
