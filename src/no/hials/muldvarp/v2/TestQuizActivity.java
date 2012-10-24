@@ -20,8 +20,7 @@ import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.QuizQuestionFragment;
 
 /**
- * This class defines an Activity used for Quiz-functionality. Should
- * encapsulate a fragment, but NYI
+ * This class defines an Activity used for Quiz-functionality. 
  *
  * @author johan
  */
@@ -40,7 +39,6 @@ public class TestQuizActivity extends MuldvarpActivity{
         super.onCreate(savedInstanceState);
         //Set Layout from XML-file
         setContentView(R.layout.quiz_activity_main);
-        currentQuestionNumber = 0;
         
         //See if the Activity was started with an Intent that included a Domain object
         if(getIntent().hasExtra("Domain")) {
@@ -82,7 +80,8 @@ public class TestQuizActivity extends MuldvarpActivity{
     public void startQuiz(){
         //Change content view
         setContentView(R.layout.activity_quiz_question_holder);
-        //Get fragments
+        //Get fragments        
+        currentQuestionNumber = 0;
         if (!quiz.getQuestions().isEmpty()) {
             fillFragmentList();                        
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -91,9 +90,9 @@ public class TestQuizActivity extends MuldvarpActivity{
         
         Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
         nextQuestionButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                currentQuestionNumber++;
-                if (currentQuestionNumber < quiz.getQuestions().size()) {
+            public void onClick(View v) {                
+                if (currentQuestionNumber < (quiz.getQuestions().size() -1)) {
+                    currentQuestionNumber++;
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
                             R.anim.fragment_slide_left_exit,
@@ -102,6 +101,8 @@ public class TestQuizActivity extends MuldvarpActivity{
                     ft.replace(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber));
                     ft.addToBackStack(null);
                     ft.commit();
+                } else if (currentQuestionNumber > quiz.getQuestions().size()){
+                    currentQuestionNumber = quiz.getQuestions().size();
                 }
             }
         });

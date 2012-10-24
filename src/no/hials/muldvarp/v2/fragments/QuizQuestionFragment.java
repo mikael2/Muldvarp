@@ -18,7 +18,7 @@ import no.hials.muldvarp.v2.domain.Alternative;
 import no.hials.muldvarp.v2.domain.Question;
 
 /**
- *
+ * This fragment defines a single question sheet.
  * @author johan
  */
 public class QuizQuestionFragment extends MuldvarpFragment {
@@ -49,10 +49,7 @@ public class QuizQuestionFragment extends MuldvarpFragment {
             
             getCurrentQuestion();
         }
-        
-        
-        return fragmentView;
-        
+        return fragmentView;        
     }
     
     public void  getCurrentQuestion(){
