@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author kristoffer
  */
-public class Quiz extends Domain{
+public class Quiz extends Domain {
     List<Question> questions;
     
     public Quiz(String name){
