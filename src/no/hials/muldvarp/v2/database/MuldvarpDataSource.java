@@ -83,7 +83,7 @@ public class MuldvarpDataSource {
 //
 //        return database.insert(ProgrammeHasCourseTable.TABLE_NAME, null, values);
 //    }
-    
+
     public long createRelastion(String tableName, String table1, int id1, String table2, int id2){
         ContentValues values = new ContentValues();
         values.put(table1 + MuldvarpTable.COLUMN_ID, id1);
@@ -141,8 +141,8 @@ public class MuldvarpDataSource {
             insertId = database.insert(ProgrammeTable.TABLE_NAME, null,
             values);
         }
-        
-        //Inserts the courses in the Programme and sets up relations       
+
+        //Inserts the courses in the Programme and sets up relations
         ArrayList<Course> courseList = (ArrayList<Course>) programme.getCourses();
 
         if (courseList != null) {
@@ -164,18 +164,18 @@ public class MuldvarpDataSource {
     }
 
     public Programme getProgrammeByName(String name){
-        Cursor cursor = database.rawQuery("SELECT * FROM " 
-                + ProgrammeTable.TABLE_NAME 
-                + " WHERE " + ProgrammeTable.COLUMN_NAME 
+        Cursor cursor = database.rawQuery("SELECT * FROM "
+                + ProgrammeTable.TABLE_NAME
+                + " WHERE " + ProgrammeTable.COLUMN_NAME
                 + " = '"+name+"'", null);
         Programme retVal = cursorToProgramme(cursor);
         return retVal;
     }
-    
+
     public Programme getProgrammeByUniqueId(String name){
-        Cursor cursor = database.rawQuery("SELECT * FROM " 
-                + ProgrammeTable.TABLE_NAME 
-                + " WHERE " + ProgrammeTable.COLUMN_UNIQUEID 
+        Cursor cursor = database.rawQuery("SELECT * FROM "
+                + ProgrammeTable.TABLE_NAME
+                + " WHERE " + ProgrammeTable.COLUMN_UNIQUEID
                 + " = '"+name+"'", null);
         Programme retVal = cursorToProgramme(cursor);
         return retVal;
@@ -236,8 +236,8 @@ public class MuldvarpDataSource {
 
     public long insertCourse(Course course) {
         ContentValues values = new ContentValues();
-        values.put(CourseTable.COLUMN_UNIQUEID, course.getCourseId());  
-        values.put(CourseTable.COLUMN_NAME, course.getName());                
+        values.put(CourseTable.COLUMN_UNIQUEID, course.getCourseId());
+        values.put(CourseTable.COLUMN_NAME, course.getName());
         values.put(CourseTable.COLUMN_REVISION, course.getRevision());
         values.put(CourseTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
@@ -245,7 +245,7 @@ public class MuldvarpDataSource {
 //            insertId = database.update(CourseTable.TABLE_NAME, values,
 //                    CourseTable.COLUMN_ID + "='" + getCourseId(course) + "'",
 //                    null);
-            String id[] = {course.getCourseId().toString()};
+            String id[] = {course.getCourseId()};
             insertId = database.update(CourseTable.TABLE_NAME, values,
             CourseTable.COLUMN_ID + "=?",
             id);
@@ -256,8 +256,8 @@ public class MuldvarpDataSource {
             insertId = database.insert(CourseTable.TABLE_NAME, null,
             values);
         }
-        
-        //Set up relation etc      
+
+        //Set up relation etc
         ArrayList<Topic> topicList = (ArrayList<Topic>) course.getTopics();
 
         if (topicList != null) {
@@ -277,18 +277,18 @@ public class MuldvarpDataSource {
     }
 
     public Course getCourseByName(String name){
-        Cursor cursor = database.rawQuery("SELECT * FROM " 
-                + CourseTable.TABLE_NAME 
-                + " WHERE " + CourseTable.COLUMN_NAME 
+        Cursor cursor = database.rawQuery("SELECT * FROM "
+                + CourseTable.TABLE_NAME
+                + " WHERE " + CourseTable.COLUMN_NAME
                 + " = '"+name+"'", null);
         Course retVal = cursorToCourse(cursor);
         return retVal;
     }
-    
+
     public Course getCourseByUniqueId(String name){
-        Cursor cursor = database.rawQuery("SELECT * FROM " 
-                + CourseTable.TABLE_NAME 
-                + " WHERE " + CourseTable.COLUMN_UNIQUEID 
+        Cursor cursor = database.rawQuery("SELECT * FROM "
+                + CourseTable.TABLE_NAME
+                + " WHERE " + CourseTable.COLUMN_UNIQUEID
                 + " = '"+name+"'", null);
         Course retVal = cursorToCourse(cursor);
         return retVal;
@@ -477,7 +477,7 @@ public class MuldvarpDataSource {
         }
         // Make sure to close the cursor
         cursor.close();
-        
+
         return courses;
 
     }
@@ -487,7 +487,7 @@ public class MuldvarpDataSource {
         int id = (int) cursor.getLong(0);
         programme.setId(id);
         programme.setProgrammeId(cursor.getString(1));
-        programme.setName(cursor.getString(2));     
+        programme.setName(cursor.getString(2));
         programme.setDescription(cursor.getString(4));
         programme.setRevision(cursor.getInt(5));
         return programme;

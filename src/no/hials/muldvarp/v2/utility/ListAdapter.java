@@ -24,9 +24,9 @@ public class ListAdapter extends ArrayAdapter {
     private int resource;
     private boolean showdetails;
     private List orig_items;
-        
+
     DrawableManager dm = new DrawableManager();
-    
+
     public ListAdapter(Context context, int resource, int textViewResourceId, List items, boolean showdetails) {
         super(context, textViewResourceId, items);
         mInflater = LayoutInflater.from(context);
@@ -45,7 +45,7 @@ public class ListAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        
+
         if (convertView == null) {
             convertView = mInflater.inflate(resource, parent, false);
             holder = new ViewHolder();
@@ -59,19 +59,19 @@ public class ListAdapter extends ArrayAdapter {
         }
 
         Domain c = (Domain)items.get(position);
-        
+
         holder.name.setText(c.getName());
-        
+
         if (showdetails) {
-            holder.detail.setText(c.getDetail());
+            holder.detail.setText(c.getDetail().substring(0, 200) + " ...");
         }
-        
-        if (c.getIcon() != 0) {            
+
+        if (c.getIcon() != 0) {
             holder.icon.setImageResource(c.getIcon());
         } else {
             holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
         }
-        
+
         return convertView;
     }
 
@@ -80,23 +80,23 @@ public class ListAdapter extends ArrayAdapter {
         TextView name;
         TextView detail;
     }
-    
+
     public void filter(CharSequence filter) {
         ArrayList filtered = new ArrayList();
-        
+
         for (Domain c : (ArrayList<Domain>)orig_items) {
             if (c.getName().toLowerCase().contains(filter.toString().toLowerCase()))
             {
                 filtered.add(c);
             }
         }
-        
+
         this.items = filtered;
-        
+
         if("".equals(filter.toString())) {
             this.items = this.orig_items;
         }
-        
-        notifyDataSetChanged();  
+
+        notifyDataSetChanged();
     }
 }

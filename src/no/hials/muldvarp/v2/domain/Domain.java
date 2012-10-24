@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 /**
  * This class represents an object in the applications domain layer. (more to follow)
- * 
+ *
  * @author johan
  */
 public class Domain implements Serializable {
@@ -36,6 +36,7 @@ public class Domain implements Serializable {
     public Domain(JSONObject json) throws JSONException {
         this.id = json.getInt("id");
         this.name = json.getString("name");
+        this.detail = json.getString("detail");
     }
 
     public Domain(String name) {
@@ -141,6 +142,6 @@ public class Domain implements Serializable {
         fragmentList.add(new TextFragment("Hjelp", TextFragment.Type.HELP, R.drawable.stolen_help));
     }
 
-    
-    
+
+
 }

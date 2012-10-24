@@ -255,7 +255,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             else {
                 loginname.setText("ikke innlogget");                            //If there is no logged in user, a default "not logged in" string is displayed in the ribbonmenu
             }
-            mService.update(MuldvarpService.DataTypes.PROGRAMS);
         }
 
         @Override
