@@ -201,8 +201,7 @@ public class DummyDataProvider {
             Alternative correctAnswer = new Alternative("Svaralternativ " + i);
             
             Question currentQuestion = new Question("Hvilket svaralternativ er riktig?", alternatives, correctAnswer);
-            questions.add(currentQuestion);
-            
+            questions.add(currentQuestion);            
         }       
         
         //Create quizzes and add in the same questions

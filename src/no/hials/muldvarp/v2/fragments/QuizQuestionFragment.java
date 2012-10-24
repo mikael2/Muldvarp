@@ -56,21 +56,34 @@ public class QuizQuestionFragment extends MuldvarpFragment {
     }
     
     public void  getCurrentQuestion(){
-        System.out.println("lel lel lel lel lel lel lel lel lel lel lel lel lel lel lel lel lel lel lel lel lel lel lel lel ");
-        int currentQuestionNumber = 0;
         
         ArrayList items = new ArrayList();
-        items.add("For fun");
-        items.add("For the money");
-        items.add("No reason");
-        items.add("None of the above");
-        makeQuizData("Why are we here?", items, "No reason");  
+        if ((question == null) || (question.getName() == null)) {            
+            items.add("For fun");
+            items.add("For the money");
+            items.add("No reason");
+            items.add("None of the above");
+            makeQuizData("Why are we here?", items, "No reason");  
+        } else {
+            items = getAlternatives(question);
+        }
         
         TextView textView = (TextView) fragmentView.findViewById(R.id.QuestionText);
         textView.setText(question.getName());
         
         listView.setAdapter(new ArrayAdapter<String>(fragmentView.getContext(),
                 android.R.layout.simple_list_item_checked, items));
+    }
+    
+    public ArrayList<String> getAlternatives(Question question){
+        
+        ArrayList retVal = new ArrayList();
+        ArrayList<Alternative> alternatives = (ArrayList) question.getAlternatives();
+        for (int i = 0; i < alternatives.size(); i++) {
+            retVal.add(alternatives.get(i).getName());
+        }
+        System.out.println("COULD GET ALTERNATIVES FFFFUGGGG YEAH :D :D:D:D:D:D:D");
+        return retVal;
     }
     
     public void makeQuizData(String questionString, List<String> alternatives, String correctAlternative) {

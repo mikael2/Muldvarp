@@ -38,6 +38,7 @@ public class TestQuizActivity extends MuldvarpActivity{
         super.onCreate(savedInstanceState);
         //Set Layout from XML-file
         setContentView(R.layout.quiz_activity_main);
+        currentQuestionNumber = 0;
         
         //See if the Activity was started with an Intent that included a Domain object
         if(getIntent().hasExtra("Domain")) {
@@ -62,8 +63,7 @@ public class TestQuizActivity extends MuldvarpActivity{
             public void onClick(View v) {
                 startQuiz();
             }
-        });
-        
+        });        
     }
     
     public void startQuiz(){
@@ -71,27 +71,37 @@ public class TestQuizActivity extends MuldvarpActivity{
         Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
         nextQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                addFragmentToStack();
+                currentQuestionNumber++;
+                System.out.println("LIST SIZE: " + quiz.getQuestions().size());
+                if (currentQuestionNumber < quiz.getQuestions().size()) {
+                    addFragmentToStack();
+                }
             }
         });
         
         Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
         prevQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (currentQuestionNumber > 0) {
+                    currentQuestionNumber--;
+                } else {
+                    currentQuestionNumber = 0;
+                }
                 onBackPressed();
             }
         });
         //Get ListView and set layout mode
-        MuldvarpFragment newFragment = new QuizQuestionFragment(new Question("dera", null, null));
+        MuldvarpFragment newFragment = new QuizQuestionFragment(quiz.getQuestions().get(currentQuestionNumber));
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.add(R.id.QuizQuestionFragmentHolder, newFragment).commit();
+        
         
     }
     
     public void addFragmentToStack() {
 
         // Instantiate a new fragment.
-        MuldvarpFragment newFragment = new QuizQuestionFragment(new Question("dera", null, null));
+        MuldvarpFragment newFragment = new QuizQuestionFragment(quiz.getQuestions().get(currentQuestionNumber));        
                 
         // Add the fragment to the activity, pushing this transaction
         // on to the back stack.
