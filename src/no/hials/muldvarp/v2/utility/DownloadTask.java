@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.v2.MuldvarpService;
@@ -75,11 +72,11 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
         }
     }
 
-    public static Set<Domain> compareLists(List<Domain> list1, List<Domain> list2) {
-        Set<Domain> intersect = new HashSet<Domain>(list1);
-        intersect.retainAll(list2);
-        return intersect;
-    }
+//    public static Set<Domain> compareLists(List<Domain> list1, List<Domain> list2) {
+//        Set<Domain> intersect = new HashSet<Domain>(list1);
+//        intersect.retainAll(list2);
+//        return intersect;
+//    }
 
     public void compareOld(List<Domain> oldItems, List<Domain> newItems) {
         for(int i = 0; i < oldItems.size(); i++) {
