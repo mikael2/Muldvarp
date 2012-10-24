@@ -79,7 +79,7 @@ public class MuldvarpDBHelper extends SQLiteOpenHelper {
     }
 
 
-        /**
+     /**
      * This method returns the field names of a table.
      *
      * @param tableColumns

@@ -6,21 +6,14 @@ import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
-import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.Programme;
-import no.hials.muldvarp.v2.utility.JSONUtilities;
 import no.hials.muldvarp.v2.domain.User;
 import no.hials.muldvarp.v2.utility.DownloadTask;
 import no.hials.muldvarp.v2.utility.ServerConnection;
-import org.json.JSONException;
 
 /**
  *
@@ -102,7 +95,7 @@ public class MuldvarpService extends Service {
         public MuldvarpService getService() {
             return MuldvarpService.this;
         }
-    }
+    }    
 
     private String getYoutubeUserUploadsURL(String user){
 
