@@ -121,7 +121,6 @@ public class MuldvarpDataSource {
 
         //Get text/int value fields from Domain and insert into table
         ContentValues values = new ContentValues();
-        values.put(ProgrammeTable.COLUMN_ID, programme.getId());
         values.put(ProgrammeTable.COLUMN_UNIQUEID, programme.getProgrammeId());
         values.put(ProgrammeTable.COLUMN_NAME, programme.getName());
         values.put(ProgrammeTable.COLUMN_DESCRIPTION, programme.getDescription());
@@ -130,9 +129,13 @@ public class MuldvarpDataSource {
         long insertId;
         if(checkRecord(ProgrammeTable.TABLE_NAME, ProgrammeTable.COLUMN_NAME, programme.getName())){
             System.out.println("updating " + programme.getName());
+//            insertId = database.update(ProgrammeTable.TABLE_NAME, values,
+//                    ProgrammeTable.COLUMN_ID + "='" + getProgrammeId(programme) + "'",
+//                    null);
+            String id[] = {programme.getId().toString()};
             insertId = database.update(ProgrammeTable.TABLE_NAME, values,
-                    ProgrammeTable.COLUMN_ID + "='" + getProgrammeId(programme) + "'",
-                    null);
+                    ProgrammeTable.COLUMN_ID + "=?",
+                    id);
         } else {
             System.out.println("inserting " + programme.getName());
             insertId = database.insert(ProgrammeTable.TABLE_NAME, null,
@@ -233,16 +236,19 @@ public class MuldvarpDataSource {
 
     public long insertCourse(Course course) {
         ContentValues values = new ContentValues();
-        values.put(CourseTable.COLUMN_ID, course.getId());
         values.put(CourseTable.COLUMN_UNIQUEID, course.getCourseId());  
         values.put(CourseTable.COLUMN_NAME, course.getName());                
         values.put(CourseTable.COLUMN_REVISION, course.getRevision());
         values.put(CourseTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
         if(checkRecord(CourseTable.TABLE_NAME, CourseTable.COLUMN_NAME, course.getName())){
+//            insertId = database.update(CourseTable.TABLE_NAME, values,
+//                    CourseTable.COLUMN_ID + "='" + getCourseId(course) + "'",
+//                    null);
+            String id[] = {course.getCourseId().toString()};
             insertId = database.update(CourseTable.TABLE_NAME, values,
-                    CourseTable.COLUMN_ID + "='" + getCourseByName(null) + "'",
-                    null);
+            CourseTable.COLUMN_ID + "=?",
+            id);
             System.out.println("updating " + course.getName());
 
         } else {
