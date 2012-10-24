@@ -136,12 +136,7 @@ public class MuldvarpDataSource {
         return insertId;
     }
 
-    //NYI
     public void deleteProgramme(Programme programme) {
-//        long id = programme.getId();
-//        System.out.println("programme deleted with id: " + id);
-//        database.delete(ProgrammeTable.TABLE_NAME, ProgrammeTable.COLUMN_ID
-//            + " = " + id, null);
         
         //Now deletes based on name
         String[] name = {programme.getName()};
@@ -219,11 +214,6 @@ public class MuldvarpDataSource {
         
         if (topicList != null) {
             for (int i = 0; i < topicList.size(); i++) {
-//                values = new ContentValues();
-//                values.put(columns[1], insertId);
-//                values.put(columns[2], 1);
-////                values.put(columns[2], insertTask(topicList.get(i)));
-//                database.insert(CourseHasTopicTable.TABLE_NAME, null, values);
                 createCourseTopicRelation(insertId, insertTopic(topicList.get(i)));
             }
         }        
@@ -231,10 +221,11 @@ public class MuldvarpDataSource {
     }
 
     public void deleteCourse(Course course) {
-        long id = course.getId();
-        System.out.println("Course deleted with id: " + id);
-        database.delete(CourseTable.TABLE_NAME, CourseTable.COLUMN_ID
-            + " = " + id, null);
+        //Now deletes based on name
+        String[] name = {course.getName()};
+        System.out.println("course deleted with name: " + name);
+        database.delete(CourseTable.TABLE_NAME, CourseTable.COLUMN_NAME
+            + "=?", name);
     }
 
     public Course getCourse(String name){

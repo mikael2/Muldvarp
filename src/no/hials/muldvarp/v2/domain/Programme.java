@@ -79,10 +79,6 @@ public class Programme extends Domain {
         this.programmeId = programmeId;
     }
     
-    
-    
-    
-
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         super.populateList(fragmentList, context);
