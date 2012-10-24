@@ -10,13 +10,17 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
-import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * This class represents an object in the applications domain layer. (more to follow)
+ * 
+ * @author johan
+ */
 public class Domain implements Serializable {
     Integer id;
     String name;
@@ -136,4 +140,7 @@ public class Domain implements Serializable {
         fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
         fragmentList.add(new TextFragment("Hjelp", TextFragment.Type.HELP, R.drawable.stolen_help));
     }
+
+    
+    
 }
