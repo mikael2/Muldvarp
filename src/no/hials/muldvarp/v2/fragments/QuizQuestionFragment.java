@@ -82,7 +82,6 @@ public class QuizQuestionFragment extends MuldvarpFragment {
         for (int i = 0; i < alternatives.size(); i++) {
             retVal.add(alternatives.get(i).getName());
         }
-        System.out.println("COULD GET ALTERNATIVES FFFFUGGGG YEAH :D :D:D:D:D:D:D");
         return retVal;
     }
     

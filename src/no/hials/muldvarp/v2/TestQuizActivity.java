@@ -83,14 +83,25 @@ public class TestQuizActivity extends MuldvarpActivity{
         //Change content view
         setContentView(R.layout.activity_quiz_question_holder);
         //Get fragments
-//        fillFragmentList();
+        if (!quiz.getQuestions().isEmpty()) {
+            fillFragmentList();                        
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.add(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber)).commit();
+        }
         
         Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
         nextQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 currentQuestionNumber++;
                 if (currentQuestionNumber < quiz.getQuestions().size()) {
-                    addFragmentToStack();
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
+                            R.anim.fragment_slide_left_exit,
+                            R.anim.fragment_slide_right_enter,
+                            R.anim.fragment_slide_right_exit);
+                    ft.replace(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber));
+                    ft.addToBackStack(null);
+                    ft.commit();
                 }
             }
         });
@@ -106,10 +117,6 @@ public class TestQuizActivity extends MuldvarpActivity{
                 onBackPressed();
             }
         });
-        //Get ListView and set layout mode
-        MuldvarpFragment newFragment = new QuizQuestionFragment(quiz.getQuestions().get(currentQuestionNumber));
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.QuizQuestionFragmentHolder, newFragment).commit();
         
         
     }
@@ -132,11 +139,29 @@ public class TestQuizActivity extends MuldvarpActivity{
     }
     
     private void fillFragmentList(){
-        
+        questionFragments = new ArrayList<QuizQuestionFragment>();
         for (int i = 0; i < quiz.getQuestions().size(); i++) {
             Question tempQuestion = quiz.getQuestions().get(i);
             questionFragments.add(new QuizQuestionFragment(tempQuestion));
         }
+    }
+    
+    private void updateButtons() {
+        if (currentQuestionNumber >= questionFragments.size()) {
+            Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
+            nextQuestionButton.setClickable(false);
+        } else {
+            Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
+            nextQuestionButton.setClickable(true);
+        }
+//        
+//        if (currentQuestionNumber <= 0) {
+//            Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
+//            prevQuestionButton.setClickable(false);
+//        } else if (currentQuestionNumber <= 0){
+//            Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
+//            prevQuestionButton.setClickable(true);
+//        }
     }
     
 }
