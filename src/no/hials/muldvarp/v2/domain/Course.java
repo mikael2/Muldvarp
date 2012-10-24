@@ -33,6 +33,7 @@ public class Course extends Domain implements Serializable {
     public Course(JSONObject json) throws JSONException {
         super(json);
         this.themes = parseThemes(json.getJSONArray("themes"));
+        this.revision = json.getInt("revision");
     }
 
     public Course(String name) {
@@ -64,7 +65,7 @@ public class Course extends Domain implements Serializable {
     }
 
     public Integer getRevision() {
-        return revision;
+        return 123;
     }
 
     public void setRevision(Integer revision) {

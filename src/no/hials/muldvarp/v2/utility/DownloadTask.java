@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,18 +43,15 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
             List<Domain> d = JSONUtilities.JSONtoList(json, type);
             switch(type) {
                 case COURSES:
+                    List<Domain> oldCourses = mds.getAllCourses();
+                    compareOld(oldCourses, d);
                     for(int i = 0; i < d.size(); i++) {
                         mds.insertCourse((Course)d.get(i));
                     }
                     break;
                 case PROGRAMS:
                     List<Domain> oldProgs = mds.getAllProgrammes();
-                    for(int i = 0; i < oldProgs.size(); i++) {
-                        Domain oldProg = oldProgs.get(i);
-                        if(!d.contains(oldProg)) {
-                            mds.deleteProgramme((Programme)oldProg);
-                        }
-                    }
+                    compareOld(oldProgs, d);
                     for(int i = 0; i < d.size(); i++) {
                         mds.insertProgramme((Programme)d.get(i));
                     }
@@ -77,9 +75,31 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
         }
     }
 
-    public static List<Domain> compareLists(List<Domain> list1, List<Domain> list2) {
+    public static Set<Domain> compareLists(List<Domain> list1, List<Domain> list2) {
         Set<Domain> intersect = new HashSet<Domain>(list1);
         intersect.retainAll(list2);
-        return null;
+        return intersect;
+    }
+
+    public void compareOld(List<Domain> oldItems, List<Domain> newItems) {
+        for(int i = 0; i < oldItems.size(); i++) {
+            Domain oldItem = oldItems.get(i);
+            boolean found = false;
+            for(int k = 0; k < newItems.size(); k++) {
+                Domain newProg = newItems.get(k);
+                if(newProg.getName().equals(oldItem.getName())) {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                if (oldItem instanceof Programme) {
+                    mds.deleteProgramme((Programme)oldItem);
+                }
+                if (oldItem instanceof Course) {
+                    mds.deleteCourse((Course)oldItem);
+                }
+            }
+        }
     }
 }
