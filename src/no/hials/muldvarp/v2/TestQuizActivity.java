@@ -4,18 +4,15 @@
  */
 package no.hials.muldvarp.v2;
 
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.domain.Alternative;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Question;
 import no.hials.muldvarp.v2.domain.Quiz;
@@ -50,16 +47,12 @@ public class TestQuizActivity extends MuldvarpActivity{
             
             TextView quizName = (TextView) findViewById(R.id.QuizNameText);
             quizName.setText(quiz.getName());
+            
+            TextView questionNumber = (TextView) findViewById(R.id.QuestionAmountNo);
+            questionNumber.setText(String.valueOf(quiz.getQuestions().size()));
             setOnClickListeners();
-        } 
-       
+        }        
 
-    }
-    
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        getActionBar().setSubtitle("QUIZ!");
     }
     
     private void setOnClickListeners(){
@@ -85,7 +78,7 @@ public class TestQuizActivity extends MuldvarpActivity{
         Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
         prevQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startQuiz();
+                onBackPressed();
             }
         });
         //Get ListView and set layout mode
