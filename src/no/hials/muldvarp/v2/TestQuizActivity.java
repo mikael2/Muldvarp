@@ -5,14 +5,18 @@
 package no.hials.muldvarp.v2;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Alternative;
+import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Question;
+import no.hials.muldvarp.v2.domain.Quiz;
 
 /**
  * This class defines an Activity used for Quiz-functionality. Should
@@ -24,20 +28,28 @@ public class TestQuizActivity extends MuldvarpActivity{
     
     //Global Variables
     ListView listView;
+    Quiz quiz;
     List<Question> questions = new ArrayList<Question>();
-    int currentQuestion;
+    int currentQuestionNumber;
     
-    private String[] mStrings = {"hurr", "durr", "murr"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Set Layout from XML-file
-        setContentView(R.layout.quiz_activity_test);
+        setContentView(R.layout.quiz_activity_main);
+        
+        //See if the Activity was started with an Intent that included a Domain object
+        if(getIntent().hasExtra("Domain")) {
+            domain = (Domain) getIntent().getExtras().get("Domain");
+            activityName = domain.getName();
+            quiz = (Quiz) domain;
+            
+            TextView quizName = (TextView) findViewById(R.id.QuizNameText);
+            quizName.setText(quiz.getName());
+            setOnClickListeners();
+        } 
        
-        //Get ListView and set layout mode
-        listView = (ListView) findViewById(R.id.QuizListView);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        getCurrentQuestion();
+
     }
     
     @Override
@@ -46,7 +58,27 @@ public class TestQuizActivity extends MuldvarpActivity{
         getActionBar().setSubtitle("QUIZ!");
     }
     
+    public void setOnClickListeners(){
+        
+        Button startQuizButton = (Button) findViewById(R.id.StartQuizButton);
+        startQuizButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startQuiz();
+            }
+        });
+    }
+    
+    public void startQuiz(){
+        //Get ListView and set layout mode
+        setContentView(R.layout.quiz_activity_test);
+        listView = (ListView) findViewById(R.id.QuizListView);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        getCurrentQuestion();
+        
+    }
+    
     public void  getCurrentQuestion(){
+        currentQuestionNumber = 0;
         
         ArrayList items = new ArrayList();
         items.add("For fun");
@@ -56,7 +88,7 @@ public class TestQuizActivity extends MuldvarpActivity{
         makeQuizData("Why are we here?", items, "No reason");  
         
         TextView textView = (TextView) findViewById(R.id.QuestionText);
-        textView.setText(questions.get(0).getName());
+        textView.setText(questions.get(currentQuestionNumber).getName());
         
         listView.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_checked, items));

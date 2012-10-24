@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout android:id="@+id/QuizMainLinearLayout1"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView android:id="@+id/QuizNameText" 
+            android:textSize="20dp"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:text="TempText"                  
+            android:layout_margin="3dp"
+            android:background="@drawable/rounded_edges"/>
+        
+        <ScrollView android:id="@+id/QuizScrollView1"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/rounded_edges">            
+            <TextView android:id="@+id/QuizNameDescription" 
+                android:textSize="15dp"
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+                culpa qui officia deserunt mollit anim id est laborum."                  
+                android:layout_margin="3dp"/>
+        </ScrollView>
+        
+        
+        <LinearLayout android:id="@+id/QuizMainLinearLayout2"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        
+            <TextView android:id="@+id/QuestionAmount" 
+                android:textSize="20dp"
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content"
+                android:text="Antall spørsmål:"                  
+                android:layout_margin="3dp"
+                android:background="@drawable/rounded_edges"/>    
+            <TextView android:id="@+id/QuestionAmountNo" 
+                android:textSize="20dp"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:text="TempText"                  
+                android:layout_margin="3dp"
+                android:background="@drawable/rounded_edges"/>
+
+        </LinearLayout>
+        
+        <Button android:id="@+id/StartQuizButton"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:text="Start Quiz!"/>          
+
+</LinearLayout>   
