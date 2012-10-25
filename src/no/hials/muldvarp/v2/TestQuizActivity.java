@@ -4,9 +4,16 @@
  */
 package no.hials.muldvarp.v2;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -101,8 +108,9 @@ public class TestQuizActivity extends MuldvarpActivity{
                     ft.replace(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber));
                     ft.addToBackStack(null);
                     ft.commit();
-                } else if (currentQuestionNumber > quiz.getQuestions().size()){
+                } else if (currentQuestionNumber >= quiz.getQuestions().size()-1){
                     currentQuestionNumber = quiz.getQuestions().size();
+                    prepAnswer();
                 }
             }
         });
@@ -112,14 +120,67 @@ public class TestQuizActivity extends MuldvarpActivity{
             public void onClick(View v) {
                 if (currentQuestionNumber > 0) {
                     currentQuestionNumber--;
+                    onBackPressed();
                 } else {
-                    currentQuestionNumber = 0;
+                    currentQuestionNumber = 0;                    
                 }
-                onBackPressed();
+                
             }
         });
         
         
+    }   
+    
+    public void prepAnswer(){
+        setContentView(R.layout.activity_quiz_question_ver);
+        answerView = (ListView) findViewById(R.id.list_answer);
+        resultView = (ListView) findViewById(R.id.list_results);
+
+        final ArrayAdapter<String> adapterAns = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, LIST_ANS);
+        final ArrayAdapter<String> adapterRes = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, LIST_RES);
+        answerView.setAdapter(adapterAns);
+        resultView.setAdapter(adapterRes);
+        resultView.setRotationY(-90f);
+        Button starter = (Button) findViewById(R.id.revealAnswerButton);
+        starter.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                flipit();
+            }
+        });
+    }
+        
+    ListView answerView; //ListView holding answers supplied by user
+    ListView resultView;//ListView holding actual answers
+    private Interpolator accelerator = new AccelerateInterpolator();
+    private Interpolator decelerator = new DecelerateInterpolator();
+    private void flipit() {
+        final ListView visibleList;
+        final ListView invisibleList;
+        if (answerView.getVisibility() == View.GONE) {
+            visibleList = resultView;
+            invisibleList = answerView;
+        } else {
+            invisibleList = resultView;
+            visibleList = answerView;
+        }
+        ObjectAnimator visToInvis = ObjectAnimator.ofFloat(visibleList, "rotationY", 0f, 90f);
+        visToInvis.setDuration(500);
+        visToInvis.setInterpolator(accelerator);
+        final ObjectAnimator invisToVis = ObjectAnimator.ofFloat(invisibleList, "rotationY",
+                -90f, 0f);
+        invisToVis.setDuration(500);
+        invisToVis.setInterpolator(decelerator);
+        visToInvis.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator anim) {
+                visibleList.setVisibility(View.GONE);
+                invisToVis.start();
+                invisibleList.setVisibility(View.VISIBLE);
+            }
+        });
+        visToInvis.start();
     }
     
     public void addFragmentToStack() {
@@ -147,22 +208,21 @@ public class TestQuizActivity extends MuldvarpActivity{
         }
     }
     
-    private void updateButtons() {
-        if (currentQuestionNumber >= questionFragments.size()) {
-            Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
-            nextQuestionButton.setClickable(false);
-        } else {
-            Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
-            nextQuestionButton.setClickable(true);
-        }
-//        
-//        if (currentQuestionNumber <= 0) {
-//            Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
-//            prevQuestionButton.setClickable(false);
-//        } else if (currentQuestionNumber <= 0){
-//            Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
-//            prevQuestionButton.setClickable(true);
-//        }
-    }
+    private static final String[] LIST_ANS = new String[] {
+            "Answer 1",
+            "Answer 2",
+            "Answer 3",
+            "Answer 4",
+            "Answer 5",
+            "Answer 6"
+    };
+    private static final String[] LIST_RES = new String[] {
+            "Result 1",
+            "Result 2",
+            "Result 3",
+            "Result 4",
+            "Result 5",
+            "Result 6"
+    };
     
 }

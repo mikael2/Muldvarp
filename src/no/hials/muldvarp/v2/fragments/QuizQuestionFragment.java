@@ -4,10 +4,16 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,7 +31,7 @@ public class QuizQuestionFragment extends MuldvarpFragment {
     
     //Global variables
     View fragmentView;
-    ListView listView;
+    ListView listView;    
     //Quiz
     Question question;
     
@@ -81,6 +87,7 @@ public class QuizQuestionFragment extends MuldvarpFragment {
         }
         return retVal;
     }
+
     
     public void makeQuizData(String questionString, List<String> alternatives, String correctAlternative) {
         ArrayList<Alternative> list = new ArrayList();
