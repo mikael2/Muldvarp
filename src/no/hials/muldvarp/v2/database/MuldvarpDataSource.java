@@ -436,6 +436,74 @@ public class MuldvarpDataSource {
 
         return retVal;
     }
+    
+    public long insertArticle(Article article) {
+        ContentValues values = new ContentValues();
+        values.put(ArticleTable.COLUMN_NAME, article.getName());
+        values.put(ArticleTable.COLUMN_DATE, article.getDate());
+        values.put(ArticleTable.COLUMN_INGRESS, article.getDetail());
+        values.put(ArticleTable.COLUMN_TEXT, article.getContent());
+        values.put(ArticleTable.COLUMN_AUTHOR, article.getAuthor());
+        values.put(ArticleTable.COLUMN_CATEGORY, article.getCategory());        
+        values.put(ArticleTable.COLUMN_UPDATED, getTimeStamp());
+        long insertId;
+        if(checkRecord(ArticleTable.TABLE_NAME, ArticleTable.COLUMN_NAME, article.getName())){
+//            insertId = database.update(CourseTable.TABLE_NAME, values,
+//                    CourseTable.COLUMN_ID + "='" + getCourseId(course) + "'",
+//                    null);
+            String id[] = {String.valueOf(getArticleId(article))};
+            insertId = database.update(ArticleTable.TABLE_NAME, values,
+            CourseTable.COLUMN_ID + "=?",
+            id);
+            System.out.println("updating " + article.getName());
+
+        } else {
+            System.out.println("inserting " + article.getName());
+            insertId = database.insert(ArticleTable.TABLE_NAME, null,
+            values);
+        }
+        return insertId;
+    }
+
+    public void deleteArticle(Article article) {
+        
+        if(article.getId() != null){
+            String[] id = {String.valueOf(article.getId())};
+            database.delete(ArticleTable.TABLE_NAME, ArticleTable.COLUMN_ID
+            + "=?", id);
+        }
+        //Now deletes based on name
+        String[] name = {article.getName()};
+        System.out.println("article deleted with name: " + name);
+        database.delete(ArticleTable.TABLE_NAME, ArticleTable.COLUMN_NAME
+            + "=?", name);
+    }
+
+    public Article getArticleByName(String name){
+        Cursor cursor = database.rawQuery("SELECT * FROM "
+                + ArticleTable.TABLE_NAME
+                + " WHERE " + ArticleTable.COLUMN_NAME
+                + " = '"+name+"'", null);
+        Article retVal = cursorToArticle(cursor);
+        return retVal;
+    }
+
+    public long getArticleId(Article article){
+
+        System.out.println(article.getName());
+        Cursor cursor = database.rawQuery("SELECT "
+                + "*" + " FROM "
+                + ArticleTable.TABLE_NAME
+                + " WHERE " + ArticleTable.COLUMN_NAME
+                + " = '"+article.getName()+"'", null);
+
+        cursor.moveToFirst();
+        System.out.println("size " + cursor.getCount());
+        long retVal = cursor.getLong(0);
+        cursor.close();
+
+        return retVal;
+    }
 
     public long insertUser(User user) {
 
@@ -533,6 +601,19 @@ public class MuldvarpDataSource {
         topic.setId(id);
         topic.setName(cursor.getString(1));
         return topic;
+    }
+    
+    private Article cursorToArticle(Cursor cursor) {
+        Article article = new Article();
+        int id = (int) cursor.getLong(0);
+        article.setId(id);
+        article.setName(cursor.getString(1));
+        article.setDate(String.valueOf(getTimeStamp()));
+        article.setAuthor(cursor.getString(3));
+        article.setDetail(cursor.getString(4));
+        article.setContent(cursor.getString(5));
+        article.setCategory(cursor.getString(6));
+        return article;
     }
 
     private Video cursorToVideo(Cursor cursor) {

@@ -18,7 +18,6 @@ public class ArticleTable extends MuldvarpTable {
     public static final String COLUMN_DATE = "date";
     public static final String[][] TABLE_COLUMNS = {
       {COLUMN_ID, " integer primary key autoincrement"},
-      {COLUMN_UNIQUEID, " text "}, //removed not null req
       {COLUMN_NAME, " text not null "},
       {COLUMN_DATE, " text "},
       {COLUMN_AUTHOR, " text "},
