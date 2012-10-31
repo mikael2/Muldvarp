@@ -10,7 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.database.MuldvarpDataSource;
+import no.hials.muldvarp.v2.domain.Article;
 
 /**
  *
@@ -19,22 +20,20 @@ import no.hials.muldvarp.v2.domain.Domain;
 public class TextFragment extends MuldvarpFragment {
     View fragmentView;
     private TextView text;
-    public enum Type {REQUIREMENT, HELP, DATE, INFO}
-    Type type;
+    public int articleId;
     TextView title;
-    Domain item;
-    
-    public TextFragment(String title, TextFragment.Type type, int iconResourceID) {
+    Article item;
+
+    public TextFragment(String title, int iconResourceID, int articleId) {
         super.fragmentTitle = title;
-        this.type = type;
         super.iconResourceID = iconResourceID;
+        this.articleId = articleId;
     }
 
-    public TextFragment(TextFragment.Type type, Domain item) {
-        this.type = type;
+    public TextFragment(Article item) {
         this.item = item;
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(fragmentView == null) {
@@ -45,9 +44,19 @@ public class TextFragment extends MuldvarpFragment {
         itemsReady();
         return fragmentView;
     }
-    
+
     public void itemsReady() {
-        title.setText("Tittel");
-        text.setText("Tekst");
+        updateItems();
+        title.setText(item.getName());
+        text.setText(item.getContent());
+    }
+
+    private void updateItems() {
+        MuldvarpDataSource mds = new MuldvarpDataSource(getActivity());
+        mds.open();
+
+        //item = mds.getArticle("");
+
+        //mds.close(); //crash
     }
 }

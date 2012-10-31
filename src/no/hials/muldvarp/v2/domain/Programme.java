@@ -78,13 +78,13 @@ public class Programme extends Domain {
     public void setProgrammeId(String programmeId) {
         this.programmeId = programmeId;
     }
-    
+
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         super.populateList(fragmentList, context);
         fragmentList.add(new ListFragment("Fag", R.drawable.stolen_smsalt, ListFragment.ListType.COURSE));
         fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
-        fragmentList.add(new TextFragment("Datoer", TextFragment.Type.DATE, R.drawable.stolen_calender));
+        fragmentList.add(new TextFragment("Datoer", R.drawable.stolen_calender, 35));
     }
 }
