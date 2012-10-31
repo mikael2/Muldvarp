@@ -9,8 +9,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ArrayAdapter;
@@ -34,6 +36,8 @@ import no.hials.muldvarp.v2.fragments.QuizQuestionFragment;
 public class TestQuizActivity extends MuldvarpActivity{
     
     //Global Variables
+    View mainQuizView;
+    View holderQuizView;
     ListView listView;
     Quiz quiz;
     List<Question> questions = new ArrayList<Question>();
@@ -85,12 +89,15 @@ public class TestQuizActivity extends MuldvarpActivity{
     }
     
     public void startQuiz(){
-        //Change content view
-        setContentView(R.layout.activity_quiz_question_holder);
+        //Change content view with animatino
+        LayoutInflater inflator = getLayoutInflater();
+        holderQuizView =  inflator.inflate(R.layout.activity_quiz_question_holder, null, false);
+        holderQuizView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));        
+        setContentView(holderQuizView);
         //Get fragments        
         currentQuestionNumber = 0;
         if (!quiz.getQuestions().isEmpty()) {
-            fillFragmentList();                        
+            fillQuestionFragmentList();                        
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.add(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber)).commit();
         }
@@ -123,19 +130,15 @@ public class TestQuizActivity extends MuldvarpActivity{
                     onBackPressed();
                 } else {
                     currentQuestionNumber = 0;                    
-                }
-                
+                }                
             }
         });
-        
-        
     }   
     
     public void prepAnswer(){
         setContentView(R.layout.activity_quiz_question_ver);
         answerView = (ListView) findViewById(R.id.list_answer);
         resultView = (ListView) findViewById(R.id.list_results);
-
         final ArrayAdapter<String> adapterAns = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, LIST_ANS);
         final ArrayAdapter<String> adapterRes = new ArrayAdapter<String>(this,
@@ -150,7 +153,19 @@ public class TestQuizActivity extends MuldvarpActivity{
             }
         });
     }
-        
+    
+    private void fillQuestionFragmentList(){
+        //Only fill question fragment list if it hasn't been filled already
+        if(!questionFragments.isEmpty()){
+            questionFragments = new ArrayList<QuizQuestionFragment>();
+            for (int i = 0; i < quiz.getQuestions().size(); i++) {
+                Question tempQuestion = quiz.getQuestions().get(i);
+                questionFragments.add(new QuizQuestionFragment(tempQuestion));
+            }            
+        }        
+    }
+    
+            
     ListView answerView; //ListView holding answers supplied by user
     ListView resultView;//ListView holding actual answers
     private Interpolator accelerator = new AccelerateInterpolator();
@@ -200,14 +215,10 @@ public class TestQuizActivity extends MuldvarpActivity{
         ft.commit();
     }
     
-    private void fillFragmentList(){
-        questionFragments = new ArrayList<QuizQuestionFragment>();
-        for (int i = 0; i < quiz.getQuestions().size(); i++) {
-            Question tempQuestion = quiz.getQuestions().get(i);
-            questionFragments.add(new QuizQuestionFragment(tempQuestion));
-        }
-    }
     
+    /**
+     * Below is test stuff
+     */
     private static final String[] LIST_ANS = new String[] {
             "Answer 1",
             "Answer 2",

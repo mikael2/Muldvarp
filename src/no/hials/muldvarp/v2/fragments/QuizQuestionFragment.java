@@ -4,16 +4,10 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,8 +29,20 @@ public class QuizQuestionFragment extends MuldvarpFragment {
     //Quiz
     Question question;
     
+    /**
+     * Constructor for the class.
+     * @param question Question
+     */
     public QuizQuestionFragment(Question question){
         this.question = question;        
+    }
+    
+    /**
+     * Function to return the Question variable in this class. Returns null if not set.
+     * @return Question, null
+     */
+    public Question getQuestion(){
+        return question;
     }
     
     @Override
@@ -51,8 +57,7 @@ public class QuizQuestionFragment extends MuldvarpFragment {
         if(fragmentView == null) {
             fragmentView = inflater.inflate(R.layout.activity_quiz_question, container, false);
             listView = (ListView)fragmentView.findViewById(R.id.QuizListView);
-            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-            
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);            
             getCurrentQuestion();
         }
         return fragmentView;        
@@ -68,7 +73,7 @@ public class QuizQuestionFragment extends MuldvarpFragment {
             items.add("None of the above");
             makeQuizData("Why are we here?", items, "No reason");  
         } else {
-            items = getAlternatives(question);
+            items = getStringListFromQuestion(question);
         }
         
         TextView textView = (TextView) fragmentView.findViewById(R.id.QuestionText);
@@ -78,7 +83,7 @@ public class QuizQuestionFragment extends MuldvarpFragment {
                 android.R.layout.simple_list_item_checked, items));
     }
     
-    public ArrayList<String> getAlternatives(Question question){
+    public ArrayList<String> getStringListFromQuestion(Question question){
         
         ArrayList retVal = new ArrayList();
         ArrayList<Alternative> alternatives = (ArrayList) question.getAlternatives();

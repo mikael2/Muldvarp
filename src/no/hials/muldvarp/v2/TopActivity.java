@@ -30,8 +30,8 @@ public class TopActivity extends MuldvarpActivity{
      * Called when the activity is first created.
      */
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         //See if the Activity was started with an Intent that included a Domain object
         if(getIntent().hasExtra("Domain")) {
@@ -39,15 +39,16 @@ public class TopActivity extends MuldvarpActivity{
             activityName = domain.getName();
         } else {
             activityName = getResources().getString(R.string.app_logo_top);
-            domain = new Domain();
+            domain = new Domain(activityName);
+            //Should include more descriptions from Strings
         }
 
-        //Add fragments to list if not empty:
+        //Add fragments to list if empty:
         if(fragmentList.isEmpty()) {
             domain.populateList(fragmentList, this);
         }
 
-        //Get dropdown menu
+        //Get dropdown menu using standard menu
         SpinnerAdapter mSpinnerAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_dropdown_item,
                 getDropDownMenuOptions(fragmentList));
@@ -56,7 +57,6 @@ public class TopActivity extends MuldvarpActivity{
 
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
-
                 return FragmentUtils.changeFragment(thisActivity, fragmentList, position);
             }
         };

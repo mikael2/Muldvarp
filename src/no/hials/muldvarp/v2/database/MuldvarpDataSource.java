@@ -75,6 +75,30 @@ public class MuldvarpDataSource {
                 CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 TopicTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
+    
+     /**
+     * This method implements creatRelation for CourseTable and ArticleTable.
+     * @param id1
+     * @param id2
+     * @return long id
+     */
+    public long createCourseArticleRelation(long id1, long id2){
+        return createRelation(CourseHasArticleTable.TABLE_NAME,
+                CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
+                ArticleTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
+    }
+    
+     /**
+     * This method implements creatRelation for CourseTable and ArticleTable.
+     * @param id1
+     * @param id2
+     * @return long id
+     */
+    public long createProgrammeArticleRelation(long id1, long id2){
+        return createRelation(ProgrammeHasArticleTable.TABLE_NAME,
+                ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
+                ArticleTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
+    }
 
 //    public long createProgrammeCourseRelation(long id1, long id2){
 //        ContentValues values = new ContentValues();
