@@ -19,22 +19,24 @@ import no.hials.muldvarp.v2.domain.Domain;
 public class TextFragment extends MuldvarpFragment {
     View fragmentView;
     private TextView text;
+    public int articleId;
     public enum Type {REQUIREMENT, HELP, DATE, INFO}
     Type type;
     TextView title;
     Domain item;
-    
-    public TextFragment(String title, TextFragment.Type type, int iconResourceID) {
+
+    public TextFragment(String title, TextFragment.Type type, int iconResourceID, int articleId) {
         super.fragmentTitle = title;
         this.type = type;
         super.iconResourceID = iconResourceID;
+        this.articleId = articleId;
     }
 
     public TextFragment(TextFragment.Type type, Domain item) {
         this.type = type;
         this.item = item;
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(fragmentView == null) {
@@ -45,7 +47,7 @@ public class TextFragment extends MuldvarpFragment {
         itemsReady();
         return fragmentView;
     }
-    
+
     public void itemsReady() {
         title.setText("Tittel");
         text.setText("Tekst");

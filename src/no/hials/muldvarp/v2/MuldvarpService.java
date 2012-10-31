@@ -36,6 +36,8 @@ public class MuldvarpService extends Service {
     public static final String ACTION_PROGRAMMES_LOAD     = "no.hials.muldvarp.ACTION_PROGRAMMES_LOAD";
     public static final String ACTION_UPDATE_FAILED       = "no.hials.muldvarp.ACTION_UPDATE_FAILED";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
+    public static final String ACTION_ARTICLE_UPDATE      = "no.hials.muldvarp.ACTION_ARTICLE_UPDATE";
+    public static final String ACTION_NEWS_UPDATE      = "no.hials.muldvarp.ACTION_NEWS_UPDATE";
     private User user;
 
     private MuldvarpDataSource mds = new MuldvarpDataSource(this);
@@ -95,7 +97,7 @@ public class MuldvarpService extends Service {
         public MuldvarpService getService() {
             return MuldvarpService.this;
         }
-    }    
+    }
 
     private String getYoutubeUserUploadsURL(String user){
 
@@ -150,7 +152,7 @@ public class MuldvarpService extends Service {
      * The request argument indicates which part of the database will be updated.
      * @param requested
      */
-    public enum DataTypes {ALL, COURSES, VIDEOS, DOCUMENTS, PROGRAMS}
+    public enum DataTypes {ALL, COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS}
 
     public synchronized void update(DataTypes type) {
         if(server.checkServer()) {
@@ -176,6 +178,21 @@ public class MuldvarpService extends Service {
                 case PROGRAMS:
                     new DownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type)
                             .execute(getUrl(R.string.programmesResPath));
+                    break;
+                case NEWS:
+                    new DownloadTask(this,new Intent(ACTION_NEWS_UPDATE), type)
+                            .execute(getUrl(R.string.newsResPath));
+                    break;
+            }
+        }
+    }
+
+    public synchronized void updateSingleItem(DataTypes type, int itemId) {
+        if(server.checkServer()) {
+            switch(type) {
+                case ARTICLE:
+                    new DownloadTask(this,new Intent(ACTION_ARTICLE_UPDATE), type)
+                            .execute(getUrl(R.string.articleResPath) + "/" + itemId);
                     break;
             }
         }

@@ -24,12 +24,21 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
     Context ctx;
     MuldvarpService.DataTypes type;
     MuldvarpDataSource mds;
+    int itemId;
 
     public DownloadTask(Context ctx, Intent intent, MuldvarpService.DataTypes type) {
         this.intent = intent;
         this.ctx = ctx;
         this.type = type;
         mds = new MuldvarpDataSource(ctx);
+    }
+
+    public DownloadTask(Context ctx, Intent intent, MuldvarpService.DataTypes type, int itemId) {
+        this.intent = intent;
+        this.ctx = ctx;
+        this.type = type;
+        mds = new MuldvarpDataSource(ctx);
+        this.itemId = itemId;
     }
 
     @Override
@@ -52,6 +61,9 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                     for(int i = 0; i < d.size(); i++) {
                         mds.insertProgramme((Programme)d.get(i));
                     }
+                    break;
+                case ARTICLE:
+                    //mds.insertArticle();
                     break;
             }
             mds.close();
@@ -92,11 +104,11 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
             if(!found) {
                 if (oldItem instanceof Programme) {
                     mds.deleteProgramme((Programme)oldItem);
-                }
-                if (oldItem instanceof Course) {
+                } else if (oldItem instanceof Course) {
                     mds.deleteCourse((Course)oldItem);
                 }
             }
         }
     }
+
 }

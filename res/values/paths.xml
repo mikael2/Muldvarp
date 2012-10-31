@@ -9,6 +9,8 @@
     <string name="courseResPath">resources/course/</string>
     <string name="peopleResPath">resources/person/</string>
     <string name="libraryResPath">resources/Library/</string>
+    <string name="articleResPath">resources/article/</string>
+    <string name="newsResPath">resources/article/news/</string>
 
     <string name="youtubeAPIPath">http://gdata.youtube.com/feeds/api/</string>
     <string name="youtubeHialsUser">HogskoleniAalesund</string>
