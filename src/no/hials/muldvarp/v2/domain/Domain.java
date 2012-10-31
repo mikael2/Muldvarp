@@ -8,10 +8,7 @@ import android.content.Context;
 import java.io.Serializable;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.fragments.FrontPageFragment;
-import no.hials.muldvarp.v2.fragments.ListFragment;
-import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
-import no.hials.muldvarp.v2.fragments.TextFragment;
+import no.hials.muldvarp.v2.fragments.*;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -116,7 +113,7 @@ public class Domain implements Serializable {
         //Fragments that are considered "default"
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
         fragmentList.add(new TextFragment("Informasjon", TextFragment.Type.INFO, R.drawable.stolen_contacts));
-        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
+        fragmentList.add(new WebFragment());
 
         if(this.getClass().getSuperclass() == Object.class) { // if this class has no superclass (except object)
             defaultList(fragmentList, context);
