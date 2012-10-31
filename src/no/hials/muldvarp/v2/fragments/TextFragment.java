@@ -10,7 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.database.MuldvarpDataSource;
+import no.hials.muldvarp.v2.domain.Article;
 
 /**
  *
@@ -20,20 +21,16 @@ public class TextFragment extends MuldvarpFragment {
     View fragmentView;
     private TextView text;
     public int articleId;
-    public enum Type {REQUIREMENT, HELP, DATE, INFO}
-    Type type;
     TextView title;
-    Domain item;
+    Article item;
 
-    public TextFragment(String title, TextFragment.Type type, int iconResourceID, int articleId) {
+    public TextFragment(String title, int iconResourceID, int articleId) {
         super.fragmentTitle = title;
-        this.type = type;
         super.iconResourceID = iconResourceID;
         this.articleId = articleId;
     }
 
-    public TextFragment(TextFragment.Type type, Domain item) {
-        this.type = type;
+    public TextFragment(Article item) {
         this.item = item;
     }
 
@@ -49,7 +46,17 @@ public class TextFragment extends MuldvarpFragment {
     }
 
     public void itemsReady() {
-        title.setText("Tittel");
-        text.setText("Tekst");
+        updateItems();
+        title.setText(item.getName());
+        text.setText(item.getContent());
+    }
+
+    private void updateItems() {
+        MuldvarpDataSource mds = new MuldvarpDataSource(getActivity());
+        mds.open();
+
+        //item = mds.getArticle("");
+
+        //mds.close(); //crash
     }
 }

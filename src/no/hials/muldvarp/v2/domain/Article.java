@@ -27,5 +27,8 @@ public class Article extends Domain implements Serializable {
         super(name);
     }
 
+    public String getContent() {
+        return content;
+    }
 
 }

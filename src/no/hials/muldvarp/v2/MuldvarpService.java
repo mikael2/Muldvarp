@@ -162,6 +162,7 @@ public class MuldvarpService extends Service {
                     update(DataTypes.VIDEOS);
                     update(DataTypes.DOCUMENTS);
                     update(DataTypes.PROGRAMS);
+                    update(DataTypes.NEWS);
                     break;
                 case COURSES:
                     new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type)
