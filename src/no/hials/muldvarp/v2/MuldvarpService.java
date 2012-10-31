@@ -169,12 +169,12 @@ public class MuldvarpService extends Service {
                             .execute(getUrl(R.string.courseResPath));
                     break;
                 case VIDEOS:
-                    new DownloadTask(this,new Intent(ACTION_VIDEOCOURSE_UPDATE), type)
-                            .execute(getUrl(R.string.videoResPath));
+//                    new DownloadTask(this,new Intent(ACTION_VIDEOCOURSE_UPDATE), type)
+//                            .execute(getUrl(R.string.videoResPath));
                     break;
                 case DOCUMENTS:
-                    new DownloadTask(this,new Intent(ACTION_LIBRARY_UPDATE), type)
-                            .execute(getUrl(R.string.libraryResPath));
+//                    new DownloadTask(this,new Intent(ACTION_LIBRARY_UPDATE), type)
+//                            .execute(getUrl(R.string.libraryResPath));
                     break;
                 case PROGRAMS:
                     new DownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type)
@@ -193,7 +193,7 @@ public class MuldvarpService extends Service {
             switch(type) {
                 case ARTICLE:
                     new DownloadTask(this,new Intent(ACTION_ARTICLE_UPDATE), type)
-                            .execute(getUrl(R.string.articleResPath) + "/" + itemId);
+                            .execute(getUrl(R.string.articleResPath) + itemId);
                     break;
             }
         }

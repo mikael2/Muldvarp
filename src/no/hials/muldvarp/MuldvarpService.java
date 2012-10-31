@@ -32,8 +32,8 @@ public class MuldvarpService extends Service {
     public static final String ACTION_PROGRAMMES_LOAD     = "no.hials.muldvarp.ACTION_PROGRAMMES_LOAD";
     public static final String ACTION_UPDATE_FAILED       = "no.hials.muldvarp.ACTION_UPDATE_FAILED";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
-    
-    
+
+
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
@@ -81,25 +81,25 @@ public class MuldvarpService extends Service {
             return MuldvarpService.this;
         }
     }
-    
+
     private String getURL(int path) {
         //return getString(R.string.serverPath) + getString(path);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        
+
         return "http://" + settings.getString("url", "") + ":8080/muldvarp/" + getString(path);
     }
-    
+
     private String getYoutubeUserUploadsURL(String user){
-        
+
         return getString(R.string.youtubeAPIPath) + "users/" + user + "/uploads?alt=json";
     }
-    
+
     public void requestCourses() {
         new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
                 .execute(getURL(R.string.programmeCourseResPath),
                         getString(R.string.cacheCourseList));
     }
-    
+
     public void requestCourses(Integer progid) {
         new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE),getHttpHeader())
                 .execute(getURL(R.string.programmeCourseResPath) + progid.toString(),
@@ -110,41 +110,41 @@ public class MuldvarpService extends Service {
         new DownloadTask(this,new Intent(ACTION_PEOPLE_UPDATE),getHttpHeader())
                 .execute(getURL(R.string.peopleResPath), getString(R.string.cachePeopleCache));
     }
-    
+
     public void requestCourse(Integer id) {
         new DownloadTask(this,new Intent(ACTION_SINGLECOURSE_UPDATE),getHttpHeader())
                 .execute(getURL(R.string.courseResPath) + id.toString(),
-                         getString(R.string.cacheCourseSingle), id.toString());        
+                         getString(R.string.cacheCourseSingle), id.toString());
     }
-    
+
     public void requestLibrary(){
         new DownloadTask(this, new Intent(ACTION_LIBRARY_UPDATE),getHttpHeader())
                 .execute(getURL(R.string.libraryResPath), getString(R.string.cacheLibraryPath));
     }
-    
+
     public void requestVideos(){
-        
+
         CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOCOURSE_UPDATE),
                                                                                 this,
                                                                                 getURL(R.string.videoResPath),
                                                                                 getString(R.string.cacheVideoCourseList),
                                                                                 CachedWebRequest.CACHEDWEBREQ_MULDVARP);
         asyncCachedWebRequest.setHeader("Authorization", getHttpHeader());
-        asyncCachedWebRequest.startRequest();        
+        asyncCachedWebRequest.startRequest();
     }
-    
+
     public void requestStudentVideos(){
-        
+
         CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_VIDEOSTUDENT_UPDATE),
                                                                                 this,
                                                                                 getYoutubeUserUploadsURL(getString(R.string.youtubeHialsUser)),
                                                                                 getString(R.string.cacheVideoStudentList),
                                                                                 CachedWebRequest.CACHEDWEBREQ_YOUTUBE);
-        asyncCachedWebRequest.startRequest();        
+        asyncCachedWebRequest.startRequest();
     }
-            
+
     public void requestVideo(String videoID){
-        
+
         CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_SINGLEVIDEO_UPDATE),
                                                                                 this,
                                                                                 getURL(R.string.videoResPath) + videoID,
@@ -152,22 +152,22 @@ public class MuldvarpService extends Service {
                                                                                 CachedWebRequest.CACHEDWEBREQ_MULDVARP);
         asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
         asyncCachedWebRequest.startRequest();
-        
+
     }
-    
+
     public void requestProgrammes(){
-        
+
         CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_PROGRAMMES_UPDATE),
                                                                                 this,
                                                                                 getURL(R.string.programmesResPath),
                                                                                 getString(R.string.cacheProgrammeList),
                                                                                 CachedWebRequest.CACHEDWEBREQ_MULDVARP);
         asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
-        asyncCachedWebRequest.startRequest();         
+        asyncCachedWebRequest.startRequest();
     }
-    
+
     public void requestVideosInCourse(Integer id){
-        
+
         CachedWebRequest asyncCachedWebRequest = new CachedWebRequest(new Intent(ACTION_COURSEVIDEO_UPDATE),
                                                                                 this,
                                                                                 getURL(R.string.videoCourseResPath) + id,
@@ -176,19 +176,19 @@ public class MuldvarpService extends Service {
         asyncCachedWebRequest.setHeader(getString(R.string.authString), getHttpHeader());
         asyncCachedWebRequest.startRequest();
     }
-        
+
     public String getHttpHeader() {
         return "Basic " + Base64.encodeToString(loadLogin().getBytes(), Base64.NO_WRAP);
     }
-    
+
     public String loadLogin() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
         String username = settings.getString("username", "");
         String password = settings.getString("password", "");
-        
-        return username + ":" + password; 
+
+        return username + ":" + password;
     }
-    
-    
+
+
 }

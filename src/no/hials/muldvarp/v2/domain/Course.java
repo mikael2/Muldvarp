@@ -107,9 +107,7 @@ public class Course extends Domain implements Serializable {
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         super.populateList(fragmentList, context);
-        ListFragment gridFragmentList = new ListFragment("Delemne", R.drawable.stolen_smsalt, ListFragment.ListType.COURSE);
-        gridFragmentList.setListItems(DummyDataProvider.getTopicList(context));
-        fragmentList.add(gridFragmentList);
+        fragmentList.add(new ListFragment("Delemne", R.drawable.stolen_smsalt, ListFragment.ListType.TOPIC));
         fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
         fragmentList.add(new TextFragment("Datoer", R.drawable.stolen_calender, 35));

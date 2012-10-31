@@ -5,11 +5,13 @@
 package no.hials.muldvarp.v2.fragments;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.MuldvarpService.DataTypes;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Article;
 
@@ -20,7 +22,7 @@ import no.hials.muldvarp.v2.domain.Article;
 public class TextFragment extends MuldvarpFragment {
     View fragmentView;
     private TextView text;
-    public int articleId;
+    int articleId;
     TextView title;
     Article item;
 
@@ -41,22 +43,24 @@ public class TextFragment extends MuldvarpFragment {
             title = (TextView)fragmentView.findViewById(R.id.title);
             text = (TextView)fragmentView.findViewById(R.id.text);
         }
+        owningActivity.mService.updateSingleItem(DataTypes.ARTICLE, articleId);
+        updateItems();
         itemsReady();
         return fragmentView;
     }
 
     public void itemsReady() {
-        updateItems();
-        title.setText(item.getName());
-        text.setText(item.getContent());
+        if(item != null) {
+            title.setText(item.getName());
+            text.setText(Html.fromHtml(item.getContent()));
+        }
     }
 
     private void updateItems() {
         MuldvarpDataSource mds = new MuldvarpDataSource(getActivity());
         mds.open();
 
-        //item = mds.getArticle("");
-
+        item = mds.getArticleById(articleId);
         //mds.close(); //crash
     }
 }

@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.v2.MuldvarpService;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
+import no.hials.muldvarp.v2.domain.Article;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
@@ -48,37 +49,51 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
         mds.open();
         try {
             String json = JSONUtilities.getData(params[0]);
-            List<Domain> d = JSONUtilities.JSONtoList(json, type);
+            List<Domain> items;
+            Domain item;
             switch(type) {
                 case COURSES:
+                    items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldCourses = mds.getAllCourses();
-                    compareOld(oldCourses, d);
-                    for(int i = 0; i < d.size(); i++) {
-                        mds.insertCourse((Course)d.get(i));
+                    compareOld(oldCourses, items);
+                    for(int i = 0; i < items.size(); i++) {
+                        mds.insertCourse((Course)items.get(i));
                     }
                     break;
                 case PROGRAMS:
+                    items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldProgs = mds.getAllProgrammes();
-                    compareOld(oldProgs, d);
-                    for(int i = 0; i < d.size(); i++) {
-                        mds.insertProgramme((Programme)d.get(i));
+                    compareOld(oldProgs, items);
+                    for(int i = 0; i < items.size(); i++) {
+                        mds.insertProgramme((Programme)items.get(i));
                     }
                     break;
                 case ARTICLE:
-                    //mds.insertArticle();
+                    item = JSONUtilities.JSONtoObject(json, type);
+                    mds.insertArticle((Article)item);
                     break;
                 case DOCUMENTS:
+                    items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldDocs = mds.getAllProgrammes();
-                    compareOld(oldDocs, d);
-                    for(int i = 0; i < d.size(); i++) {
+                    compareOld(oldDocs, items);
+                    for(int i = 0; i < items.size(); i++) {
                         //mds.insertDocument((Document)d.get(i));
                     }
                     break;
                 case VIDEOS:
+                    items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldVideos = mds.getAllProgrammes();
-                    compareOld(oldVideos, d);
-                    for(int i = 0; i < d.size(); i++) {
+                    compareOld(oldVideos, items);
+                    for(int i = 0; i < items.size(); i++) {
                         //mds.insertVideo((Video)d.get(i));
+                    }
+                    break;
+                case NEWS:
+                    items = JSONUtilities.JSONtoList(json, type);
+                    List<Domain> oldArticles = mds.getArticlesByCategory("news");
+                    compareOld(oldArticles, items);
+                    for(int i = 0; i < items.size(); i++) {
+                        mds.insertArticle((Article)items.get(i));
                     }
                     break;
             }
@@ -122,6 +137,12 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                     mds.deleteProgramme((Programme)oldItem);
                 } else if (oldItem instanceof Course) {
                     mds.deleteCourse((Course)oldItem);
+                } else if (oldItem instanceof Document) {
+                    //mds.deleteDocument((Document)oldItem);
+                } else if (oldItem instanceof Video) {
+                    //mds.deleteVideo((Video)oldItem);
+                } else if (oldItem instanceof Article) {
+                    mds.deleteArticle((Article)oldItem);
                 }
             }
         }

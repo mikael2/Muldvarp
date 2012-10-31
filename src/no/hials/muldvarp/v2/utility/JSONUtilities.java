@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.v2.MuldvarpService;
+import no.hials.muldvarp.v2.domain.Article;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
@@ -38,13 +39,11 @@ public class JSONUtilities {
         return httpclient.execute(httpget, responseHandler);
     }
 
-    public static Object JSONtoObject(String url, MuldvarpService.DataTypes type) {
+    public static Domain JSONtoObject(String json, MuldvarpService.DataTypes type) {
         JSONObject jsonObject = null;
         try {
-            jsonObject = new JSONObject(getData(url));
+            jsonObject = new JSONObject(json);
         } catch (JSONException ex) {
-            Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
             Logger.getLogger(MuldvarpService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -62,6 +61,12 @@ public class JSONUtilities {
                     break;
                 case PROGRAMS:
                     d = new Programme(jsonObject);
+                    break;
+                case ARTICLE:
+                    d = new Article(jsonObject);
+                    break;
+                default:
+                    d = new Domain(jsonObject);
                     break;
             }
         } catch (JSONException ex) {
@@ -97,11 +102,22 @@ public class JSONUtilities {
                 case VIDEOS:
                     d = new Video();
                     break;
+                case NEWS:
+                    d = new Article();
+                    break;
+                default:
+                    d = new Domain();
+                    break;
             }
             JSONObject currentObject = jArray.getJSONObject(i);
             d.setId(currentObject.getInt("id"));
-            d.setName(currentObject.getString("name"));
-            d.setDetail(currentObject.getString("detail"));
+            if(type.equals(MuldvarpService.DataTypes.NEWS)) {
+                d.setName(currentObject.getString("title"));
+                d.setDetail(currentObject.getString("ingress"));
+            } else {
+                d.setName(currentObject.getString("name"));
+                d.setDetail(currentObject.getString("detail"));
+            }
             itemList.add(d);
         }
 

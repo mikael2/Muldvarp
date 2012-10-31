@@ -13,7 +13,7 @@ import org.json.JSONObject;
  * @author johan
  */
 public class Article extends Domain implements Serializable {
-    
+
     String author;
     String category;
     String content;
@@ -23,8 +23,11 @@ public class Article extends Domain implements Serializable {
     }
 
     public Article(JSONObject json) throws JSONException {
-        super(json);
-        this.content = json.getString("");
+        this.id = json.getInt("id");
+        this.name = json.getString("title");
+        this.detail = json.getString("ingress");
+        this.content = json.getString("text");
+        this.category = json.getString("category");
     }
 
     public Article(String name) {
@@ -38,7 +41,7 @@ public class Article extends Domain implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-        
+
 
     public String getAuthor() {
         return author;
@@ -63,7 +66,7 @@ public class Article extends Domain implements Serializable {
     public void setDate(String date) {
         this.date = date;
     }
-    
-    
+
+
 
 }

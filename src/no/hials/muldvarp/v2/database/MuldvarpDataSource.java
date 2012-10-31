@@ -75,7 +75,7 @@ public class MuldvarpDataSource {
                 CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 TopicTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
-    
+
      /**
      * This method implements creatRelation for CourseTable and ArticleTable.
      * @param id1
@@ -87,7 +87,7 @@ public class MuldvarpDataSource {
                 CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 ArticleTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
-    
+
      /**
      * This method implements creatRelation for CourseTable and ArticleTable.
      * @param id1
@@ -256,6 +256,27 @@ public class MuldvarpDataSource {
         // Make sure to close the cursor
         cursor.close();
         return courses;
+    }
+
+    public ArrayList<Domain> getArticlesByCategory(String category) {
+        ArrayList<Domain> articles = new ArrayList<Domain>();
+
+        Cursor cursor = database.query(ArticleTable.TABLE_NAME ,
+            MuldvarpDBHelper.getColumns(ArticleTable.TABLE_COLUMNS),
+            null, null, null, null, null);
+
+        cursor.moveToFirst();
+        for(int max = 0; max < 20; max++) {
+            Article article = cursorToArticle(cursor);
+            if(article.getCategory() != null && article.getCategory().equals(category)) {
+
+            }
+            articles.add(article);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return articles;
     }
 
     public long insertCourse(Course course) {
@@ -436,15 +457,16 @@ public class MuldvarpDataSource {
 
         return retVal;
     }
-    
+
     public long insertArticle(Article article) {
         ContentValues values = new ContentValues();
         values.put(ArticleTable.COLUMN_NAME, article.getName());
+        values.put(ArticleTable.COLUMN_UNIQUEID, article.getId());
         values.put(ArticleTable.COLUMN_DATE, article.getDate());
         values.put(ArticleTable.COLUMN_INGRESS, article.getDetail());
         values.put(ArticleTable.COLUMN_TEXT, article.getContent());
         values.put(ArticleTable.COLUMN_AUTHOR, article.getAuthor());
-        values.put(ArticleTable.COLUMN_CATEGORY, article.getCategory());        
+        values.put(ArticleTable.COLUMN_CATEGORY, article.getCategory());
         values.put(ArticleTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
         if(checkRecord(ArticleTable.TABLE_NAME, ArticleTable.COLUMN_NAME, article.getName())){
@@ -466,7 +488,7 @@ public class MuldvarpDataSource {
     }
 
     public void deleteArticle(Article article) {
-        
+
         if(article.getId() != null){
             String[] id = {String.valueOf(article.getId())};
             database.delete(ArticleTable.TABLE_NAME, ArticleTable.COLUMN_ID
@@ -484,6 +506,15 @@ public class MuldvarpDataSource {
                 + ArticleTable.TABLE_NAME
                 + " WHERE " + ArticleTable.COLUMN_NAME
                 + " = '"+name+"'", null);
+        Article retVal = cursorToArticle(cursor);
+        return retVal;
+    }
+
+    public Article getArticleById(int id) {
+        Cursor cursor = database.rawQuery("SELECT * FROM "
+                + ArticleTable.TABLE_NAME
+                + " WHERE " + ArticleTable.COLUMN_UNIQUEID
+                + " = '"+id+"'", null);
         Article retVal = cursorToArticle(cursor);
         return retVal;
     }
@@ -602,17 +633,27 @@ public class MuldvarpDataSource {
         topic.setName(cursor.getString(1));
         return topic;
     }
-    
+
     private Article cursorToArticle(Cursor cursor) {
+        cursor.moveToFirst();
         Article article = new Article();
-        int id = (int) cursor.getLong(0);
+        int id = (int) cursor.getLong(1);
         article.setId(id);
-        article.setName(cursor.getString(1));
+        article.setName(cursor.getString(2));
         article.setDate(String.valueOf(getTimeStamp()));
         article.setAuthor(cursor.getString(3));
-        article.setDetail(cursor.getString(4));
-        article.setContent(cursor.getString(5));
-        article.setCategory(cursor.getString(6));
+        article.setDetail(cursor.getString(5));
+        article.setContent(cursor.getString(6));
+        article.setCategory(cursor.getString(7));
+        System.out.println("DEBUG 0 ---> " + cursor.getString(0));
+        System.out.println("DEBUG 1 ---> " + cursor.getString(1));
+        System.out.println("DEBUG 2 ---> " + cursor.getString(2));
+        System.out.println("DEBUG 3 ---> " + cursor.getString(3));
+        System.out.println("DEBUG 4 ---> " + cursor.getString(4));
+        System.out.println("DEBUG 5 ---> " + cursor.getString(5));
+        System.out.println("DEBUG 6 ---> " + cursor.getString(6));
+        System.out.println("DEBUG 7 ---> " + cursor.getString(7));
+        System.out.println("DEBUG 8 ---> " + cursor.getString(8));
         return article;
     }
 

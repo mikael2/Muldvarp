@@ -20,8 +20,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
-import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.MuldvarpService;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
@@ -40,7 +40,7 @@ public class ListFragment extends MuldvarpFragment {
     View fragmentView;
     List<Domain> items = new ArrayList<Domain>();
     Class destination;
-    public enum ListType {COURSE, PROGRAMME, DOCUMENT, VIDEO, NEWS, QUIZ};
+    public enum ListType {COURSE, PROGRAMME, DOCUMENT, VIDEO, NEWS, QUIZ, TOPIC};
     ListType type;
 
     public ListFragment(String fragmentTitle, int iconResourceID, ListType type) {
@@ -75,7 +75,9 @@ public class ListFragment extends MuldvarpFragment {
             case COURSE:
                 filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
                 break;
-
+            case NEWS:
+                filter.addAction(MuldvarpService.ACTION_NEWS_UPDATE);
+                break;
         }
         mReceiver = new BroadcastReceiver() {
             @Override
@@ -109,15 +111,15 @@ public class ListFragment extends MuldvarpFragment {
                 items.clear();
                 //items.addAll(mds.getAllVideos());
                 break;
+            case NEWS:
+                items.clear();
+                items.addAll(mds.getArticlesByCategory("news"));
+                break;
         }
         if(listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
         //mds.close(); //crash
-    }
-
-    public void setListItems(List<Domain> items){
-        this.items = items;
     }
 
     public void setDestinationClass(Class destinationClass) {
