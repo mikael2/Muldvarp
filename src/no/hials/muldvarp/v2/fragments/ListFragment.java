@@ -101,6 +101,14 @@ public class ListFragment extends MuldvarpFragment {
                 items.clear();
                 items.addAll(mds.getAllProgrammes());
                 break;
+            case DOCUMENT:
+                items.clear();
+                //items.addAll(mds.getAllDocuments());
+                break;
+            case VIDEO:
+                items.clear();
+                //items.addAll(mds.getAllVideos());
+                break;
         }
         if(listAdapter != null) {
             listAdapter.notifyDataSetChanged();

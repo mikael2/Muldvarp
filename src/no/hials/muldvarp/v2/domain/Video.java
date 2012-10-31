@@ -18,8 +18,7 @@ public class Video extends Domain {
     }
 
     public Video(JSONObject json) throws JSONException {
-        this.id = json.getInt("id");
-        this.name = json.getString("name");
+        super(json);
     }
 
     public Video(String name, String detail) {

@@ -18,8 +18,7 @@ public class Document extends Domain {
     }
 
     public Document(JSONObject json) throws JSONException {
-        this.id = json.getInt("id");
-        this.name = json.getString("name");
+        super(json);
     }
 
     public Document(String name, String detail) {

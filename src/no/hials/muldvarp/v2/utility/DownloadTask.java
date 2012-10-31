@@ -11,8 +11,10 @@ import java.util.logging.Logger;
 import no.hials.muldvarp.v2.MuldvarpService;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Course;
+import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.domain.Video;
 import org.json.JSONException;
 
 /**
@@ -64,6 +66,20 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                     break;
                 case ARTICLE:
                     //mds.insertArticle();
+                    break;
+                case DOCUMENTS:
+                    List<Domain> oldDocs = mds.getAllProgrammes();
+                    compareOld(oldDocs, d);
+                    for(int i = 0; i < d.size(); i++) {
+                        //mds.insertDocument((Document)d.get(i));
+                    }
+                    break;
+                case VIDEOS:
+                    List<Domain> oldVideos = mds.getAllProgrammes();
+                    compareOld(oldVideos, d);
+                    for(int i = 0; i < d.size(); i++) {
+                        //mds.insertVideo((Video)d.get(i));
+                    }
                     break;
             }
             mds.close();
