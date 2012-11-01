@@ -77,7 +77,7 @@ public class QuizQuestionFragment extends MuldvarpFragment {
         }
         
         TextView textView = (TextView) fragmentView.findViewById(R.id.QuestionText);
-        textView.setText(question.getName());
+        textView.setText(question.getId() + ": " + question.getName());
         
         listView.setAdapter(new ArrayAdapter<String>(fragmentView.getContext(),
                 android.R.layout.simple_list_item_checked, items));
