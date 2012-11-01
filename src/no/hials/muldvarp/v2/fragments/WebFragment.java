@@ -9,9 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewFragment;
-import android.widget.TextView;
-import no.hials.muldvarp.R;
 
 /**
  *
