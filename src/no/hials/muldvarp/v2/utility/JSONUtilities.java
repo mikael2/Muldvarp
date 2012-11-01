@@ -65,6 +65,9 @@ public class JSONUtilities {
                 case ARTICLE:
                     d = new Article(jsonObject);
                     break;
+                case NEWS:
+                    d = new Article(jsonObject);
+                    break;
                 default:
                     d = new Domain(jsonObject);
                     break;
@@ -103,21 +106,13 @@ public class JSONUtilities {
                     d = new Video();
                     break;
                 case NEWS:
-                    d = new Article();
+                    d = new Article(jArray.getJSONObject(i));                    
                     break;
                 default:
                     d = new Domain();
                     break;
             }
-            JSONObject currentObject = jArray.getJSONObject(i);
-            d.setId(currentObject.getInt("id"));
-            if(type.equals(MuldvarpService.DataTypes.NEWS)) {
-                d.setName(currentObject.getString("title"));
-                d.setDetail(currentObject.getString("ingress"));
-            } else {
-                d.setName(currentObject.getString("name"));
-                d.setDetail(currentObject.getString("detail"));
-            }
+
             itemList.add(d);
         }
 

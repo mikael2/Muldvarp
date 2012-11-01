@@ -257,26 +257,24 @@ public class MuldvarpDataSource {
         cursor.close();
         return courses;
     }
-
-    public ArrayList<Domain> getArticlesByCategory(String category) {
-        ArrayList<Domain> articles = new ArrayList<Domain>();
-
-        Cursor cursor = database.query(ArticleTable.TABLE_NAME ,
-            MuldvarpDBHelper.getColumns(ArticleTable.TABLE_COLUMNS),
-            null, null, null, null, null);
-
-        cursor.moveToFirst();
-        for(int max = 0; max < 20; max++) {
+    
+    public ArrayList<Domain> getArticlesByCategory(String name){
+        ArrayList<Domain> retVal = new ArrayList<Domain>();
+        Cursor cursor = database.rawQuery("SELECT * FROM "
+                + ArticleTable.TABLE_NAME
+                + " WHERE " + ArticleTable.COLUMN_CATEGORY
+                + " = '"+name+"'", null);
+        cursor.moveToFirst();        
+        while (!cursor.isAfterLast()) {
             Article article = cursorToArticle(cursor);
-            if(article.getCategory() != null && article.getCategory().equals(category)) {
-
-            }
-            articles.add(article);
-            cursor.moveToNext();
+            if(article.getCategory() != null && article.getCategory().equals(name)) {
+                retVal.add(article);
+                cursor.moveToNext();
+            }           
         }
         // Make sure to close the cursor
-        cursor.close();
-        return articles;
+        cursor.close();        
+        return retVal;
     }
 
     public long insertCourse(Course course) {
@@ -459,6 +457,7 @@ public class MuldvarpDataSource {
     }
 
     public long insertArticle(Article article) {
+        System.out.println("SUPERDEBUGGGGGGG: " + article.getCategory());
         ContentValues values = new ContentValues();
         values.put(ArticleTable.COLUMN_NAME, article.getName());
         values.put(ArticleTable.COLUMN_UNIQUEID, article.getId());
@@ -635,25 +634,24 @@ public class MuldvarpDataSource {
     }
 
     private Article cursorToArticle(Cursor cursor) {
-        cursor.moveToFirst();
         Article article = new Article();
-        int id = (int) cursor.getLong(1);
-        article.setId(id);
-        article.setName(cursor.getString(2));
-        article.setDate(String.valueOf(getTimeStamp()));
-        article.setAuthor(cursor.getString(3));
-        article.setDetail(cursor.getString(5));
-        article.setContent(cursor.getString(6));
-        article.setCategory(cursor.getString(7));
-        System.out.println("DEBUG 0 ---> " + cursor.getString(0));
-        System.out.println("DEBUG 1 ---> " + cursor.getString(1));
-        System.out.println("DEBUG 2 ---> " + cursor.getString(2));
-        System.out.println("DEBUG 3 ---> " + cursor.getString(3));
-        System.out.println("DEBUG 4 ---> " + cursor.getString(4));
-        System.out.println("DEBUG 5 ---> " + cursor.getString(5));
-        System.out.println("DEBUG 6 ---> " + cursor.getString(6));
-        System.out.println("DEBUG 7 ---> " + cursor.getString(7));
-        System.out.println("DEBUG 8 ---> " + cursor.getString(8));
+            int id = (int) cursor.getLong(1);
+            article.setId(id);
+            article.setName(cursor.getString(2));
+            article.setDate(String.valueOf(getTimeStamp()));
+            article.setAuthor(cursor.getString(3));
+            article.setDetail(cursor.getString(5));
+            article.setContent(cursor.getString(6));
+            article.setCategory(cursor.getString(7));
+            System.out.println("DEBUG 0 ---> " + cursor.getString(0));
+            System.out.println("DEBUG 1 ---> " + cursor.getString(1));
+            System.out.println("DEBUG 2 ---> " + cursor.getString(2));
+            System.out.println("DEBUG 3 ---> " + cursor.getString(3));
+            System.out.println("DEBUG 4 ---> " + cursor.getString(4));
+            System.out.println("DEBUG 5 ---> " + cursor.getString(5));
+            System.out.println("DEBUG 6 ---> " + cursor.getString(6));
+            System.out.println("DEBUG 7 ---> " + cursor.getString(7));
+            System.out.println("DEBUG 8 ---> " + cursor.getString(8));
         return article;
     }
 

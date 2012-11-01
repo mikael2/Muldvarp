@@ -23,6 +23,7 @@ public class Article extends Domain implements Serializable {
     }
 
     public Article(JSONObject json) throws JSONException {
+        System.out.println(json.getString("title"));
         this.id = json.getInt("id");
         this.name = json.getString("title");
         this.detail = json.getString("ingress");
