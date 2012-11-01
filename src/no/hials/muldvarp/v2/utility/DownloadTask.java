@@ -55,17 +55,19 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                 case COURSES:
                     items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldCourses = mds.getAllCourses();
-                    compareOld(oldCourses, items);
-                    for(int i = 0; i < items.size(); i++) {
-                        mds.insertCourse((Course)items.get(i));
+                    if(compareOld(oldCourses, items)) {
+                        for(int i = 0; i < items.size(); i++) {
+                            mds.insertCourse((Course)items.get(i));
+                        }
                     }
                     break;
                 case PROGRAMS:
                     items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldProgs = mds.getAllProgrammes();
-                    compareOld(oldProgs, items);
-                    for(int i = 0; i < items.size(); i++) {
-                        mds.insertProgramme((Programme)items.get(i));
+                    if(compareOld(oldProgs, items)) {
+                        for(int i = 0; i < items.size(); i++) {
+                            mds.insertProgramme((Programme)items.get(i));
+                        }
                     }
                     break;
                 case ARTICLE:
@@ -75,25 +77,29 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                 case DOCUMENTS:
                     items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldDocs = mds.getAllProgrammes();
-                    compareOld(oldDocs, items);
-                    for(int i = 0; i < items.size(); i++) {
-                        //mds.insertDocument((Document)d.get(i));
+                    if(compareOld(oldDocs, items)) {
+                        for(int i = 0; i < items.size(); i++) {
+                            //mds.insertDocument((Document)d.get(i));
+                        }
                     }
                     break;
                 case VIDEOS:
                     items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldVideos = mds.getAllProgrammes();
-                    compareOld(oldVideos, items);
-                    for(int i = 0; i < items.size(); i++) {
-                        //mds.insertVideo((Video)d.get(i));
+                    if(compareOld(oldVideos, items)) {
+                        for(int i = 0; i < items.size(); i++) {
+                            //mds.insertVideo((Video)d.get(i));
+                        }
                     }
+
                     break;
                 case NEWS:
                     items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldArticles = mds.getArticlesByCategory("news");
-                    compareOld(oldArticles, items);
-                    for(int i = 0; i < items.size(); i++) {
-                        mds.insertArticle((Article)items.get(i));
+                    if(compareOld(oldArticles, items)) {
+                        for(int i = 0; i < items.size(); i++) {
+                            mds.insertArticle((Article)items.get(i));
+                        }
                     }
                     break;
             }
@@ -121,31 +127,36 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
 //        return intersect;
 //    }
 
-    public void compareOld(List<Domain> oldItems, List<Domain> newItems) {
-        for(int i = 0; i < oldItems.size(); i++) {
-            Domain oldItem = oldItems.get(i);
-            boolean found = false;
-            for(int k = 0; k < newItems.size(); k++) {
-                Domain newProg = newItems.get(k);
-                if(newProg.getName().equals(oldItem.getName())) {
-                    found = true;
-                    break;
+    public boolean compareOld(List<Domain> oldItems, List<Domain> newItems) {
+        try {
+            for(int i = 0; i < oldItems.size(); i++) {
+                Domain oldItem = oldItems.get(i);
+                boolean found = false;
+                for(int k = 0; k < newItems.size(); k++) {
+                    Domain newProg = newItems.get(k);
+                    if(newProg.getName().equals(oldItem.getName())) {
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found) {
+                    if (oldItem instanceof Programme) {
+                        mds.deleteProgramme((Programme)oldItem);
+                    } else if (oldItem instanceof Course) {
+                        mds.deleteCourse((Course)oldItem);
+                    } else if (oldItem instanceof Document) {
+                        //mds.deleteDocument((Document)oldItem);
+                    } else if (oldItem instanceof Video) {
+                        //mds.deleteVideo((Video)oldItem);
+                    } else if (oldItem instanceof Article) {
+                        mds.deleteArticle((Article)oldItem);
+                    }
                 }
             }
-            if(!found) {
-                if (oldItem instanceof Programme) {
-                    mds.deleteProgramme((Programme)oldItem);
-                } else if (oldItem instanceof Course) {
-                    mds.deleteCourse((Course)oldItem);
-                } else if (oldItem instanceof Document) {
-                    //mds.deleteDocument((Document)oldItem);
-                } else if (oldItem instanceof Video) {
-                    //mds.deleteVideo((Video)oldItem);
-                } else if (oldItem instanceof Article) {
-                    mds.deleteArticle((Article)oldItem);
-                }
-            }
+        } catch(NullPointerException ex) {
+            return false;
         }
+        return true;
     }
 
 }

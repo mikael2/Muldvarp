@@ -7,9 +7,12 @@ package no.hials.muldvarp.v2.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import no.hials.muldvarp.v2.database.tables.*;
 import no.hials.muldvarp.v2.domain.*;
 
@@ -514,6 +517,7 @@ public class MuldvarpDataSource {
                 + ArticleTable.TABLE_NAME
                 + " WHERE " + ArticleTable.COLUMN_UNIQUEID
                 + " = '"+id+"'", null);
+        cursor.moveToFirst();
         Article retVal = cursorToArticle(cursor);
         return retVal;
     }
@@ -635,23 +639,31 @@ public class MuldvarpDataSource {
 
     private Article cursorToArticle(Cursor cursor) {
         Article article = new Article();
-            int id = (int) cursor.getLong(1);
-            article.setId(id);
-            article.setName(cursor.getString(2));
-            article.setDate(String.valueOf(getTimeStamp()));
-            article.setAuthor(cursor.getString(3));
-            article.setDetail(cursor.getString(5));
-            article.setContent(cursor.getString(6));
-            article.setCategory(cursor.getString(7));
-            System.out.println("DEBUG 0 ---> " + cursor.getString(0));
-            System.out.println("DEBUG 1 ---> " + cursor.getString(1));
-            System.out.println("DEBUG 2 ---> " + cursor.getString(2));
-            System.out.println("DEBUG 3 ---> " + cursor.getString(3));
-            System.out.println("DEBUG 4 ---> " + cursor.getString(4));
-            System.out.println("DEBUG 5 ---> " + cursor.getString(5));
-            System.out.println("DEBUG 6 ---> " + cursor.getString(6));
-            System.out.println("DEBUG 7 ---> " + cursor.getString(7));
-            System.out.println("DEBUG 8 ---> " + cursor.getString(8));
+        int id;
+        try {
+            id = (int) cursor.getLong(1);
+        } catch(CursorIndexOutOfBoundsException ex) {
+            Log.e("db", ex.getMessage());
+            return null;
+        }
+
+        article.setId(id);
+        article.setName(cursor.getString(2));
+        article.setDate(String.valueOf(getTimeStamp()));
+        article.setAuthor(cursor.getString(3));
+        article.setDetail(cursor.getString(5));
+        article.setContent(cursor.getString(6));
+        article.setCategory(cursor.getString(7));
+
+        System.out.println("DEBUG 0 ---> " + cursor.getString(0));
+        System.out.println("DEBUG 1 ---> " + cursor.getString(1));
+        System.out.println("DEBUG 2 ---> " + cursor.getString(2));
+        System.out.println("DEBUG 3 ---> " + cursor.getString(3));
+        System.out.println("DEBUG 4 ---> " + cursor.getString(4));
+        System.out.println("DEBUG 5 ---> " + cursor.getString(5));
+        System.out.println("DEBUG 6 ---> " + cursor.getString(6));
+        System.out.println("DEBUG 7 ---> " + cursor.getString(7));
+        System.out.println("DEBUG 8 ---> " + cursor.getString(8));
         return article;
     }
 
