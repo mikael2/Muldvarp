@@ -115,7 +115,7 @@ public class Domain implements Serializable {
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         //Fragments that are considered "default"
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
-        fragmentList.add(new TextFragment("Informasjon", R.drawable.stolen_contacts, 35));
+        fragmentList.add(new TextFragment("Informasjon", R.drawable.stolen_contacts, 148));
         fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
 
         if(this.getClass().getSuperclass() == Object.class) { // if this class has no superclass (except object)

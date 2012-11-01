@@ -8,6 +8,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
@@ -81,7 +82,9 @@ public class Programme extends Domain {
 
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
-        super.populateList(fragmentList, context);
+        fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
+        fragmentList.add(new TextFragment("Informasjon", R.drawable.stolen_contacts, 149));
+        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
         fragmentList.add(new ListFragment("Fag", R.drawable.stolen_smsalt, ListFragment.ListType.COURSE));
         fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));

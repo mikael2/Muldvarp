@@ -257,23 +257,23 @@ public class MuldvarpDataSource {
         cursor.close();
         return courses;
     }
-    
+
     public ArrayList<Domain> getArticlesByCategory(String name){
         ArrayList<Domain> retVal = new ArrayList<Domain>();
         Cursor cursor = database.rawQuery("SELECT * FROM "
                 + ArticleTable.TABLE_NAME
                 + " WHERE " + ArticleTable.COLUMN_CATEGORY
                 + " = '"+name+"'", null);
-        cursor.moveToFirst();        
+        cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Article article = cursorToArticle(cursor);
             if(article.getCategory() != null && article.getCategory().equals(name)) {
                 retVal.add(article);
                 cursor.moveToNext();
-            }           
+            }
         }
         // Make sure to close the cursor
-        cursor.close();        
+        cursor.close();
         return retVal;
     }
 
