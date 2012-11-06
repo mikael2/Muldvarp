@@ -262,10 +262,10 @@ public class MuldvarpDataSource {
     }
     
     /**
-     * This function inserts a Programme into the SQLITE database, and if the database
+     * This function inserts a Document into the SQLITE database, and if the database
      * record already exists, updates the table instead.
      *
-     * @param programme
+     * @param Document
      * @return primary key id
      */
     public long insertDocument(Document document) {
