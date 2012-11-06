@@ -83,10 +83,10 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                     break;
                 case DOCUMENTS:
                     items = JSONUtilities.JSONtoList(json, type);
-                    List<Domain> oldDocs = mds.getAllProgrammes();
+                    List<Domain> oldDocs = mds.getAllDocuments();
                     if(compareOld(oldDocs, items)) {
                         for(int i = 0; i < items.size(); i++) {
-                            //mds.insertDocument((Document)d.get(i));
+                            mds.insertDocument((Document)items.get(i));
                         }
                     }
                     break;

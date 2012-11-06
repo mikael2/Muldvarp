@@ -80,6 +80,9 @@ public class ListFragment extends MuldvarpFragment {
             case NEWS:
                 filter.addAction(MuldvarpService.ACTION_NEWS_UPDATE);
                 break;
+            case DOCUMENT:
+                filter.addAction(MuldvarpService.ACTION_LIBRARY_UPDATE);
+                break;
         }
         mReceiver = new BroadcastReceiver() {
             @Override
@@ -98,6 +101,7 @@ public class ListFragment extends MuldvarpFragment {
                 owningActivity.mService.update(DataTypes.PROGRAMS, 0);
                 break;
             case DOCUMENT:
+                owningActivity.mService.update(DataTypes.DOCUMENTS, 0);
                 break;
             case VIDEO:
                 break;

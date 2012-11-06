@@ -15,13 +15,13 @@ public class Document extends Domain {
     String documentId;
     String URI;
     String description;
-    
+
     public Document() {
 
     }
 
     public Document(JSONObject json) throws JSONException {
-        super(json);
+        this.name = json.getString("title");
     }
 
     public Document(String name, String detail) {
@@ -44,11 +44,11 @@ public class Document extends Domain {
     public void setURI(String URI) {
         this.URI = URI;
     }
-    
+
     public String getDescription(){
         return description;
     }
-    
+
     public void setDescription(String description){
         this.description = description;
     }
