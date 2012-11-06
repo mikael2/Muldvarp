@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,6 +60,10 @@ public class QuizQuestionFragment extends MuldvarpFragment {
             fragmentView = inflater.inflate(R.layout.activity_quiz_question, container, false);
             listView = (ListView)fragmentView.findViewById(R.id.QuizListView);
             listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);            
+            listView.setOnItemClickListener(new OnItemClickListener() {
+                public void onItemClick(AdapterView arg0, View arg1, int arg2,long arg3){
+                }
+        });
             getCurrentQuestion();
         }
         return fragmentView;        
@@ -109,4 +115,6 @@ public class QuizQuestionFragment extends MuldvarpFragment {
         }
         question = new Question(questionString, list, correct);
     }
+    
+    
 }
