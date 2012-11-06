@@ -152,21 +152,20 @@ public class MuldvarpService extends Service {
      * The request argument indicates which part of the database will be updated.
      * @param requested
      */
-    public enum DataTypes {ALL, COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS}
+    public enum DataTypes {COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS}
 
-    public synchronized void update(DataTypes type) {
+    /**
+     * Updates all items related to some other item
+     *
+     * @param type
+     * @param id
+     */
+    public synchronized void update(DataTypes type, int id) {
         if(server.checkServer()) {
             switch(type) {
-                case ALL:
-                    update(DataTypes.COURSES);
-                    update(DataTypes.VIDEOS);
-                    update(DataTypes.DOCUMENTS);
-                    update(DataTypes.PROGRAMS);
-                    update(DataTypes.NEWS);
-                    break;
                 case COURSES:
-                    new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type)
-                            .execute(getUrl(R.string.courseResPath));
+                    new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type, id)
+                            .execute(getUrl(R.string.programmeCourseResPath) + id);
                     break;
                 case VIDEOS:
 //                    new DownloadTask(this,new Intent(ACTION_VIDEOCOURSE_UPDATE), type)
@@ -181,13 +180,31 @@ public class MuldvarpService extends Service {
                             .execute(getUrl(R.string.programmesResPath));
                     break;
                 case NEWS:
-                    new DownloadTask(this,new Intent(ACTION_NEWS_UPDATE), type)
+                    new DownloadTask(this,new Intent(ACTION_NEWS_UPDATE), type, id)
                             .execute(getUrl(R.string.newsResPath));
                     break;
             }
         }
     }
 
+    /**
+     * Download/Update frontpage data
+     */
+    public void initializeData() {
+        new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE), DataTypes.COURSES)
+                .execute(getUrl(R.string.cacheCourseList));
+        new DownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), DataTypes.PROGRAMS)
+                .execute(getUrl(R.string.programmesResPath));
+        new DownloadTask(this,new Intent(ACTION_NEWS_UPDATE), DataTypes.NEWS)
+                .execute(getUrl(R.string.newsResPath));
+    }
+
+    /**
+     * Downloads/Updates a single domain item
+     *
+     * @param type
+     * @param itemId
+     */
     public synchronized void updateSingleItem(DataTypes type, int itemId) {
         if(server.checkServer()) {
             switch(type) {

@@ -148,7 +148,7 @@ public class MuldvarpDataSource {
 
         //Get text/int value fields from Domain and insert into table
         ContentValues values = new ContentValues();
-        values.put(ProgrammeTable.COLUMN_UNIQUEID, programme.getProgrammeId());
+        values.put(ProgrammeTable.COLUMN_UNIQUEID, programme.getId());
         values.put(ProgrammeTable.COLUMN_NAME, programme.getName());
         values.put(ProgrammeTable.COLUMN_DESCRIPTION, programme.getDescription());
         values.put(ProgrammeTable.COLUMN_REVISION, programme.getRevision());
@@ -407,7 +407,7 @@ public class MuldvarpDataSource {
 
     public ArrayList<Domain> getCoursesByProgramme(Programme programme){
 
-        System.out.println("getprogrammeid " + getProgrammeId(programme));
+        //System.out.println("getprogrammeid " + getProgrammeId(programme));
 
         System.out.println("SELECT * FROM " + ProgrammeHasCourseTable.TABLE_NAME);
         Cursor cursorTest = database.query(ProgrammeHasCourseTable.TABLE_NAME, null, null, null, null, null, null);
@@ -658,7 +658,13 @@ public class MuldvarpDataSource {
 
     private Programme cursorToProgramme(Cursor cursor) {
         Programme programme = new Programme();
-        int id = (int) cursor.getLong(0);
+        int id;
+        try {
+            id = (int) cursor.getLong(1);
+        } catch(CursorIndexOutOfBoundsException ex) {
+            Log.e("db", ex.getMessage());
+            return null;
+        }
         programme.setId(id);
         programme.setProgrammeId(cursor.getString(1));
         programme.setName(cursor.getString(2));
@@ -669,7 +675,13 @@ public class MuldvarpDataSource {
 
     private Course cursorToCourse(Cursor cursor) {
         Course course = new Course();
-        int id = (int) cursor.getLong(0);
+        int id;
+        try {
+            id = (int) cursor.getLong(1);
+        } catch(CursorIndexOutOfBoundsException ex) {
+            Log.e("db", ex.getMessage());
+            return null;
+        }
         course.setId(id);
         course.setCourseId(cursor.getString(1));
         course.setName(cursor.getString(2));
@@ -714,15 +726,15 @@ public class MuldvarpDataSource {
         article.setContent(cursor.getString(6));
         article.setCategory(cursor.getString(7));
 
-        System.out.println("DEBUG 0 ---> " + cursor.getString(0));
-        System.out.println("DEBUG 1 ---> " + cursor.getString(1));
-        System.out.println("DEBUG 2 ---> " + cursor.getString(2));
-        System.out.println("DEBUG 3 ---> " + cursor.getString(3));
-        System.out.println("DEBUG 4 ---> " + cursor.getString(4));
-        System.out.println("DEBUG 5 ---> " + cursor.getString(5));
-        System.out.println("DEBUG 6 ---> " + cursor.getString(6));
-        System.out.println("DEBUG 7 ---> " + cursor.getString(7));
-        System.out.println("DEBUG 8 ---> " + cursor.getString(8));
+//        System.out.println("DEBUG 0 ---> " + cursor.getString(0));
+//        System.out.println("DEBUG 1 ---> " + cursor.getString(1));
+//        System.out.println("DEBUG 2 ---> " + cursor.getString(2));
+//        System.out.println("DEBUG 3 ---> " + cursor.getString(3));
+//        System.out.println("DEBUG 4 ---> " + cursor.getString(4));
+//        System.out.println("DEBUG 5 ---> " + cursor.getString(5));
+//        System.out.println("DEBUG 6 ---> " + cursor.getString(6));
+//        System.out.println("DEBUG 7 ---> " + cursor.getString(7));
+//        System.out.println("DEBUG 8 ---> " + cursor.getString(8));
         return article;
     }
 

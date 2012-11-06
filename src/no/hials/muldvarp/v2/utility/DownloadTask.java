@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -54,7 +55,13 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
             switch(type) {
                 case COURSES:
                     items = JSONUtilities.JSONtoList(json, type);
-                    List<Domain> oldCourses = mds.getAllCourses();
+                    List<Domain> oldCourses;
+                    if(itemId != 0) {
+                        oldCourses = mds.getCoursesByProgramme(mds.getProgrammeByUniqueId(Integer.valueOf(itemId).toString()));
+                    } else {
+                        oldCourses = mds.getAllCourses();
+                    }
+
                     if(compareOld(oldCourses, items)) {
                         for(int i = 0; i < items.size(); i++) {
                             mds.insertCourse((Course)items.get(i));
@@ -154,6 +161,7 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                 }
             }
         } catch(NullPointerException ex) {
+            Log.e("dl", ex.getMessage());
             return false;
         }
         return true;

@@ -32,8 +32,7 @@ public class Programme extends Domain {
     }
 
     public Programme(JSONObject json) throws JSONException {
-        this.id = json.getInt("id");
-        this.name = json.getString("name");
+        super(json);
     }
 
     public Programme(String name) {

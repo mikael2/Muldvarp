@@ -37,6 +37,8 @@ public class Domain implements Serializable {
         this.id = json.getInt("id");
         this.name = json.getString("name");
         this.detail = json.getString("detail");
+        System.out.println("ID " + id);
+        System.out.println("NAME " + name);
     }
 
     public Domain(String name) {

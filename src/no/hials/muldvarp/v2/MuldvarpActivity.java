@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.Menu;
@@ -113,7 +112,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 rbmView.toggleMenu();
                 return true;
             case R.id.refresh:
-                mService.update(MuldvarpService.DataTypes.ALL);
+                mService.initializeData();
                 return true;
             case R.id.login:
                 showDialog(0);
