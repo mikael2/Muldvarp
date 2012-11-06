@@ -22,9 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.MuldvarpService;
+import no.hials.muldvarp.v2.MuldvarpService.DataTypes;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
 /**
@@ -78,6 +80,9 @@ public class ListFragment extends MuldvarpFragment {
             case NEWS:
                 filter.addAction(MuldvarpService.ACTION_NEWS_UPDATE);
                 break;
+            case DOCUMENT:
+                filter.addAction(MuldvarpService.ACTION_LIBRARY_UPDATE);
+                break;
         }
         mReceiver = new BroadcastReceiver() {
             @Override
@@ -87,6 +92,23 @@ public class ListFragment extends MuldvarpFragment {
             }
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+
+        switch(type) {
+            case COURSE:
+                owningActivity.mService.update(DataTypes.COURSES, 105);
+                break;
+            case PROGRAMME:
+                owningActivity.mService.update(DataTypes.PROGRAMS, 0);
+                break;
+            case DOCUMENT:
+                owningActivity.mService.update(DataTypes.DOCUMENTS, 0);
+                break;
+            case VIDEO:
+                break;
+            case NEWS:
+                owningActivity.mService.update(DataTypes.NEWS, 0);
+        }
+
         return fragmentView;
     }
 
@@ -94,25 +116,25 @@ public class ListFragment extends MuldvarpFragment {
         MuldvarpDataSource mds = new MuldvarpDataSource(getActivity());
         mds.open();
 
+        Domain d = owningActivity.domain;
+        System.out.println("ID " + d.getId());
+        System.out.println("NAME " + d.getName());
+
+        items.clear();
         switch(type) {
             case COURSE:
-                items.clear();
-                items.addAll(mds.getAllCourses());
+                items.addAll(mds.getCoursesByProgramme((Programme)owningActivity.domain));
                 break;
             case PROGRAMME:
-                items.clear();
                 items.addAll(mds.getAllProgrammes());
                 break;
             case DOCUMENT:
-                items.clear();
                 items.addAll(mds.getAllDocuments());
                 break;
             case VIDEO:
-                items.clear();
                 //items.addAll(mds.getAllVideos());
                 break;
             case NEWS:
-                items.clear();
                 items.addAll(mds.getArticlesByCategory("news"));
                 break;
         }

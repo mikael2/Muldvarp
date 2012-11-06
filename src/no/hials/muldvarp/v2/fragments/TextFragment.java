@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class TextFragment extends MuldvarpFragment {
 
     public TextFragment(Article item) {
         this.item = item;
+        this.articleId = item.getId();
     }
 
     @Override
@@ -49,6 +51,9 @@ public class TextFragment extends MuldvarpFragment {
             title = (TextView)fragmentView.findViewById(R.id.title);
             text = (TextView)fragmentView.findViewById(R.id.text);
         }
+
+        updateItems();
+        itemsReady();
 
         // We use this to send broadcasts within our local process.
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity().getApplicationContext());
@@ -67,8 +72,6 @@ public class TextFragment extends MuldvarpFragment {
         if(owningActivity.mService != null) {
             owningActivity.mService.updateSingleItem(DataTypes.ARTICLE, articleId);
         }
-        updateItems();
-        itemsReady();
         return fragmentView;
     }
 
@@ -76,6 +79,7 @@ public class TextFragment extends MuldvarpFragment {
         if(item != null) {
             title.setText(item.getName());
             text.setText(Html.fromHtml(item.getContent()));
+            text.setMovementMethod(LinkMovementMethod.getInstance()); // makes links clickable
         }
     }
 
