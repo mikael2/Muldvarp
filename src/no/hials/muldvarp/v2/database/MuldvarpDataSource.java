@@ -260,6 +260,54 @@ public class MuldvarpDataSource {
         cursor.close();
         return courses;
     }
+    
+    /**
+     * This function inserts a Programme into the SQLITE database, and if the database
+     * record already exists, updates the table instead.
+     *
+     * @param programme
+     * @return primary key id
+     */
+    public long insertDocument(Document document) {
+
+        //Get text/int value fields from Domain and insert into table
+        ContentValues values = new ContentValues();
+        values.put(DocumentTable.COLUMN_ID, document.getDocumentId());
+        values.put(DocumentTable.COLUMN_NAME, document.getName());
+        values.put(DocumentTable.COLUMN_DESCRIPTION, document.getDescription());
+        values.put(DocumentTable.COLUMN_URI, document.getURI());
+        long insertId;
+        if(checkRecord(DocumentTable.TABLE_NAME, DocumentTable.COLUMN_NAME, document.getName())){
+            System.out.println("updating " + document.getName());
+            String id[] = {document.getId().toString()};
+            insertId = database.update(DocumentTable.TABLE_NAME, values,
+                    DocumentTable.COLUMN_ID + "=?",
+                    id);
+        } else {
+            System.out.println("inserting " + document.getName());
+            insertId = database.insert(DocumentTable.TABLE_NAME, null,
+            values);
+        }
+        return insertId;
+    }
+    
+    public ArrayList<Domain> getAllDocuments() {
+        ArrayList<Domain> documents = new ArrayList<Domain>();
+
+        Cursor cursor = database.query(DocumentTable.TABLE_NAME ,
+            MuldvarpDBHelper.getColumns(DocumentTable.TABLE_COLUMNS),
+            null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+        Document document = cursorToDocument(cursor);
+        documents.add(document);
+        cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return documents;
+    }
 
     public ArrayList<Domain> getArticlesByCategory(String name){
         ArrayList<Domain> retVal = new ArrayList<Domain>();
@@ -627,6 +675,17 @@ public class MuldvarpDataSource {
         course.setName(cursor.getString(2));
         course.setRevision(cursor.getInt(3));
         return course;
+    }
+    
+    private Document cursorToDocument(Cursor cursor) {
+        Document document = new Document();
+        int id = (int) cursor.getLong(0);
+        document.setId(id);
+        document.setDocumentId(cursor.getString(1));
+        document.setName(cursor.getString(2));
+        document.setDescription(cursor.getString(4));
+        document.setURI(cursor.getString(5));
+        return document;
     }
 
     private Topic cursorToTopic(Cursor cursor) {

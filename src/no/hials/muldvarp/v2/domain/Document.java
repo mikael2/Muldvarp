@@ -12,7 +12,10 @@ import org.json.JSONObject;
  * @author kristoffer
  */
 public class Document extends Domain {
-
+    String documentId;
+    String URI;
+    String description;
+    
     public Document() {
 
     }
@@ -26,4 +29,27 @@ public class Document extends Domain {
         super.detail = detail;
     }
 
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+
+    public String getURI() {
+        return URI;
+    }
+
+    public void setURI(String URI) {
+        this.URI = URI;
+    }
+    
+    public String getDescription(){
+        return description;
+    }
+    
+    public void setDescription(String description){
+        this.description = description;
+    }
 }
