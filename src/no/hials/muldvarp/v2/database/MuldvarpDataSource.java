@@ -7,9 +7,12 @@ package no.hials.muldvarp.v2.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import no.hials.muldvarp.v2.database.tables.*;
 import no.hials.muldvarp.v2.domain.*;
 
@@ -145,7 +148,7 @@ public class MuldvarpDataSource {
 
         //Get text/int value fields from Domain and insert into table
         ContentValues values = new ContentValues();
-        values.put(ProgrammeTable.COLUMN_UNIQUEID, programme.getProgrammeId());
+        values.put(ProgrammeTable.COLUMN_UNIQUEID, programme.getId());
         values.put(ProgrammeTable.COLUMN_NAME, programme.getName());
         values.put(ProgrammeTable.COLUMN_DESCRIPTION, programme.getDescription());
         values.put(ProgrammeTable.COLUMN_REVISION, programme.getRevision());
@@ -257,6 +260,54 @@ public class MuldvarpDataSource {
         cursor.close();
         return courses;
     }
+    
+    /**
+     * This function inserts a Programme into the SQLITE database, and if the database
+     * record already exists, updates the table instead.
+     *
+     * @param programme
+     * @return primary key id
+     */
+    public long insertDocument(Document document) {
+
+        //Get text/int value fields from Domain and insert into table
+        ContentValues values = new ContentValues();
+        values.put(DocumentTable.COLUMN_ID, document.getDocumentId());
+        values.put(DocumentTable.COLUMN_NAME, document.getName());
+        values.put(DocumentTable.COLUMN_DESCRIPTION, document.getDescription());
+        values.put(DocumentTable.COLUMN_URI, document.getURI());
+        long insertId;
+        if(checkRecord(DocumentTable.TABLE_NAME, DocumentTable.COLUMN_NAME, document.getName())){
+            System.out.println("updating " + document.getName());
+            String id[] = {document.getId().toString()};
+            insertId = database.update(DocumentTable.TABLE_NAME, values,
+                    DocumentTable.COLUMN_ID + "=?",
+                    id);
+        } else {
+            System.out.println("inserting " + document.getName());
+            insertId = database.insert(DocumentTable.TABLE_NAME, null,
+            values);
+        }
+        return insertId;
+    }
+    
+    public ArrayList<Domain> getAllDocuments() {
+        ArrayList<Domain> documents = new ArrayList<Domain>();
+
+        Cursor cursor = database.query(DocumentTable.TABLE_NAME ,
+            MuldvarpDBHelper.getColumns(DocumentTable.TABLE_COLUMNS),
+            null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+        Document document = cursorToDocument(cursor);
+        documents.add(document);
+        cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return documents;
+    }
 
     public ArrayList<Domain> getArticlesByCategory(String name){
         ArrayList<Domain> retVal = new ArrayList<Domain>();
@@ -356,7 +407,7 @@ public class MuldvarpDataSource {
 
     public ArrayList<Domain> getCoursesByProgramme(Programme programme){
 
-        System.out.println("getprogrammeid " + getProgrammeId(programme));
+        //System.out.println("getprogrammeid " + getProgrammeId(programme));
 
         System.out.println("SELECT * FROM " + ProgrammeHasCourseTable.TABLE_NAME);
         Cursor cursorTest = database.query(ProgrammeHasCourseTable.TABLE_NAME, null, null, null, null, null, null);
@@ -514,6 +565,7 @@ public class MuldvarpDataSource {
                 + ArticleTable.TABLE_NAME
                 + " WHERE " + ArticleTable.COLUMN_UNIQUEID
                 + " = '"+id+"'", null);
+        cursor.moveToFirst();
         Article retVal = cursorToArticle(cursor);
         return retVal;
     }
@@ -606,7 +658,13 @@ public class MuldvarpDataSource {
 
     private Programme cursorToProgramme(Cursor cursor) {
         Programme programme = new Programme();
-        int id = (int) cursor.getLong(0);
+        int id;
+        try {
+            id = (int) cursor.getLong(1);
+        } catch(CursorIndexOutOfBoundsException ex) {
+            Log.e("db", ex.getMessage());
+            return null;
+        }
         programme.setId(id);
         programme.setProgrammeId(cursor.getString(1));
         programme.setName(cursor.getString(2));
@@ -617,12 +675,29 @@ public class MuldvarpDataSource {
 
     private Course cursorToCourse(Cursor cursor) {
         Course course = new Course();
-        int id = (int) cursor.getLong(0);
+        int id;
+        try {
+            id = (int) cursor.getLong(1);
+        } catch(CursorIndexOutOfBoundsException ex) {
+            Log.e("db", ex.getMessage());
+            return null;
+        }
         course.setId(id);
         course.setCourseId(cursor.getString(1));
         course.setName(cursor.getString(2));
         course.setRevision(cursor.getInt(3));
         return course;
+    }
+    
+    private Document cursorToDocument(Cursor cursor) {
+        Document document = new Document();
+        int id = (int) cursor.getLong(0);
+        document.setId(id);
+        document.setDocumentId(cursor.getString(1));
+        document.setName(cursor.getString(2));
+        document.setDescription(cursor.getString(4));
+        document.setURI(cursor.getString(5));
+        return document;
     }
 
     private Topic cursorToTopic(Cursor cursor) {
@@ -635,23 +710,31 @@ public class MuldvarpDataSource {
 
     private Article cursorToArticle(Cursor cursor) {
         Article article = new Article();
-            int id = (int) cursor.getLong(1);
-            article.setId(id);
-            article.setName(cursor.getString(2));
-            article.setDate(String.valueOf(getTimeStamp()));
-            article.setAuthor(cursor.getString(3));
-            article.setDetail(cursor.getString(5));
-            article.setContent(cursor.getString(6));
-            article.setCategory(cursor.getString(7));
-            System.out.println("DEBUG 0 ---> " + cursor.getString(0));
-            System.out.println("DEBUG 1 ---> " + cursor.getString(1));
-            System.out.println("DEBUG 2 ---> " + cursor.getString(2));
-            System.out.println("DEBUG 3 ---> " + cursor.getString(3));
-            System.out.println("DEBUG 4 ---> " + cursor.getString(4));
-            System.out.println("DEBUG 5 ---> " + cursor.getString(5));
-            System.out.println("DEBUG 6 ---> " + cursor.getString(6));
-            System.out.println("DEBUG 7 ---> " + cursor.getString(7));
-            System.out.println("DEBUG 8 ---> " + cursor.getString(8));
+        int id;
+        try {
+            id = (int) cursor.getLong(1);
+        } catch(CursorIndexOutOfBoundsException ex) {
+            Log.e("db", ex.getMessage());
+            return null;
+        }
+
+        article.setId(id);
+        article.setName(cursor.getString(2));
+        article.setDate(String.valueOf(getTimeStamp()));
+        article.setAuthor(cursor.getString(3));
+        article.setDetail(cursor.getString(5));
+        article.setContent(cursor.getString(6));
+        article.setCategory(cursor.getString(7));
+
+//        System.out.println("DEBUG 0 ---> " + cursor.getString(0));
+//        System.out.println("DEBUG 1 ---> " + cursor.getString(1));
+//        System.out.println("DEBUG 2 ---> " + cursor.getString(2));
+//        System.out.println("DEBUG 3 ---> " + cursor.getString(3));
+//        System.out.println("DEBUG 4 ---> " + cursor.getString(4));
+//        System.out.println("DEBUG 5 ---> " + cursor.getString(5));
+//        System.out.println("DEBUG 6 ---> " + cursor.getString(6));
+//        System.out.println("DEBUG 7 ---> " + cursor.getString(7));
+//        System.out.println("DEBUG 8 ---> " + cursor.getString(8));
         return article;
     }
 

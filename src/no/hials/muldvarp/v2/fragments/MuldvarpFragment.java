@@ -10,7 +10,6 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import no.hials.muldvarp.MuldvarpService;
 import no.hials.muldvarp.v2.MuldvarpActivity;
 
 /**
@@ -27,8 +26,7 @@ public class MuldvarpFragment extends Fragment {
     String fragmentTitle;
     int iconResourceID;
     String searchQuery;
-
-    MuldvarpService mService;
+    
     LocalBroadcastManager mLocalBroadcastManager;
     BroadcastReceiver     mReceiver;
     boolean mBound;

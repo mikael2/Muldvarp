@@ -10,6 +10,7 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.NewsViewFragment;
+import no.hials.muldvarp.v2.fragments.TextFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,9 +29,9 @@ public class Article extends Domain implements Serializable {
 
     public Article(JSONObject json) throws JSONException {
         System.out.println(json.getString("title"));
-        this.id = json.getInt("id");
-        this.name = json.getString("title");
-        this.detail = json.getString("ingress");
+        super.id = json.getInt("id");
+        super.name = json.getString("title");
+        super.detail = json.getString("ingress");
         this.content = json.getString("text");
         this.category = json.getString("category");
     }
@@ -74,6 +75,8 @@ public class Article extends Domain implements Serializable {
 
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
-        fragmentList.add(new NewsViewFragment("Nyheter", "http://eapp-ub.uials.no/muldvarp/faces/article.xhtml?articleid=" + id, R.drawable.stolen_smsalt));
+        System.out.println("ID IS: " + id);
+        fragmentList.add(new NewsViewFragment("WebViewFragment", "http://eapp-ub.uials.no/muldvarp/faces/article.xhtml?articleid=" + id, R.drawable.stolen_smsalt));
+        fragmentList.add(new TextFragment("TextFragment", R.drawable.stolen_smsalt, id));
     }
 }

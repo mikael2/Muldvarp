@@ -63,8 +63,6 @@ public class JSONUtilities {
                     d = new Programme(jsonObject);
                     break;
                 case ARTICLE:
-                    d = new Article(jsonObject);
-                    break;
                 case NEWS:
                     d = new Article(jsonObject);
                     break;
@@ -91,31 +89,29 @@ public class JSONUtilities {
         JSONArray jArray = new JSONArray(jsonString);
 
         for(int i = 0; i < jArray.length(); i++) {
-            Domain d = null;
+            Domain d;
             switch(type) {
                 case COURSES:
-                    d = new Course();
+                    d = new Course(jArray.getJSONObject(i));
                     break;
                 case PROGRAMS:
-                    d = new Programme();
+                    d = new Programme(jArray.getJSONObject(i));
                     break;
                 case DOCUMENTS:
-                    d = new Document();
+                    d = new Document(jArray.getJSONObject(i));
                     break;
                 case VIDEOS:
-                    d = new Video();
+                    d = new Video(jArray.getJSONObject(i));
                     break;
                 case NEWS:
-                    d = new Article(jArray.getJSONObject(i));                    
+                    d = new Article(jArray.getJSONObject(i));
                     break;
                 default:
-                    d = new Domain();
+                    d = new Domain(jArray.getJSONObject(i));
                     break;
             }
-
             itemList.add(d);
         }
-
         return itemList;
     }
 }
