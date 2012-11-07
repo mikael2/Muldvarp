@@ -197,7 +197,7 @@ public class MuldvarpService extends Service {
                 .execute(getUrl(R.string.courseResPath));
         new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.PROGRAMS)
                 .execute(getUrl(R.string.programmesResPath));
-        new DownloadTask(this,new Intent(ACTION_VIDEO_UPDATE), DataTypes.VIDEOS)
+        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.VIDEOS)
                 .execute(getUrl(R.string.videoResPath));
         new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.NEWS)
                 .execute(getUrl(R.string.newsResPath));
