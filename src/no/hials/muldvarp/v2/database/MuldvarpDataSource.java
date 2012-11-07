@@ -12,7 +12,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 import no.hials.muldvarp.v2.database.tables.*;
 import no.hials.muldvarp.v2.domain.*;
 
@@ -62,6 +61,8 @@ public class MuldvarpDataSource {
      * @return long id
      */
     public long createProgrammeCourseRelation(long id1, long id2){
+        System.out.println("CREATING PRGRAMME COURSE RELATION");
+        System.out.println("BETWEEN ID " + id1 + " AND " + id2);
         return createRelation(ProgrammeHasCourseTable.TABLE_NAME,
                 ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
@@ -137,6 +138,7 @@ public class MuldvarpDataSource {
         return (cursor.getCount() > 0);
     }
 
+    
     /**
      * This function inserts a Programme into the SQLITE database, and if the database
      * record already exists, updates the table instead.
@@ -145,16 +147,16 @@ public class MuldvarpDataSource {
      * @return primary key id
      */
     public long insertProgramme(Programme programme) {
-
         //Get text/int value fields from Domain and insert into table
         ContentValues values = new ContentValues();
+        values.put(ProgrammeTable.COLUMN_ID, programme.getId());
         values.put(ProgrammeTable.COLUMN_UNIQUEID, programme.getId());
         values.put(ProgrammeTable.COLUMN_NAME, programme.getName());
         values.put(ProgrammeTable.COLUMN_DESCRIPTION, programme.getDescription());
         values.put(ProgrammeTable.COLUMN_REVISION, programme.getRevision());
         values.put(ProgrammeTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
-        if(checkRecord(ProgrammeTable.TABLE_NAME, ProgrammeTable.COLUMN_NAME, programme.getName())){
+        if(checkRecord(ProgrammeTable.TABLE_NAME, ProgrammeTable.COLUMN_ID, String.valueOf(programme.getId()))){
             System.out.println("updating " + programme.getName());
 //            insertId = database.update(ProgrammeTable.TABLE_NAME, values,
 //                    ProgrammeTable.COLUMN_ID + "='" + getProgrammeId(programme) + "'",
@@ -163,6 +165,7 @@ public class MuldvarpDataSource {
             insertId = database.update(ProgrammeTable.TABLE_NAME, values,
                     ProgrammeTable.COLUMN_ID + "=?",
                     id);
+            System.out.println("Updated entry with ID " + insertId);
         } else {
             System.out.println("inserting " + programme.getName());
             insertId = database.insert(ProgrammeTable.TABLE_NAME, null,
@@ -194,6 +197,19 @@ public class MuldvarpDataSource {
         Cursor cursor = database.rawQuery("SELECT * FROM "
                 + ProgrammeTable.TABLE_NAME
                 + " WHERE " + ProgrammeTable.COLUMN_NAME
+                + " = '"+name+"'", null);
+        Programme retVal = cursorToProgramme(cursor);
+        return retVal;
+    }
+    
+    public Programme getProgrammeById(String name){
+        System.out.println("SELECT * FROM "
+                + ProgrammeTable.TABLE_NAME
+                + " WHERE " + ProgrammeTable.COLUMN_ID
+                + " = '"+name+"'");
+        Cursor cursor = database.rawQuery("SELECT * FROM "
+                + ProgrammeTable.TABLE_NAME
+                + " WHERE " + ProgrammeTable.COLUMN_ID
                 + " = '"+name+"'", null);
         Programme retVal = cursorToProgramme(cursor);
         return retVal;
@@ -272,7 +288,6 @@ public class MuldvarpDataSource {
 
         //Get text/int value fields from Domain and insert into table
         ContentValues values = new ContentValues();
-        System.out.println(document);
         values.put(DocumentTable.COLUMN_ID, document.getId());
         values.put(DocumentTable.COLUMN_NAME, document.getName());
         values.put(DocumentTable.COLUMN_REVISION, "0");
@@ -280,7 +295,7 @@ public class MuldvarpDataSource {
         values.put(DocumentTable.COLUMN_URI, document.getURI());
         values.put(DocumentTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
-        if(checkRecord(DocumentTable.TABLE_NAME, DocumentTable.COLUMN_NAME, document.getName())){
+        if(checkRecord(DocumentTable.TABLE_NAME, DocumentTable.COLUMN_ID, String.valueOf(document.getId()))){
             System.out.println("updating " + document.getName());
             String id[] = {document.getId().toString()};
             insertId = database.update(DocumentTable.TABLE_NAME, values,
@@ -333,12 +348,13 @@ public class MuldvarpDataSource {
 
     public long insertCourse(Course course) {
         ContentValues values = new ContentValues();
+        values.put(CourseTable.COLUMN_ID, course.getCourseId());
         values.put(CourseTable.COLUMN_UNIQUEID, course.getCourseId());
         values.put(CourseTable.COLUMN_NAME, course.getName());
         values.put(CourseTable.COLUMN_REVISION, course.getRevision());
         values.put(CourseTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
-        if(checkRecord(CourseTable.TABLE_NAME, CourseTable.COLUMN_NAME, course.getName())){
+        if(checkRecord(CourseTable.TABLE_NAME, CourseTable.COLUMN_ID, String.valueOf(course.getId()))){
 //            insertId = database.update(CourseTable.TABLE_NAME, values,
 //                    CourseTable.COLUMN_ID + "='" + getCourseId(course) + "'",
 //                    null);
@@ -368,7 +384,7 @@ public class MuldvarpDataSource {
     public void deleteCourse(Course course) {
         //Now deletes based on name
         String[] name = {course.getName()};
-        System.out.println("course deleted with name: " + name);
+        System.out.println("Course deleted with name: " + name[0]);
         database.delete(CourseTable.TABLE_NAME, CourseTable.COLUMN_NAME
             + "=?", name);
     }
@@ -392,7 +408,6 @@ public class MuldvarpDataSource {
     }
 
     public long getCourseId(Course course){
-
         System.out.println(course.getName());
         Cursor cursor = database.rawQuery("SELECT "
                 + "*" + " FROM "
@@ -409,9 +424,8 @@ public class MuldvarpDataSource {
     }
 
     public ArrayList<Domain> getCoursesByProgramme(Programme programme){
-
-        //System.out.println("getprogrammeid " + getProgrammeId(programme));
-
+        System.out.println("GET COURSES BY PROGRAMME");
+        System.out.println("THE ID IS " + programme.getId());
         System.out.println("SELECT * FROM " + ProgrammeHasCourseTable.TABLE_NAME);
         Cursor cursorTest = database.query(ProgrammeHasCourseTable.TABLE_NAME, null, null, null, null, null, null);
         System.out.println("asdasdasdasdsada " + cursorTest.getColumnCount());
@@ -421,7 +435,7 @@ public class MuldvarpDataSource {
         //Course ID column is the second one
         String[] column = new String[] { ProgrammeHasCourseTable.TABLE_COLUMNS[2][0] };
         String[] selectionArgs = new String[] {
-        "1" };
+        String.valueOf(programme.getId()) };
         //Query for course ID's in programme
         Cursor cursor = database.query(ProgrammeHasCourseTable.TABLE_NAME,
                 column,
@@ -470,7 +484,7 @@ public class MuldvarpDataSource {
         values.put(TopicTable.COLUMN_DESCRIPTION, topic.getDescription());
         values.put(TopicTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
-        if(checkRecord(TopicTable.TABLE_NAME, TopicTable.COLUMN_NAME, topic.getName())){
+        if(checkRecord(TopicTable.TABLE_NAME, TopicTable.COLUMN_ID, String.valueOf(topic.getId()))){
             System.out.println("updating " + topic.getName());
             insertId = database.update(TopicTable.TABLE_NAME, values,
                     TopicTable.COLUMN_ID + "='" + getTopicId(topic) + "'",
@@ -660,10 +674,14 @@ public class MuldvarpDataSource {
     }
 
     private Programme cursorToProgramme(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
+        
         Programme programme = new Programme();
         int id;
         try {
-            id = (int) cursor.getLong(1);
+            id = (int) cursor.getLong(0);
         } catch(CursorIndexOutOfBoundsException ex) {
             Log.e("db", ex.getMessage());
             return null;
@@ -677,6 +695,9 @@ public class MuldvarpDataSource {
     }
 
     private Course cursorToCourse(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         Course course = new Course();
         int id;
         try {
@@ -693,6 +714,9 @@ public class MuldvarpDataSource {
     }
     
     private Document cursorToDocument(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         Document document = new Document();
         int id = (int) cursor.getLong(0);
         document.setId(id);
@@ -704,6 +728,9 @@ public class MuldvarpDataSource {
     }
 
     private Topic cursorToTopic(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         Topic topic = new Topic();
         int id = (int) cursor.getLong(0);
         topic.setId(id);
@@ -712,6 +739,9 @@ public class MuldvarpDataSource {
     }
 
     private Article cursorToArticle(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         Article article = new Article();
         int id;
         try {
@@ -742,6 +772,9 @@ public class MuldvarpDataSource {
     }
 
     private Video cursorToVideo(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         Video video = new Video();
         int id = (int) cursor.getLong(0);
         video.setId(id);
@@ -750,6 +783,9 @@ public class MuldvarpDataSource {
     }
 
     private User cursorToUser(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         User user = new User();
         int id = (int) cursor.getLong(0);
         user.setId(id);

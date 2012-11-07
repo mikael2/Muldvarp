@@ -12,7 +12,7 @@ public class ProgrammeTable extends MuldvarpTable {
     
     public static final String TABLE_NAME = "programme";    
     public static final String[][] TABLE_COLUMNS = {
-      {COLUMN_ID, " integer primary key autoincrement"},
+      {COLUMN_ID, " integer primary key "},
       {COLUMN_UNIQUEID, " text "}, //removed not null req
       {COLUMN_NAME, " text not null "},
       {COLUMN_DESCRIPTION, " text "},

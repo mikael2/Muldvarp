@@ -115,4 +115,19 @@ public class JSONUtilities {
         }
         return itemList;
     }
+    
+    /**
+     * This function converts a JSONArray to a List of Courses.
+     * 
+     * @param jsonArray
+     * @return
+     * @throws JSONException 
+     */
+    public static List<Course> JSONArrayToCourses(JSONArray jsonArray) throws JSONException{
+        List<Course> retVal = new ArrayList<Course>();        
+        for (int i = 0; i < jsonArray.length(); i++) {
+            retVal.add(new Course(jsonArray.getJSONObject(i)));
+        }        
+        return retVal;
+    }
 }

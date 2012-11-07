@@ -97,6 +97,7 @@ public class TestQuizActivity extends MuldvarpActivity{
         //Get fragments        
         currentQuestionNumber = 0;
         if (!quiz.getQuestions().isEmpty()) {
+            questionFragments = new ArrayList<QuizQuestionFragment>();
             fillQuestionFragmentList();                        
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.add(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber)).commit();
@@ -155,9 +156,9 @@ public class TestQuizActivity extends MuldvarpActivity{
     }
     
     private void fillQuestionFragmentList(){
-        //Only fill question fragment list if it hasn't been filled already
-        if(!questionFragments.isEmpty()){
-            questionFragments = new ArrayList<QuizQuestionFragment>();
+        //Only fill question fragment list if it hasn't been filled already        
+        if(questionFragments.isEmpty()){
+            questionFragments = new ArrayList<QuizQuestionFragment>();            
             for (int i = 0; i < quiz.getQuestions().size(); i++) {
                 Question tempQuestion = quiz.getQuestions().get(i);
                 questionFragments.add(new QuizQuestionFragment(tempQuestion));
