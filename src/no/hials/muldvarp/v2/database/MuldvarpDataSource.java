@@ -379,7 +379,7 @@ public class MuldvarpDataSource {
     public void deleteCourse(Course course) {
         //Now deletes based on name
         String[] name = {course.getName()};
-        System.out.println("course deleted with name: " + name[0]);
+        System.out.println("Course deleted with name: " + name[0]);
         database.delete(CourseTable.TABLE_NAME, CourseTable.COLUMN_NAME
             + "=?", name);
     }
@@ -403,7 +403,6 @@ public class MuldvarpDataSource {
     }
 
     public long getCourseId(Course course){
-
         System.out.println(course.getName());
         Cursor cursor = database.rawQuery("SELECT "
                 + "*" + " FROM "
@@ -420,9 +419,6 @@ public class MuldvarpDataSource {
     }
 
     public ArrayList<Domain> getCoursesByProgramme(Programme programme){
-
-        //System.out.println("getprogrammeid " + getProgrammeId(programme));
-
         System.out.println("SELECT * FROM " + ProgrammeHasCourseTable.TABLE_NAME);
         Cursor cursorTest = database.query(ProgrammeHasCourseTable.TABLE_NAME, null, null, null, null, null, null);
         System.out.println("asdasdasdasdsada " + cursorTest.getColumnCount());
