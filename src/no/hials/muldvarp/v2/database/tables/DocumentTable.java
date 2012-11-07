@@ -12,7 +12,7 @@ public class DocumentTable extends MuldvarpTable {
     
     public static final String TABLE_NAME = "document";   
     public static final String[][] TABLE_COLUMNS = {
-      {COLUMN_ID, " integer primary key autoincrement"},
+      {COLUMN_ID, " integer primary key "},
       {COLUMN_NAME, " text not null "},
       {COLUMN_DESCRIPTION," text not null"},
       {COLUMN_URI," text not null"},

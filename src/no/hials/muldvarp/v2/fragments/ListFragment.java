@@ -95,7 +95,7 @@ public class ListFragment extends MuldvarpFragment {
 
         switch(type) {
             case COURSE:
-                owningActivity.mService.update(DataTypes.COURSES, 105);
+                owningActivity.mService.update(DataTypes.COURSES, owningActivity.domain.getId());
                 break;
             case PROGRAMME:
                 owningActivity.mService.update(DataTypes.PROGRAMS, 0);
