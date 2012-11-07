@@ -51,13 +51,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="HK: Open"/>
+                android:text="Open"/>
                 
         <Button android:id="@+id/item_button2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="HK: Download"/>   
+                android:text="Download"/>   
                         
                         
         </LinearLayout>

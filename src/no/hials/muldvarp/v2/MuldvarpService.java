@@ -1,7 +1,10 @@
 package no.hials.muldvarp.v2;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
@@ -22,22 +25,18 @@ import no.hials.muldvarp.v2.utility.ServerConnection;
 public class MuldvarpService extends Service {
     public static final String ACTION_PEOPLE_UPDATE       = "no.hials.muldvarp.ACTION_PEOPLE_UPDATE";
     public static final String ACTION_COURSE_UPDATE       = "no.hials.muldvarp.ACTION_COURSE_UPDATE";
-    public static final String ACTION_COURSEVIDEO_UPDATE       = "no.hials.muldvarp.ACTION_COURSEVIDEO_UPDATE";
     public static final String ACTION_SINGLECOURSE_UPDATE = "no.hials.muldvarp.ACTION_SINGLECOURSE_UPDATE";
     public static final String ACTION_LIBRARY_UPDATE      = "no.hials.muldvarp.ACTION_LIBRARY_UPDATE";
-    public static final String ACTION_VIDEOFAVOURITES_ADD  = "no.hials.muldvarp.ACTION_VIDEOFAVOURITES_ADD";
-    public static final String ACTION_VIDEOFAVOURITES_LOAD  = "no.hials.muldvarp.ACTION_VIDEOFAVOURITES_LOAD";
-    public static final String ACTION_SINGLEVIDEO_UPDATE  = "no.hials.muldvarp.ACTION_SINGLEVIDEO_UPDATE";
-    public static final String ACTION_VIDEOCOURSE_UPDATE  = "no.hials.muldvarp.ACTION_VIDEOCOURSE_UPDATE";
-    public static final String ACTION_VIDEOCOURSE_LOAD    = "no.hials.muldvarp.ACTION_VIDEOCOURSE_LOAD";
-    public static final String ACTION_VIDEOSTUDENT_UPDATE = "no.hials.muldvarp.ACTION_VIDEOSTUDENT_UPDATE";
-    public static final String ACTION_VIDEOSTUDENT_LOAD   = "no.hials.muldvarp.ACTION_VIDEOSTUDENT_LOAD";
     public static final String ACTION_PROGRAMMES_UPDATE   = "no.hials.muldvarp.ACTION_PROGRAMMES_UPDATE";
     public static final String ACTION_PROGRAMMES_LOAD     = "no.hials.muldvarp.ACTION_PROGRAMMES_LOAD";
     public static final String ACTION_UPDATE_FAILED       = "no.hials.muldvarp.ACTION_UPDATE_FAILED";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
     public static final String ACTION_ARTICLE_UPDATE      = "no.hials.muldvarp.ACTION_ARTICLE_UPDATE";
     public static final String ACTION_NEWS_UPDATE      = "no.hials.muldvarp.ACTION_NEWS_UPDATE";
+    public static final String ACTION_ALL_UPDATE      = "no.hials.muldvarp.ACTION_ALL_UPDATE";
+    public static final String ACTION_ALL_UPDATING      = "no.hials.muldvarp.ACTION_ALL_UPDATING";
+    public static final String ACTION_VIDEO_UPDATE      = "no.hials.muldvarp.ACTION_VIDEO_UPDATE";
+
     private User user;
 
     private MuldvarpDataSource mds = new MuldvarpDataSource(this);
@@ -51,6 +50,8 @@ public class MuldvarpService extends Service {
     Integer courseId;
     SharedPreferences preferences;
     LocalBroadcastManager mLocalBroadcastManager;
+    BroadcastReceiver     mReceiver;
+    int initilizeDataCounter;
     ServerConnection server;
     private String header;
 
@@ -168,8 +169,8 @@ public class MuldvarpService extends Service {
                             .execute(getUrl(R.string.programmeCourseResPath) + id);
                     break;
                 case VIDEOS:
-//                    new DownloadTask(this,new Intent(ACTION_VIDEOCOURSE_UPDATE), type)
-//                            .execute(getUrl(R.string.videoResPath));
+                    new DownloadTask(this,new Intent(ACTION_VIDEO_UPDATE), type)
+                            .execute(getUrl(R.string.videoResPath));
                     break;
                 case DOCUMENTS:
                     new DownloadTask(this,new Intent(ACTION_LIBRARY_UPDATE), type)
@@ -191,14 +192,35 @@ public class MuldvarpService extends Service {
      * Download/Update frontpage data
      */
     public void initializeData() {
-        new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE), DataTypes.COURSES)
-                .execute(getUrl(R.string.cacheCourseList));
-        new DownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), DataTypes.PROGRAMS)
+        initilizeDataCounter = 0;
+        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.COURSES)
+                .execute(getUrl(R.string.courseResPath));
+        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.PROGRAMS)
                 .execute(getUrl(R.string.programmesResPath));
-        new DownloadTask(this,new Intent(ACTION_NEWS_UPDATE), DataTypes.NEWS)
+        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.VIDEOS)
+                .execute(getUrl(R.string.videoResPath));
+        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.NEWS)
                 .execute(getUrl(R.string.newsResPath));
-        new DownloadTask(this,new Intent(ACTION_LIBRARY_UPDATE), DataTypes.DOCUMENTS)
+        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.DOCUMENTS)
                 .execute(getUrl(R.string.libraryResPath));
+
+        // We use this to send broadcasts within our local process.
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+         // We are going to watch for interesting local broadcasts.
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_ALL_UPDATING);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
+                initilizeDataCounter++;
+                if(initilizeDataCounter == 5) {
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ACTION_ALL_UPDATE));
+                    initilizeDataCounter = 0;
+                }
+            }
+        };
+        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
     }
 
     /**

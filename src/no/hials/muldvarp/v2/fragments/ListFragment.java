@@ -87,10 +87,13 @@ public class ListFragment extends MuldvarpFragment {
             case DOCUMENT:
                 filter.addAction(MuldvarpService.ACTION_LIBRARY_UPDATE);
                 break;
-            default: 
+            case VIDEO:
+                filter.addAction(MuldvarpService.ACTION_VIDEO_UPDATE);
+                break;
+            default:
                 progressDialog.dismiss();
                 break;
-        }        
+        }
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -111,6 +114,7 @@ public class ListFragment extends MuldvarpFragment {
                 owningActivity.mService.update(DataTypes.DOCUMENTS, 0);
                 break;
             case VIDEO:
+                owningActivity.mService.update(DataTypes.VIDEOS, 0);
                 break;
             case NEWS:
                 owningActivity.mService.update(DataTypes.NEWS, 0);
@@ -139,7 +143,7 @@ public class ListFragment extends MuldvarpFragment {
                 items.addAll(mds.getAllDocuments());
                 break;
             case VIDEO:
-                //items.addAll(mds.getAllVideos());
+                items.addAll(mds.getAllVideos());
                 break;
             case NEWS:
                 items.addAll(mds.getArticlesByCategory("news"));
@@ -190,6 +194,7 @@ public class ListFragment extends MuldvarpFragment {
                     destination = selectedItem.getActivity();
                     Intent myIntent = new Intent(view.getContext(), destination);
                     myIntent.putExtra("Domain", selectedItem);
+                    myIntent.putExtra("type", type);
                     startActivityForResult(myIntent, 0);
                 } else {
                     Intent myIntent = new Intent(view.getContext(), TopActivity.class);
@@ -245,16 +250,16 @@ public class ListFragment extends MuldvarpFragment {
         AlertDialog alert = builder.create();
         alert.show();
     }
-    
-    
+
+
     public void showProgressDialog(){
-        
+
         if(!progressDialog.isShowing()){
-         
+
             progressDialog.setMessage(getString(R.string.loading));
             progressDialog.setIndeterminate(true);
             progressDialog.setCancelable(false);
             progressDialog.show();
-        }        
+        }
     }
 }

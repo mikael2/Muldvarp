@@ -4,6 +4,13 @@
  */
 package no.hials.muldvarp.v2.domain;
 
+import android.content.Context;
+import java.util.List;
+import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.DetailActivity;
+import no.hials.muldvarp.v2.fragments.DetailFragment;
+import no.hials.muldvarp.v2.fragments.ListFragment;
+import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,7 +21,6 @@ import org.json.JSONObject;
 public class Document extends Domain {
     String documentId;
     String URI;
-    String description;
 
     public Document() {
 
@@ -22,6 +28,10 @@ public class Document extends Domain {
 
     public Document(JSONObject json) throws JSONException {
         this.name = json.getString("title");
+        this.id = json.getInt("id");
+        this.URI = json.getString("url");
+        this.description = json.getString("summary");
+        super.setActivity(DetailActivity.class);
     }
 
     public Document(String name, String detail) {
@@ -45,11 +55,8 @@ public class Document extends Domain {
         this.URI = URI;
     }
 
-    public String getDescription(){
-        return description;
-    }
-
-    public void setDescription(String description){
-        this.description = description;
+    @Override
+    public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
+        fragmentList.add(new DetailFragment("Detail", R.drawable.stolen_smsalt, ListFragment.ListType.DOCUMENT));
     }
 }

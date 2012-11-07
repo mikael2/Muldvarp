@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.v2.fragments;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,9 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.domain.Document;
-import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Video;
+import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 
 /**
  *
@@ -23,66 +24,88 @@ import no.hials.muldvarp.v2.domain.Domain;
  */
 public class DetailFragment extends MuldvarpFragment {
     View fragmentView;
-    DetailActivity detailactivity;
     private TextView textItemTitle;
     private TextView textItemDescription;
-    Domain item;
-    
+    ListType type;
+    String url;
+
+    public DetailFragment(String fragmentTitle, int iconResourceID, ListType type) {
+        super.fragmentTitle = fragmentTitle;
+        super.iconResourceID = iconResourceID;
+        this.type = type;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        detailactivity = (DetailActivity) this.owningActivity;
-        
         fragmentView = inflater.inflate(R.layout.metadata, container, false);
         textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
         textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
-        
-        //get extra
-//        if(getActivity().getIntent().getExtras().containsKey("Domain")){
-//            item = (Domain) getActivity().getIntent().getExtras().get("Domain"); 
-//        } else {
-            item = (Domain) new Document("HEY", "YOU I DONT LIKE YOUR BOYFRIEND NO WAY NO WAY");
-//        }
-        
-//        
-//        switch(type) {
-//            case NEWS:
-//                item = new News("Nyhetstittel", "Tekst");
-//                fragmentView = inflater.inflate(R.layout.v2_textlayout, container, false);
-//                textItemTitle = (TextView) fragmentView.findViewById(R.id.title);
-//                textItemDescription = (TextView) fragmentView.findViewById(R.id.text);
-//                break;
-//            case VIDEO:
-//                item = new Video("Videotittel", "Beskrivelse");
-//                fragmentView = inflater.inflate(R.layout.metadata, container, false);
-//                textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
-//                textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
-//                break;
-//            case DOCUMENTS:
-//                item = new Document("Dokumenttittel", "Beskrivelse");
-//                fragmentView = inflater.inflate(R.layout.metadata, container, false);
-//                textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
-//                textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
-//                break;
-//        }
-                
-        detailactivity.getActionBar().setTitle(item.getName());
-        textItemTitle.setText(item.getName());
-        textItemDescription.setText(item.getDetail());
+
+        textItemTitle.setText(owningActivity.domain.getName());
+        textItemDescription.setText(owningActivity.domain.getDetail());
+
+        switch(type) {
+            case VIDEO:
+                Video v = (Video)owningActivity.domain;
+                url = "http://www.youtube.com/watch?v=";
+                url += v.getUri();
+                break;
+            case DOCUMENT:
+                Document d = (Document)owningActivity.domain;
+                url = "http://docs.google.com/viewer?url=";
+                url += d.getURI();
+                break;
+        }
+
         final Button button = (Button) fragmentView.findViewById(R.id.item_button1);
-        
+
         button.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                String url = "http://www.youtube.com/watch?v=9bZkp7q19f0&feature=related";
+                System.out.println(url);
+                Uri path = Uri.parse(url);
+                if (true) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(path, "application/pdf");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                    try {
+                        startActivity(intent);
+                    }
+                    catch (ActivityNotFoundException e) {
+                        System.out.println("godamnit!");
+                    }
+                }
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setDataAndType(Uri.parse(url), "text/html");
+                i.setDataAndType(path, "text/html");
                 startActivity(i);
              }
          });
-        
+
+        final Button button2 = (Button) fragmentView.findViewById(R.id.item_button2);
+
+        button2.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+                 System.out.println(url);
+                Uri path = Uri.parse(url);
+                if (true) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(path, "application/pdf");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                    try {
+                        startActivity(intent);
+                    }
+                    catch (ActivityNotFoundException e) {
+                        System.out.println("godamnit!");
+                    }
+                }
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setDataAndType(path, "text/html");
+                startActivity(i);
+             }
+         });
+
         return fragmentView;
     }
-    
-    
 }

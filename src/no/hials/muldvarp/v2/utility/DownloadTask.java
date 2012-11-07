@@ -95,7 +95,7 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                     List<Domain> oldVideos = mds.getAllProgrammes();
                     if(compareOld(oldVideos, items)) {
                         for(int i = 0; i < items.size(); i++) {
-                            //mds.insertVideo((Video)d.get(i));
+                            mds.insertVideo((Video)items.get(i));
                         }
                     }
 
