@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.domain.Document;
+import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 
 /**
@@ -27,27 +29,41 @@ public class DetailFragment extends MuldvarpFragment {
     ListType type;
     String url;
 
-    public DetailFragment(String fragmentTitle, int iconResourceID) {
+    public DetailFragment(String fragmentTitle, int iconResourceID, ListType type) {
         super.fragmentTitle = fragmentTitle;
         super.iconResourceID = iconResourceID;
+        this.type = type;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         fragmentView = inflater.inflate(R.layout.metadata, container, false);
         textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
         textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
 
         textItemTitle.setText(owningActivity.domain.getName());
         textItemDescription.setText(owningActivity.domain.getDetail());
+
+        switch(type) {
+            case VIDEO:
+                Video v = (Video)owningActivity.domain;
+                url = "http://www.youtube.com/watch?v=";
+                url += v.getUri();
+                break;
+            case DOCUMENT:
+                Document d = (Document)owningActivity.domain;
+                url = "http://docs.google.com/viewer?url=";
+                url += d.getURI();
+                break;
+        }
+
         final Button button = (Button) fragmentView.findViewById(R.id.item_button1);
 
         button.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                 System.out.println(url);
-                Uri path = Uri.parse("http://docs.google.com/viewer?url=" + url);
+                System.out.println(url);
+                Uri path = Uri.parse(url);
                 if (true) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(path, "application/pdf");
