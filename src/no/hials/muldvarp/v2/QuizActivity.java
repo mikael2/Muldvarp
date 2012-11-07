@@ -8,6 +8,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,7 +119,9 @@ public class QuizActivity extends MuldvarpActivity{
                     ft.commit();
                 } else if (currentQuestionNumber >= quiz.getQuestions().size()-1){
                     currentQuestionNumber = quiz.getQuestions().size();
-                    prepAnswer();
+                    Intent quizResultsIntent = new Intent(getApplicationContext(), QuizResultActivity.class);
+                    quizResultsIntent.putExtra("Quiz", quiz);
+                    startActivity(quizResultsIntent);
                 }
             }
         });
@@ -138,6 +141,8 @@ public class QuizActivity extends MuldvarpActivity{
     
     public void prepAnswer(){
         setContentView(R.layout.activity_quiz_question_ver);
+        TextView resultTextView = (TextView) findViewById(R.id.QuizResultsText);
+        resultTextView.setText("Dette er dine svar. Du kan bekrefte de i listen under, og scrolle ned for å vise/sende resultat.");
         answerView = (ListView) findViewById(R.id.list_answer);
         resultView = (ListView) findViewById(R.id.list_results);
         final ArrayAdapter<String> adapterAns = new ArrayAdapter<String>(this,
@@ -167,8 +172,7 @@ public class QuizActivity extends MuldvarpActivity{
                 questionFragments.add(tempFrag);
             }            
         }        
-    }
-    
+    }    
             
     ListView answerView; //ListView holding answers supplied by user
     ListView resultView;//ListView holding actual answers

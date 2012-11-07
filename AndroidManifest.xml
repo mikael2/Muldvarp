@@ -35,8 +35,8 @@
                   android:label="Detaljer"/>
        <activity android:name=".v2.QuizActivity"
                   android:label="Quiz"/>
-                  <activity android:name=".v2.TestQuizActivity"
-                  android:label="TestQuiz"/>
+       <activity android:name=".v2.QuizResultActivity"
+                  android:label="QuizResult"/>
        <activity android:name=".v2.MuldvarpPreferenceActivity"
                   android:label="Preferences"/>
        <service android:name=".v2.MuldvarpService" />

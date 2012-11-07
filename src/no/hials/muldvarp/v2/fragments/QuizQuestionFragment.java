@@ -77,7 +77,14 @@ public class QuizQuestionFragment extends MuldvarpFragment {
         if(fragmentView == null) {
             fragmentView = inflater.inflate(R.layout.activity_quiz_question, container, false);
             listView = (ListView)fragmentView.findViewById(R.id.QuizListView);
-            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);            
+            
+            //Expand later
+            if (true) {
+                listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);  
+            } else if(false) {
+                listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            }            
+            
             listView.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView arg0, View arg1, int arg2,long arg3){
                 }

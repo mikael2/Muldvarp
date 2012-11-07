@@ -3,11 +3,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Button
-        android:id="@+id/revealAnswerButton"
-        android:text="Reveal answers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    
+    <TextView android:id="@+id/QuizResultsText" 
+            android:textSize="12dp"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:text="TempText"                  
+            android:layout_margin="3dp"
+            android:background="@drawable/rounded_edges"/>
+    
     <ListView
         android:id="@+id/list_answer"
         android:layout_width="match_parent"
@@ -19,4 +23,9 @@
         android:layout_weight="1.0"
         android:layout_height="0dip"
         android:visibility="gone"/>
+    <Button
+        android:id="@+id/revealAnswerButton"
+        android:text="Reveal answers"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
