@@ -12,7 +12,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 import no.hials.muldvarp.v2.database.tables.*;
 import no.hials.muldvarp.v2.domain.*;
 
@@ -204,6 +203,10 @@ public class MuldvarpDataSource {
     }
     
     public Programme getProgrammeById(String name){
+        System.out.println("SELECT * FROM "
+                + ProgrammeTable.TABLE_NAME
+                + " WHERE " + ProgrammeTable.COLUMN_ID
+                + " = '"+name+"'");
         Cursor cursor = database.rawQuery("SELECT * FROM "
                 + ProgrammeTable.TABLE_NAME
                 + " WHERE " + ProgrammeTable.COLUMN_ID
@@ -419,6 +422,8 @@ public class MuldvarpDataSource {
     }
 
     public ArrayList<Domain> getCoursesByProgramme(Programme programme){
+        System.out.println("GET COURSES BY PROGRAMME");
+        System.out.println("THE ID IS " + programme.getId());
         System.out.println("SELECT * FROM " + ProgrammeHasCourseTable.TABLE_NAME);
         Cursor cursorTest = database.query(ProgrammeHasCourseTable.TABLE_NAME, null, null, null, null, null, null);
         System.out.println("asdasdasdasdsada " + cursorTest.getColumnCount());
@@ -667,6 +672,10 @@ public class MuldvarpDataSource {
     }
 
     private Programme cursorToProgramme(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
+        
         Programme programme = new Programme();
         int id;
         try {
@@ -684,6 +693,9 @@ public class MuldvarpDataSource {
     }
 
     private Course cursorToCourse(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         Course course = new Course();
         int id;
         try {
@@ -700,6 +712,9 @@ public class MuldvarpDataSource {
     }
     
     private Document cursorToDocument(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         Document document = new Document();
         int id = (int) cursor.getLong(0);
         document.setId(id);
@@ -711,6 +726,9 @@ public class MuldvarpDataSource {
     }
 
     private Topic cursorToTopic(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         Topic topic = new Topic();
         int id = (int) cursor.getLong(0);
         topic.setId(id);
@@ -719,6 +737,9 @@ public class MuldvarpDataSource {
     }
 
     private Article cursorToArticle(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         Article article = new Article();
         int id;
         try {
@@ -749,6 +770,9 @@ public class MuldvarpDataSource {
     }
 
     private Video cursorToVideo(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         Video video = new Video();
         int id = (int) cursor.getLong(0);
         video.setId(id);
@@ -757,6 +781,9 @@ public class MuldvarpDataSource {
     }
 
     private User cursorToUser(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
         User user = new User();
         int id = (int) cursor.getLong(0);
         user.setId(id);
