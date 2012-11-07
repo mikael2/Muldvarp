@@ -5,6 +5,7 @@
 package no.hials.muldvarp.v2;
 
 import android.os.Bundle;
+import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.fragments.DetailFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
@@ -22,7 +23,8 @@ public class DetailActivity extends MuldvarpActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FragmentUtils.changeFragmentWithoutList(this, new DetailFragment());
+//        FragmentUtils.changeFragmentWithoutList(this, new DetailFragment());
+        setContentView(R.layout.v2_detailactivity);
     }
     
 }

@@ -48,12 +48,4 @@ public class Document extends Domain {
     public void setURI(String URI) {
         this.URI = URI;
     }
-
-    public String getDescription(){
-        return description;
-    }
-
-    public void setDescription(String description){
-        this.description = description;
-    }
 }
