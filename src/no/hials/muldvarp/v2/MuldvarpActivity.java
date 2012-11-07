@@ -107,8 +107,12 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             @Override
             public void onReceive(Context context, Intent intent) {
                 System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
-                refreshView.clearAnimation();
-                menuItem.setActionView(null);
+                if(refreshView != null) {
+                    refreshView.clearAnimation();
+                }
+                if(menuItem != null) {
+                    menuItem.setActionView(null);
+                }
             }
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
