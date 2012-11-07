@@ -15,6 +15,8 @@ public class Alternative implements Serializable {
     int id;
     String name;
     boolean isCorrect;
+    boolean isChoosen;
+    String answerText; //This text is the text that can be set by a user
 
     public Alternative(String name) {
         this.name = name;
@@ -48,6 +50,24 @@ public class Alternative implements Serializable {
     public void setIsCorrect(boolean isCorrect) {
         this.isCorrect = isCorrect;
     }
+
+    public String getAnswerText() {
+        return answerText;
+    }
+
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
+    }
+
+    public boolean isIsChoosen() {
+        return isChoosen;
+    }
+
+    public void setIsChoosen(boolean isChoosen) {
+        this.isChoosen = isChoosen;
+    }
+    
+    
     
     
 }

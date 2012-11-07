@@ -17,13 +17,11 @@ public class Question implements Serializable{
         SINGLE,
         MULTIPLE
     }
-    
+    //Global variables
     long id;
     String name;
-    QuestionType questionType;
-    
+    QuestionType questionType;    
     List<Alternative> alternatives;
-    List<Alternative> answers;
     
     public Question(String name, List<Alternative> alternatives, Question.QuestionType quType){
         this.name = name;
@@ -31,10 +29,9 @@ public class Question implements Serializable{
         this.questionType = quType;
     }
 
-    public Question(String name, List<Alternative> alternatives, List<Alternative> answer) {
+    public Question(String name, List<Alternative> alternatives) {
         this.name = name;
         this.alternatives = alternatives;
-        this.answers = answer;
     }
 
     public void setId(long id) {
@@ -61,15 +58,7 @@ public class Question implements Serializable{
     public void setAlternatives(List<Alternative> alternatives) {
         this.alternatives = alternatives;
     }
-
-    public List<Alternative> getAnswer() {
-        return answers;
-    }
-
-    public void setAnswers(List<Alternative> answer) {
-        this.answers = answer;
-    }
-
+    
     public String getName() {
         return name;
     }
