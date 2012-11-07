@@ -5,20 +5,27 @@
 package no.hials.muldvarp.v2;
 
 import android.app.*;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -28,6 +35,8 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.R.anim;
+import no.hials.muldvarp.R.layout;
 import no.hials.muldvarp.v2.MuldvarpService.LocalBinder;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
@@ -52,6 +61,10 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     public SearchView searchView;
     public Domain domain;
     public ArrayList<Domain> sideMenuItems = new ArrayList<Domain>();
+    LocalBroadcastManager mLocalBroadcastManager;
+    BroadcastReceiver     mReceiver;
+    MenuItem menuItem;
+    ImageView refreshView;
 
     @Override
     public void onBackPressed() {
@@ -82,6 +95,23 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getActionBar().setDisplayShowTitleEnabled(false);
 
+        // We use this to send broadcasts within our local process.
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+         // We are going to watch for interesting local broadcasts.
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
+        filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+        filter.addAction(MuldvarpService.ACTION_NEWS_UPDATE);
+        filter.addAction(MuldvarpService.ACTION_LIBRARY_UPDATE);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
+                refreshView.clearAnimation();
+                menuItem.setActionView(null);
+            }
+        };
+        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
 
         Intent intent = new Intent(this, MuldvarpService.class);
         startService(intent);
@@ -112,6 +142,13 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 rbmView.toggleMenu();
                 return true;
             case R.id.refresh:
+                LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                refreshView = (ImageView) inflater.inflate(layout.refresh_icon, null);
+                Animation rotateClockwise = AnimationUtils.loadAnimation(this, anim.rotate);
+                refreshView.startAnimation(rotateClockwise);
+                menuItem = item;
+                menuItem.setActionView(refreshView);
+
                 mService.initializeData();
                 return true;
             case R.id.login:
