@@ -272,10 +272,13 @@ public class MuldvarpDataSource {
 
         //Get text/int value fields from Domain and insert into table
         ContentValues values = new ContentValues();
-        values.put(DocumentTable.COLUMN_ID, document.getDocumentId());
+        System.out.println(document);
+        values.put(DocumentTable.COLUMN_ID, document.getId());
         values.put(DocumentTable.COLUMN_NAME, document.getName());
+        values.put(DocumentTable.COLUMN_REVISION, "0");
         values.put(DocumentTable.COLUMN_DESCRIPTION, document.getDescription());
         values.put(DocumentTable.COLUMN_URI, document.getURI());
+        values.put(DocumentTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
         if(checkRecord(DocumentTable.TABLE_NAME, DocumentTable.COLUMN_NAME, document.getName())){
             System.out.println("updating " + document.getName());

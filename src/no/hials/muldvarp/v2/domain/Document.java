@@ -14,7 +14,6 @@ import org.json.JSONObject;
 public class Document extends Domain {
     String documentId;
     String URI;
-    String description;
 
     public Document() {
 
@@ -22,6 +21,9 @@ public class Document extends Domain {
 
     public Document(JSONObject json) throws JSONException {
         this.name = json.getString("title");
+        this.id = json.getInt("id");
+        this.URI = json.getString("url");
+        this.description = json.getString("summary");
     }
 
     public Document(String name, String detail) {
