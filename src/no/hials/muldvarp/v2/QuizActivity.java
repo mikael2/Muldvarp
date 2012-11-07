@@ -4,19 +4,12 @@
  */
 package no.hials.muldvarp.v2;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -118,7 +111,7 @@ public class QuizActivity extends MuldvarpActivity{
                     ft.addToBackStack(null);
                     ft.commit();
                 } else if (currentQuestionNumber >= quiz.getQuestions().size()-1){
-                    currentQuestionNumber = quiz.getQuestions().size();
+//                    currentQuestionNumber = quiz.getQuestions().size();
                     Intent quizResultsIntent = new Intent(getApplicationContext(), QuizResultActivity.class);
                     quizResultsIntent.putExtra("Quiz", quiz);
                     startActivity(quizResultsIntent);
@@ -139,27 +132,6 @@ public class QuizActivity extends MuldvarpActivity{
         });
     }   
     
-    public void prepAnswer(){
-        setContentView(R.layout.activity_quiz_question_ver);
-        TextView resultTextView = (TextView) findViewById(R.id.QuizResultsText);
-        resultTextView.setText("Dette er dine svar. Du kan bekrefte de i listen under, og scrolle ned for å vise/sende resultat.");
-        answerView = (ListView) findViewById(R.id.list_answer);
-        resultView = (ListView) findViewById(R.id.list_results);
-        final ArrayAdapter<String> adapterAns = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, LIST_ANS);
-        final ArrayAdapter<String> adapterRes = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, LIST_RES);
-        answerView.setAdapter(adapterAns);
-        resultView.setAdapter(adapterRes);
-        resultView.setRotationY(-90f);
-        Button starter = (Button) findViewById(R.id.revealAnswerButton);
-        starter.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                flipit();
-            }
-        });
-    }
-    
     private void fillQuestionFragmentList(){
         //Only fill question fragment list if it hasn't been filled already        
         if(questionFragments.isEmpty()){
@@ -173,38 +145,6 @@ public class QuizActivity extends MuldvarpActivity{
             }            
         }        
     }    
-            
-    ListView answerView; //ListView holding answers supplied by user
-    ListView resultView;//ListView holding actual answers
-    private Interpolator accelerator = new AccelerateInterpolator();
-    private Interpolator decelerator = new DecelerateInterpolator();
-    private void flipit() {
-        final ListView visibleList;
-        final ListView invisibleList;
-        if (answerView.getVisibility() == View.GONE) {
-            visibleList = resultView;
-            invisibleList = answerView;
-        } else {
-            invisibleList = resultView;
-            visibleList = answerView;
-        }
-        ObjectAnimator visToInvis = ObjectAnimator.ofFloat(visibleList, "rotationY", 0f, 90f);
-        visToInvis.setDuration(500);
-        visToInvis.setInterpolator(accelerator);
-        final ObjectAnimator invisToVis = ObjectAnimator.ofFloat(invisibleList, "rotationY",
-                -90f, 0f);
-        invisToVis.setDuration(500);
-        invisToVis.setInterpolator(decelerator);
-        visToInvis.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator anim) {
-                visibleList.setVisibility(View.GONE);
-                invisToVis.start();
-                invisibleList.setVisibility(View.VISIBLE);
-            }
-        });
-        visToInvis.start();
-    }
     
     public void addFragmentToStack() {
 
@@ -221,27 +161,5 @@ public class QuizActivity extends MuldvarpActivity{
         ft.replace(R.id.QuizQuestionFragmentHolder, newFragment);
         ft.addToBackStack(null);
         ft.commit();
-    }
-    
-    
-    /**
-     * Below is test stuff
-     */
-    private static final String[] LIST_ANS = new String[] {
-            "Answer 1",
-            "Answer 2",
-            "Answer 3",
-            "Answer 4",
-            "Answer 5",
-            "Answer 6"
-    };
-    private static final String[] LIST_RES = new String[] {
-            "Result 1",
-            "Result 2",
-            "Result 3",
-            "Result 4",
-            "Result 5",
-            "Result 6"
-    };
-    
+    }   
 }

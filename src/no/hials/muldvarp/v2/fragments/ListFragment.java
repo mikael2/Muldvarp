@@ -199,8 +199,6 @@ public class ListFragment extends MuldvarpFragment {
 //                    Toast show = Toast.makeText(owningActivity, "Muldvarp vet ikke hvordan det skal åpne dette innlegget.", Toast.LENGTH_SHORT);
 //                    show.show();
                 }
-
-
             }
         });
 

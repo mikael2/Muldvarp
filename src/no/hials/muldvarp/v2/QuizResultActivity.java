@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.adapter.QuizResultAdapter;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Quiz;
 
@@ -78,9 +79,12 @@ public class QuizResultActivity extends MuldvarpActivity {
             final ArrayAdapter<String> adapterAns = new ArrayAdapter<String>(getApplicationContext(),
                     android.R.layout.simple_list_item_1, LIST_ANS);
             final ArrayAdapter<String> adapterRes = new ArrayAdapter<String>(getApplicationContext(),
-                    android.R.layout.simple_list_item_1, LIST_RES);
+                    R.layout.layout_quizresult, LIST_RES);
             answerView.setAdapter(adapterAns);
-            resultView.setAdapter(adapterRes);
+            resultView.setAdapter(new QuizResultAdapter(this,
+                    R.layout.layout_quizresult,
+                    R.id.text,
+                    quiz.getQuestions()));
             resultView.setRotationY(-90f);
             Button starter = (Button) findViewById(R.id.revealAnswerButton);
             starter.setOnClickListener(new View.OnClickListener() {
