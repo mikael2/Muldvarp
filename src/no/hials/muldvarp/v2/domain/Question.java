@@ -15,7 +15,8 @@ import java.util.List;
 public class Question implements Serializable{
     public enum QuestionType {
         SINGLE,
-        MULTIPLE
+        MULTIPLE,
+        TEXT
     }
     //Global variables
     long id;
@@ -75,12 +76,7 @@ public class Question implements Serializable{
         alternatives.remove(a);
     }
     
-    public String getAlternative(int id){
-        for(Alternative alternative : alternatives){
-            if(alternative.getId()==id){
-                return alternative.getName();
-            }
-        }
-        return null;
+    public Alternative getAlternative(int id){        
+        return alternatives.get(id);
     }
 }

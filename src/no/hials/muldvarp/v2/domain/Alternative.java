@@ -11,36 +11,18 @@ import java.io.Serializable;
  * 
  * @author johan
  */
-public class Alternative implements Serializable {
-    int id;
-    String name;
+public class Alternative extends Domain implements Serializable {
     boolean isCorrect;
     boolean isChoosen;
     String answerText; //This text is the text that can be set by a user
 
     public Alternative(String name) {
-        this.name = name;
+        super(name);
     }
     
     public Alternative(String name, boolean isCorrect) {
-        this.name = name;
+        super(name);
         this.isCorrect = isCorrect;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public boolean isIsCorrect() {
@@ -65,6 +47,10 @@ public class Alternative implements Serializable {
 
     public void setIsChoosen(boolean isChoosen) {
         this.isChoosen = isChoosen;
+    }
+    
+    public void toggleChosen(){
+        isChoosen = !isChoosen;
     }
     
     

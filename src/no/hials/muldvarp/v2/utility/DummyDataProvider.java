@@ -191,13 +191,13 @@ public class DummyDataProvider {
             
             List<Alternative> alternatives = new ArrayList<Alternative>();
             for (int n = 1; n < 6; n++) {
-                Alternative currentAlternative = new Alternative("Svaralternativ " + n);
+                Alternative currentAlternative = new Alternative("Svaralternativ " + n, (i % 2 == 0)); //oddetall blir true
                 currentAlternative.setId(i);
                 alternatives.add(currentAlternative);
             }
             
             Question currentQuestion;
-            if (i % 2 == 0) {
+            if (i % 2 == 0) { //alternere litt mellom listetyper
                 currentQuestion = new Question("Hvilket svaralternativ er riktig?", alternatives, Question.QuestionType.SINGLE);
             } else {
                 currentQuestion = new Question("Hvilket svaralternativ er riktig?", alternatives, Question.QuestionType.MULTIPLE);

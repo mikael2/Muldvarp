@@ -58,16 +58,16 @@ public class ListAdapter extends ArrayAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Domain c = (Domain)items.get(position);
+        Domain domain = (Domain)items.get(position);
 
-        holder.name.setText(c.getName());
+        holder.name.setText(domain.getName());
 
         if (showdetails) {
-            holder.detail.setText(c.getDetail().substring(0, 200) + " ...");
+            holder.detail.setText(domain.getDetail().substring(0, 200) + " ...");
         }
 
-        if (c.getIcon() != 0) {
-            holder.icon.setImageResource(c.getIcon());
+        if (domain.getIcon() != 0) {
+            holder.icon.setImageResource(domain.getIcon());
         } else {
             holder.icon.setImageResource(R.drawable.ic_launcher); // default app icon
         }

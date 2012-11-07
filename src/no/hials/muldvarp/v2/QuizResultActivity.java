@@ -80,11 +80,11 @@ public class QuizResultActivity extends MuldvarpActivity {
                     android.R.layout.simple_list_item_1, LIST_ANS);
             final ArrayAdapter<String> adapterRes = new ArrayAdapter<String>(getApplicationContext(),
                     R.layout.layout_quizresult, LIST_RES);
-            answerView.setAdapter(adapterAns);
-            resultView.setAdapter(new QuizResultAdapter(this,
+            answerView.setAdapter(new QuizResultAdapter(this,
                     R.layout.layout_quizresult,
                     R.id.text,
-                    quiz.getQuestions()));
+                    quiz.getQuestions(),
+                    false));            
             resultView.setRotationY(-90f);
             Button starter = (Button) findViewById(R.id.revealAnswerButton);
             starter.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +100,11 @@ public class QuizResultActivity extends MuldvarpActivity {
      * This function animates the list.
      */
     private void flipit() {
+        resultView.setAdapter(new QuizResultAdapter(this,
+                    R.layout.layout_quizresult,
+                    R.id.text,
+                    quiz.getQuestions(),
+                    true));
         final ListView visibleList;
         final ListView invisibleList;
         if (answerView.getVisibility() == View.GONE) {

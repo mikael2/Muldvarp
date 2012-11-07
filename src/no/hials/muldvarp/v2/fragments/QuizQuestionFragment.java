@@ -18,6 +18,7 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Alternative;
 import no.hials.muldvarp.v2.domain.Question;
+import no.hials.muldvarp.v2.utility.ListAdapter;
 
 /**
  * This fragment defines a single question sheet.
@@ -89,6 +90,18 @@ public class QuizQuestionFragment extends MuldvarpFragment {
             
             listView.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView arg0, View arg1, int arg2,long arg3){
+                    
+                    if (question.getQuestionType() == Question.QuestionType.MULTIPLE) {
+                        question.getAlternative(arg2).toggleChosen();
+                    } else if(question.getQuestionType() == Question.QuestionType.SINGLE) {
+                        for (int i = 0; i < question.getAlternatives().size(); i++) {
+                            if(i == arg2){
+                                question.getAlternative(i).setIsChoosen(true);
+                            } else {
+                                question.getAlternative(i).setIsChoosen(false);
+                            }
+                        }
+                    }
                 }
         });
             getCurrentQuestion();
@@ -98,22 +111,21 @@ public class QuizQuestionFragment extends MuldvarpFragment {
     
     public void  getCurrentQuestion(){
         
-        ArrayList items = new ArrayList();
-        if ((question == null) || (question.getName() == null)) {            
-            items.add("For fun");
-            items.add("For the money");
-            items.add("No reason");
-            items.add("None of the above");
-            makeQuizData("Why are we here?", items, "No reason");  
+        List items = getStringListFromQuestion(question);
+        if (items == null) {
+            System.out.println("WARNING WARNING OLD MEN IS NULL");
+        } else if (items.isEmpty()){
+            System.out.println("WARNING WARNING OLD MEN isEmpty");
         } else {
-            items = getStringListFromQuestion(question);
+            System.out.println("SER IKKE UT SOM LISTA VAR TOM ELLER NULL");
+            System.out.println("DVS AT STØRRELSEN ER " + items.size() + " OG LEL" );
         }
-        
         TextView textView = (TextView) fragmentView.findViewById(R.id.QuestionText);
         textView.setText(questionNo +"/"+questionAmount + ": " + question.getName());
         
         listView.setAdapter(new ArrayAdapter<String>(fragmentView.getContext(),
                 android.R.layout.simple_list_item_checked, items));
+        
     }
     
     public ArrayList<String> getStringListFromQuestion(Question question){

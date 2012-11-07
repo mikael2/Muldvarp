@@ -14,62 +14,54 @@ import android.widget.TextView;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.utility.DrawableManager;
-import no.hials.muldvarp.v2.domain.Question;
+import no.hials.muldvarp.v2.domain.Alternative;
 
-public class QuizResultAdapter extends ArrayAdapter<Question> {
+public class QuizAlternativeAdapter extends ArrayAdapter<Alternative> {
     private LayoutInflater mInflater;
-    private List<Question> questions;
+    private List<Alternative> alternatives;
     private Context context;
     private int resource;
-    boolean verify;
+    DrawableManager dm = new DrawableManager();
 
-    public QuizResultAdapter(Context context, int resource, int textViewResourceId, List<Question> questions, boolean verify) {
+    public QuizAlternativeAdapter(Context context, int resource, int textViewResourceId, List<Alternative> questions) {
         super(context, textViewResourceId, questions);
         mInflater = LayoutInflater.from(context);
-        this.questions = questions;
+        this.alternatives = questions;
         this.context = context;
         this.resource = resource;
-        this.verify = verify;
     }
 
     @Override
     public int getCount() {
-        return questions.size();
+        return alternatives.size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        QuizResultAdapter.ViewHolder holder;
+        QuizAlternativeAdapter.ViewHolder holder;
 
         if (convertView == null) {
             convertView = mInflater.inflate(resource, parent, false);
-            holder = new QuizResultAdapter.ViewHolder();
+            holder = new QuizAlternativeAdapter.ViewHolder();
             holder.questionText = (TextView) convertView.findViewById(R.id.resultQuestionText);
             holder.questionResultText = (TextView) convertView.findViewById(R.id.resultText);
             holder.questionAnswerText = (TextView) convertView.findViewById(R.id.resultAnswerText);
 
             convertView.setTag(holder);
         } else {
-            holder = (QuizResultAdapter.ViewHolder) convertView.getTag();
+            holder = (QuizAlternativeAdapter.ViewHolder) convertView.getTag();
         }
 
         //Get question based on position from the getView call
-        Question question = questions.get(position);
+        Alternative alternative = alternatives.get(position);
         //Don't set anything if the question ain't there
-        if (question != null) {
+        if (alternative != null) {
             //Set name of the question
-            if (question.getName() != null) {
-                holder.questionText.setText(question.getName());
+            if (alternative.getName() != null) {
+                holder.questionText.setText(alternative.getName());
             }
-            String answerText = "";
-            for (int i = 0; i < questions.size(); i++) {
-                answerText += questions.get(position).getAlternative(i).getName() + "\n";
-            }
-            holder.questionAnswerText.setText(answerText);
-            if(verify){
-                holder.questionResultText.setText("OK!");
-            }
-            
+            holder.questionAnswerText.setText("HERRFF");
+            holder.questionResultText.setText("OK!");
         }
 
         return convertView;
