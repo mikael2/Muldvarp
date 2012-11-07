@@ -59,7 +59,7 @@ public class ListAdapter extends ArrayAdapter {
         }
 
         Domain c = (Domain)items.get(position);
-
+        System.out.println("INFO: " + c.getName());     //debug
         holder.name.setText(c.getName());
 
         if (showdetails) {

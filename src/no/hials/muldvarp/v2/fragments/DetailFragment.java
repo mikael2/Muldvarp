@@ -16,6 +16,8 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Video;
+import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 
 /**
  *
@@ -27,6 +29,8 @@ public class DetailFragment extends MuldvarpFragment {
     private TextView textItemTitle;
     private TextView textItemDescription;
     Domain item;
+    ListType type;
+    String url;
     
 
     @Override
@@ -39,33 +43,27 @@ public class DetailFragment extends MuldvarpFragment {
         textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
         
         //get extra
-//        if(getActivity().getIntent().getExtras().containsKey("Domain")){
-//            item = (Domain) getActivity().getIntent().getExtras().get("Domain"); 
-//        } else {
+        if(getActivity().getIntent().getExtras().containsKey("Domain")){
+            item = (Domain) getActivity().getIntent().getExtras().get("Domain");
+            type = (ListType) getActivity().getIntent().getExtras().get("type");
+        } else {
             item = (Domain) new Document("HEY", "YOU I DONT LIKE YOUR BOYFRIEND NO WAY NO WAY");
-//        }
+        }
         
-//        
-//        switch(type) {
-//            case NEWS:
-//                item = new News("Nyhetstittel", "Tekst");
-//                fragmentView = inflater.inflate(R.layout.v2_textlayout, container, false);
-//                textItemTitle = (TextView) fragmentView.findViewById(R.id.title);
-//                textItemDescription = (TextView) fragmentView.findViewById(R.id.text);
-//                break;
-//            case VIDEO:
-//                item = new Video("Videotittel", "Beskrivelse");
-//                fragmentView = inflater.inflate(R.layout.metadata, container, false);
-//                textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
-//                textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
-//                break;
-//            case DOCUMENTS:
-//                item = new Document("Dokumenttittel", "Beskrivelse");
-//                fragmentView = inflater.inflate(R.layout.metadata, container, false);
-//                textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
-//                textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
-//                break;
-//        }
+        switch(type) {
+            case VIDEO:
+                item = new Video("Videotittel", "Beskrivelse");
+                fragmentView = inflater.inflate(R.layout.metadata, container, false);
+                textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
+                textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
+                break;
+            case DOCUMENT:
+                item = new Document(item.getName(), item.getDescription());
+                fragmentView = inflater.inflate(R.layout.metadata, container, false);
+                textItemTitle = (TextView) fragmentView.findViewById(R.id.item_title);
+                textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
+                break;
+        }
                 
         detailactivity.getActionBar().setTitle(item.getName());
         textItemTitle.setText(item.getName());
@@ -74,7 +72,7 @@ public class DetailFragment extends MuldvarpFragment {
         
         button.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                String url = "http://www.youtube.com/watch?v=9bZkp7q19f0&feature=related";
+                String url = "www.vg.no";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(Uri.parse(url), "text/html");
                 startActivity(i);

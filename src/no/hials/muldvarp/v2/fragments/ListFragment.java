@@ -178,6 +178,7 @@ public class ListFragment extends MuldvarpFragment {
                     destination = selectedItem.getActivity();
                     Intent myIntent = new Intent(view.getContext(), destination);
                     myIntent.putExtra("Domain", selectedItem);
+                    myIntent.putExtra("type", type);
                     startActivityForResult(myIntent, 0);
                 } else {
                     Intent myIntent = new Intent(view.getContext(), TopActivity.class);

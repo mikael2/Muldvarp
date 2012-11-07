@@ -290,7 +290,6 @@ public class MuldvarpDataSource {
         ContentValues values = new ContentValues();
         values.put(DocumentTable.COLUMN_ID, document.getId());
         values.put(DocumentTable.COLUMN_NAME, document.getName());
-        values.put(DocumentTable.COLUMN_REVISION, "0");
         values.put(DocumentTable.COLUMN_DESCRIPTION, document.getDescription());
         values.put(DocumentTable.COLUMN_URI, document.getURI());
         values.put(DocumentTable.COLUMN_UPDATED, getTimeStamp());
@@ -719,11 +718,10 @@ public class MuldvarpDataSource {
         }
         Document document = new Document();
         int id = (int) cursor.getLong(0);
-        document.setId(id);
-        document.setDocumentId(cursor.getString(1));
-        document.setName(cursor.getString(2));
-        document.setDescription(cursor.getString(4));
-        document.setURI(cursor.getString(5));
+        document.setId(Integer.valueOf(cursor.getString(0)));
+        document.setName(cursor.getString(1));
+        document.setDescription(cursor.getString(2));
+        document.setURI(cursor.getString(3));
         return document;
     }
 

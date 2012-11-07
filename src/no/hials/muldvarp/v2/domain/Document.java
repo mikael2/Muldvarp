@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.v2.domain;
 
+import no.hials.muldvarp.v2.DetailActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,7 +17,7 @@ public class Document extends Domain {
     String URI;
 
     public Document() {
-
+        super.setActivity(DetailActivity.class);
     }
 
     public Document(JSONObject json) throws JSONException {
@@ -24,6 +25,7 @@ public class Document extends Domain {
         this.id = json.getInt("id");
         this.URI = json.getString("url");
         this.description = json.getString("summary");
+        super.setActivity(DetailActivity.class);
     }
 
     public Document(String name, String detail) {
