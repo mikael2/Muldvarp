@@ -13,7 +13,7 @@ import java.util.List;
  * @author johan
  */
 public class Question implements Serializable{
-    enum QuestionType {
+    public enum QuestionType {
         SINGLE,
         MULTIPLE
     }
@@ -23,7 +23,7 @@ public class Question implements Serializable{
     QuestionType questionType;
     
     List<Alternative> alternatives;
-    Alternative answer;
+    List<Alternative> answers;
     
     public Question(String name, List<Alternative> alternatives, Question.QuestionType quType){
         this.name = name;
@@ -31,10 +31,10 @@ public class Question implements Serializable{
         this.questionType = quType;
     }
 
-    public Question(String name, List<Alternative> alternatives, Alternative answer) {
+    public Question(String name, List<Alternative> alternatives, List<Alternative> answer) {
         this.name = name;
         this.alternatives = alternatives;
-        this.answer = answer;
+        this.answers = answer;
     }
 
     public void setId(long id) {
@@ -45,6 +45,15 @@ public class Question implements Serializable{
         return id;
     }
 
+    public QuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(QuestionType questionType) {
+        this.questionType = questionType;
+    }
+    
+
     public List<Alternative> getAlternatives() {
         return alternatives;
     }
@@ -53,12 +62,12 @@ public class Question implements Serializable{
         this.alternatives = alternatives;
     }
 
-    public Alternative getAnswer() {
-        return answer;
+    public List<Alternative> getAnswer() {
+        return answers;
     }
 
-    public void setAnswer(Alternative answer) {
-        this.answer = answer;
+    public void setAnswers(List<Alternative> answer) {
+        this.answers = answer;
     }
 
     public String getName() {

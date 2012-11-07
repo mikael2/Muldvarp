@@ -36,33 +36,33 @@ public class CourseDetailQuizActivity extends Activity {
     List<Question> questions = new ArrayList<Question>();
     
     public void makeTestData() {
-        List<Alternative> alt = new ArrayList<Alternative>();
-        Alternative a1 = new Alternative("1");
-        a1.setId(1);
-        alt.add(a1);
-        Alternative a2 = new Alternative("1/2");
-        a2.setId(2);
-        alt.add(a2);
-        Alternative a3 = new Alternative("0");
-        a3.setId(3);
-        alt.add(a3);
-        Alternative a4 = new Alternative("-kvadratrot(2)/2");
-        a4.setId(4);
-        alt.add(a4);
-        Alternative a5 = new Alternative("kvadratrot(3)/2");
-        a5.setId(5);
-        alt.add(a5);
-        
-        Question q = new Question("sin x", alt, a2);
-        questions.add(q);
+//        List<Alternative> alt = new ArrayList<Alternative>();
+//        Alternative a1 = new Alternative("1");
+//        a1.setId(1);
+//        alt.add(a1);
+//        Alternative a2 = new Alternative("1/2");
+//        a2.setId(2);
+//        alt.add(a2);
+//        Alternative a3 = new Alternative("0");
+//        a3.setId(3);
+//        alt.add(a3);
+//        Alternative a4 = new Alternative("-kvadratrot(2)/2");
+//        a4.setId(4);
+//        alt.add(a4);
+//        Alternative a5 = new Alternative("kvadratrot(3)/2");
+//        a5.setId(5);
+//        alt.add(a5);
+//        
+//        Question q = new Question("sin x", alt, a2);
+//        questions.add(q);
     }
     
     private boolean checkAnswer(Question q, int altid) {
-        if(q.getAnswer() != null) {
-            if(q.getAnswer().getId() == altid) {
-                return true;
-            }
-        }
+//        if(q.getAnswer() != null) {
+//            if(q.getAnswer().getId() == altid) {
+//                return true;
+//            }
+//        }
         return false;
     }
     

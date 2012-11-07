@@ -79,9 +79,11 @@ public class QuizQuestionFragment extends MuldvarpFragment {
             listView = (ListView)fragmentView.findViewById(R.id.QuizListView);
             
             //Expand later
-            if (true) {
+            if (question.getQuestionType() == Question.QuestionType.MULTIPLE) {
                 listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);  
-            } else if(false) {
+            } else if(question.getQuestionType() == Question.QuestionType.SINGLE) {
+                listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            } else {
                 listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             }            
             
@@ -138,7 +140,7 @@ public class QuizQuestionFragment extends MuldvarpFragment {
             list.add(alt);
             i++;
         }
-        question = new Question(questionString, list, correct);
+        question = new Question(questionString, list, Question.QuestionType.SINGLE);
     }
     
     

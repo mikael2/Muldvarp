@@ -196,9 +196,12 @@ public class DummyDataProvider {
                 alternatives.add(currentAlternative);
             }
             
-            Alternative correctAnswer = new Alternative("Svaralternativ " + i);
-            
-            Question currentQuestion = new Question("Hvilket svaralternativ er riktig?", alternatives, correctAnswer);
+            Question currentQuestion;
+            if (i % 2 == 0) {
+                currentQuestion = new Question("Hvilket svaralternativ er riktig?", alternatives, Question.QuestionType.SINGLE);
+            } else {
+                currentQuestion = new Question("Hvilket svaralternativ er riktig?", alternatives, Question.QuestionType.MULTIPLE);
+            }
             currentQuestion.setId(i);
             questions.add(currentQuestion);            
         }       
