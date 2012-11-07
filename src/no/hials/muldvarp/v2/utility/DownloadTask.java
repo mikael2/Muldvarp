@@ -57,7 +57,7 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                     items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldCourses;
                     if(itemId != 0) {
-                        oldCourses = mds.getCoursesByProgramme(mds.getProgrammeByUniqueId(Integer.valueOf(itemId).toString()));
+                        oldCourses = mds.getCoursesByProgramme(mds.getProgrammeById(String.valueOf(itemId)));
                     } else {
                         oldCourses = mds.getAllCourses();
                     }
