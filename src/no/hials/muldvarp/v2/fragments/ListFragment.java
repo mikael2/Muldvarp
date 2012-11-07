@@ -5,6 +5,7 @@
 package no.hials.muldvarp.v2.fragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +28,7 @@ import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
 /**
@@ -37,6 +39,7 @@ import no.hials.muldvarp.v2.utility.ListAdapter;
 public class ListFragment extends MuldvarpFragment {
 
     //Global variables
+    ProgressDialog progressDialog;
     ListAdapter listAdapter;
     ListView listView;
     View fragmentView;
@@ -64,6 +67,7 @@ public class ListFragment extends MuldvarpFragment {
             fragmentView = inflater.inflate(R.layout.layout_listview, container, false);
             listView = (ListView)fragmentView.findViewById(R.id.layoutlistview);
         }
+        progressDialog = new ProgressDialog(owningActivity);
         itemsReady();
 
         // We use this to send broadcasts within our local process.
@@ -83,7 +87,10 @@ public class ListFragment extends MuldvarpFragment {
             case DOCUMENT:
                 filter.addAction(MuldvarpService.ACTION_LIBRARY_UPDATE);
                 break;
-        }
+            default: 
+                progressDialog.dismiss();
+                break;
+        }        
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -137,8 +144,12 @@ public class ListFragment extends MuldvarpFragment {
             case NEWS:
                 items.addAll(mds.getArticlesByCategory("news"));
                 break;
+            case QUIZ:
+                items.addAll(DummyDataProvider.getQuizList());
+                break;
         }
         if(listAdapter != null) {
+            progressDialog.dismiss();
             listAdapter.notifyDataSetChanged();
         }
         //mds.close(); //crash
@@ -157,6 +168,7 @@ public class ListFragment extends MuldvarpFragment {
 //            }
 //        }
 
+        showProgressDialog();
         updateItems();
 
         listView.setAdapter(new ListAdapter(
@@ -215,7 +227,6 @@ public class ListFragment extends MuldvarpFragment {
         listAdapter.filter(text);
     }
 
-
     public void createDialog(final Domain d){
         AlertDialog.Builder builder = new AlertDialog.Builder(owningActivity);
         builder.setMessage("vil du legge til " + d.getName() + " i mine snarveier?")
@@ -236,5 +247,17 @@ public class ListFragment extends MuldvarpFragment {
                });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+    
+    
+    public void showProgressDialog(){
+        
+        if(!progressDialog.isShowing()){
+         
+            progressDialog.setMessage(getString(R.string.loading));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }        
     }
 }

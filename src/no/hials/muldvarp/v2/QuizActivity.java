@@ -4,174 +4,240 @@
  */
 package no.hials.muldvarp.v2;
 
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.IBinder;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.*;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import no.hials.muldvarp.v2.domain.Alternative;
+import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Question;
-import no.hials.muldvarp.v2.domain.QuizAnswers;
+import no.hials.muldvarp.v2.domain.Quiz;
+import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
+import no.hials.muldvarp.v2.fragments.QuizQuestionFragment;
 
 /**
- * This class defines an Activity used for Quiz-functionality. Should
- * encapsulate a fragment, but NYI
+ * This class defines an Activity used for Quiz-functionality. 
  *
  * @author johan
  */
-public class QuizActivity extends Activity {
-
+public class QuizActivity extends MuldvarpActivity{
+    
     //Global Variables
+    View mainQuizView;
+    View holderQuizView;
+    ListView listView;
+    Quiz quiz;
     List<Question> questions = new ArrayList<Question>();
-    MuldvarpService mService;
-    private boolean mBound;
-    QuizAnswers result;
-    HashMap<CheckBox, Question> boxes;
-
-    /**
-     * Called when the activity is first created.
-     */
+    int currentQuestionNumber;
+    //Fragments
+    ArrayList<QuizQuestionFragment> questionFragments;
+    
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boxes = new HashMap();
-        Intent intent = new Intent(this, MuldvarpService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
-        //Not in use
-        //setContentView(R.layout.activity_quiz);
-        ArrayList a = new ArrayList();
-        a.add("For fun");
-        a.add("For the money");
-        a.add("No reason");
-        a.add("None of the above");
-        makeQuizData("Why are we here?", a, "No reason");
-
-        //Set up layout inside a ScrollView
-        //Main Layout to hold the scrollview, somehow needed when doing this outside XML files
-        LinearLayout mainLayout = new LinearLayout(this);
-        //Set up scrollview and make sure it fills it's parent entirely
-        ScrollView scrollView = new ScrollView(this);
-        scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-        //Loop through the questions in the array
-        for (int i = 0; i < questions.size(); i++) {
-
-            //Create TextView to hold question string
-            TextView text = new TextView(this);
-            text.setText(questions.get(i).getName());
-            text.setTextSize(22);
-            linearLayout.addView(text);
-            final Question question = questions.get(i);
-
-            //Loop through the alternatives in the array
-            for (int k = 0; k < questions.get(i).getAlternatives().size(); k++) {
-
-                //Get alternatives and create a checkbox for each alternative with ID and text
-                Alternative alternative = questions.get(i).getAlternatives().get(k);
-                CheckBox checkBox = new CheckBox(this);
-                checkBox.setId(alternative.getId());
-                checkBox.setText(alternative.getName() + checkAnswer(question, alternative.getId()));
-                checkBox.setTextSize(16);
-                boxes.put(checkBox, question);
-                linearLayout.addView(checkBox);
-
-                checkBox.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        // Perform action on clicks, depending on whether it's now checked
-                        if (((CheckBox) v).isChecked()) {
-//                            if (checkAnswer(question, v.getId())) {
-                                result.addQuestion(question, question.getAlternative(v.getId()));
-                                for(CheckBox cb : boxes.keySet()){
-                                    if(boxes.get(cb) == question && cb.getId() != v.getId()){
-                                        cb.setChecked(false);
-                                    }
-                                }
-//                                Toast.makeText(v.getContext(), "Correct!", Toast.LENGTH_LONG).show();
-//                            } else {
-//                                Toast.makeText(v.getContext(), "Wrong!", Toast.LENGTH_LONG).show();
-//                            }
-                        }
-                        else{
-                            
-                        }
-                    }
-                }); //end onclick listener
-
-            } //end nested for loop            
-        } //end main for loop
-        Button submitButton = new Button(this);
-        submitButton.setText("Lagre");
-        submitButton.setOnClickListener(new OnClickListener(){
-
-            public void onClick(View view) {
-                for(Question q : result.getResult().keySet()){
-                    System.out.println(result.getName() + "\n" + q.getName() + ": " + result.getResult().get(q));
+        //Set Layout from XML-file
+        setContentView(R.layout.quiz_activity_main);
+        
+        //See if the Activity was started with an Intent that included a Domain object
+        if(getIntent().hasExtra("Domain")) {
+            domain = (Domain) getIntent().getExtras().get("Domain");
+            activityName = domain.getName();
+            quiz = (Quiz) domain;
+            
+            TextView quizName = (TextView) findViewById(R.id.QuizNameText);
+            quizName.setText(quiz.getName());
+            
+            
+            if(quiz.getDescription() != null){
+                TextView quizDescription = (TextView) findViewById(R.id.QuizNameDescription);
+                quizDescription.setText(quiz.getDescription());
+            } 
+            
+            TextView questionNumber = (TextView) findViewById(R.id.QuestionAmountNo);
+            questionNumber.setText(String.valueOf(quiz.getQuestions().size()));
+            if (quiz.getQuestions().size() > 0) {
+                setOnClickListeners();
+            } else {
+                Button startQuizButton = (Button) findViewById(R.id.StartQuizButton);
+                startQuizButton.setText("Denne Quiz'en har ingen spørsmål.");
+                startQuizButton.setClickable(false);
+            }
+        }        
+    }
+    
+    private void setOnClickListeners(){
+        
+        Button startQuizButton = (Button) findViewById(R.id.StartQuizButton);
+        startQuizButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startQuiz();
+            }
+        });        
+    }
+    
+    public void startQuiz(){
+        //Change content view with animatino
+        LayoutInflater inflator = getLayoutInflater();
+        holderQuizView =  inflator.inflate(R.layout.activity_quiz_question_holder, null, false);
+        holderQuizView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));        
+        setContentView(holderQuizView);
+        //Get fragments        
+        currentQuestionNumber = 0;
+        if (!quiz.getQuestions().isEmpty()) {
+            questionFragments = new ArrayList<QuizQuestionFragment>();
+            fillQuestionFragmentList();                        
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.add(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber)).commit();
+        }
+        
+        Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
+        nextQuestionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {                
+                if (currentQuestionNumber < (quiz.getQuestions().size() -1)) {
+                    currentQuestionNumber++;
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
+                            R.anim.fragment_slide_left_exit,
+                            R.anim.fragment_slide_right_enter,
+                            R.anim.fragment_slide_right_exit);
+                    ft.replace(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber));
+                    ft.addToBackStack(null);
+                    ft.commit();
+                } else if (currentQuestionNumber >= quiz.getQuestions().size()-1){
+                    currentQuestionNumber = quiz.getQuestions().size();
+                    prepAnswer();
                 }
             }
         });
-        linearLayout.addView(submitButton);
-        scrollView.addView(linearLayout);
-        mainLayout.addView(scrollView);
-        setContentView(mainLayout);
-
-    }
-
-    private boolean checkAnswer(Question q, int altid) {
-        if (q.getAnswer() != null) {
-            if (q.getAnswer().getId() == altid) {
-                return true;
+        
+        Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
+        prevQuestionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (currentQuestionNumber > 0) {
+                    currentQuestionNumber--;
+                    onBackPressed();
+                } else {
+                    currentQuestionNumber = 0;                    
+                }                
             }
-        }
-        return false;
-    }
-
-    public void makeQuizData(String question, List<String> alternatives, String correctAlternative) {
-        ArrayList<Alternative> list = new ArrayList();
-        Alternative correct = null;
-        int i = 0;
-        for (String s : alternatives) {
-            Alternative alt = new Alternative(s);
-            alt.setId(i);
-            if (alt.getName().equalsIgnoreCase(correctAlternative)) {
-                correct = alt;
+        });
+    }   
+    
+    public void prepAnswer(){
+        setContentView(R.layout.activity_quiz_question_ver);
+        answerView = (ListView) findViewById(R.id.list_answer);
+        resultView = (ListView) findViewById(R.id.list_results);
+        final ArrayAdapter<String> adapterAns = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, LIST_ANS);
+        final ArrayAdapter<String> adapterRes = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, LIST_RES);
+        answerView.setAdapter(adapterAns);
+        resultView.setAdapter(adapterRes);
+        resultView.setRotationY(-90f);
+        Button starter = (Button) findViewById(R.id.revealAnswerButton);
+        starter.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                flipit();
             }
-            list.add(alt);
-            i++;
-        }
-        Question q = new Question(question, list, correct);
-        questions.add(q);
+        });
     }
     
-         private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className,
-                IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            MuldvarpService.LocalBinder binder = (MuldvarpService.LocalBinder) service;
-            mService = binder.getService();
-            mBound = true;
-            result = new QuizAnswers(mService.getUser().getName());
+    private void fillQuestionFragmentList(){
+        //Only fill question fragment list if it hasn't been filled already        
+        if(questionFragments.isEmpty()){
+            questionFragments = new ArrayList<QuizQuestionFragment>();            
+            for (int i = 0; i < quiz.getQuestions().size(); i++) {
+                Question tempQuestion = quiz.getQuestions().get(i);
+                QuizQuestionFragment tempFrag = new QuizQuestionFragment(tempQuestion);
+                tempFrag.setQuestionAmount(quiz.getQuestions().size());
+                tempFrag.setQuestionNo(i+1);                        
+                questionFragments.add(tempFrag);
+            }            
+        }        
+    }
+    
+            
+    ListView answerView; //ListView holding answers supplied by user
+    ListView resultView;//ListView holding actual answers
+    private Interpolator accelerator = new AccelerateInterpolator();
+    private Interpolator decelerator = new DecelerateInterpolator();
+    private void flipit() {
+        final ListView visibleList;
+        final ListView invisibleList;
+        if (answerView.getVisibility() == View.GONE) {
+            visibleList = resultView;
+            invisibleList = answerView;
+        } else {
+            invisibleList = resultView;
+            visibleList = answerView;
         }
+        ObjectAnimator visToInvis = ObjectAnimator.ofFloat(visibleList, "rotationY", 0f, 90f);
+        visToInvis.setDuration(500);
+        visToInvis.setInterpolator(accelerator);
+        final ObjectAnimator invisToVis = ObjectAnimator.ofFloat(invisibleList, "rotationY",
+                -90f, 0f);
+        invisToVis.setDuration(500);
+        invisToVis.setInterpolator(decelerator);
+        visToInvis.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator anim) {
+                visibleList.setVisibility(View.GONE);
+                invisToVis.start();
+                invisibleList.setVisibility(View.VISIBLE);
+            }
+        });
+        visToInvis.start();
+    }
+    
+    public void addFragmentToStack() {
 
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mBound = false;
-        }
+        // Instantiate a new fragment.
+        MuldvarpFragment newFragment = new QuizQuestionFragment(quiz.getQuestions().get(currentQuestionNumber));        
+                
+        // Add the fragment to the activity, pushing this transaction
+        // on to the back stack.
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
+                R.anim.fragment_slide_left_exit,
+                R.anim.fragment_slide_right_enter,
+                R.anim.fragment_slide_right_exit);
+        ft.replace(R.id.QuizQuestionFragmentHolder, newFragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+    
+    
+    /**
+     * Below is test stuff
+     */
+    private static final String[] LIST_ANS = new String[] {
+            "Answer 1",
+            "Answer 2",
+            "Answer 3",
+            "Answer 4",
+            "Answer 5",
+            "Answer 6"
     };
-
+    private static final String[] LIST_RES = new String[] {
+            "Result 1",
+            "Result 2",
+            "Result 3",
+            "Result 4",
+            "Result 5",
+            "Result 6"
+    };
+    
 }

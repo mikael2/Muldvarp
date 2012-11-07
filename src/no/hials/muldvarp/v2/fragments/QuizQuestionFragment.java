@@ -30,6 +30,8 @@ public class QuizQuestionFragment extends MuldvarpFragment {
     ListView listView;    
     //Quiz
     Question question;
+    int questionNo;
+    int questionAmount;
     
     /**
      * Constructor for the class.
@@ -37,6 +39,22 @@ public class QuizQuestionFragment extends MuldvarpFragment {
      */
     public QuizQuestionFragment(Question question){
         this.question = question;        
+    }
+
+    public int getQuestionAmount() {
+        return questionAmount;
+    }
+
+    public void setQuestionAmount(int questionAmount) {
+        this.questionAmount = questionAmount;
+    }
+
+    public int getQuestionNo() {
+        return questionNo;
+    }
+
+    public void setQuestionNo(int questionNo) {
+        this.questionNo = questionNo;
     }
     
     /**
@@ -83,7 +101,7 @@ public class QuizQuestionFragment extends MuldvarpFragment {
         }
         
         TextView textView = (TextView) fragmentView.findViewById(R.id.QuestionText);
-        textView.setText(question.getId() + ": " + question.getName());
+        textView.setText(questionNo +"/"+questionAmount + ": " + question.getName());
         
         listView.setAdapter(new ArrayAdapter<String>(fragmentView.getContext(),
                 android.R.layout.simple_list_item_checked, items));

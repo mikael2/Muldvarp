@@ -10,10 +10,8 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.QuizActivity;
-import no.hials.muldvarp.v2.TestQuizActivity;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
-import no.hials.muldvarp.v2.database.tables.ProgrammeHasCourseTable;
 import no.hials.muldvarp.v2.domain.*;
 
 /**
@@ -201,20 +199,21 @@ public class DummyDataProvider {
             Alternative correctAnswer = new Alternative("Svaralternativ " + i);
             
             Question currentQuestion = new Question("Hvilket svaralternativ er riktig?", alternatives, correctAnswer);
+            currentQuestion.setId(i);
             questions.add(currentQuestion);            
         }       
         
         //Create quizzes and add in the same questions
         ArrayList<Domain> quizzes = new ArrayList<Domain>();
         Quiz shitQuiz = new Quiz("drittquiz");
-        shitQuiz.setActivity(TestQuizActivity.class);
+        shitQuiz.setActivity(QuizActivity.class);
         shitQuiz.setDescription(">2012\n>lage en quiz uten spørsmål\nhåper virkelig at det er ingen som gjør dette");
         quizzes.add(shitQuiz);
         for (int n = 0; n < 10; n++) {
             
             Quiz tempQuiz = new Quiz("Quiz no."+n);
             tempQuiz.setQuestions(questions);
-            tempQuiz.setActivity(TestQuizActivity.class);
+            tempQuiz.setActivity(QuizActivity.class);
             quizzes.add(tempQuiz);
         }
         
