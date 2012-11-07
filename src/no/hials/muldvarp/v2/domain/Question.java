@@ -8,15 +8,28 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
- * @author kristoffer
+ * This class represents a Question in the Muldvarp application domain.
+ * 
+ * @author johan
  */
 public class Question implements Serializable{
+    enum QuestionType {
+        SINGLE,
+        MULTIPLE
+    }
+    
     long id;
     String name;
+    QuestionType questionType;
     
     List<Alternative> alternatives;
     Alternative answer;
+    
+    public Question(String name, List<Alternative> alternatives, Question.QuestionType quType){
+        this.name = name;
+        this.alternatives = alternatives;
+        this.questionType = quType;
+    }
 
     public Question(String name, List<Alternative> alternatives, Alternative answer) {
         this.name = name;
