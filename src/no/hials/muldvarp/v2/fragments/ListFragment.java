@@ -28,6 +28,7 @@ import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
 /**
@@ -142,6 +143,9 @@ public class ListFragment extends MuldvarpFragment {
                 break;
             case NEWS:
                 items.addAll(mds.getArticlesByCategory("news"));
+                break;
+            case QUIZ:
+                items.addAll(DummyDataProvider.getQuizList());
                 break;
         }
         if(listAdapter != null) {
