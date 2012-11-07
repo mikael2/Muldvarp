@@ -8,12 +8,14 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.MuldvarpService;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
+import no.hials.muldvarp.v2.utility.JSONUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +35,7 @@ public class Programme extends Domain {
 
     public Programme(JSONObject json) throws JSONException {
         super(json);
+        courses = JSONUtilities.JSONArrayToCourses(json.getJSONArray("courses"));        
     }
 
     public Programme(String name) {

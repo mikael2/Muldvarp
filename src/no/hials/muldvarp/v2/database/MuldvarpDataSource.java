@@ -62,6 +62,8 @@ public class MuldvarpDataSource {
      * @return long id
      */
     public long createProgrammeCourseRelation(long id1, long id2){
+        System.out.println("CREATING PRGRAMME COURSE RELATION");
+        System.out.println("BETWEEN ID " + id1 + " AND " + id2);
         return createRelation(ProgrammeHasCourseTable.TABLE_NAME,
                 ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
@@ -163,6 +165,7 @@ public class MuldvarpDataSource {
             insertId = database.update(ProgrammeTable.TABLE_NAME, values,
                     ProgrammeTable.COLUMN_ID + "=?",
                     id);
+            System.out.println("Updated entry with ID " + insertId);
         } else {
             System.out.println("inserting " + programme.getName());
             insertId = database.insert(ProgrammeTable.TABLE_NAME, null,
