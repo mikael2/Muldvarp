@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -21,7 +22,10 @@ import java.util.ArrayList;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.MuldvarpActivity;
 import no.hials.muldvarp.v2.TopActivity;
+import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.fragments.ListFragment;
+import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
 public class RibbonMenuView extends LinearLayout {
@@ -94,6 +98,7 @@ public class RibbonMenuView extends LinearLayout {
                     destination = selectedItem.getActivity();
                     Intent myIntent = new Intent(view.getContext(), destination);
                     myIntent.putExtra("Domain", selectedItem);
+                    if(selectedItem instanceof Document){myIntent.putExtra("type", ListType.DOCUMENT);}
                     a.startActivityForResult(myIntent, 0);
                 } else {
                     Intent myIntent = new Intent(view.getContext(), TopActivity.class);
