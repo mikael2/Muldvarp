@@ -226,7 +226,6 @@ public class ListFragment extends MuldvarpFragment {
         listAdapter.filter(text);
     }
 
-
     public void createDialog(final Domain d){
         AlertDialog.Builder builder = new AlertDialog.Builder(owningActivity);
         builder.setMessage("vil du legge til " + d.getName() + " i mine snarveier?")
