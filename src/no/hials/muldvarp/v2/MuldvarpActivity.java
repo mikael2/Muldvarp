@@ -99,10 +99,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
          // We are going to watch for interesting local broadcasts.
         IntentFilter filter = new IntentFilter();
-        filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
-        filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
-        filter.addAction(MuldvarpService.ACTION_NEWS_UPDATE);
-        filter.addAction(MuldvarpService.ACTION_LIBRARY_UPDATE);
+        filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

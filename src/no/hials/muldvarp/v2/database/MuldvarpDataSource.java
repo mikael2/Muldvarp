@@ -79,7 +79,7 @@ public class MuldvarpDataSource {
                 CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 TopicTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
-    
+
     /**
      * This method implements createRelation for Programme and DocumentTable.
      * @param id1
@@ -103,7 +103,7 @@ public class MuldvarpDataSource {
                 CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 DocumentTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
-    
+
      /**
      * This method implements createRelation for CourseTable and ArticleTable.
      * @param id1
@@ -146,7 +146,7 @@ public class MuldvarpDataSource {
         return (cursor.getCount() > 0);
     }
 
-    
+
     /**
      * This function inserts a Programme into the SQLITE database, and if the database
      * record already exists, updates the table instead.
@@ -203,7 +203,7 @@ public class MuldvarpDataSource {
         Programme retVal = cursorToProgramme(cursor);
         return retVal;
     }
-    
+
     public Programme getProgrammeById(String name){
         System.out.println("SELECT * FROM "
                 + ProgrammeTable.TABLE_NAME
@@ -278,7 +278,7 @@ public class MuldvarpDataSource {
         cursor.close();
         return courses;
     }
-    
+
     /**
      * This function inserts a Document into the SQLITE database, and if the database
      * record already exists, updates the table instead.
@@ -309,7 +309,7 @@ public class MuldvarpDataSource {
         }
         return insertId;
     }
-    
+
     public ArrayList<Domain> getAllDocuments() {
         ArrayList<Domain> documents = new ArrayList<Domain>();
 
@@ -326,6 +326,48 @@ public class MuldvarpDataSource {
         // Make sure to close the cursor
         cursor.close();
         return documents;
+    }
+
+    public long insertVideo(Video video) {
+
+        //Get text/int value fields from Domain and insert into table
+        ContentValues values = new ContentValues();
+        values.put(VideoTable.COLUMN_ID, video.getId());
+        values.put(VideoTable.COLUMN_NAME, video.getName());
+        values.put(VideoTable.COLUMN_DESCRIPTION, video.getDescription());
+        //values.put(VideoTable.COLUMN_URI, video.getURI());
+        values.put(VideoTable.COLUMN_UPDATED, getTimeStamp());
+        long insertId;
+        if(checkRecord(VideoTable.TABLE_NAME, VideoTable.COLUMN_ID, String.valueOf(video.getId()))){
+            System.out.println("updating " + video.getName());
+            String id[] = {video.getId().toString()};
+            insertId = database.update(VideoTable.TABLE_NAME, values,
+                    VideoTable.COLUMN_ID + "=?",
+                    id);
+        } else {
+            System.out.println("inserting " + video.getName());
+            insertId = database.insert(VideoTable.TABLE_NAME, null,
+            values);
+        }
+        return insertId;
+    }
+
+    public ArrayList<Domain> getAllVideos() {
+        ArrayList<Domain> videos = new ArrayList<Domain>();
+
+        Cursor cursor = database.query(VideoTable.TABLE_NAME ,
+            MuldvarpDBHelper.getColumns(VideoTable.TABLE_COLUMNS),
+            null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+        Video video = cursorToVideo(cursor);
+        videos.add(video);
+        cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return videos;
     }
 
     public ArrayList<Domain> getArticlesByCategory(String name){
@@ -678,7 +720,7 @@ public class MuldvarpDataSource {
         if (cursor.isBeforeFirst()) {
             cursor.moveToFirst();
         }
-        
+
         Programme programme = new Programme();
         int id;
         try {
@@ -713,7 +755,7 @@ public class MuldvarpDataSource {
         course.setRevision(cursor.getInt(3));
         return course;
     }
-    
+
     private Document cursorToDocument(Cursor cursor) {
         if (cursor.isBeforeFirst()) {
             cursor.moveToFirst();
