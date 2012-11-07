@@ -61,8 +61,8 @@ public class MuldvarpDataSource {
      * @return long id
      */
     public long createProgrammeCourseRelation(long id1, long id2){
-        System.out.println("CREATING PRGRAMME COURSE RELATION");
-        System.out.println("BETWEEN ID " + id1 + " AND " + id2);
+//        System.out.println("CREATING PRGRAMME COURSE RELATION");
+//        System.out.println("BETWEEN ID " + id1 + " AND " + id2);
         return createRelation(ProgrammeHasCourseTable.TABLE_NAME,
                 ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
@@ -104,14 +104,6 @@ public class MuldvarpDataSource {
                 ArticleTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
 
-//    public long createProgrammeCourseRelation(long id1, long id2){
-//        ContentValues values = new ContentValues();
-//        values.put(ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1);
-//        values.put(CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
-//
-//        return database.insert(ProgrammeHasCourseTable.TABLE_NAME, null, values);
-//    }
-
     public long createRelastion(String tableName, String table1, int id1, String table2, int id2){
         ContentValues values = new ContentValues();
         values.put(table1 + MuldvarpTable.COLUMN_ID, id1);
@@ -134,7 +126,7 @@ public class MuldvarpDataSource {
                 + table + " WHERE "
                 + field + " = '"
                 + value + "'", null);
-        System.out.println("cursor size " + cursor.getCount());
+//        System.out.println("cursor size " + cursor.getCount());
         return (cursor.getCount() > 0);
     }
 
@@ -158,9 +150,6 @@ public class MuldvarpDataSource {
         long insertId;
         if(checkRecord(ProgrammeTable.TABLE_NAME, ProgrammeTable.COLUMN_ID, String.valueOf(programme.getId()))){
             System.out.println("updating " + programme.getName());
-//            insertId = database.update(ProgrammeTable.TABLE_NAME, values,
-//                    ProgrammeTable.COLUMN_ID + "='" + getProgrammeId(programme) + "'",
-//                    null);
             String id[] = {programme.getId().toString()};
             insertId = database.update(ProgrammeTable.TABLE_NAME, values,
                     ProgrammeTable.COLUMN_ID + "=?",
@@ -171,16 +160,13 @@ public class MuldvarpDataSource {
             insertId = database.insert(ProgrammeTable.TABLE_NAME, null,
             values);
         }
-
         //Inserts the courses in the Programme and sets up relations
         ArrayList<Course> courseList = (ArrayList<Course>) programme.getCourses();
-
         if (courseList != null) {
             for (int i = 0; i < courseList.size(); i++) {
                 createProgrammeCourseRelation(insertId, insertCourse(courseList.get(i)));
             }
         }
-
         return insertId;
     }
 
