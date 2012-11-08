@@ -66,20 +66,29 @@ public class QuizResultAdapter extends ArrayAdapter<Question> {
             }
             String answerText = "";
             if(verify){
+                boolean questionChecksOut = true;
                 for (int i = 0; i < question.getAlternatives().size(); i++) {      
                     Alternative currentAlt = question.getAlternatives().get(i);
                     //If an alternative is chosen, but not correct it is red
                     if (currentAlt.isIsChoosen() && !currentAlt.isIsCorrect()) {
                         answerText += getHTMLColorString(currentAlt, "red") +"<br> ";
+                        questionChecksOut = false;
                     //If an alternative is chosen, and correct, it is green    
                     } else if (currentAlt.isIsChoosen() && currentAlt.isIsCorrect()) {
                         answerText += getHTMLColorString(currentAlt, "green") +"<br> ";  
                     //If an alternative is not chosen, but correct, it is orange    
                     } else if (!currentAlt.isIsChoosen() && currentAlt.isIsCorrect()) {
-                        answerText += getHTMLColorString(currentAlt, "#FF9900") +"<br> ";                       
+                        answerText += getHTMLColorString(currentAlt, "#FF9900") +"<br> "; 
+                        questionChecksOut = false;
                     } else {
                         answerText += getHTMLColorString(currentAlt, "grey") +"<br> ";
                     }
+                    if (questionChecksOut) {
+                        holder.questionResultText.setText("OK");
+                    } else {
+                        holder.questionResultText.setText(":(");
+                    }
+                    
                 }
             } else {
                 for (int i = 0; i < question.getAlternatives().size(); i++) {       
