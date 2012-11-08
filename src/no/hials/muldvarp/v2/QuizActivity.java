@@ -122,15 +122,22 @@ public class QuizActivity extends MuldvarpActivity{
         Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
         prevQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (currentQuestionNumber > 0) {
-                    currentQuestionNumber--;
+                if (currentQuestionNumber > 0) {                    
                     onBackPressed();
                 } else {
                     currentQuestionNumber = 0;                    
                 }                
             }
         });
-    }   
+    }
+
+    @Override
+    public void onBackPressed() {
+        currentQuestionNumber--;
+        super.onBackPressed();
+    }
+    
+    
     
     private void fillQuestionFragmentList(){
         //Only fill question fragment list if it hasn't been filled already        
