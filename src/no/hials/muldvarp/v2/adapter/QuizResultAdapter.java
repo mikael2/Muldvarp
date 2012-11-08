@@ -65,19 +65,33 @@ public class QuizResultAdapter extends ArrayAdapter<Question> {
                 holder.questionText.setText(question.getName());
             }
             String answerText = "";
-            for (int i = 0; i < question.getAlternatives().size(); i++) {                
-//                answerText += question.getAlternative(i).getName() + "\n";
-                Alternative currentAlt = question.getAlternatives().get(i);
-                if (currentAlt.isIsChoosen()) {
-                    answerText += getHTMLColorString(currentAlt, "#FF9900") +"<br> ";
-                } else {
-                    answerText += getHTMLColorString(currentAlt, "grey") +"<br> ";
+            if(verify){
+                for (int i = 0; i < question.getAlternatives().size(); i++) {      
+                    Alternative currentAlt = question.getAlternatives().get(i);
+                    //If an alternative is chosen, but not correct it is red
+                    if (currentAlt.isIsChoosen() && !currentAlt.isIsCorrect()) {
+                        answerText += getHTMLColorString(currentAlt, "red") +"<br> ";
+                    //If an alternative is chosen, and correct, it is green    
+                    } else if (currentAlt.isIsChoosen() && currentAlt.isIsCorrect()) {
+                        answerText += getHTMLColorString(currentAlt, "green") +"<br> ";  
+                    //If an alternative is not chosen, but correct, it is orange    
+                    } else if (!currentAlt.isIsChoosen() && currentAlt.isIsCorrect()) {
+                        answerText += getHTMLColorString(currentAlt, "#FF9900") +"<br> ";                       
+                    } else {
+                        answerText += getHTMLColorString(currentAlt, "grey") +"<br> ";
+                    }
+                }
+            } else {
+                for (int i = 0; i < question.getAlternatives().size(); i++) {       
+                    Alternative currentAlt = question.getAlternatives().get(i);
+                    if (currentAlt.isIsChoosen()) {
+                        answerText += getHTMLColorString(currentAlt, "#FF9900") +"<br> ";
+                    } else {
+                        answerText += getHTMLColorString(currentAlt, "grey") +"<br> ";
+                    }
                 }
             }
             holder.questionAnswerText.setText(Html.fromHtml(answerText));
-            if(verify){
-                holder.questionResultText.setText("OK!");
-            }
             
         }
 

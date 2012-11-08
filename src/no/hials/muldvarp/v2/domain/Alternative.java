@@ -19,16 +19,19 @@ public class Alternative extends Domain implements Serializable {
 
     public Alternative(String name) {
         super(name);
+        isChoosen = false;
     }
     
     public Alternative(String name, boolean isCorrect) {
         super(name);
         this.isCorrect = isCorrect;
+        isChoosen = false;
     }
     
     public Alternative(String name, boolean isCorrect, boolean shuffleAlternatives) {
         super(name);
         this.isCorrect = isCorrect;
+        isChoosen = false;
         
     }
 
