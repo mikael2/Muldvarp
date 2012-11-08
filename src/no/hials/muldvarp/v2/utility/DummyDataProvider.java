@@ -187,12 +187,12 @@ public class DummyDataProvider {
         
         //Setup questions
         ArrayList<Question> questions = new ArrayList<Question>();
-        for (int i = 1; i < 4; i++) {
+        for (int i = 1; i < 8; i++) {
             
             List<Alternative> alternatives = new ArrayList<Alternative>();
             for (int n = 1; n < 6; n++) {
-                Alternative currentAlternative = new Alternative("Svaralternativ " + n, (i % 2 == 0)); //oddetall blir true
-                currentAlternative.setId(i);
+                Alternative currentAlternative = new Alternative("Svaralternativ " + n, (n % 2 == 0)); //oddetall blir true
+                currentAlternative.setId(n);
                 alternatives.add(currentAlternative);
             }
             

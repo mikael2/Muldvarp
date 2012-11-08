@@ -76,7 +76,9 @@ public class Question implements Serializable{
         alternatives.remove(a);
     }
     
-    public Alternative getAlternative(int id){        
+    public Alternative getAlternative(int id){      
+        System.out.println("QUESTION DOMAIN CLASS Alts SIZE " + alternatives.size());
+        System.out.println("VI HENTER(PRØVER) "+id);
         return alternatives.get(id);
     }
 }

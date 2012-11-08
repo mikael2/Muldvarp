@@ -75,11 +75,7 @@ public class QuizResultActivity extends MuldvarpActivity {
             TextView resultTextView = (TextView) findViewById(R.id.QuizResultsText);
             resultTextView.setText("Dette er dine svar. Du kan bekrefte de i listen under, og scrolle ned for å vise/sende resultat.");
             answerView = (ListView) findViewById(R.id.list_answer);
-            resultView = (ListView) findViewById(R.id.list_results);
-            final ArrayAdapter<String> adapterAns = new ArrayAdapter<String>(getApplicationContext(),
-                    android.R.layout.simple_list_item_1, LIST_ANS);
-            final ArrayAdapter<String> adapterRes = new ArrayAdapter<String>(getApplicationContext(),
-                    R.layout.layout_quizresult, LIST_RES);
+            resultView = (ListView) findViewById(R.id.list_results);            
             answerView.setAdapter(new QuizResultAdapter(this,
                     R.layout.layout_quizresult,
                     R.id.text,
@@ -131,4 +127,10 @@ public class QuizResultActivity extends MuldvarpActivity {
         });
         visToInvis.start();
     }
+    
+    
+//    final ArrayAdapter<String> adapterAns = new ArrayAdapter<String>(getApplicationContext(),
+//            android.R.layout.simple_list_item_1, LIST_ANS);
+//    final ArrayAdapter<String> adapterRes = new ArrayAdapter<String>(getApplicationContext(),
+//            R.layout.layout_quizresult, LIST_RES);
 }

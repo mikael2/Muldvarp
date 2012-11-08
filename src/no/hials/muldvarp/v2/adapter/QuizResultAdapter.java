@@ -54,6 +54,7 @@ public class QuizResultAdapter extends ArrayAdapter<Question> {
         }
 
         //Get question based on position from the getView call
+        System.out.println("Getting question from position " + position);
         Question question = questions.get(position);
         //Don't set anything if the question ain't there
         if (question != null) {
@@ -62,8 +63,8 @@ public class QuizResultAdapter extends ArrayAdapter<Question> {
                 holder.questionText.setText(question.getName());
             }
             String answerText = "";
-            for (int i = 0; i < questions.size(); i++) {
-                answerText += questions.get(position).getAlternative(i).getName() + "\n";
+            for (int i = 0; i < question.getAlternatives().size(); i++) {                
+                answerText += question.getAlternative(i).getName() + "\n";
             }
             holder.questionAnswerText.setText(answerText);
             if(verify){
