@@ -37,27 +37,6 @@ public class QuizResultActivity extends MuldvarpActivity {
     ListView resultView;//ListView holding actual answers
     private Interpolator accelerator = new AccelerateInterpolator();
     private Interpolator decelerator = new DecelerateInterpolator();
-    
-    /**
-     * Below is test stuff
-     */
-    private static final String[] LIST_ANS = new String[] {
-            "Answer 1",
-            "Answer 2",
-            "Answer 3",
-            "Answer 4",
-            "Answer 5",
-            "Answer 6"
-    };
-    private static final String[] LIST_RES = new String[] {
-            "Result 1",
-            "Result 2",
-            "Result 3",
-            "Result 4",
-            "Result 5",
-            "Result 6"
-    };
-    
         
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,4 +112,25 @@ public class QuizResultActivity extends MuldvarpActivity {
 //            android.R.layout.simple_list_item_1, LIST_ANS);
 //    final ArrayAdapter<String> adapterRes = new ArrayAdapter<String>(getApplicationContext(),
 //            R.layout.layout_quizresult, LIST_RES);
+    
+//    
+//    /**
+//     * Below is test stuff
+//     */
+//    private static final String[] LIST_ANS = new String[] {
+//            "Answer 1",
+//            "Answer 2",
+//            "Answer 3",
+//            "Answer 4",
+//            "Answer 5",
+//            "Answer 6"
+//    };
+//    private static final String[] LIST_RES = new String[] {
+//            "Result 1",
+//            "Result 2",
+//            "Result 3",
+//            "Result 4",
+//            "Result 5",
+//            "Result 6"
+//    };
 }

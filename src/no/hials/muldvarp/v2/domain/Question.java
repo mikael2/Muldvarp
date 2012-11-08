@@ -5,6 +5,7 @@
 package no.hials.muldvarp.v2.domain;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,11 +24,31 @@ public class Question implements Serializable{
     String name;
     QuestionType questionType;    
     List<Alternative> alternatives;
+    boolean shuffleAlternatives;
     
     public Question(String name, List<Alternative> alternatives, Question.QuestionType quType){
         this.name = name;
         this.alternatives = alternatives;
         this.questionType = quType;
+    }
+    
+    public Question(String name, List<Alternative> alternatives, Question.QuestionType quType, boolean shuffleAlts){
+        this.name = name;
+        this.alternatives = alternatives;
+        this.questionType = quType;        
+        this.shuffleAlternatives = shuffleAlts;
+        if (shuffleAlts) {
+            Collections.shuffle(this.alternatives);
+        }
+    }
+    
+    public Question(String name, List<Alternative> alternatives, boolean shuffleAlts) {
+        this.name = name;
+        this.alternatives = alternatives;
+        this.shuffleAlternatives = shuffleAlts;
+        if (shuffleAlts) {
+            Collections.shuffle(this.alternatives);
+        }
     }
 
     public Question(String name, List<Alternative> alternatives) {
@@ -58,6 +79,9 @@ public class Question implements Serializable{
 
     public void setAlternatives(List<Alternative> alternatives) {
         this.alternatives = alternatives;
+        if (shuffleAlternatives) {
+            Collections.shuffle(this.alternatives);
+        }
     }
     
     public String getName() {
@@ -77,8 +101,12 @@ public class Question implements Serializable{
     }
     
     public Alternative getAlternative(int id){      
-        System.out.println("QUESTION DOMAIN CLASS Alts SIZE " + alternatives.size());
-        System.out.println("VI HENTER(PRØVER) "+id);
         return alternatives.get(id);
+    }
+    
+    public void shuffleQuestions(){
+        if (alternatives != null) {
+            Collections.shuffle(alternatives);
+        }
     }
 }

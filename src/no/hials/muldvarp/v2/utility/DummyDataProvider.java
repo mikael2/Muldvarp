@@ -191,7 +191,7 @@ public class DummyDataProvider {
             
             List<Alternative> alternatives = new ArrayList<Alternative>();
             for (int n = 1; n < 6; n++) {
-                Alternative currentAlternative = new Alternative("Svaralternativ " + n, (n % 2 == 0)); //oddetall blir true
+                Alternative currentAlternative = new Alternative("Svaralternativ " + n, (n % 2 == 0), true); //oddetall blir true
                 currentAlternative.setId(n);
                 alternatives.add(currentAlternative);
             }
@@ -203,6 +203,7 @@ public class DummyDataProvider {
                 currentQuestion = new Question("Hvilket svaralternativ er riktig?", alternatives, Question.QuestionType.MULTIPLE);
             }
             currentQuestion.setId(i);
+            currentQuestion.shuffleQuestions();
             questions.add(currentQuestion);            
         }       
         
@@ -214,7 +215,7 @@ public class DummyDataProvider {
         quizzes.add(shitQuiz);
         for (int n = 0; n < 10; n++) {
             
-            Quiz tempQuiz = new Quiz("Quiz no."+n);
+            Quiz tempQuiz = new Quiz("Quiz no."+n, true);
             tempQuiz.setQuestions(questions);
             tempQuiz.setActivity(QuizActivity.class);
             quizzes.add(tempQuiz);

@@ -5,6 +5,7 @@
 package no.hials.muldvarp.v2.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.utility.DrawableManager;
+import no.hials.muldvarp.v2.domain.Alternative;
 import no.hials.muldvarp.v2.domain.Question;
 
 public class QuizResultAdapter extends ArrayAdapter<Question> {
@@ -64,9 +66,15 @@ public class QuizResultAdapter extends ArrayAdapter<Question> {
             }
             String answerText = "";
             for (int i = 0; i < question.getAlternatives().size(); i++) {                
-                answerText += question.getAlternative(i).getName() + "\n";
+//                answerText += question.getAlternative(i).getName() + "\n";
+                Alternative currentAlt = question.getAlternatives().get(i);
+                if (currentAlt.isIsChoosen()) {
+                    answerText += getHTMLColorString(currentAlt, "#FF9900") +"<br> ";
+                } else {
+                    answerText += getHTMLColorString(currentAlt, "grey") +"<br> ";
+                }
             }
-            holder.questionAnswerText.setText(answerText);
+            holder.questionAnswerText.setText(Html.fromHtml(answerText));
             if(verify){
                 holder.questionResultText.setText("OK!");
             }
@@ -74,6 +82,10 @@ public class QuizResultAdapter extends ArrayAdapter<Question> {
         }
 
         return convertView;
+    }
+    public String getHTMLColorString(Alternative alternative, String color){
+        String retVal = "<font color="+color+">"+alternative.getName()+"</font>";
+        return retVal;
     }
 
     static class ViewHolder {
