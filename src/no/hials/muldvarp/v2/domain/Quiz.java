@@ -5,7 +5,6 @@
 package no.hials.muldvarp.v2.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +20,7 @@ public class Quiz extends Domain {
         REMOTEFEEDBACK,
         GUIDE
     }
+    QuizType quizType;
     List<Question> questions;
     boolean shuffleQuestions;
     
@@ -38,6 +38,28 @@ public class Quiz extends Domain {
         super(name);
         questions = new ArrayList<Question>();
         this.shuffleQuestions = shuffleQuestions;
+        if (shuffleQuestions) {
+            Collections.shuffle(questions);
+        }
+    }
+    
+    public Quiz(String name, QuizType quizType){
+        super(name);
+        questions = new ArrayList<Question>();
+        this.quizType = quizType;
+    }
+    
+    public Quiz(String name, ArrayList<Question> questions, QuizType quizType){
+        super(name);
+        this.questions = questions;
+        this.quizType = quizType;
+    }
+    
+    public Quiz(String name, boolean shuffleQuestions, QuizType quizType){
+        super(name);
+        questions = new ArrayList<Question>();
+        this.shuffleQuestions = shuffleQuestions;
+        this.quizType = quizType;
         if (shuffleQuestions) {
             Collections.shuffle(questions);
         }
@@ -65,5 +87,21 @@ public class Quiz extends Domain {
         if (shuffleQuestions) {
             Collections.shuffle(this.questions);
         }
+    }
+
+    public boolean isShuffleQuestions() {
+        return shuffleQuestions;
+    }
+
+    public void setShuffleQuestions(boolean shuffleQuestions) {
+        this.shuffleQuestions = shuffleQuestions;
+    }
+
+    public QuizType getQuizType() {
+        return quizType;
+    }
+
+    public void setQuizType(QuizType quizType) {
+        this.quizType = quizType;
     }
 }

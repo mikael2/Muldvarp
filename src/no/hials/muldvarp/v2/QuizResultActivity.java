@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -62,6 +61,11 @@ public class QuizResultActivity extends MuldvarpActivity {
                     false));            
             resultView.setRotationY(-90f);
             Button starter = (Button) findViewById(R.id.revealAnswerButton);
+            if (true) {
+                
+            } else {
+                
+            }
             starter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 flipit();
@@ -106,31 +110,4 @@ public class QuizResultActivity extends MuldvarpActivity {
         });
         visToInvis.start();
     }
-    
-    
-//    final ArrayAdapter<String> adapterAns = new ArrayAdapter<String>(getApplicationContext(),
-//            android.R.layout.simple_list_item_1, LIST_ANS);
-//    final ArrayAdapter<String> adapterRes = new ArrayAdapter<String>(getApplicationContext(),
-//            R.layout.layout_quizresult, LIST_RES);
-    
-//    
-//    /**
-//     * Below is test stuff
-//     */
-//    private static final String[] LIST_ANS = new String[] {
-//            "Answer 1",
-//            "Answer 2",
-//            "Answer 3",
-//            "Answer 4",
-//            "Answer 5",
-//            "Answer 6"
-//    };
-//    private static final String[] LIST_RES = new String[] {
-//            "Result 1",
-//            "Result 2",
-//            "Result 3",
-//            "Result 4",
-//            "Result 5",
-//            "Result 6"
-//    };
 }

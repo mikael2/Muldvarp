@@ -25,7 +25,6 @@
         android:visibility="gone"/>
     <Button
         android:id="@+id/revealAnswerButton"
-        android:text="Reveal answers"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
