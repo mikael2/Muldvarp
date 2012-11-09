@@ -60,15 +60,15 @@ public class QuizResultActivity extends MuldvarpActivity {
                     quiz.getQuestions(),
                     false));            
             resultView.setRotationY(-90f);
-            Button starter = (Button) findViewById(R.id.revealAnswerButton);
+            Button quizActionButton = (Button) findViewById(R.id.revealAnswerButton);
             if (quiz.getQuizType() == Quiz.QuizType.FEEDBACK) {
-                starter.setText("Vis svar!");
+                quizActionButton.setText("Vis svar!");
             } else if(quiz.getQuizType() == Quiz.QuizType.REMOTE) {
-                starter.setText("Send svar til server.(funker ikke ennå))");
+                quizActionButton.setText("Send svar til server.(funker ikke ennå))");
             } else {
-                starter.setText("Vis svar!");
+                quizActionButton.setText("Vis svar!");
             }
-            starter.setOnClickListener(new View.OnClickListener() {
+            quizActionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 flipit();
             }

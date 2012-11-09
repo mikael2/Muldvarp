@@ -54,6 +54,14 @@ public class QuizActivity extends MuldvarpActivity{
             TextView quizName = (TextView) findViewById(R.id.QuizNameText);
             quizName.setText(quiz.getName());
             
+            TextView quizTypeText = (TextView) findViewById(R.id.QuizTypeText);
+            quizTypeText.setText("Type:");
+            TextView quizType = (TextView) findViewById(R.id.QuizTypeText2);
+            if(quiz.getQuizType() != null){
+                quizType.setText(quiz.getQuizType().getName());
+            } else {
+                quizType.setText("Ukjent");                        
+            }           
             
             if(quiz.getDescription() != null){
                 TextView quizDescription = (TextView) findViewById(R.id.QuizNameDescription);

@@ -14,11 +14,19 @@ import java.util.List;
  * @author johan
  */
 public class Quiz extends Domain {
+
     public enum QuizType {
-        FEEDBACK,
-        REMOTE,
-        REMOTEFEEDBACK,
-        GUIDE
+        FEEDBACK("Feedback"),
+        REMOTE("Remote"),
+        REMOTEFEEDBACK("Remote med feedback"),
+        GUIDE("Guide");        
+        private String quizType;        
+        private QuizType(String quizType){        
+            this.quizType = quizType;
+        }
+        public String getName() {            
+            return quizType;
+        }
     }
     QuizType quizType;
     List<Question> questions;

@@ -8,11 +8,10 @@
         <TextView android:id="@+id/QuizNameText" 
             android:textSize="20dp"
             android:layout_width="fill_parent" 
-            android:layout_height="wrap_content"
-            android:text="TempText"                  
+            android:layout_height="wrap_content"   
             android:layout_margin="3dp"
             android:background="@drawable/rounded_edges"/>
-        
+                
         <ScrollView android:id="@+id/QuizScrollView1"
             android:layout_width="fill_parent"
             android:layout_height="150dp"
@@ -36,8 +35,7 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
-        
+            xmlns:android="http://schemas.android.com/apk/res/android">        
             <TextView android:id="@+id/QuestionAmount" 
                 android:textSize="20dp"
                 android:layout_width="wrap_content" 
@@ -52,8 +50,27 @@
                 android:text="TempText"                  
                 android:layout_margin="3dp"
                 android:background="@drawable/rounded_edges"/>
-
         </LinearLayout>
+        <LinearLayout android:id="@+id/QuizMainLinearLayout3"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+        <TextView android:id="@+id/QuizTypeText" 
+                android:textSize="20dp"
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content"
+                android:text="Type:"                  
+                android:layout_margin="3dp"
+                android:background="@drawable/rounded_edges"/>    
+        <TextView android:id="@+id/QuizTypeText2" 
+                android:textSize="20dp"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:text="TempText"                  
+                android:layout_margin="3dp"
+                android:background="@drawable/rounded_edges"/>
+         </LinearLayout>
         
         <Button android:id="@+id/StartQuizButton"
             android:layout_height="wrap_content"
