@@ -15,6 +15,12 @@ import java.util.List;
  * @author johan
  */
 public class Quiz extends Domain {
+    public enum QuizType {
+        FEEDBACK,
+        REMOTE,
+        REMOTEFEEDBACK,
+        GUIDE
+    }
     List<Question> questions;
     boolean shuffleQuestions;
     
