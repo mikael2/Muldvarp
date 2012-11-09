@@ -215,9 +215,14 @@ public class DummyDataProvider {
         quizzes.add(shitQuiz);
         for (int n = 0; n < 10; n++) {
             
-            Quiz tempQuiz = new Quiz("Quiz no."+n, true);
+            Quiz tempQuiz = new Quiz("Quiz no."+n, (n % 3 == 0));
             tempQuiz.setQuestions(questions);
             tempQuiz.setActivity(QuizActivity.class);
+            if (n % 2 == 0) { //alternere litt mellom listetyper
+                tempQuiz.setQuizType(Quiz.QuizType.REMOTE);
+            } else {
+                tempQuiz.setQuizType(Quiz.QuizType.FEEDBACK);
+            }
             quizzes.add(tempQuiz);
         }
         
