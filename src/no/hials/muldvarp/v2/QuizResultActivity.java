@@ -63,7 +63,7 @@ public class QuizResultActivity extends MuldvarpActivity {
             Button starter = (Button) findViewById(R.id.revealAnswerButton);
             if (quiz.getQuizType() == Quiz.QuizType.FEEDBACK) {
                 starter.setText("Vis svar!");
-            } else if(quiz.getQuizType() == Quiz.QuizType.GUIDE) {
+            } else if(quiz.getQuizType() == Quiz.QuizType.REMOTE) {
                 starter.setText("Send svar til server.(funker ikke ennå))");
             } else {
                 starter.setText("Vis svar!");
