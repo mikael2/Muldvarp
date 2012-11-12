@@ -12,7 +12,6 @@ import java.io.Serializable;
  * @author johan
  */
 public class Alternative extends Domain implements Serializable {
-    boolean shuffleAlternatives;
     boolean isCorrect;
     boolean isChoosen;
     String answerText; //This text is the text that can be set by a user
@@ -62,8 +61,4 @@ public class Alternative extends Domain implements Serializable {
     public void toggleChosen(){
         isChoosen = !isChoosen;
     }
-    
-    
-    
-    
 }
