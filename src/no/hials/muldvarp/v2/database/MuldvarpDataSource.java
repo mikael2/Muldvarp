@@ -715,6 +715,83 @@ public class MuldvarpDataSource {
         return courses;
 
     }
+    
+    /**
+     * This function inserts a Quiz into the SQLITE database, and if the database
+     * record already exists, updates the table instead.
+     *
+     * @param quiz
+     * @return primary key id
+     */
+    public long insertQuiz(Quiz quiz) {
+        //Get text/int value fields from Domain and insert into table
+        ContentValues values = new ContentValues();
+        values.put(QuizTable.COLUMN_ID, quiz.getId());
+        values.put(QuizTable.COLUMN_NAME, quiz.getName());
+        values.put(QuizTable.COLUMN_TYPE, quiz.getId());
+        values.put(QuizTable.COLUMN_DESCRIPTION, quiz.getDescription());
+        values.put(QuizTable.COLUMN_UPDATED, getTimeStamp());
+        long insertId;
+        if(checkRecord(QuizTable.TABLE_NAME, QuizTable.COLUMN_ID, String.valueOf(quiz.getId()))){
+            System.out.println("updating " + quiz.getName());
+            String id[] = {quiz.getId().toString()};
+            insertId = database.update(QuizTable.TABLE_NAME, values,
+                    QuizTable.COLUMN_ID + "=?",
+                    id);
+            System.out.println("Updated entry with ID " + insertId);
+        } else {
+            System.out.println("inserting " + quiz.getName());
+            insertId = database.insert(QuizTable.TABLE_NAME, null,
+            values);
+        }
+        //Inserts the questions in the quiz and sets up relations
+        ArrayList<Question> questionList = (ArrayList<Question>) quiz.getQuestions();
+        if (questionList != null) {
+            for (int i = 0; i < questionList.size(); i++) {
+                createProgrammeCourseRelation(insertId, insertQuestion(questionList.get(i)));
+            }
+        }
+        return insertId;
+    }
+    
+    /**
+     * This function inserts a Quiz into the SQLITE database, and if the database
+     * record already exists, updates the table instead.
+     *
+     * @param question
+     * @return primary key id
+     */
+    public long insertQuestion(Question question) {
+        //Get text/int value fields from Domain and insert into table
+        ContentValues values = new ContentValues();
+        values.put(QuestionTable.COLUMN_ID, question.getId());
+        values.put(QuestionTable.COLUMN_NAME, question.getName());
+        values.put(QuestionTable.COLUMN_TYPE, question.getQuestionType().getName());
+        //Save boolean as false=0, true=1
+        values.put(QuestionTable.COLUMN_SHUFFLE, (question.isShuffleAlternatives())? 1 : 0);
+        values.put(QuestionTable.COLUMN_UPDATED, getTimeStamp());
+        long insertId;
+        if(checkRecord(QuestionTable.TABLE_NAME, QuestionTable.COLUMN_ID, String.valueOf(question.getId()))){
+            System.out.println("updating " + question.getName());
+            String id[] = {String.valueOf(question.getId())};
+            insertId = database.update(QuestionTable.TABLE_NAME, values,
+                    QuizTable.COLUMN_ID + "=?",
+                    id);
+            System.out.println("Updated entry with ID " + insertId);
+        } else {
+            System.out.println("inserting " + question.getName());
+            insertId = database.insert(QuestionTable.TABLE_NAME, null,
+            values);
+        }
+        //Inserts the questions in the quiz and sets up relations
+        ArrayList<Alternative> alternativeList = (ArrayList<Alternative>) question.getAlternatives();
+        if (alternativeList != null) {
+            for (int i = 0; i < alternativeList.size(); i++) {
+                createProgrammeCourseRelation(insertId, insertCourse(alternativeList.get(i)));
+            }
+        }
+        return insertId;
+    }
 
     private Programme cursorToProgramme(Cursor cursor) {
         if (cursor.isBeforeFirst()) {

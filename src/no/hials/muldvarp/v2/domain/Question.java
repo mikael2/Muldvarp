@@ -15,9 +15,16 @@ import java.util.List;
  */
 public class Question implements Serializable{
     public enum QuestionType {
-        SINGLE,
-        MULTIPLE,
-        TEXT
+        SINGLE("Single"),
+        MULTIPLE("Multiple"),
+        TEXT("Text");
+        private String questionType;        
+        private QuestionType(String questionType){        
+            this.questionType = questionType;
+        }
+        public String getName() {            
+            return questionType;
+        }
     }
     //Global variables
     long id;
@@ -102,6 +109,14 @@ public class Question implements Serializable{
     
     public Alternative getAlternative(int id){      
         return alternatives.get(id);
+    }
+
+    public boolean isShuffleAlternatives() {
+        return shuffleAlternatives;
+    }
+
+    public void setShuffleAlternatives(boolean shuffleAlternatives) {
+        this.shuffleAlternatives = shuffleAlternatives;
     }
     
     public void shuffleQuestions(){
