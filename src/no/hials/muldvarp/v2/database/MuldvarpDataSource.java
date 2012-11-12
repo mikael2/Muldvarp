@@ -335,7 +335,7 @@ public class MuldvarpDataSource {
         values.put(VideoTable.COLUMN_ID, video.getId());
         values.put(VideoTable.COLUMN_NAME, video.getName());
         values.put(VideoTable.COLUMN_DESCRIPTION, video.getDescription());
-        //values.put(VideoTable.COLUMN_URI, video.getURI());
+        values.put(VideoTable.COLUMN_URI, video.getUri());
         values.put(VideoTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
         if(checkRecord(VideoTable.TABLE_NAME, VideoTable.COLUMN_ID, String.valueOf(video.getId()))){
