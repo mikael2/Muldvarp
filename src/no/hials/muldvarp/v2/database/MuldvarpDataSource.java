@@ -778,7 +778,7 @@ public class MuldvarpDataSource {
         return insertId;
     }
     
-    public void deleteQuioz(Quiz quiz) {
+    public void deleteQuiz(Quiz quiz) {
         //Now deletes based on name
         String[] name = {quiz.getName()};
         System.out.println("Quiz deleted with name: " + name[0]);
@@ -811,6 +811,22 @@ public class MuldvarpDataSource {
         // Make sure to close the cursor
         cursor.close();
         return quizzes;
+    }
+    
+    /**
+     *  This method fills out the Quiz with alternatives.
+     * @param quiz
+     * @return 
+     */
+    public Quiz getFullQuiz(Quiz quiz){
+        ArrayList<Question> questions = getQuestionsByQuiz(quiz);
+        for (int i = 0; i < questions.size(); i++) {
+            Question currentQuestion = questions.get(i);
+            currentQuestion.setAlternatives(getAlternativesbyQuestion(currentQuestion));
+        }        
+        quiz.setQuestions(questions);
+          
+        return quiz;
     }
     
     public ArrayList<Domain> getQuizzesByProgramme(Programme programme){
