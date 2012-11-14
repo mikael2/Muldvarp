@@ -7,7 +7,6 @@ package no.hials.muldvarp.v2.domain;
 import android.content.Context;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.fragments.DetailFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
@@ -22,7 +21,7 @@ public class Video extends Domain {
     String uri;
 
     public Video() {
-
+        super.icon = R.drawable.youtube_icon;
     }
 
     public Video(JSONObject json) throws JSONException {
@@ -30,6 +29,7 @@ public class Video extends Domain {
         super.name = json.getString("videoName");
         super.detail = json.getString("videoDescription");
         this.uri = json.getString("videoURI");
+        super.icon = R.drawable.youtube_icon;
     }
 
     public Video(String name, String detail) {
