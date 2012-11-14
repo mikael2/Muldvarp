@@ -201,8 +201,8 @@ public class ListFragment extends MuldvarpFragment {
                     myIntent.putExtra("Domain", selectedItem);
                     startActivityForResult(myIntent, 0);
                     //Burde erstattes med en feilbeskjed fra en string i xml-fil
-                    Toast show = Toast.makeText(owningActivity, "Muldvarp vet ikke hvordan det skal åpne dette innlegget.", Toast.LENGTH_SHORT);
-                    show.show();
+//                    Toast show = Toast.makeText(owningActivity, "Muldvarp vet ikke hvordan det skal åpne dette innlegget.", Toast.LENGTH_SHORT);
+//                    show.show();
                 }
             }
         });
