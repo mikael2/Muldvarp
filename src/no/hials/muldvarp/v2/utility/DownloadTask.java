@@ -92,7 +92,7 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                     break;
                 case VIDEOS:
                     items = JSONUtilities.JSONtoList(json, type);
-                    List<Domain> oldVideos = mds.getAllProgrammes();
+                    List<Domain> oldVideos = mds.getAllVideos();
                     if(compareOld(oldVideos, items)) {
                         for(int i = 0; i < items.size(); i++) {
                             mds.insertVideo((Video)items.get(i));
@@ -152,9 +152,9 @@ public class DownloadTask extends AsyncTask<String, Void, Boolean> {
                     } else if (oldItem instanceof Course) {
                         mds.deleteCourse((Course)oldItem);
                     } else if (oldItem instanceof Document) {
-                        //mds.deleteDocument((Document)oldItem);
+                        mds.deleteDocument((Document)oldItem);
                     } else if (oldItem instanceof Video) {
-                        //mds.deleteVideo((Video)oldItem);
+                        mds.deleteVideo((Video)oldItem);
                     } else if (oldItem instanceof Article) {
                         mds.deleteArticle((Article)oldItem);
                     }
