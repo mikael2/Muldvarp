@@ -193,8 +193,8 @@ public class MuldvarpService extends Service {
      */
     public void initializeData() {
         initilizeDataCounter = 0;
-        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.COURSES)
-                .execute(getUrl(R.string.courseResPath));
+//        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.COURSES)
+//                .execute(getUrl(R.string.courseResPath));
         new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.PROGRAMS)
                 .execute(getUrl(R.string.programmesResPath));
         new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.VIDEOS)
@@ -214,7 +214,7 @@ public class MuldvarpService extends Service {
             public void onReceive(Context context, Intent intent) {
                 System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
                 initilizeDataCounter++;
-                if(initilizeDataCounter == 5) {
+                if(initilizeDataCounter == 4) {
                     LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ACTION_ALL_UPDATE));
                     initilizeDataCounter = 0;
                 }

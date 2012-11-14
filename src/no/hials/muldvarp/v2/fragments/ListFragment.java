@@ -104,21 +104,23 @@ public class ListFragment extends MuldvarpFragment {
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
 
-        switch(type) {
-            case COURSE:
-                owningActivity.mService.update(DataTypes.COURSES, owningActivity.domain.getId());
-                break;
-            case PROGRAMME:
-                owningActivity.mService.update(DataTypes.PROGRAMS, 0);
-                break;
-            case DOCUMENT:
-                owningActivity.mService.update(DataTypes.DOCUMENTS, 0);
-                break;
-            case VIDEO:
-                owningActivity.mService.update(DataTypes.VIDEOS, 0);
-                break;
-            case NEWS:
-                owningActivity.mService.update(DataTypes.NEWS, 0);
+        if(owningActivity.mService != null) {
+            switch(type) {
+                case COURSE:
+                    owningActivity.mService.update(DataTypes.COURSES, owningActivity.domain.getId());
+                    break;
+                case PROGRAMME:
+                    owningActivity.mService.update(DataTypes.PROGRAMS, 0);
+                    break;
+                case DOCUMENT:
+                    owningActivity.mService.update(DataTypes.DOCUMENTS, 0);
+                    break;
+                case VIDEO:
+                    owningActivity.mService.update(DataTypes.VIDEOS, 0);
+                    break;
+                case NEWS:
+                    owningActivity.mService.update(DataTypes.NEWS, 0);
+            }
         }
 
         return fragmentView;
