@@ -14,7 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.utility.DrawableManager;
 import no.hials.muldvarp.v2.domain.Domain;
 
 public class ListAdapter extends ArrayAdapter {
@@ -24,8 +23,6 @@ public class ListAdapter extends ArrayAdapter {
     private int resource;
     private boolean showdetails;
     private List orig_items;
-
-    DrawableManager dm = new DrawableManager();
 
     public ListAdapter(Context context, int resource, int textViewResourceId, List items, boolean showdetails) {
         super(context, textViewResourceId, items);

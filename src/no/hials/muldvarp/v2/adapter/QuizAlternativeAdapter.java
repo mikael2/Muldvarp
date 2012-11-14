@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.utility.DrawableManager;
 import no.hials.muldvarp.v2.domain.Alternative;
 
 public class QuizAlternativeAdapter extends ArrayAdapter<Alternative> {
@@ -21,7 +20,6 @@ public class QuizAlternativeAdapter extends ArrayAdapter<Alternative> {
     private List<Alternative> alternatives;
     private Context context;
     private int resource;
-    DrawableManager dm = new DrawableManager();
 
     public QuizAlternativeAdapter(Context context, int resource, int textViewResourceId, List<Alternative> questions) {
         super(context, textViewResourceId, questions);

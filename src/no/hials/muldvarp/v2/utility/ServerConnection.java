@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import no.hials.muldvarp.MuldvarpService;
+import no.hials.muldvarp.v2.MuldvarpService;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
