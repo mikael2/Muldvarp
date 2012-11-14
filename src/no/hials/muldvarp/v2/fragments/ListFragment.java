@@ -74,6 +74,7 @@ public class ListFragment extends MuldvarpFragment {
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity().getApplicationContext());
          // We are going to watch for interesting local broadcasts.
         IntentFilter filter = new IntentFilter();
+        filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
         switch(type) {
             case PROGRAMME:
                 filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
