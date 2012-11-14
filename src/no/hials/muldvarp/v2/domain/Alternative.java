@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Alternative extends Domain implements Serializable {
     public enum AlternativeType {
         CHOICE("Choice"),
-        ALTERNATIVE("Alternative");
+        TEXT("Text");
         private String alternativeType;        
         private AlternativeType(String quizType){        
             this.alternativeType = quizType;

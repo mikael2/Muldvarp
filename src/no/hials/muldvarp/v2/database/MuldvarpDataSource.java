@@ -12,6 +12,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import java.util.ArrayList;
+import no.hials.muldvarp.v2.QuizActivity;
 import no.hials.muldvarp.v2.database.tables.*;
 import no.hials.muldvarp.v2.domain.*;
 
@@ -79,6 +80,18 @@ public class MuldvarpDataSource {
                 CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 TopicTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
+    
+    /**
+     * This method implements createRelation for Programme and QuizTable.
+     * @param id1
+     * @param id2
+     * @return long id
+     */
+    public long createCourseQuizRelation(long id1, long id2){
+        return createRelation(CourseHasQuizTable.TABLE_NAME,
+                CourseTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
+                QuizTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
+    }
 
     /**
      * This method implements createRelation for Programme and DocumentTable.
@@ -90,6 +103,18 @@ public class MuldvarpDataSource {
         return createRelation(ProgrammeHasDocumentTable.TABLE_NAME,
                 ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 DocumentTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
+    }
+    
+    /**
+     * This method implements createRelation for Programme and QuizTable.
+     * @param id1
+     * @param id2
+     * @return long id
+     */
+    public long createProgrammeQuizRelation(long id1, long id2){
+        return createRelation(ProgrammeHasQuizTable.TABLE_NAME,
+                ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
+                QuizTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
 
     /**
@@ -151,6 +176,13 @@ public class MuldvarpDataSource {
                 QuestionTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 AlternativeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
+
+    public long addTopQuiz(long id1){
+        ContentValues values = new ContentValues();
+        values.put(QuizTable.TABLE_NAME + QuizTable.COLUMN_ID, id1);
+        return database.insert(TopHasQuizTable.TABLE_NAME, null, values);
+    }
+    
     
     /**
      * This function checks if a given value exists in a given field in a given table.
@@ -162,6 +194,7 @@ public class MuldvarpDataSource {
      * @return
      */
     public boolean checkRecord(String table, String field, String value){
+        System.out.println("t: " + table + " f:" + field + " v: " + value);
         Cursor cursor = database.rawQuery("SELECT * FROM "
                 + table + " WHERE "
                 + field + " = '"
@@ -756,6 +789,9 @@ public class MuldvarpDataSource {
         values.put(QuizTable.COLUMN_DESCRIPTION, quiz.getDescription());
         values.put(QuizTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
+        System.out.println("DETTA ER DA QUIZZENS ID" + quiz.getId());
+        System.out.println("NAVN PÅ TABELL: " + QuizTable.TABLE_NAME);
+        System.out.println("NAVN PÅ FELT: " + QuizTable.COLUMN_ID);
         if(checkRecord(QuizTable.TABLE_NAME, QuizTable.COLUMN_ID, String.valueOf(quiz.getId()))){
             System.out.println("updating " + quiz.getName());
             String id[] = {quiz.getId().toString()};
@@ -795,16 +831,25 @@ public class MuldvarpDataSource {
         return retVal;
     }
     
+    public Quiz getQuizById(String id){
+        Cursor cursor = database.rawQuery("SELECT * FROM "
+                + QuizTable.TABLE_NAME
+                + " WHERE " + QuizTable.COLUMN_ID
+                + " = '"+id+"'", null);
+        Quiz retVal = cursorToQuiz(cursor);
+        return retVal;
+    }
+    
     public ArrayList<Domain> getTopLevelQuizzes(){
         ArrayList<Domain> quizzes = new ArrayList<Domain>();
-
-        Cursor cursor = database.query(QuizTable.TABLE_NAME ,
-            MuldvarpDBHelper.getColumns(QuizTable.TABLE_COLUMNS),
+        Cursor cursor = database.query(TopHasQuizTable.TABLE_NAME ,
+            MuldvarpDBHelper.getColumns(TopHasQuizTable.TABLE_COLUMNS),
             null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-        Quiz quiz = cursorToQuiz(cursor);
+        Quiz quiz = getQuizById(cursor.getString(0));
+        quiz.setActivity(QuizActivity.class);
         quizzes.add(quiz);
         cursor.moveToNext();
         }
@@ -957,14 +1002,7 @@ public class MuldvarpDataSource {
     }
     
     public ArrayList<Question> getQuestionsByQuiz(Quiz quiz){
-        System.out.println("GET Questions BY QUIZ");
-        System.out.println("THE ID IS " + quiz.getId());
-        System.out.println("SELECT * FROM " + QuizHasQuestionTable.TABLE_NAME);
-        Cursor cursorTest = database.query(QuizHasQuestionTable.TABLE_NAME, null, null, null, null, null, null);
-        System.out.println("asdasdasdasdsada " + cursorTest.getColumnCount());
-        System.out.println("derrrrrrr " + cursorTest.getCount());
-
-
+        
         //Quiz ID column is the second one
         String[] column = new String[] { QuizHasQuestionTable.TABLE_COLUMNS[2][0] };
         String[] selectionArgs = new String[] {
@@ -1275,8 +1313,8 @@ public class MuldvarpDataSource {
         String type = cursor.getString(2);
         if (type.equalsIgnoreCase("choice")) {
             alternative.setAlternativeType(Alternative.AlternativeType.CHOICE);
-        } else if (type.equalsIgnoreCase("alternative")) {
-            alternative.setAlternativeType(Alternative.AlternativeType.ALTERNATIVE);
+        } else if (type.equalsIgnoreCase("text")) {
+            alternative.setAlternativeType(Alternative.AlternativeType.TEXT);
         } 
         int correctInt = cursor.getInt(3);
         if (correctInt == 0) {

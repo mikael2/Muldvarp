@@ -16,7 +16,7 @@ public class QuizTable extends MuldvarpTable {
       {COLUMN_ID, " integer primary key "},
       {COLUMN_NAME, " text not null "},
       {COLUMN_TYPE," text not null"},
-      {COLUMN_DESCRIPTION," text not null"},
+      {COLUMN_DESCRIPTION," text "},
       {COLUMN_UPDATED, " text not null"}
     };
     

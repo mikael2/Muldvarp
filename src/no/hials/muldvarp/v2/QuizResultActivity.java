@@ -64,9 +64,9 @@ public class QuizResultActivity extends MuldvarpActivity {
             if (quiz.getQuizType() == Quiz.QuizType.FEEDBACK) {
                 quizActionButton.setText("Vis svar!");
             } else if(quiz.getQuizType() == Quiz.QuizType.REMOTE) {
-                quizActionButton.setText("Send svar til server.(funker ikke ennå))");
+                quizActionButton.setText("Send dine svar til server.)");
             } else {
-                quizActionButton.setText("Vis svar!");
+                quizActionButton.setText("Se fasit!");
             }
             quizActionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

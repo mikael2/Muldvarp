@@ -11,6 +11,7 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.DetailActivity;
 import no.hials.muldvarp.v2.QuizActivity;
 import no.hials.muldvarp.v2.TopActivity;
+import no.hials.muldvarp.v2.database.MuldvarpDBHelper;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.*;
 
@@ -191,8 +192,9 @@ public class DummyDataProvider {
             
             List<Alternative> alternatives = new ArrayList<Alternative>();
             for (int n = 1; n < 6; n++) {
-                Alternative currentAlternative = new Alternative("Svaralternativ " + n, (n % 2 == 0), true); //oddetall blir true
+                Alternative currentAlternative = new Alternative("Svaralternativ " + n, (n % 2 == 0), true); //partall blir true
                 currentAlternative.setId(n);
+                currentAlternative.setAlternativeType(Alternative.AlternativeType.CHOICE);
                 alternatives.add(currentAlternative);
             }
             
@@ -210,12 +212,15 @@ public class DummyDataProvider {
         //Create quizzes and add in the same questions
         ArrayList<Domain> quizzes = new ArrayList<Domain>();
         Quiz shitQuiz = new Quiz("drittquiz");
+        shitQuiz.setId(5687813);
         shitQuiz.setActivity(QuizActivity.class);
         shitQuiz.setDescription(">2012\n>lage en quiz uten spørsmål\nhåper virkelig at det er ingen som gjør dette");
         quizzes.add(shitQuiz);
-        for (int n = 0; n < 10; n++) {
+        for (int n = 0; n < 2; n++) {
             
             Quiz tempQuiz = new Quiz("Quiz no."+n, (n % 3 == 0));
+            tempQuiz.setId(n);
+            System.out.println("lagde quiz med id " + tempQuiz.getId());
             tempQuiz.setQuestions(questions);
             tempQuiz.setActivity(QuizActivity.class);
             if (n % 2 == 0) { //alternere litt mellom listetyper
@@ -225,7 +230,7 @@ public class DummyDataProvider {
             }
             quizzes.add(tempQuiz);
         }
-        
+                        
         return quizzes;
     }    
     

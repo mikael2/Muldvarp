@@ -13,6 +13,6 @@ public class QuestionHasAlternativeTable extends MuldvarpTable {
     public static final String[][] TABLE_COLUMNS = {
       {COLUMN_ID, " integer primary key autoincrement not null"},
       {QuestionTable.TABLE_NAME + COLUMN_ID, " integer not null"},
-      {QuizTable.TABLE_NAME + COLUMN_ID, " integer not null"}
+      {AlternativeTable.TABLE_NAME + COLUMN_ID, " integer not null"}
     };        
 }

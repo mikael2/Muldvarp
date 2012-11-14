@@ -14,8 +14,10 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Quiz;
 import no.hials.muldvarp.v2.domain.User;
 import no.hials.muldvarp.v2.utility.DownloadTask;
+import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import no.hials.muldvarp.v2.utility.ServerConnection;
 
 /**
@@ -153,7 +155,7 @@ public class MuldvarpService extends Service {
      * The request argument indicates which part of the database will be updated.
      * @param requested
      */
-    public enum DataTypes {COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS}
+    public enum DataTypes {COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS, QUIZ}
 
     /**
      * Updates all items related to some other item
@@ -183,6 +185,14 @@ public class MuldvarpService extends Service {
                 case NEWS:
                     new DownloadTask(this,new Intent(ACTION_NEWS_UPDATE), type, id)
                             .execute(getUrl(R.string.newsResPath));
+                    break;
+                case QUIZ:
+                    ArrayList<Domain> as = DummyDataProvider.getQuizList();
+                    for (int i = 0; i < as.size(); i++) {
+                        mds.open();
+                        long insertid = mds.insertQuiz((Quiz)as.get(i));
+                        mds.addTopQuiz(insertid);
+                    }
                     break;
             }
         }

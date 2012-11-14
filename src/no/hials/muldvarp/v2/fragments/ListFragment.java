@@ -118,6 +118,8 @@ public class ListFragment extends MuldvarpFragment {
                 break;
             case NEWS:
                 owningActivity.mService.update(DataTypes.NEWS, 0);
+            case QUIZ:
+                owningActivity.mService.update(DataTypes.QUIZ, 0);
         }
 
         return fragmentView;
@@ -149,7 +151,8 @@ public class ListFragment extends MuldvarpFragment {
                 items.addAll(mds.getArticlesByCategory("news"));
                 break;
             case QUIZ:
-                items.addAll(DummyDataProvider.getQuizList());
+//                items.addAll(DummyDataProvider.getQuizList());
+                items.addAll(mds.getTopLevelQuizzes());
                 break;
         }
         if(listAdapter != null) {
