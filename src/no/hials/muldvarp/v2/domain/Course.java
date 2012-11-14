@@ -110,6 +110,7 @@ public class Course extends Domain implements Serializable {
         fragmentList.add(new ListFragment("Delemne", R.drawable.stolen_smsalt, ListFragment.ListType.TOPIC));
         fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
+        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
         fragmentList.add(new TextFragment("Datoer", R.drawable.stolen_calender, 35));
     }
 }
