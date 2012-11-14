@@ -17,8 +17,8 @@ public class AlternativeTable extends MuldvarpTable {
       {COLUMN_ID, " integer primary key "},
       {COLUMN_NAME, " text not null "},
       {COLUMN_TYPE," text not null"},
-      {COLUMN_CORRECT," integer not null"},
-      {COLUMN_ANSWERTEXT," text not null"},
+      {COLUMN_CORRECT," integer "},
+      {COLUMN_ANSWERTEXT," text "},
       {COLUMN_UPDATED, " text not null"}
     };    
 }

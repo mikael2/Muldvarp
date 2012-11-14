@@ -32,6 +32,10 @@ public class Quiz extends Domain {
     List<Question> questions;
     boolean shuffleQuestions;
     
+    public Quiz(){
+        
+    }
+    
     public Quiz(String name){
         super(name);
         questions = new ArrayList<Question>();

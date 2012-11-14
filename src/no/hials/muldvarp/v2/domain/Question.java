@@ -33,6 +33,9 @@ public class Question implements Serializable{
     List<Alternative> alternatives;
     boolean shuffleAlternatives;
     
+    public Question(){        
+    }
+    
     public Question(String name, List<Alternative> alternatives, Question.QuestionType quType){
         this.name = name;
         this.alternatives = alternatives;

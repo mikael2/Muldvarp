@@ -12,10 +12,25 @@ import java.io.Serializable;
  * @author johan
  */
 public class Alternative extends Domain implements Serializable {
+    public enum AlternativeType {
+        CHOICE("Choice"),
+        ALTERNATIVE("Alternative");
+        private String alternativeType;        
+        private AlternativeType(String quizType){        
+            this.alternativeType = quizType;
+        }
+        public String getName() {            
+            return alternativeType;
+        }
+    }
+    AlternativeType alternativeType;
     boolean isCorrect;
     boolean isChoosen;
     String answerText; //This text is the text that can be set by a user
 
+    public Alternative(){        
+    }
+    
     public Alternative(String name) {
         super(name);
         isChoosen = false;
@@ -61,4 +76,14 @@ public class Alternative extends Domain implements Serializable {
     public void toggleChosen(){
         isChoosen = !isChoosen;
     }
+
+    public AlternativeType getAlternativeType() {
+        return alternativeType;
+    }
+
+    public void setAlternativeType(AlternativeType alternativeType) {
+        this.alternativeType = alternativeType;
+    }
+    
+    
 }

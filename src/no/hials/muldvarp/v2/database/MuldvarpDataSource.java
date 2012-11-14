@@ -127,7 +127,31 @@ public class MuldvarpDataSource {
                 ProgrammeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
                 ArticleTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
     }
-
+    
+     /**
+     * This method implements createRelation for QuizTable and QuestionTable.
+     * @param id1
+     * @param id2
+     * @return long id
+     */
+    public long createQuizQuestionRelation(long id1, long id2){
+        return createRelation(QuizHasQuestionTable.TABLE_NAME,
+                QuizTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
+                QuestionTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
+    }
+    
+    /**
+     * This method implements createRelation for QuestionTable and AlternativeTable.
+     * @param id1
+     * @param id2
+     * @return long id
+     */
+    public long createQuestionAlternativeRelation(long id1, long id2){
+        return createRelation(QuestionHasAlternativeTable.TABLE_NAME,
+                QuestionTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id1,
+                AlternativeTable.TABLE_NAME + MuldvarpTable.COLUMN_ID, id2);
+    }
+    
     /**
      * This function checks if a given value exists in a given field in a given table.
      * Returns true if the record(s) exist, returns false if not.
@@ -748,12 +772,135 @@ public class MuldvarpDataSource {
         ArrayList<Question> questionList = (ArrayList<Question>) quiz.getQuestions();
         if (questionList != null) {
             for (int i = 0; i < questionList.size(); i++) {
-                createProgrammeCourseRelation(insertId, insertQuestion(questionList.get(i)));
+                createQuizQuestionRelation(insertId, insertQuestion(questionList.get(i)));
             }
         }
         return insertId;
     }
     
+    public void deleteQuioz(Quiz quiz) {
+        //Now deletes based on name
+        String[] name = {quiz.getName()};
+        System.out.println("Quiz deleted with name: " + name[0]);
+        database.delete(QuizTable.TABLE_NAME, QuizTable.COLUMN_NAME
+            + "=?", name);
+    }
+
+    public Quiz getQuizByName(String name){
+        Cursor cursor = database.rawQuery("SELECT * FROM "
+                + QuizTable.TABLE_NAME
+                + " WHERE " + QuizTable.COLUMN_NAME
+                + " = '"+name+"'", null);
+        Quiz retVal = cursorToQuiz(cursor);
+        return retVal;
+    }
+    
+    public ArrayList<Domain> getTopLevelQuizzes(){
+        ArrayList<Domain> quizzes = new ArrayList<Domain>();
+
+        Cursor cursor = database.query(QuizTable.TABLE_NAME ,
+            MuldvarpDBHelper.getColumns(QuizTable.TABLE_COLUMNS),
+            null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+        Quiz quiz = cursorToQuiz(cursor);
+        quizzes.add(quiz);
+        cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return quizzes;
+    }
+    
+    public ArrayList<Domain> getQuizzesByProgramme(Programme programme){
+        System.out.println("GET QUIZZES BY PROGRAMME");
+        System.out.println("THE ID IS " + programme.getId());
+        System.out.println("SELECT * FROM " + ProgrammeHasQuizTable.TABLE_NAME);
+        Cursor cursorTest = database.query(ProgrammeHasQuizTable.TABLE_NAME, null, null, null, null, null, null);
+        System.out.println("asdasdasdasdsada " + cursorTest.getColumnCount());
+        System.out.println("derrrrrrr " + cursorTest.getCount());
+
+
+        //Quiz ID column is the second one
+        String[] column = new String[] { ProgrammeHasQuizTable.TABLE_COLUMNS[2][0] };
+        String[] selectionArgs = new String[] {
+        String.valueOf(programme.getId()) };
+        //Query for course ID's in programme
+        Cursor cursor = database.query(ProgrammeHasQuizTable.TABLE_NAME,
+                column,
+                ProgrammeHasQuizTable.TABLE_COLUMNS[1][0] + "= ?",
+                selectionArgs,
+                null, null, null);
+
+        cursor.moveToFirst();
+        System.out.println("GET QUIZZES BY PROGRAM SIZE " + cursor.getCount());
+        ArrayList<Domain> quizzes = new ArrayList<Domain>();
+        while (!cursor.isAfterLast()) {
+            System.out.println("SELECT * FROM "
+                    + QuizTable.TABLE_NAME
+                    + " WHERE " + QuizTable.COLUMN_ID
+                    + "='" + cursor.getString(0) + "'");
+
+            Cursor currentCursor = database.rawQuery("SELECT * FROM "
+                    + QuizTable.TABLE_NAME
+                    + " WHERE " + QuizTable.COLUMN_ID
+                    + "='" + cursor.getString(0) + "'",
+                    null);
+            currentCursor.moveToFirst();
+            Quiz quiz = cursorToQuiz(currentCursor);
+            quizzes.add(quiz);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return quizzes;
+    }
+    
+    public ArrayList<Domain> getQuizzesByCourse(Course course){
+        System.out.println("GET QUIZZES BY COURSE");
+        System.out.println("THE ID IS " + course.getId());
+        System.out.println("SELECT * FROM " + CourseHasQuizTable.TABLE_NAME);
+        Cursor cursorTest = database.query(CourseHasQuizTable.TABLE_NAME, null, null, null, null, null, null);
+        System.out.println("asdasdasdasdsada " + cursorTest.getColumnCount());
+        System.out.println("derrrrrrr " + cursorTest.getCount());
+
+
+        //Quiz ID column is the second one
+        String[] column = new String[] { CourseHasQuizTable.TABLE_COLUMNS[2][0] };
+        String[] selectionArgs = new String[] {
+        String.valueOf(course.getId()) };
+        //Query for quiz ID's in course
+        Cursor cursor = database.query(CourseHasQuizTable.TABLE_NAME,
+                column,
+                CourseHasQuizTable.TABLE_COLUMNS[1][0] + "= ?",
+                selectionArgs,
+                null, null, null);
+
+        cursor.moveToFirst();
+        System.out.println("GET QUIZZES BY COURSE SIZE " + cursor.getCount());
+        ArrayList<Domain> quizzes = new ArrayList<Domain>();
+        while (!cursor.isAfterLast()) {
+            System.out.println("SELECT * FROM "
+                    + QuizTable.TABLE_NAME
+                    + " WHERE " + QuizTable.COLUMN_ID
+                    + "='" + cursor.getString(0) + "'");
+
+            Cursor currentCursor = database.rawQuery("SELECT * FROM "
+                    + QuizTable.TABLE_NAME
+                    + " WHERE " + QuizTable.COLUMN_ID
+                    + "='" + cursor.getString(0) + "'",
+                    null);
+            currentCursor.moveToFirst();
+            Quiz quiz = cursorToQuiz(currentCursor);
+            quizzes.add(quiz);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return quizzes;
+    }
+   
     /**
      * This function inserts a Quiz into the SQLITE database, and if the database
      * record already exists, updates the table instead.
@@ -787,10 +934,131 @@ public class MuldvarpDataSource {
         ArrayList<Alternative> alternativeList = (ArrayList<Alternative>) question.getAlternatives();
         if (alternativeList != null) {
             for (int i = 0; i < alternativeList.size(); i++) {
-                createProgrammeCourseRelation(insertId, insertCourse(alternativeList.get(i)));
+                createQuestionAlternativeRelation(insertId, insertAlternative(alternativeList.get(i)));
             }
         }
         return insertId;
+    }
+    
+    public ArrayList<Question> getQuestionsByQuiz(Quiz quiz){
+        System.out.println("GET Questions BY QUIZ");
+        System.out.println("THE ID IS " + quiz.getId());
+        System.out.println("SELECT * FROM " + QuizHasQuestionTable.TABLE_NAME);
+        Cursor cursorTest = database.query(QuizHasQuestionTable.TABLE_NAME, null, null, null, null, null, null);
+        System.out.println("asdasdasdasdsada " + cursorTest.getColumnCount());
+        System.out.println("derrrrrrr " + cursorTest.getCount());
+
+
+        //Quiz ID column is the second one
+        String[] column = new String[] { QuizHasQuestionTable.TABLE_COLUMNS[2][0] };
+        String[] selectionArgs = new String[] {
+        String.valueOf(quiz.getId()) };
+        //Query for quiz ID's in course
+        Cursor cursor = database.query(QuizHasQuestionTable.TABLE_NAME,
+                column,
+                CourseHasQuizTable.TABLE_COLUMNS[1][0] + "= ?",
+                selectionArgs,
+                null, null, null);
+
+        cursor.moveToFirst();
+        System.out.println("GET QUESTIONS BY QUIZ SIZE " + cursor.getCount());
+        ArrayList<Question> questions = new ArrayList<Question>();
+        while (!cursor.isAfterLast()) {
+            System.out.println("SELECT * FROM "
+                    + QuizTable.TABLE_NAME
+                    + " WHERE " + QuestionTable.COLUMN_ID
+                    + "='" + cursor.getString(0) + "'");
+
+            Cursor currentCursor = database.rawQuery("SELECT * FROM "
+                    + QuizTable.TABLE_NAME
+                    + " WHERE " + QuestionTable.COLUMN_ID
+                    + "='" + cursor.getString(0) + "'",
+                    null);
+            currentCursor.moveToFirst();
+            Question question = cursorToQuestion(currentCursor);
+            questions.add(question);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return questions;
+    }
+    
+    /**
+     * This function inserts a Alternative into the SQLITE database, and if the database
+     * record already exists, updates the table instead.
+     *
+     * @param alternative
+     * @return primary key id
+     */
+    public long insertAlternative(Alternative alternative) {
+        //Get text/int value fields from Domain and insert into table
+        ContentValues values = new ContentValues();
+        values.put(AlternativeTable.COLUMN_ID, alternative.getId());
+        values.put(AlternativeTable.COLUMN_NAME, alternative.getName());
+        values.put(AlternativeTable.COLUMN_TYPE, alternative.getAlternativeType().getName());
+        //Save boolean as false=0, true=1
+        values.put(AlternativeTable.COLUMN_CORRECT, (alternative.isIsCorrect())? 1 : 0);
+        values.put(AlternativeTable.COLUMN_UPDATED, getTimeStamp());
+        values.put(AlternativeTable.COLUMN_ANSWERTEXT, alternative.getAnswerText());
+        long insertId;
+        if(checkRecord(AlternativeTable.TABLE_NAME, AlternativeTable.COLUMN_ID, String.valueOf(alternative.getId()))){
+            System.out.println("updating " + alternative.getName());
+            String id[] = {String.valueOf(alternative.getId())};
+            insertId = database.update(AlternativeTable.TABLE_NAME, values,
+                    QuizTable.COLUMN_ID + "=?",
+                    id);
+            System.out.println("Updated entry with ID " + insertId);
+        } else {
+            System.out.println("inserting " + alternative.getName());
+            insertId = database.insert(AlternativeTable.TABLE_NAME, null,
+            values);
+        }
+        return insertId;
+    }
+    
+    public ArrayList<Alternative> getAlternativesbyQuestion(Question question){
+        System.out.println("GET ALTERNATIVES BY QUESTION");
+        System.out.println("THE ID IS " + question.getId());
+        System.out.println("SELECT * FROM " + QuestionHasAlternativeTable.TABLE_NAME);
+        Cursor cursorTest = database.query(QuestionHasAlternativeTable.TABLE_NAME, null, null, null, null, null, null);
+        System.out.println("asdasdasdasdsada " + cursorTest.getColumnCount());
+        System.out.println("derrrrrrr " + cursorTest.getCount());
+
+
+        //Alternative ID column is the second one
+        String[] column = new String[] { QuestionHasAlternativeTable.TABLE_COLUMNS[2][0] };
+        String[] selectionArgs = new String[] {
+        String.valueOf(question.getId()) };
+        //Query for alternative ID's in course
+        Cursor cursor = database.query(QuestionHasAlternativeTable.TABLE_NAME,
+                column,
+                QuestionHasAlternativeTable.TABLE_COLUMNS[1][0] + "= ?",
+                selectionArgs,
+                null, null, null);
+
+        cursor.moveToFirst();
+        System.out.println("GET ALTERNATIVES BY QUESTION SIZE " + cursor.getCount());
+        ArrayList<Alternative> alternatives = new ArrayList<Alternative>();
+        while (!cursor.isAfterLast()) {
+            System.out.println("SELECT * FROM "
+                    + QuizTable.TABLE_NAME
+                    + " WHERE " + AlternativeTable.COLUMN_ID
+                    + "='" + cursor.getString(0) + "'");
+
+            Cursor currentCursor = database.rawQuery("SELECT * FROM "
+                    + QuizTable.TABLE_NAME
+                    + " WHERE " + AlternativeTable.COLUMN_ID
+                    + "='" + cursor.getString(0) + "'",
+                    null);
+            currentCursor.moveToFirst();
+            Alternative alternative = cursorToAlternative(currentCursor);
+            alternatives.add(alternative);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return alternatives;
     }
 
     private Programme cursorToProgramme(Cursor cursor) {
@@ -912,5 +1180,95 @@ public class MuldvarpDataSource {
         user.setPassword(cursor.getString(2));
 
         return user;
+    }
+    
+    private Quiz cursorToQuiz(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
+        Quiz quiz = new Quiz();
+        int id;
+        try {
+            id = (int) cursor.getLong(0);
+        } catch(CursorIndexOutOfBoundsException ex) {
+            Log.e("db", ex.getMessage());
+            return null;
+        }
+        quiz.setId(id);
+        quiz.setName(cursor.getString(1));
+        String type = cursor.getString(2);
+        if (type.equalsIgnoreCase("feedback")) {
+            quiz.setQuizType(Quiz.QuizType.FEEDBACK);
+        } else if (type.equalsIgnoreCase("remote")) {
+            quiz.setQuizType(Quiz.QuizType.REMOTE);
+        } else if (type.equalsIgnoreCase("Remote med feedback")) {
+            quiz.setQuizType(Quiz.QuizType.REMOTEFEEDBACK);
+        } else if (type.equalsIgnoreCase("Guide")) {
+            quiz.setQuizType(Quiz.QuizType.GUIDE);
+        }
+        quiz.setDescription(cursor.getString(3));
+        
+        return quiz;
+    }
+    
+    private Question cursorToQuestion(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
+        Question question = new Question();
+        int id;
+        try {
+            id = (int) cursor.getLong(0);
+        } catch(CursorIndexOutOfBoundsException ex) {
+            Log.e("db", ex.getMessage());
+            return null;
+        }
+        question.setId(id);
+        question.setName(cursor.getString(1));
+        String type = cursor.getString(2);
+        if (type.equalsIgnoreCase("single")) {
+            question.setQuestionType(Question.QuestionType.SINGLE);
+        } else if (type.equalsIgnoreCase("multiple")) {
+            question.setQuestionType(Question.QuestionType.MULTIPLE);
+        } else if (type.equalsIgnoreCase("text")) {
+            question.setQuestionType(Question.QuestionType.TEXT);
+        }
+        int shuffleInt = cursor.getInt(3);
+        if (shuffleInt == 0) {
+            question.setShuffleAlternatives(false);
+        } else {
+            question.setShuffleAlternatives(true);
+        }
+        return question;
+    }
+    
+    private Alternative cursorToAlternative(Cursor cursor) {
+        if (cursor.isBeforeFirst()) {
+            cursor.moveToFirst();
+        }
+        Alternative alternative = new Alternative();
+        int id;
+        try {
+            id = (int) cursor.getLong(0);
+        } catch(CursorIndexOutOfBoundsException ex) {
+            Log.e("db", ex.getMessage());
+            return null;
+        }
+        alternative.setIcon(id);       
+        alternative.setName(cursor.getString(1));
+        String type = cursor.getString(2);
+        if (type.equalsIgnoreCase("choice")) {
+            alternative.setAlternativeType(Alternative.AlternativeType.CHOICE);
+        } else if (type.equalsIgnoreCase("alternative")) {
+            alternative.setAlternativeType(Alternative.AlternativeType.ALTERNATIVE);
+        } 
+        int correctInt = cursor.getInt(3);
+        if (correctInt == 0) {
+            alternative.setIsCorrect(false);
+        } else {
+            alternative.setIsCorrect(true);
+        }
+        alternative.setAnswerText(cursor.getString(4));
+        return alternative;
     }
 }
