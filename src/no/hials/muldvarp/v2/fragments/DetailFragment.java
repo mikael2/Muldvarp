@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Document;
-import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 
 /**
@@ -44,19 +43,9 @@ public class DetailFragment extends MuldvarpFragment {
 
         textItemTitle.setText(owningActivity.domain.getName());
         textItemDescription.setText(owningActivity.domain.getDetail());
-
-        switch(type) {
-            case VIDEO:
-                Video v = (Video)owningActivity.domain;
-                url = "http://www.youtube.com/watch?v=";
-                url += v.getUri();
-                break;
-            case DOCUMENT:
-                Document d = (Document)owningActivity.domain;
-                url = "http://docs.google.com/viewer?url=";
-                url += d.getURI();
-                break;
-        }
+        Document d = (Document)owningActivity.domain;
+        url = "http://docs.google.com/viewer?url=";
+        url += d.getURI();
 
         final Button button = (Button) fragmentView.findViewById(R.id.item_button1);
 

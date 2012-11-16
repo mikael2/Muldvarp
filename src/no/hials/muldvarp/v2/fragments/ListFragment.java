@@ -11,8 +11,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +28,7 @@ import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
-import no.hials.muldvarp.v2.utility.DummyDataProvider;
+import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
 /**
@@ -74,6 +74,7 @@ public class ListFragment extends MuldvarpFragment {
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity().getApplicationContext());
          // We are going to watch for interesting local broadcasts.
         IntentFilter filter = new IntentFilter();
+        filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
         switch(type) {
             case PROGRAMME:
                 filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
@@ -193,7 +194,16 @@ public class ListFragment extends MuldvarpFragment {
                 //The idea is that one click should start a corresponding activity.
                 Domain selectedItem = items.get(position);
 
-                if(selectedItem.getActivity() != null) {
+                if(selectedItem instanceof Video) {
+                    Video v = (Video)selectedItem;
+                    String url = "http://www.youtube.com/watch?v=";
+                    url += v.getUri();
+                    Uri path = Uri.parse(url);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(path, "text/html");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                } else if(selectedItem.getActivity() != null) {
                     destination = selectedItem.getActivity();
                     Intent myIntent = new Intent(view.getContext(), destination);
                     myIntent.putExtra("Domain", selectedItem);
@@ -204,8 +214,8 @@ public class ListFragment extends MuldvarpFragment {
                     myIntent.putExtra("Domain", selectedItem);
                     startActivityForResult(myIntent, 0);
                     //Burde erstattes med en feilbeskjed fra en string i xml-fil
-                    Toast show = Toast.makeText(owningActivity, "Muldvarp vet ikke hvordan det skal åpne dette innlegget.", Toast.LENGTH_SHORT);
-                    show.show();
+//                    Toast show = Toast.makeText(owningActivity, "Muldvarp vet ikke hvordan det skal åpne dette innlegget.", Toast.LENGTH_SHORT);
+//                    show.show();
                 }
             }
         });

@@ -203,8 +203,8 @@ public class MuldvarpService extends Service {
      */
     public void initializeData() {
         initilizeDataCounter = 0;
-        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.COURSES)
-                .execute(getUrl(R.string.courseResPath));
+//        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.COURSES)
+//                .execute(getUrl(R.string.courseResPath));
         new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.PROGRAMS)
                 .execute(getUrl(R.string.programmesResPath));
         new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.VIDEOS)
@@ -224,7 +224,7 @@ public class MuldvarpService extends Service {
             public void onReceive(Context context, Intent intent) {
                 System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
                 initilizeDataCounter++;
-                if(initilizeDataCounter == 5) {
+                if(initilizeDataCounter == 4) {
                     LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ACTION_ALL_UPDATE));
                     initilizeDataCounter = 0;
                 }
@@ -336,36 +336,5 @@ public class MuldvarpService extends Service {
 //    }
 
 
-    /**
-     * Method convertToNewEntity, of class MuldvarpService.
-     * This method converts a list of old entity classes(from muldvarp 1.0) to the new entityclasses in muldvarp mk. II.
-     * @param datalist
-     */
-    private ArrayList convertToNewEntity(ArrayList datalist) {
-        ArrayList retval = new ArrayList<Domain>();
-        if(datalist.get(0) instanceof no.hials.muldvarp.entities.Course){
-            for(Object o : datalist){
-                no.hials.muldvarp.entities.Course c = (no.hials.muldvarp.entities.Course)o;
-                no.hials.muldvarp.v2.domain.Course newCourse = new no.hials.muldvarp.v2.domain.Course(c.getItemName(), c.getSmallDetail(), c.getImageurl());
-                retval.add(newCourse);
-            }
-        }
-        else if(datalist.get(0) instanceof no.hials.muldvarp.entities.Programme){
-            for(Object o : datalist){
-                no.hials.muldvarp.entities.Programme p = (no.hials.muldvarp.entities.Programme)o;
-                no.hials.muldvarp.v2.domain.Programme newProgramme = new no.hials.muldvarp.v2.domain.Programme((p.getItemName()));
-                newProgramme.setCourses(convertToNewEntity(p.getCoursesInProgramme()));
-                newProgramme.setDetail(p.getSmallDetail());
-                retval.add(newProgramme);
-            }
-        }
-        else if(datalist.get(0) instanceof no.hials.muldvarp.entities.Person){
-            for(Object o : datalist){
-                no.hials.muldvarp.entities.Person p = (no.hials.muldvarp.entities.Person)o;
-                no.hials.muldvarp.v2.domain.User newPerson = new no.hials.muldvarp.v2.domain.User(p.getName(), null);
-                newPerson.setId(p.getId().intValue());
-            }
-        }
-        return retval;
-    }
+    
 }

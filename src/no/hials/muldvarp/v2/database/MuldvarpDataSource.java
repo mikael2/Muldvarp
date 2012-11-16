@@ -391,8 +391,9 @@ public class MuldvarpDataSource {
         ContentValues values = new ContentValues();
         values.put(VideoTable.COLUMN_ID, video.getId());
         values.put(VideoTable.COLUMN_NAME, video.getName());
+        values.put(VideoTable.COLUMN_REVISION, 1);
         values.put(VideoTable.COLUMN_DESCRIPTION, video.getDescription());
-        //values.put(VideoTable.COLUMN_URI, video.getURI());
+        values.put(VideoTable.COLUMN_URI, video.getUri());
         values.put(VideoTable.COLUMN_UPDATED, getTimeStamp());
         long insertId;
         if(checkRecord(VideoTable.TABLE_NAME, VideoTable.COLUMN_ID, String.valueOf(video.getId()))){
@@ -486,6 +487,22 @@ public class MuldvarpDataSource {
         String[] name = {course.getName()};
         System.out.println("Course deleted with name: " + name[0]);
         database.delete(CourseTable.TABLE_NAME, CourseTable.COLUMN_NAME
+            + "=?", name);
+    }
+
+    public void deleteVideo(Video video) {
+        //Now deletes based on name
+        String[] name = {video.getName()};
+        System.out.println("Video deleted with name: " + name[0]);
+        database.delete(VideoTable.TABLE_NAME, VideoTable.COLUMN_NAME
+            + "=?", name);
+    }
+
+    public void deleteDocument(Document document) {
+        //Now deletes based on name
+        String[] name = {document.getName()};
+        System.out.println("Document deleted with name: " + name[0]);
+        database.delete(DocumentTable.TABLE_NAME, DocumentTable.COLUMN_NAME
             + "=?", name);
     }
 
@@ -1220,6 +1237,15 @@ public class MuldvarpDataSource {
         int id = (int) cursor.getLong(0);
         video.setId(id);
         video.setName(cursor.getString(1));
+        video.setDetail(cursor.getString(2));
+        video.setUri(cursor.getString(4));
+
+        System.out.println("DEBUG 0 ---> " + cursor.getString(0));
+        System.out.println("DEBUG 1 ---> " + cursor.getString(1));
+        System.out.println("DEBUG 2 ---> " + cursor.getString(2));
+        System.out.println("DEBUG 3 ---> " + cursor.getString(3));
+        System.out.println("DEBUG 4 ---> " + cursor.getString(4));
+        System.out.println("DEBUG 5 ---> " + cursor.getString(5));
         return video;
     }
 

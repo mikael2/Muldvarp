@@ -140,8 +140,8 @@ public class Domain implements Serializable {
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListFragment.ListType.QUIZ));
         fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
         fragmentList.add(new TextFragment("Opptak", R.drawable.stolen_notes, 35));
-        fragmentList.add(new TextFragment("Datoer", R.drawable.stolen_calender, 35));
-        fragmentList.add(new TextFragment("Hjelp", R.drawable.stolen_help, 35));
+        fragmentList.add(new TextFragment("Datoer", R.drawable.stolen_calender, 211));
+        fragmentList.add(new TextFragment("Hjelp", R.drawable.stolen_help, 209));
     }
 
 
