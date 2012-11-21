@@ -137,7 +137,8 @@ public class QuizActivity extends MuldvarpActivity{
                 if (currentQuestionNumber > 0) {                    
                     onBackPressed();
                 } else {
-                    currentQuestionNumber = 0;                    
+                    currentQuestionNumber = 0;       
+                    finish();
                 }                
             }
         });
