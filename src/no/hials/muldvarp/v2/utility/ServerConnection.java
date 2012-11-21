@@ -35,7 +35,7 @@ public class ServerConnection {
         int url = 195885416;        //Using www.vg.no for now. There might be a problem in the ip-format, but we'll know more after testing.
         if(isNetworkAvailable()) {
             ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if(cm.requestRouteToHost(cm.TYPE_WIFI, url) | cm.requestRouteToHost(cm.TYPE_MOBILE, url)) {
+            if(cm.requestRouteToHost(cm.TYPE_WIFI, url) || cm.requestRouteToHost(cm.TYPE_MOBILE, url)) {
                 return true;
             }
         }
