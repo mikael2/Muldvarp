@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import no.hials.muldvarp.R;
 
-public class NewsViewFragment extends MuldvarpFragment{
+public class WebzViewFragment extends MuldvarpFragment{
     View fragmentView;
     String url;
 
-    public NewsViewFragment(String title, String url, int iconResourceID) {
+    public WebzViewFragment(String title, int iconResourceID, int id) {
         super.fragmentTitle = title;
         super.iconResourceID = iconResourceID;
-        this.url = url;
+        this.url = "http://eapp-ub.uials.no/muldvarp/faces/article.xhtml?articleid=" + id;
     }
 
     @Override

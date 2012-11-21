@@ -5,10 +5,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
+import no.hials.muldvarp.v2.fragments.WebzViewFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,11 +108,13 @@ public class Course extends Domain implements Serializable {
 
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
-        super.populateList(fragmentList, context);
+        fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
+        fragmentList.add(new WebzViewFragment("Informasjon", R.drawable.stolen_contacts, 148));
+        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
         fragmentList.add(new ListFragment("Delemne", R.drawable.stolen_smsalt, ListFragment.ListType.TOPIC));
         fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
         fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
-        fragmentList.add(new TextFragment("Datoer", R.drawable.stolen_calender, 35));
+        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, 35));
     }
 }

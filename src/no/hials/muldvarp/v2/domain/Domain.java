@@ -12,6 +12,7 @@ import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
+import no.hials.muldvarp.v2.fragments.WebzViewFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -117,33 +118,14 @@ public class Domain implements Serializable {
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         //Fragments that are considered "default"
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
-        fragmentList.add(new TextFragment("Informasjon", R.drawable.stolen_contacts, 148));
+        fragmentList.add(new WebzViewFragment("Informasjon", R.drawable.stolen_contacts, 148));
         fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
-
-        if(this.getClass().getSuperclass() == Object.class) { // if this class has no superclass (except object)
-            defaultList(fragmentList, context);
-        }
-    }
-
-    /**
-     * Standard frontpage view
-     *
-     * @param fragmentList
-     * @param context
-     */
-    public void defaultList(List<MuldvarpFragment> fragmentList, Context context) {
-//        ListFragment gridFragmentList = new ListFragment("Studier", R.drawable.stolen_smsalt);
-//        gridFragmentList.setListItems(DummyDataProvider.requestProgrammes(context));
-//        fragmentList.add(gridFragmentList);
         fragmentList.add(new ListFragment("Studier", R.drawable.stolen_smsalt, ListFragment.ListType.PROGRAMME));
         fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListFragment.ListType.QUIZ));
         fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
-        fragmentList.add(new TextFragment("Opptak", R.drawable.stolen_notes, 35));
-        fragmentList.add(new TextFragment("Datoer", R.drawable.stolen_calender, 211));
-        fragmentList.add(new TextFragment("Hjelp", R.drawable.stolen_help, 209));
+        fragmentList.add(new WebzViewFragment("Opptak", R.drawable.stolen_notes, 35));
+        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, 211));
+        fragmentList.add(new WebzViewFragment("Hjelp", R.drawable.stolen_help, 209));
     }
-
-
-
 }
