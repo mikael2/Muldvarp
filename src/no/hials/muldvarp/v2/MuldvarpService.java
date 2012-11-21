@@ -252,7 +252,7 @@ public class MuldvarpService extends Service {
      * @param id
      */
     public synchronized void update(DataTypes type, int id) {
-        if(server.checkServer()) {
+        if(true) {
             switch(type) {
                 case COURSES:
                     new NewDownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type, id, this)
