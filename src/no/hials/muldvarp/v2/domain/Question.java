@@ -5,8 +5,12 @@
 package no.hials.muldvarp.v2.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This class represents a Question in the Muldvarp application domain.
@@ -34,6 +38,24 @@ public class Question implements Serializable{
     boolean shuffleAlternatives;
     
     public Question(){        
+    }
+    
+    public Question(JSONObject json) throws JSONException{
+        id = json.getInt("id");
+        name = json.getString("name");        
+        if (json.getString("shuffleAlternatives").equals("true")) {
+            this.shuffleAlternatives = true;
+        } else {
+            this.shuffleAlternatives = false;
+        }
+        List<Alternative> aList= new ArrayList<Alternative>();
+        JSONArray array = json.getJSONArray("alternatives");
+        for (int i = 0; i < array.length(); i++) {
+            aList.add(new Alternative(array.getJSONObject(i)));
+        }
+        this.alternatives = aList;
+        
+        
     }
     
     public Question(String name, List<Alternative> alternatives, Question.QuestionType quType){

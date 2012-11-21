@@ -5,6 +5,9 @@
 package no.hials.muldvarp.v2.domain;
 
 import java.io.Serializable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This class represents an Alternative in the Quiz-context of the Muldvarp application domain.
@@ -29,6 +32,17 @@ public class Alternative extends Domain implements Serializable {
     String answerText; //This text is the text that can be set by a user
 
     public Alternative(){        
+    }
+    
+    public Alternative(JSONObject json) throws JSONException{
+        id = json.getInt("id");
+        name = json.getString("name");        
+        if (json.getString("isCorrect").equals("true")) {
+            this.isCorrect = true;
+        } else {
+            this.isCorrect = false;
+        }        
+        
     }
     
     public Alternative(String name) {

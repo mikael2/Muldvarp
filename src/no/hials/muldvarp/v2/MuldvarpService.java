@@ -303,6 +303,8 @@ public class MuldvarpService extends Service {
                 .execute(getUrl(R.string.newsResPath));
         new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.DOCUMENTS, this)
                 .execute(getUrl(R.string.libraryResPath));
+        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.DOCUMENTS, this)
+                            .execute(getUrl(R.string.quizResPath));
 
         // We use this to send broadcasts within our local process.
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);

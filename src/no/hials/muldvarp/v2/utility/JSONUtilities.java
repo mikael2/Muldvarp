@@ -10,12 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.v2.MuldvarpService;
-import no.hials.muldvarp.v2.domain.Article;
-import no.hials.muldvarp.v2.domain.Course;
-import no.hials.muldvarp.v2.domain.Document;
-import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.Programme;
-import no.hials.muldvarp.v2.domain.Video;
+import no.hials.muldvarp.v2.domain.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -123,6 +118,9 @@ public class JSONUtilities {
                 case NEWS:
                     d = new Article(jArray.getJSONObject(i));
                     break;
+                 case QUIZ:
+                    d = new Quiz(jArray.getJSONObject(i));
+                    break;   
                 default:
                     d = new Domain(jArray.getJSONObject(i));
                     break;

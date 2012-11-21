@@ -7,6 +7,9 @@ package no.hials.muldvarp.v2.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This class represents a Quiz in the Muldvarp Domain.
@@ -33,6 +36,24 @@ public class Quiz extends Domain {
     boolean shuffleQuestions;
     
     public Quiz(){
+        
+    }
+    
+    public Quiz(JSONObject json) throws JSONException{
+        super.id = json.getInt("id");
+        super.name = json.getString("name");
+        super.detail = json.getString("description");
+        if (json.getString("shuffleQuestions").equals("true")) {
+            this.shuffleQuestions = true;
+        } else {
+            this.shuffleQuestions = false;
+        }
+        List<Question> qList= new ArrayList<Question>();
+        JSONArray array = json.getJSONArray("questions");
+        for (int i = 0; i < array.length(); i++) {
+            qList.add(new Question(array.getJSONObject(i)));
+        }
+        this.questions = qList;
         
     }
     

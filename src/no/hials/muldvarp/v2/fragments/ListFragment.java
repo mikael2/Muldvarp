@@ -92,6 +92,9 @@ public class ListFragment extends MuldvarpFragment {
             case VIDEO:
                 filter.addAction(MuldvarpService.ACTION_VIDEO_UPDATE);
                 break;
+            case QUIZ:
+                filter.addAction(MuldvarpService.ACTION_QUIZ_UPDATE);
+                break;
             default:
 //                progressDialog.dismiss();
                 break;
@@ -158,8 +161,9 @@ public class ListFragment extends MuldvarpFragment {
 //                items.addAll(mds.getArticlesByCategory("news"));
                 break;
             case QUIZ:
+                items.addAll(owningActivity.mService.mQuizzes);
 //                items.addAll(DummyDataProvider.getQuizList());
-                items.addAll(mds.getTopLevelQuizzes());
+//                items.addAll(mds.getTopLevelQuizzes());
                 break;
         }
         if(listAdapter != null) {
