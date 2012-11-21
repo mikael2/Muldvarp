@@ -32,14 +32,20 @@ public class ServerConnection {
      * @return boolean serverIsUp
      */
     public boolean checkServer() {
+        boolean result = false;
+        
         int url = 195885416;        //Using www.vg.no for now. There might be a problem in the ip-format, but we'll know more after testing.
         if(isNetworkAvailable()) {
             ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if(cm.requestRouteToHost(cm.TYPE_WIFI, url) | cm.requestRouteToHost(cm.TYPE_MOBILE, url)) {
-                return true;
+            
+            if(cm.requestRouteToHost(ConnectivityManager.TYPE_WIFI, url)) {
+                result = true;
+            } else if(cm.requestRouteToHost(ConnectivityManager.TYPE_MOBILE, url)) {
+                result = true;
             }
         }
-        return false;
+        
+        return result;
     }
     
     /**
