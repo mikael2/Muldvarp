@@ -51,10 +51,10 @@ public class QuizActivity extends MuldvarpActivity{
             domain = (Domain) getIntent().getExtras().get("Domain");
             activityName = domain.getName();
             quiz = (Quiz) domain;
-            
-            MuldvarpDataSource mds = new MuldvarpDataSource(this);
-            quiz = mds.getFullQuiz(quiz);
-            
+//            
+//            MuldvarpDataSource mds = new MuldvarpDataSource(this);
+//            quiz = mds.getFullQuiz(quiz);
+//            
             TextView quizName = (TextView) findViewById(R.id.QuizNameText);
             quizName.setText(quiz.getName());
             
