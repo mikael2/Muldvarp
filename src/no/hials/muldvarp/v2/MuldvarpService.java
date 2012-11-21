@@ -37,6 +37,7 @@ public class MuldvarpService extends Service {
     public static final String ACTION_ALL_UPDATE      = "no.hials.muldvarp.ACTION_ALL_UPDATE";
     public static final String ACTION_ALL_UPDATING      = "no.hials.muldvarp.ACTION_ALL_UPDATING";
     public static final String ACTION_VIDEO_UPDATE      = "no.hials.muldvarp.ACTION_VIDEO_UPDATE";
+    public static final String ACTION_QUIZ_UPDATE     = "no.hials.muldvarp.ACTION_QUIZ_UPDATE";
 
     private User user;
 
@@ -274,12 +275,14 @@ public class MuldvarpService extends Service {
                             .execute(getUrl(R.string.newsResPath));
                     break;
                 case QUIZ:
-                    ArrayList<Domain> as = DummyDataProvider.getQuizList();
-                    for (int i = 0; i < as.size(); i++) {
-                        mds.open();
-                        long insertid = mds.insertQuiz((Quiz)as.get(i));
-                        mds.addTopQuiz(insertid);
-                    }
+                    new NewDownloadTask(this,new Intent(ACTION_QUIZ_UPDATE), type, id, this)
+                            .execute(getUrl(R.string.quizResPath));
+//                    ArrayList<Domain> as = DummyDataProvider.getQuizList();
+//                    for (int i = 0; i < as.size(); i++) {
+//                        mds.open();
+//                        long insertid = mds.insertQuiz((Quiz)as.get(i));
+//                        mds.addTopQuiz(insertid);
+//                    }
                     break;
             }
         }

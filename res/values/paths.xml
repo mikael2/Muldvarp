@@ -11,6 +11,8 @@
     <string name="libraryResPath">resources/Library/</string>
     <string name="articleResPath">resources/article/</string>
     <string name="newsResPath">resources/article/news/</string>
+    <string name="quizResPath">resources/quiz/</string>
+    <string name="programmeQuizResPath">resources/programme/quiz/</string>
     <string name="articleViewPath">faces/article.xhtml?articleid=</string>
 
     <string name="youtubeAPIPath">http://gdata.youtube.com/feeds/api/</string>

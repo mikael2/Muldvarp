@@ -158,6 +158,10 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
 //                        }
 //                    }
                     break;
+                case QUIZ:
+                    items = JSONUtilities.JSONtoList(json, type);
+                    mService.setmQuizzes(new ArrayList<Domain>(items));
+                    break;
                 case NEWS:
                     items = JSONUtilities.JSONtoList(json, type);
                     mService.setmNews(new ArrayList<Domain>(items));
