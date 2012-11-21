@@ -40,11 +40,13 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
     MuldvarpService.DataTypes type;
     MuldvarpDataSource mds;
     int itemId;
+    boolean withItem;
 
     public NewDownloadTask(Context ctx, Intent intent, MuldvarpService.DataTypes type) {
         this.intent = intent;
         this.ctx = ctx;
         this.type = type;
+        this.withItem = false;
         mds = new MuldvarpDataSource(ctx);
     }
     
@@ -55,6 +57,7 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
         this.ctx = ctx;
         this.mService = mService;
         this.type = type;
+        this.withItem = false;
         mds = new MuldvarpDataSource(ctx);
     }
 
@@ -62,6 +65,7 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
         this.intent = intent;
         this.ctx = ctx;
         this.type = type;
+        this.withItem = true;
         mds = new MuldvarpDataSource(ctx);
         this.itemId = itemId;
     }
@@ -71,6 +75,7 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
         this.ctx = ctx;
         this.mService = mService;
         this.type = type;
+        this.withItem = true;
         mds = new MuldvarpDataSource(ctx);
         this.itemId = itemId;
     }
@@ -108,7 +113,9 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
                     items = JSONUtilities.JSONtoList(json, type);
                     List<Domain> oldCourses;
                     oldCourses = mService.mCourses;
+                    
                     mService.setmCourses(new ArrayList<Domain>(items));
+                    
 //
 //                    if(compareOld(oldCourses, items)) {
 //                        for(int i = 0; i < items.size(); i++) {

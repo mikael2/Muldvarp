@@ -49,6 +49,7 @@ public class MuldvarpService extends Service {
     public ArrayList<Domain> mVideos;
     public ArrayList<Domain> mNews;
     public Domain mArticle;
+    public ArrayList<Programme> mDomainItems;
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -69,6 +70,8 @@ public class MuldvarpService extends Service {
         super.onCreate();
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         server = new ServerConnection(this);
+        mDomainItems = new ArrayList<Programme>();
+        mNews = new ArrayList<Domain>();
         mProgrammes = new ArrayList<Domain>();
         mCourses = new ArrayList<Domain>();
         mQuizzes = new ArrayList<Domain>();
@@ -119,6 +122,10 @@ public class MuldvarpService extends Service {
     private String getYoutubeUserUploadsURL(String user){
 
         return getString(R.string.youtubeAPIPath) + "users/" + user + "/uploads?alt=json";
+    }
+    
+    public ArrayList<Programme> getProgrammes(){
+        return mDomainItems;
     }
 
     public Domain getmArticle() {
