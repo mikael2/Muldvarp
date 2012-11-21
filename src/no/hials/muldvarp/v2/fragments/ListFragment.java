@@ -68,7 +68,7 @@ public class ListFragment extends MuldvarpFragment {
             fragmentView = inflater.inflate(R.layout.layout_listview, container, false);
             listView = (ListView)fragmentView.findViewById(R.id.layoutlistview);
         }
-        progressDialog = new ProgressDialog(owningActivity);
+//        progressDialog = new ProgressDialog(owningActivity);
         itemsReady();
         
         // We use this to send broadcasts within our local process.
@@ -93,7 +93,7 @@ public class ListFragment extends MuldvarpFragment {
                 filter.addAction(MuldvarpService.ACTION_VIDEO_UPDATE);
                 break;
             default:
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
                 break;
         }
         mReceiver = new BroadcastReceiver() {
@@ -138,19 +138,24 @@ public class ListFragment extends MuldvarpFragment {
         items.clear();
         switch(type) {
             case COURSE:
-                items.addAll(mds.getCoursesByProgramme((Programme)owningActivity.domain));
+                items.addAll(owningActivity.mService.mCourses);
+//                items.addAll(mds.getCoursesByProgramme((Programme)owningActivity.domain));
                 break;
             case PROGRAMME:
-                items.addAll(mds.getAllProgrammes());
+                items.addAll(owningActivity.mService.mProgrammes);
+//                items.addAll(mds.getAllProgrammes());
                 break;
             case DOCUMENT:
-                items.addAll(mds.getAllDocuments());
+                items.addAll(owningActivity.mService.mDocuments);
+//                items.addAll(mds.getAllDocuments());
                 break;
             case VIDEO:
-                items.addAll(mds.getAllVideos());
+                items.addAll(owningActivity.mService.mVideos);
+//                items.addAll(mds.getAllVideos());
                 break;
             case NEWS:
-                items.addAll(mds.getArticlesByCategory("news"));
+                items.addAll(owningActivity.mService.mNews);
+//                items.addAll(mds.getArticlesByCategory("news"));
                 break;
             case QUIZ:
 //                items.addAll(DummyDataProvider.getQuizList());
@@ -158,7 +163,7 @@ public class ListFragment extends MuldvarpFragment {
                 break;
         }
         if(listAdapter != null) {
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
             listAdapter.notifyDataSetChanged();
         }
         //mds.close(); //crash
@@ -177,7 +182,7 @@ public class ListFragment extends MuldvarpFragment {
 //            }
 //        }
 
-        showProgressDialog();
+//        showProgressDialog();
         updateItems();
 
         listView.setAdapter(new ListAdapter(

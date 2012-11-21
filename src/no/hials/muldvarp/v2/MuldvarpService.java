@@ -13,11 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
-import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.Quiz;
-import no.hials.muldvarp.v2.domain.User;
+import no.hials.muldvarp.v2.domain.*;
 import no.hials.muldvarp.v2.utility.DownloadTask;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
+import no.hials.muldvarp.v2.utility.NewDownloadTask;
 import no.hials.muldvarp.v2.utility.ServerConnection;
 
 /**
@@ -42,7 +41,14 @@ public class MuldvarpService extends Service {
     private User user;
 
     private MuldvarpDataSource mds = new MuldvarpDataSource(this);
-
+    public ArrayList<Domain> mProgrammes;
+    public ArrayList<Domain> mCourses;
+    public ArrayList<Domain> mQuizzes;
+    public ArrayList<Domain> mDocuments;
+    public ArrayList<Domain> mArticles;
+    public ArrayList<Domain> mVideos;
+    public ArrayList<Domain> mNews;
+    public Domain mArticle;
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -63,6 +69,14 @@ public class MuldvarpService extends Service {
         super.onCreate();
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         server = new ServerConnection(this);
+        mProgrammes = new ArrayList<Domain>();
+        mCourses = new ArrayList<Domain>();
+        mQuizzes = new ArrayList<Domain>();
+        mDocuments = new ArrayList<Domain>();
+        mArticles = new ArrayList<Domain>();
+        mVideos = new ArrayList<Domain>();
+        mNews = new ArrayList<Domain>();
+        mArticle = new Domain();
     }
 
     @Override
@@ -106,6 +120,72 @@ public class MuldvarpService extends Service {
 
         return getString(R.string.youtubeAPIPath) + "users/" + user + "/uploads?alt=json";
     }
+
+    public Domain getmArticle() {
+        return mArticle;
+    }
+
+    public void setmArticle(Domain mArticle) {
+        this.mArticle = mArticle;
+    }
+
+    public ArrayList<Domain> getmArticles() {
+        return mArticles;
+    }
+
+    public void setmArticles(ArrayList<Domain> mArticles) {
+        this.mArticles = mArticles;
+    }
+
+    public ArrayList<Domain> getmCourses() {
+        return mCourses;
+    }
+
+    public void setmCourses(ArrayList<Domain> mCourses) {
+        this.mCourses = mCourses;
+    }
+
+    public ArrayList<Domain> getmDocuments() {
+        return mDocuments;
+    }
+
+    public void setmDocuments(ArrayList<Domain> mDocuments) {
+        this.mDocuments = mDocuments;
+    }
+
+    public ArrayList<Domain> getmNews() {
+        return mNews;
+    }
+
+    public void setmNews(ArrayList<Domain> mNews) {
+        this.mNews = mNews;
+    }
+
+    public ArrayList<Domain> getmProgrammes() {
+        return mProgrammes;
+    }
+
+    public void setmProgrammes(ArrayList<Domain> mProgrammes) {
+        this.mProgrammes = mProgrammes;
+    }
+
+    public ArrayList<Domain> getmQuizzes() {
+        return mQuizzes;
+    }
+
+    public void setmQuizzes(ArrayList<Domain> mQuizzes) {
+        this.mQuizzes = mQuizzes;
+    }
+
+    public ArrayList<Domain> getmVideos() {
+        return mVideos;
+    }
+
+    public void setmVideos(ArrayList<Domain> mVideos) {
+        this.mVideos = mVideos;
+    }
+    
+    
 
     /**
      * Method login, of class MuldvarpService.
@@ -167,23 +247,23 @@ public class MuldvarpService extends Service {
         if(server.checkServer()) {
             switch(type) {
                 case COURSES:
-                    new DownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type, id)
+                    new NewDownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type, id, this)
                             .execute(getUrl(R.string.programmeCourseResPath) + id);
                     break;
                 case VIDEOS:
-                    new DownloadTask(this,new Intent(ACTION_VIDEO_UPDATE), type)
+                    new NewDownloadTask(this,new Intent(ACTION_VIDEO_UPDATE), type, this)
                             .execute(getUrl(R.string.videoResPath));
                     break;
                 case DOCUMENTS:
-                    new DownloadTask(this,new Intent(ACTION_LIBRARY_UPDATE), type)
+                    new NewDownloadTask(this,new Intent(ACTION_LIBRARY_UPDATE), type, this)
                             .execute(getUrl(R.string.libraryResPath));
                     break;
                 case PROGRAMS:
-                    new DownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type)
+                    new NewDownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type, this)
                             .execute(getUrl(R.string.programmesResPath));
                     break;
                 case NEWS:
-                    new DownloadTask(this,new Intent(ACTION_NEWS_UPDATE), type, id)
+                    new NewDownloadTask(this,new Intent(ACTION_NEWS_UPDATE), type, id, this)
                             .execute(getUrl(R.string.newsResPath));
                     break;
                 case QUIZ:
@@ -205,13 +285,13 @@ public class MuldvarpService extends Service {
         initilizeDataCounter = 0;
 //        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.COURSES)
 //                .execute(getUrl(R.string.courseResPath));
-        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.PROGRAMS)
+        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.PROGRAMS, this)
                 .execute(getUrl(R.string.programmesResPath));
-        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.VIDEOS)
+        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.VIDEOS, this)
                 .execute(getUrl(R.string.videoResPath));
-        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.NEWS)
+        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.NEWS, this)
                 .execute(getUrl(R.string.newsResPath));
-        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.DOCUMENTS)
+        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.DOCUMENTS, this)
                 .execute(getUrl(R.string.libraryResPath));
 
         // We use this to send broadcasts within our local process.
