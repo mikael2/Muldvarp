@@ -53,7 +53,6 @@ public class DetailFragment extends MuldvarpFragment {
         textItemTitle.setText(owningActivity.domain.getName());
         textItemDescription.setText(owningActivity.domain.getDescription());
         Document d = (Document)owningActivity.domain;
-//        url = "http://docs.google.com/viewer?url=";
         url = d.getURI();
 
         final Button button = (Button) fragmentView.findViewById(R.id.item_button1);
@@ -101,9 +100,10 @@ public class DetailFragment extends MuldvarpFragment {
         @Override
         protected Object doInBackground(Object... paramss) {
             URL source;
+            File f = null;
             try {
                 source = new URL(url);
-                File f = new File(Environment.getExternalStorageDirectory(), source.getFile());
+                f = new File(Environment.getExternalStorageDirectory(), source.getFile());
                 try {
                     FileUtils.copyURLToFile(source, f, 15000, 5000);
                 } catch (IOException ex) {

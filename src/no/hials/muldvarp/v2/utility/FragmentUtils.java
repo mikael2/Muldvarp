@@ -49,7 +49,7 @@ public class FragmentUtils {
         try {
             FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
             ft.replace(R.id.desktop, fragment);
-            ft.addToBackStack(null);
+//            ft.addToBackStack(null);
             ft.commit();
         } catch(IndexOutOfBoundsException e) {
             Log.e(activity.getLocalClassName(), e.getMessage());

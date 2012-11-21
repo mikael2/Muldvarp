@@ -10,6 +10,7 @@ import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.fragments.DetailFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
+import no.hials.muldvarp.v2.fragments.WebzViewFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
 /**
@@ -28,18 +29,6 @@ public class DetailActivity extends MuldvarpActivity {
         super.onCreate(savedInstanceState);
         domain = (Domain) getIntent().getExtras().get("Domain");
         FragmentUtils.changeFragmentWithoutList(this, new DetailFragment(domain.getName(), domain.getIcon(), ListType.DOCUMENT));
-//        if(getIntent().hasExtra("Domain")) {
-//            domain = (Domain) getIntent().getExtras().get("Domain");
-//            activityName = domain.getName();
-//        } else {
-//            activityName = getResources().getString(R.string.app_logo_top);
-//            domain = new Domain(activityName);
-//            System.out.println("HEERP");
-//            //Should include more descriptions from Strings
-//        }
-//        if(fragmentList.isEmpty()) {
-//            domain.populateList(fragmentList, this);
-//        }
     }
 
 }
