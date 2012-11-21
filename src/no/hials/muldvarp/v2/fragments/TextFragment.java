@@ -26,6 +26,7 @@ import no.hials.muldvarp.v2.domain.Article;
  *
  * @author kristoffer
  */
+@Deprecated
 public class TextFragment extends MuldvarpFragment {
     View fragmentView;
     private TextView text;

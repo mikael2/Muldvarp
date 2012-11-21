@@ -206,12 +206,7 @@ public class ListFragment extends MuldvarpFragment {
 
                 if(selectedItem instanceof Video) {
                     Video v = (Video)selectedItem;
-                    String url = "http://www.youtube.com/watch?v=";
-                    url += v.getUri();
-                    Uri path = Uri.parse(url);
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(path, "text/html");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + v.getUri()));
                     startActivity(intent);
                 } else if(selectedItem.getActivity() != null) {
                     destination = selectedItem.getActivity();

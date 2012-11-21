@@ -14,6 +14,7 @@ import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.TextFragment;
+import no.hials.muldvarp.v2.fragments.WebzViewFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import no.hials.muldvarp.v2.utility.JSONUtilities;
 import org.json.JSONException;
@@ -85,12 +86,12 @@ public class Programme extends Domain {
     @Override
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
-        fragmentList.add(new TextFragment("Informasjon", R.drawable.stolen_contacts, 149));
+        fragmentList.add(new WebzViewFragment("Informasjon", R.drawable.stolen_contacts, 149));
         fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
         fragmentList.add(new ListFragment("Fag", R.drawable.stolen_smsalt, ListFragment.ListType.COURSE));
         fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
         fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
         fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
-        fragmentList.add(new TextFragment("Datoer", R.drawable.stolen_calender, 35));
+        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, 35));
     }
 }
