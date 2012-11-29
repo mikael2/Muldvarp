@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,23 +109,28 @@ public class ListFragment extends MuldvarpFragment {
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
 
-        switch(type) {
-            case COURSE:
-                owningActivity.mService.update(DataTypes.COURSES, owningActivity.domain.getId());
-                break;
-            case PROGRAMME:
-                owningActivity.mService.update(DataTypes.PROGRAMS, 0);
-                break;
-            case DOCUMENT:
-                owningActivity.mService.update(DataTypes.DOCUMENTS, 0);
-                break;
-            case VIDEO:
-                owningActivity.mService.update(DataTypes.VIDEOS, 0);
-                break;
-            case NEWS:
-                owningActivity.mService.update(DataTypes.NEWS, 0);
-            case QUIZ:
-                owningActivity.mService.update(DataTypes.QUIZ, 0);
+        MuldvarpService service = owningActivity.getService();
+        if(service == null) {
+            Log.e("ListFragment","MuldvarpService is null in onCreateView");
+        } else {
+            switch(type) {
+                case COURSE:
+                    service.update(DataTypes.COURSES, owningActivity.domain.getId());
+                    break;
+                case PROGRAMME:
+                    service.update(DataTypes.PROGRAMS, 0);
+                    break;
+                case DOCUMENT:
+                    service.update(DataTypes.DOCUMENTS, 0);
+                    break;
+                case VIDEO:
+                    service.update(DataTypes.VIDEOS, 0);
+                    break;
+                case NEWS:
+                    service.update(DataTypes.NEWS, 0);
+                case QUIZ:
+                    service.update(DataTypes.QUIZ, 0);
+            }
         }
 
         return fragmentView;
@@ -138,39 +144,36 @@ public class ListFragment extends MuldvarpFragment {
         System.out.println("ID " + d.getId());
         System.out.println("NAME " + d.getName());
 
-        items.clear();
-        switch(type) {
-            case COURSE:
-                items.addAll(owningActivity.mService.mCourses);
-//                items.addAll(mds.getCoursesByProgramme((Programme)owningActivity.domain));
-                break;
-            case PROGRAMME:
-                items.addAll(owningActivity.mService.mProgrammes);
-//                items.addAll(mds.getAllProgrammes());
-                break;
-            case DOCUMENT:
-                items.addAll(owningActivity.mService.mDocuments);
-//                items.addAll(mds.getAllDocuments());
-                break;
-            case VIDEO:
-                items.addAll(owningActivity.mService.mVideos);
-//                items.addAll(mds.getAllVideos());
-                break;
-            case NEWS:
-                items.addAll(owningActivity.mService.mNews);
-//                items.addAll(mds.getArticlesByCategory("news"));
-                break;
-            case QUIZ:
-                items.addAll(owningActivity.mService.mQuizzes);
-//                items.addAll(DummyDataProvider.getQuizList());
-//                items.addAll(mds.getTopLevelQuizzes());
-                break;
+        MuldvarpService service = owningActivity.getService();
+        if(service == null) {
+            Log.e("ListFragment","MuldvarpService is null in updateItems");
+        } else {
+            items.clear();
+            switch(type) {
+                case COURSE:
+                    items.addAll(service.mCourses);
+                    break;
+                case PROGRAMME:
+                    items.addAll(service.mProgrammes);
+                    break;
+                case DOCUMENT:
+                    items.addAll(service.mDocuments);
+                    break;
+                case VIDEO:
+                    items.addAll(service.mVideos);
+                    break;
+                case NEWS:
+                    items.addAll(service.mNews);
+                    break;
+                case QUIZ:
+                    items.addAll(service.getQuizzes());
+                    break;
+            } 
         }
+
         if(listAdapter != null) {
-//            progressDialog.dismiss();
             listAdapter.notifyDataSetChanged();
         }
-        //mds.close(); //crash
     }
 
     public void setDestinationClass(Class destinationClass) {
