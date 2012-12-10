@@ -158,9 +158,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             case R.id.about:
                 showDialog(1);
                 return true;
-            case R.id.deletedatabase:
-                getApplicationContext().deleteDatabase("muldvarp.db");
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
