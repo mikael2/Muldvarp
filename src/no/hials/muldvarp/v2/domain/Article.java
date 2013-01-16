@@ -10,7 +10,6 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.WebzViewFragment;
-import no.hials.muldvarp.v2.fragments.TextFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,9 +30,12 @@ public class Article extends Domain implements Serializable {
         System.out.println(json.getString("title"));
         super.id = json.getInt("id");
         super.name = json.getString("title");
-        super.detail = json.getString("ingress");
-        this.content = json.getString("text");
-        this.category = json.getString("category");
+        if(json.getString("ingress") != null)
+            super.detail = json.getString("ingress");
+        if(json.getString("text") != null)
+            this.content = json.getString("text");
+        if(json.getString("category") != null)
+            this.category = json.getString("category");
     }
 
     public Article(String name) {
