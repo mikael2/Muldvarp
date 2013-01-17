@@ -13,16 +13,17 @@ import no.hials.muldvarp.R;
 
 public class WebzViewFragment extends MuldvarpFragment{
     View fragmentView;
-    String url;
+    int id;
 
     public WebzViewFragment(String title, int iconResourceID, int id) {
         super.fragmentTitle = title;
         super.iconResourceID = iconResourceID;
-        this.url = getString(R.string.articlePath) + id;
+        this.id = id;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        String url = getActivity().getString(R.string.articlePath) + id;
         if(fragmentView == null) {
             fragmentView = inflater.inflate(R.layout.webview, container, false);
             WebView webView = (WebView)fragmentView.findViewById(R.id.webview);
