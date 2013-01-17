@@ -280,7 +280,7 @@ public class MuldvarpService extends Service {
                     break;
                 case QUIZ:
                     new NewDownloadTask(this,new Intent(ACTION_QUIZ_UPDATE), type, id, this)
-                            .execute(getUrl(R.string.programmeQuizResPath) + id);
+                            .execute(getUrl(R.string.quizResPath));
 //                    ArrayList<Domain> as = DummyDataProvider.getQuizList();
 //                    for (int i = 0; i < as.size(); i++) {
 //                        mds.open();

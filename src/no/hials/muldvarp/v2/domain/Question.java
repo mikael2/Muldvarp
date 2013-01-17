@@ -48,14 +48,17 @@ public class Question implements Serializable{
         } else {
             this.shuffleAlternatives = false;
         }
+        if(json.getString("questionType").equals(Question.QuestionType.SINGLE.getName())){
+            questionType = QuestionType.SINGLE;
+        } else if (json.getString("questionType").equals(Question.QuestionType.MULTIPLE.getName())) {
+            questionType = QuestionType.MULTIPLE;
+        }
         List<Alternative> aList= new ArrayList<Alternative>();
         JSONArray array = json.getJSONArray("alternatives");
         for (int i = 0; i < array.length(); i++) {
             aList.add(new Alternative(array.getJSONObject(i)));
         }
         this.alternatives = aList;
-        
-        
     }
     
     public Question(String name, List<Alternative> alternatives, Question.QuestionType quType){

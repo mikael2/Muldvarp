@@ -44,6 +44,15 @@ public class Quiz extends Domain {
         super.id = json.getInt("id");
         super.name = json.getString("name");
         super.detail = json.getString("description");
+        if(json.getString("quizType").equalsIgnoreCase(Quiz.QuizType.FEEDBACK.getName())){            
+            quizType = QuizType.FEEDBACK;
+        } else if(json.getString("quizType").equalsIgnoreCase(Quiz.QuizType.GUIDE.getName())){
+            quizType = QuizType.GUIDE;
+        } else if(json.getString("quizType").equalsIgnoreCase(Quiz.QuizType.REMOTE.getName())){
+            quizType = QuizType.REMOTE;
+        } else if (json.getString("quizType").equalsIgnoreCase(Quiz.QuizType.REMOTEFEEDBACK.getName())){
+            quizType = QuizType.REMOTEFEEDBACK;
+        }
         if (json.getString("shuffleQuestions").equals("true")) {
             this.shuffleQuestions = true;
         } else {
