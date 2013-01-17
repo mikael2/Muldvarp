@@ -33,11 +33,11 @@ public class MuldvarpService extends Service {
     public static final String ACTION_UPDATE_FAILED       = "no.hials.muldvarp.ACTION_UPDATE_FAILED";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
     public static final String ACTION_ARTICLE_UPDATE      = "no.hials.muldvarp.ACTION_ARTICLE_UPDATE";
-    public static final String ACTION_NEWS_UPDATE      = "no.hials.muldvarp.ACTION_NEWS_UPDATE";
-    public static final String ACTION_ALL_UPDATE      = "no.hials.muldvarp.ACTION_ALL_UPDATE";
-    public static final String ACTION_ALL_UPDATING      = "no.hials.muldvarp.ACTION_ALL_UPDATING";
-    public static final String ACTION_VIDEO_UPDATE      = "no.hials.muldvarp.ACTION_VIDEO_UPDATE";
-    public static final String ACTION_QUIZ_UPDATE     = "no.hials.muldvarp.ACTION_QUIZ_UPDATE";
+    public static final String ACTION_NEWS_UPDATE         = "no.hials.muldvarp.ACTION_NEWS_UPDATE";
+    public static final String ACTION_ALL_UPDATE          = "no.hials.muldvarp.ACTION_ALL_UPDATE";
+    public static final String ACTION_ALL_UPDATING        = "no.hials.muldvarp.ACTION_ALL_UPDATING";
+    public static final String ACTION_VIDEO_UPDATE        = "no.hials.muldvarp.ACTION_VIDEO_UPDATE";
+    public static final String ACTION_QUIZ_UPDATE         = "no.hials.muldvarp.ACTION_QUIZ_UPDATE";
 
     private User user;
 
@@ -177,11 +177,15 @@ public class MuldvarpService extends Service {
         this.mProgrammes = mProgrammes;
     }
 
-    public ArrayList<Domain> getmQuizzes() {
+    public ArrayList<Domain> getQuizzes() {
+        if(mQuizzes == null) {
+            mQuizzes = new ArrayList<Domain>();
+        }
+        
         return mQuizzes;
     }
 
-    public void setmQuizzes(ArrayList<Domain> mQuizzes) {
+    public void setQuizzes(ArrayList<Domain> mQuizzes) {
         this.mQuizzes = mQuizzes;
     }
 

@@ -52,7 +52,7 @@ import no.hials.muldvarp.v2.utility.FragmentUtils;
 public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     Bundle savedInstanceState;
     public RibbonMenuView rbmView;
-    public MuldvarpService mService;
+    private MuldvarpService mService;
     boolean mBound = false;
     boolean loggedIn = false;
     TextView loginname;
@@ -157,9 +157,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 return true;
             case R.id.about:
                 showDialog(1);
-                return true;
-            case R.id.deletedatabase:
-                getApplicationContext().deleteDatabase("muldvarp.db");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

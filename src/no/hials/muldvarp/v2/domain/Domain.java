@@ -11,7 +11,6 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
-import no.hials.muldvarp.v2.fragments.TextFragment;
 import no.hials.muldvarp.v2.fragments.WebzViewFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import org.json.JSONException;
@@ -37,7 +36,7 @@ public class Domain implements Serializable {
     public Domain(JSONObject json) throws JSONException {
         this.id = json.getInt("id");
         this.name = json.getString("name");
-        this.detail = json.getString("detail");
+        //this.detail = json.getString("detail");
         System.out.println("ID " + id);
         System.out.println("NAME " + name);
     }

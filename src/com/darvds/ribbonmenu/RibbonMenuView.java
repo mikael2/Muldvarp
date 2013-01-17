@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -24,6 +25,7 @@ import no.hials.muldvarp.v2.MuldvarpActivity;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
 import no.hials.muldvarp.v2.utility.ListAdapter;
@@ -93,8 +95,11 @@ public class RibbonMenuView extends LinearLayout {
                 {
                     selectedItem = menuItems.get(position);
                 }
-
-                if (selectedItem.getActivity() != null) {
+                if(selectedItem instanceof Video) {
+                    Video v = (Video)selectedItem;
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + v.getUri()));
+                    a.startActivityForResult(intent, 0);
+                }else if (selectedItem.getActivity() != null) {
                     destination = selectedItem.getActivity();
                     Intent myIntent = new Intent(view.getContext(), destination);
                     myIntent.putExtra("Domain", selectedItem);

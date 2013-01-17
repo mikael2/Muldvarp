@@ -7,7 +7,9 @@ package no.hials.muldvarp.v2.fragments;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,39 +51,17 @@ public class DetailFragment extends MuldvarpFragment {
         textItemDescription = (TextView) fragmentView.findViewById(R.id.item_description);
 
         textItemTitle.setText(owningActivity.domain.getName());
-        textItemDescription.setText(owningActivity.domain.getDetail());
+        textItemDescription.setText(owningActivity.domain.getDescription());
         Document d = (Document)owningActivity.domain;
-        url = "http://docs.google.com/viewer?url=";
-        url += d.getURI();
+        url = d.getURI();
 
         final Button button = (Button) fragmentView.findViewById(R.id.item_button1);
 
         button.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                try {
-                    download(url);
-   //                System.out.println(url);
-   //                Uri path = Uri.parse(url);
-   //                if (true) {
-   //                    Intent intent = new Intent(Intent.ACTION_VIEW);
-   //                    intent.setDataAndType(path, "application/pdf");
-   //                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-   //
-   //                    try {
-   //                        startActivity(intent);
-   //                    }
-   //                    catch (ActivityNotFoundException e) {
-   //                        System.out.println("godamnit!");
-   //                    }
-   //                }
-   //                Intent i = new Intent(Intent.ACTION_VIEW);
-   //                startActivity(i);
-   //                startActivity(i);
-                } catch (MalformedURLException ex) {
-                    Logger.getLogger(DetailFragment.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(DetailFragment.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    DownloadFilesTask dft = new DownloadFilesTask();
+                    dft.setUrl(url);
+                    dft.execute();
              }
          });
 
@@ -112,13 +92,35 @@ public class DetailFragment extends MuldvarpFragment {
         return fragmentView;
     }
     
-    public void download(String url) throws MalformedURLException, IOException{
-        URL source = new URL(url);
-        File f = new File(source.getFile());
-        FileUtils.copyURLToFile(source, f, 15000, 5000);
-        System.out.println(f.getName());
-        Intent i = new Intent(Intent.ACTION_VIEW, Uri.fromFile(f));
-        i.setType("application/pdf");
-        startActivity(i);
+    private class DownloadFilesTask extends AsyncTask{
+        String url;
+    public void setUrl(String url){
+        this.url = url;
+    }
+        @Override
+        protected Object doInBackground(Object... paramss) {
+            URL source;
+            File f = null;
+            try {
+                source = new URL(url);
+                f = new File(Environment.getExternalStorageDirectory(), source.getFile());
+                try {
+                    FileUtils.copyURLToFile(source, f, 15000, 5000);
+                } catch (IOException ex) {
+                    Logger.getLogger(DetailFragment.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println(f.getName());
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setDataAndType(Uri.fromFile(f), "application/pdf");
+                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                System.out.println(f.isFile());
+                startActivity(i);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(DetailFragment.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        
+            return null;
+        }
     }
 }

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,9 +71,12 @@ public class TextFragment extends MuldvarpFragment {
             }
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
-        if(owningActivity.mService != null) {
-            owningActivity.mService.updateSingleItem(DataTypes.ARTICLE, articleId);
+        if(owningActivity.getService() != null) {
+            owningActivity.getService().updateSingleItem(DataTypes.ARTICLE, articleId);
+        } else {
+            Log.e("TextFragment", "MuldvarpService is null in onCreateView");
         }
+        
         return fragmentView;
     }
 

@@ -18,7 +18,7 @@ public class WebzViewFragment extends MuldvarpFragment{
     public WebzViewFragment(String title, int iconResourceID, int id) {
         super.fragmentTitle = title;
         super.iconResourceID = iconResourceID;
-        this.url = "http://eapp-ub.uials.no/muldvarp/faces/article.xhtml?articleid=" + id;
+        this.url = getString(R.string.articlePath) + id;
     }
 
     @Override
@@ -27,6 +27,7 @@ public class WebzViewFragment extends MuldvarpFragment{
             fragmentView = inflater.inflate(R.layout.webview, container, false);
             WebView webView = (WebView)fragmentView.findViewById(R.id.webview);
             webView.loadUrl(url);
+            System.out.println(url);
         }
         return fragmentView;
     }

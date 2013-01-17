@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="serverPath">http://eapp-ub.uials.no/muldvarp/</string>
-    <string name="videoResPath">resources/video/</string>
-    <string name="videoStudResPath">resources/video/stud</string>
-    <string name="videoCourseResPath">resources/course/videos/</string>
-    <string name="programmesResPath">resources/programme/</string>
-    <string name="programmeCourseResPath">resources/programme/courses/</string>
-    <string name="courseResPath">resources/course/</string>
-    <string name="peopleResPath">resources/person/</string>
-    <string name="libraryResPath">resources/Library/</string>
-    <string name="articleResPath">resources/article/</string>
-    <string name="newsResPath">resources/article/news/</string>
-    <string name="quizResPath">resources/quiz/</string>
-    <string name="programmeQuizResPath">resources/programme/quiz/</string>
+    <!--<string name="serverPath">http://eapp-ub.uials.no/muldvarp/</string>-->
+    <string name="serverPath">http://eapp-ub.uials.no:8080/muldvarp/services/</string>
+    <string name="articlePath">http://eapp-ub.uials.no:8080/muldvarp/faces/article.xhtml?articleid=</string>
+    <string name="videoResPath">video/</string>
+    <string name="videoStudResPath">video/stud</string>
+    <string name="videoCourseResPath">course/videos/</string>
+    <string name="programmesResPath">programme/</string>
+    <string name="programmeCourseResPath">programme/courses/</string>
+    <string name="courseResPath">course/</string>
+    <string name="peopleResPath">person/</string>
+    <string name="libraryResPath">Library/</string>
+    <string name="articleResPath">article/</string>
+    <string name="newsResPath">article/news/</string>
+    <string name="quizResPath">quiz/</string>
+    <string name="programmeQuizResPath">programme/quiz/</string>
     <string name="articleViewPath">faces/article.xhtml?articleid=</string>
 
     <string name="youtubeAPIPath">http://gdata.youtube.com/feeds/api/</string>
