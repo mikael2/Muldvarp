@@ -1,6 +1,7 @@
 package no.hials.muldvarp.v2.domain;
 
 import android.content.Context;
+import android.util.Log;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,22 +39,30 @@ public class Course extends Domain implements Serializable {
         super(json);
         this.themes = parseThemes(json.getJSONArray("themes"));
         this.revision = json.getInt("revision");
-        if(json.getJSONObject("info") != null) {
+        try {
             JSONObject j = json.getJSONObject("info");
             Article a = new Article(j);
             this.info = a.getId();
+        } catch(JSONException ex) {
+            Log.e("JSON", "Nullpointer?", ex);
+            this.info = 0;
         }
-        if(json.getJSONObject("dates") != null) {
+        try {
             JSONObject j = json.getJSONObject("dates");
             Article a = new Article(j);
             this.dates = a.getId();
+        } catch(JSONException ex) {
+            Log.e("JSON", "Nullpointer?", ex);
+            this.dates = 0;
         }
-        if(json.getJSONObject("help") != null) {
+        try {
             JSONObject j = json.getJSONObject("help");
             Article a = new Article(j);
             this.help = a.getId();
+        } catch(JSONException ex) {
+            Log.e("JSON", "Nullpointer?", ex);
+            this.help = 0;
         }
-        
     }
 
     public Course(String name) {
