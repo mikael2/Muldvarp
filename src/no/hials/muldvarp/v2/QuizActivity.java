@@ -54,30 +54,32 @@ public class QuizActivity extends MuldvarpActivity{
 //            MuldvarpDataSource mds = new MuldvarpDataSource(this);
 //            quiz = mds.getFullQuiz(quiz);
 //            
-            TextView quizName = (TextView) findViewById(R.id.QuizNameText);
+            TextView quizName = (TextView) findViewById(R.id.quizNameText);
             quizName.setText(quiz.getName());
             
-            TextView quizTypeText = (TextView) findViewById(R.id.QuizTypeText);
-            quizTypeText.setText("Type:");
-            TextView quizType = (TextView) findViewById(R.id.QuizTypeText2);
+            TextView quizTypeText = (TextView) findViewById(R.id.quizTypeText);
+            quizTypeText.setText(R.string.quizTypeText);
+            TextView quizType = (TextView) findViewById(R.id.quizTypeText2);
             if(quiz.getQuizType() != null){
                 quizType.setText(quiz.getQuizType().getName());
             } else {
-                quizType.setText("Ukjent");                        
+                quizType.setText(R.string.quizTypeUnknownText);                        
             }           
             
             if(quiz.getDescription() != null){
-                TextView quizDescription = (TextView) findViewById(R.id.QuizNameDescription);
+                TextView quizDescription = (TextView) findViewById(R.id.quizNameDescription);
                 quizDescription.setText(quiz.getDescription());
             } 
-            
-            TextView questionNumber = (TextView) findViewById(R.id.QuestionAmountNo);
+            TextView questionAmount = (TextView) findViewById(R.id.questionAmount);
+            questionAmount.setText(R.string.quizNumberOfQuestionsText);
+            TextView questionNumber = (TextView) findViewById(R.id.questionAmountNo);
             questionNumber.setText(String.valueOf(quiz.getQuestions().size()));
+            Button startQuizButton = (Button) findViewById(R.id.startQuizButton);
             if (quiz.getQuestions().size() > 0) {
+                startQuizButton.setText(R.string.quizStartButtonText);
                 setOnClickListeners();
-            } else {
-                Button startQuizButton = (Button) findViewById(R.id.StartQuizButton);
-                startQuizButton.setText("Denne Quiz'en har ingen spørsmål.");
+            } else {                
+                startQuizButton.setText(R.string.quizNoQuestionsText);
                 startQuizButton.setClickable(false);
             }
         }        
@@ -85,7 +87,7 @@ public class QuizActivity extends MuldvarpActivity{
     
     private void setOnClickListeners(){
         
-        Button startQuizButton = (Button) findViewById(R.id.StartQuizButton);
+        Button startQuizButton = (Button) findViewById(R.id.startQuizButton);
         startQuizButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startQuiz();
@@ -111,7 +113,7 @@ public class QuizActivity extends MuldvarpActivity{
         Button backToMainQuizButton = (Button) findViewById(R.id.backToMainQuizActivityButton);
         backToMainQuizButton.setText(R.string.quizBackToMainQuizButtonText);
         
-        Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
+        Button nextQuestionButton = (Button) findViewById(R.id.quizNextButton);
         nextQuestionButton.setText(R.string.quizNextButtonText);
         nextQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {                
@@ -134,7 +136,7 @@ public class QuizActivity extends MuldvarpActivity{
             }
         });
         
-        Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
+        Button prevQuestionButton = (Button) findViewById(R.id.quizPreviousButton);
         prevQuestionButton.setText(R.string.quizPreviousButtonText);
         prevQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

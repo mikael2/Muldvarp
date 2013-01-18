@@ -108,6 +108,12 @@
     <!--Text-strings-->
     <string name="ok">OK</string>
     <string name="cancel">Avbryt</string>
+    <string name="quizStartButtonText">Start Quiz!</string>
+    <string name="quizAlreadyTakenText">Du har allerede tatt denne Quiz\'en.</string>
+    <string name="quizNumberOfQuestionsText">Antall spørsmål:</string>
+    <string name="quizTypeText">Type:</string>
+    <string name="quizTypeUnknownText">Ukjent</string>
+    <string name="quizNoQuestionsText">Denne Quiz\'en har ingen spørsmål.</string>
     <string name="quizBackToMainQuizButtonText">Tilbake til quiz-siden</string>
     <string name="quizNextButtonText">Neste spørsmål</string>
     <string name="quizPreviousButtonText">Forrige spørsmål</string>

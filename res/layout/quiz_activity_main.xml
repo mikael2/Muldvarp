@@ -5,18 +5,18 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <TextView android:id="@+id/QuizNameText"
+        <TextView android:id="@+id/quizNameText"
             android:textSize="20dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:background="@drawable/rounded_edges"/>
                 
-        <ScrollView android:id="@+id/QuizScrollView1"
+        <ScrollView android:id="@+id/quizScrollView1"
             android:layout_width="fill_parent"
             android:layout_height="150dp"
             android:background="@drawable/rounded_edges">
-            <TextView android:id="@+id/QuizNameDescription"
+            <TextView android:id="@+id/quizNameDescription"
                 android:textSize="15dp"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -31,50 +31,46 @@ culpa qui officia deserunt mollit anim id est laborum."
         </ScrollView>
         
         
-        <LinearLayout android:id="@+id/QuizMainLinearLayout2"
+        <LinearLayout android:id="@+id/quizMainLinearLayout2"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             xmlns:android="http://schemas.android.com/apk/res/android">
-            <TextView android:id="@+id/QuestionAmount"
+            <TextView android:id="@+id/questionAmount"
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Antall spørsmål:"
                 android:layout_margin="3dp"
                 android:background="@drawable/rounded_edges"/>
-            <TextView android:id="@+id/QuestionAmountNo"
+            <TextView android:id="@+id/questionAmountNo"
                 android:textSize="20dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="TempText"
                 android:layout_margin="3dp"
                 android:background="@drawable/rounded_edges"/>
         </LinearLayout>
-        <LinearLayout android:id="@+id/QuizMainLinearLayout3"
+        <LinearLayout android:id="@+id/quizMainLinearLayout3"
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             xmlns:android="http://schemas.android.com/apk/res/android">
-        <TextView android:id="@+id/QuizTypeText"
+        <TextView android:id="@+id/quizTypeText"
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Type:"
                 android:layout_margin="3dp"
                 android:background="@drawable/rounded_edges"/>
-        <TextView android:id="@+id/QuizTypeText2"
+        <TextView android:id="@+id/quizTypeText2"
                 android:textSize="20dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="TempText"
                 android:layout_margin="3dp"
                 android:background="@drawable/rounded_edges"/>
          </LinearLayout>
         
-        <Button android:id="@+id/StartQuizButton"
+        <Button android:id="@+id/startQuizButton"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:text="Start Quiz!"/>
+            android:layout_width="fill_parent"/>
 
 </LinearLayout> 
