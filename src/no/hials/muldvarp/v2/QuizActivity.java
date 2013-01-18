@@ -4,6 +4,7 @@
  */
 package no.hials.muldvarp.v2;
 
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +20,6 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Question;
 import no.hials.muldvarp.v2.domain.Quiz;
-import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.QuizQuestionFragment;
 
 /**
@@ -41,52 +41,50 @@ public class QuizActivity extends MuldvarpActivity{
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //Set Layout from XML-file
-        setContentView(R.layout.quiz_activity_main);
-        
+        super.onCreate(savedInstanceState);                
         //See if the Activity was started with an Intent that included a Domain object
         if(getIntent().hasExtra("Domain")) {
             domain = (Domain) getIntent().getExtras().get("Domain");
             activityName = domain.getName();
             quiz = (Quiz) domain;
-//            
-//            MuldvarpDataSource mds = new MuldvarpDataSource(this);
-//            quiz = mds.getFullQuiz(quiz);
-//            
-            TextView quizName = (TextView) findViewById(R.id.quizNameText);
-            quizName.setText(quiz.getName());
-            
-            TextView quizTypeText = (TextView) findViewById(R.id.quizTypeText);
-            quizTypeText.setText(R.string.quizTypeText);
-            TextView quizType = (TextView) findViewById(R.id.quizTypeText2);
-            if(quiz.getQuizType() != null){
-                quizType.setText(quiz.getQuizType().getName());
-            } else {
-                quizType.setText(R.string.quizTypeUnknownText);                        
-            }           
-            
-            if(quiz.getDescription() != null){
-                TextView quizDescription = (TextView) findViewById(R.id.quizNameDescription);
-                quizDescription.setText(quiz.getDescription());
-            } 
-            TextView questionAmount = (TextView) findViewById(R.id.questionAmount);
-            questionAmount.setText(R.string.quizNumberOfQuestionsText);
-            TextView questionNumber = (TextView) findViewById(R.id.questionAmountNo);
-            questionNumber.setText(String.valueOf(quiz.getQuestions().size()));
-            Button startQuizButton = (Button) findViewById(R.id.startQuizButton);
-            if (quiz.getQuestions().size() > 0) {
-                startQuizButton.setText(R.string.quizStartButtonText);
-                setOnClickListeners();
-            } else {                
-                startQuizButton.setText(R.string.quizNoQuestionsText);
-                startQuizButton.setClickable(false);
-            }
+            setupMainQuizPage();
         }        
     }
     
-    private void setOnClickListeners(){
-        
+    private void setupMainQuizPage(){
+        //Set Layout from XML-file
+        setContentView(R.layout.quiz_activity_main);
+        TextView quizName = (TextView) findViewById(R.id.quizNameText);
+        quizName.setText(quiz.getName());
+
+        TextView quizTypeText = (TextView) findViewById(R.id.quizTypeText);
+        quizTypeText.setText(R.string.quizTypeText);
+        TextView quizType = (TextView) findViewById(R.id.quizTypeText2);
+        if(quiz.getQuizType() != null){
+            quizType.setText(quiz.getQuizType().getName());
+        } else {
+            quizType.setText(R.string.quizTypeUnknownText);                        
+        }           
+
+        if(quiz.getDescription() != null){
+            TextView quizDescription = (TextView) findViewById(R.id.quizNameDescription);
+            quizDescription.setText(quiz.getDescription());
+        } 
+        TextView questionAmount = (TextView) findViewById(R.id.questionAmount);
+        questionAmount.setText(R.string.quizNumberOfQuestionsText);
+        TextView questionNumber = (TextView) findViewById(R.id.questionAmountNo);
+        questionNumber.setText(String.valueOf(quiz.getQuestions().size()));
+        Button startQuizButton = (Button) findViewById(R.id.startQuizButton);
+        if (quiz.getQuestions().size() > 0) {
+            startQuizButton.setText(R.string.quizStartButtonText);
+            setOnClickListeners();
+        } else {                
+            startQuizButton.setText(R.string.quizNoQuestionsText);
+            startQuizButton.setClickable(false);
+        }
+    }
+    
+    private void setOnClickListeners(){        
         Button startQuizButton = (Button) findViewById(R.id.startQuizButton);
         startQuizButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -96,7 +94,7 @@ public class QuizActivity extends MuldvarpActivity{
     }
     
     public void startQuiz(){
-        //Change content view with animatino
+        //Change content view with animation
         LayoutInflater inflator = getLayoutInflater();
         holderQuizView =  inflator.inflate(R.layout.activity_quiz_question_holder, null, false);
         holderQuizView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));        
@@ -107,47 +105,51 @@ public class QuizActivity extends MuldvarpActivity{
             questionFragments = new ArrayList<QuizQuestionFragment>();
             fillQuestionFragmentList();                        
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.add(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber)).commit();
+            ft.replace(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber)).commit();
         }
         
         Button backToMainQuizButton = (Button) findViewById(R.id.backToMainQuizActivityButton);
         backToMainQuizButton.setText(R.string.quizBackToMainQuizButtonText);
-        
+         backToMainQuizButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setupMainQuizPage();        
+            }
+        });
+        final Button prevQuestionButton = (Button) findViewById(R.id.quizPreviousButton);
+        prevQuestionButton.setEnabled(false);
+        prevQuestionButton.setText(R.string.quizPreviousButtonText);
+        prevQuestionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (currentQuestionNumber > 0) {                    
+                    onBackPressed();
+                    if (currentQuestionNumber == 0){
+                    prevQuestionButton.setEnabled(false);
+                    }     
+                }            
+            }
+        });
         Button nextQuestionButton = (Button) findViewById(R.id.quizNextButton);
         nextQuestionButton.setText(R.string.quizNextButtonText);
         nextQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {                
                 if (currentQuestionNumber < (quiz.getQuestions().size() -1)) {
                     currentQuestionNumber++;
+                    prevQuestionButton.setEnabled(true);
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
-                            R.anim.fragment_slide_left_exit,
-                            R.anim.fragment_slide_right_enter,
-                            R.anim.fragment_slide_right_exit);
+//                    ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
+//                            R.anim.fragment_slide_left_exit,
+//                            R.anim.fragment_slide_right_enter,
+//                            R.anim.fragment_slide_right_exit);
                     ft.replace(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber));
                     ft.addToBackStack(null);
                     ft.commit();
                 } else if (currentQuestionNumber >= quiz.getQuestions().size()-1){
-//                    currentQuestionNumber = quiz.getQuestions().size();
                     Intent quizResultsIntent = new Intent(getApplicationContext(), QuizResultActivity.class);
                     quizResultsIntent.putExtra("Quiz", quiz);
                     startActivity(quizResultsIntent);
                 }
             }
-        });
-        
-        Button prevQuestionButton = (Button) findViewById(R.id.quizPreviousButton);
-        prevQuestionButton.setText(R.string.quizPreviousButtonText);
-        prevQuestionButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (currentQuestionNumber > 0) {                    
-                    onBackPressed();
-                } else {
-                    currentQuestionNumber = 0;       
-                    finish();
-                }                
-            }
-        });
+        }); 
     }
 
     @Override
@@ -170,20 +172,26 @@ public class QuizActivity extends MuldvarpActivity{
         }        
     }    
     
-    public void addFragmentToStack() {
-
-        // Instantiate a new fragment.
-        MuldvarpFragment newFragment = new QuizQuestionFragment(quiz.getQuestions().get(currentQuestionNumber));        
-                
-        // Add the fragment to the activity, pushing this transaction
-        // on to the back stack.
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
-                R.anim.fragment_slide_left_exit,
-                R.anim.fragment_slide_right_enter,
-                R.anim.fragment_slide_right_exit);
-        ft.replace(R.id.QuizQuestionFragmentHolder, newFragment);
-        ft.addToBackStack(null);
-        ft.commit();
-    }   
+    public void emptyQuestionFragmentList(){
+        if(questionFragments != null){
+            questionFragments.clear();
+        }    
+    }
+    
+    
+    
+//    public void addFragmentToStack() {
+//        // Instantiate a new fragment.
+//        MuldvarpFragment newFragment = new QuizQuestionFragment(quiz.getQuestions().get(currentQuestionNumber));                        
+//        // Add the fragment to the activity, pushing this transaction
+//        // on to the back stack.
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
+//                R.anim.fragment_slide_left_exit,
+//                R.anim.fragment_slide_right_enter,
+//                R.anim.fragment_slide_right_exit);
+//        ft.replace(R.id.QuizQuestionFragmentHolder, newFragment);
+//        ft.addToBackStack(null);
+//        ft.commit();
+//    }   
 }
