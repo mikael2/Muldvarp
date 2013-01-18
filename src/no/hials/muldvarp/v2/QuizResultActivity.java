@@ -7,6 +7,8 @@ package no.hials.muldvarp.v2;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -51,7 +53,7 @@ public class QuizResultActivity extends MuldvarpActivity {
             
             setContentView(R.layout.activity_quiz_question_ver);
             TextView resultTextView = (TextView) findViewById(R.id.QuizResultsText);
-            resultTextView.setText("Dette er dine svar. Du kan bekrefte de i listen under, og scrolle ned for å vise/sende resultat.");
+            resultTextView.setText(R.string.quizResultMainText);
             answerView = (ListView) findViewById(R.id.list_answer);
             resultView = (ListView) findViewById(R.id.list_results);            
             answerView.setAdapter(new QuizResultAdapter(this,
@@ -60,17 +62,27 @@ public class QuizResultActivity extends MuldvarpActivity {
                     quiz.getQuestions(),
                     false));            
             resultView.setRotationY(-90f);
-            Button quizActionButton = (Button) findViewById(R.id.revealAnswerButton);
+            Button quizBackButton = (Button) findViewById(R.id.backToQuizButton);
+            quizBackButton.setText(R.string.quizResultButtonBackToQuizText);
+            quizBackButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    showReturnDialog();
+                }
+            });
+            final Button quizActionButton = (Button) findViewById(R.id.revealAnswerButton);
             if (quiz.getQuizType() == Quiz.QuizType.FEEDBACK) {
-                quizActionButton.setText("Vis svar!");
+                quizActionButton.setText(R.string.quizResultButtonShowAnswerText);
             } else if(quiz.getQuizType() == Quiz.QuizType.REMOTE) {
-                quizActionButton.setText("Send dine svar til server.)");
+                quizActionButton.setText(R.string.quizResultButtonSendToServeText);
             } else {
                 quizActionButton.setText("Se fasit!");
             }
             quizActionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 flipit();
+                quizActionButton.setClickable(false);
+                quizActionButton.setActivated(false);
+                quizActionButton.setEnabled(false);
             }
         });
             
@@ -111,5 +123,25 @@ public class QuizResultActivity extends MuldvarpActivity {
             }
         });
         visToInvis.start();
+    }
+    
+    /**
+     * Void method containing functionality to construct a dialog.
+     */
+    public void showReturnDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.quizResultBackToQuizText).setTitle(R.string.quizResultBackToQuizPrompt);        
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
+               // User cancelled the dialog
+           }
+        });
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
+               // User clicked OK button
+           }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

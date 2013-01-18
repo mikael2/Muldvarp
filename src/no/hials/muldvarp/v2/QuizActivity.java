@@ -16,7 +16,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Question;
 import no.hials.muldvarp.v2.domain.Quiz;
@@ -109,7 +108,11 @@ public class QuizActivity extends MuldvarpActivity{
             ft.add(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber)).commit();
         }
         
+        Button backToMainQuizButton = (Button) findViewById(R.id.backToMainQuizActivityButton);
+        backToMainQuizButton.setText(R.string.quizBackToMainQuizButtonText);
+        
         Button nextQuestionButton = (Button) findViewById(R.id.QuizNextButton);
+        nextQuestionButton.setText(R.string.quizNextButtonText);
         nextQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {                
                 if (currentQuestionNumber < (quiz.getQuestions().size() -1)) {
@@ -132,6 +135,7 @@ public class QuizActivity extends MuldvarpActivity{
         });
         
         Button prevQuestionButton = (Button) findViewById(R.id.QuizPreviousButton);
+        prevQuestionButton.setText(R.string.quizPreviousButtonText);
         prevQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (currentQuestionNumber > 0) {                    
@@ -149,8 +153,6 @@ public class QuizActivity extends MuldvarpActivity{
         currentQuestionNumber--;
         super.onBackPressed();
     }
-    
-    
     
     private void fillQuestionFragmentList(){
         //Only fill question fragment list if it hasn't been filled already        
