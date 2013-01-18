@@ -4,8 +4,10 @@
  */
 package no.hials.muldvarp.v2;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -115,7 +117,7 @@ public class QuizActivity extends MuldvarpActivity{
         backToMainQuizButton.setText(R.string.quizBackToMainQuizButtonText);
          backToMainQuizButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                setupMainQuizPage();        
+                showReturnDialog(); 
             }
         });
         final Button prevQuestionButton = (Button) findViewById(R.id.quizPreviousButton);
@@ -123,7 +125,9 @@ public class QuizActivity extends MuldvarpActivity{
         prevQuestionButton.setText(R.string.quizPreviousButtonText);
         prevQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (currentQuestionNumber > 0) {                    
+                if (currentQuestionNumber > 0) {
+                    Button nextQuestionButton = (Button) findViewById(R.id.quizNextButton);
+                    nextQuestionButton.setText(R.string.quizNextButtonText);
                     onBackPressed();
                     if (currentQuestionNumber == 0){
                     prevQuestionButton.setEnabled(false);
@@ -131,7 +135,7 @@ public class QuizActivity extends MuldvarpActivity{
                 }            
             }
         });
-        Button nextQuestionButton = (Button) findViewById(R.id.quizNextButton);
+        final Button nextQuestionButton = (Button) findViewById(R.id.quizNextButton);
         nextQuestionButton.setText(R.string.quizNextButtonText);
         nextQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {                
@@ -146,6 +150,9 @@ public class QuizActivity extends MuldvarpActivity{
                     ft.replace(R.id.QuizQuestionFragmentHolder, questionFragments.get(currentQuestionNumber));
                     ft.addToBackStack(null);
                     ft.commit();
+                    if (currentQuestionNumber >= quiz.getQuestions().size()-1){
+                        nextQuestionButton.setText(R.string.quizGoToResultsButtonText);
+                    }
                 } else if (currentQuestionNumber >= quiz.getQuestions().size()-1){
                     Intent quizResultsIntent = new Intent(getApplicationContext(), QuizResultActivity.class);
                     quizResultsIntent.putExtra("Quiz", quiz);
@@ -179,5 +186,25 @@ public class QuizActivity extends MuldvarpActivity{
         if(questionFragments != null){
             questionFragments.clear();
         }    
+    }
+    
+    /**
+     * Void method containing functionality to construct a dialog.
+     */
+    public void showReturnDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.quizResultBackToQuizText).setTitle(R.string.quizResultBackToQuizPrompt);        
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
+               //DO NOTHING
+           }
+        });
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
+               setupMainQuizPage();       
+           }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
