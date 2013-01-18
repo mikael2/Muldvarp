@@ -53,7 +53,10 @@ public class QuizActivity extends MuldvarpActivity{
     
     private void setupMainQuizPage(){
         //Set Layout from XML-file
-        setContentView(R.layout.quiz_activity_main);
+        LayoutInflater inflator = getLayoutInflater();
+        mainQuizView =  inflator.inflate(R.layout.quiz_activity_main, null, false);
+        mainQuizView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in)); 
+        setContentView(mainQuizView);
         TextView quizName = (TextView) findViewById(R.id.quizNameText);
         quizName.setText(quiz.getName());
 
@@ -177,21 +180,4 @@ public class QuizActivity extends MuldvarpActivity{
             questionFragments.clear();
         }    
     }
-    
-    
-    
-//    public void addFragmentToStack() {
-//        // Instantiate a new fragment.
-//        MuldvarpFragment newFragment = new QuizQuestionFragment(quiz.getQuestions().get(currentQuestionNumber));                        
-//        // Add the fragment to the activity, pushing this transaction
-//        // on to the back stack.
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.setCustomAnimations(R.anim.fragment_slide_left_enter,
-//                R.anim.fragment_slide_left_exit,
-//                R.anim.fragment_slide_right_enter,
-//                R.anim.fragment_slide_right_exit);
-//        ft.replace(R.id.QuizQuestionFragmentHolder, newFragment);
-//        ft.addToBackStack(null);
-//        ft.commit();
-//    }   
 }
