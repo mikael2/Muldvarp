@@ -156,6 +156,7 @@ public class QuizActivity extends MuldvarpActivity{
                 } else if (currentQuestionNumber >= quiz.getQuestions().size()-1){
                     Intent quizResultsIntent = new Intent(getApplicationContext(), QuizResultActivity.class);
                     quizResultsIntent.putExtra("Quiz", quiz);
+                    setupMainQuizPage();
                     startActivity(quizResultsIntent);
                 }
             }
@@ -194,6 +195,26 @@ public class QuizActivity extends MuldvarpActivity{
     public void showReturnDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.quizResultBackToQuizText).setTitle(R.string.quizResultBackToQuizPrompt);        
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
+               //DO NOTHING
+           }
+        });
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
+               setupMainQuizPage();       
+           }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    
+    /**
+     * Void method containing functionality to construct a dialog.
+     */
+    public void showWarningDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.quizUnfilledAnswersWarningText).setTitle(R.string.warning);        
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
                //DO NOTHING
