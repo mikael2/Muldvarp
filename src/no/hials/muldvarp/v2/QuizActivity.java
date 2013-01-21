@@ -43,14 +43,11 @@ public class QuizActivity extends MuldvarpActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);                
         //See if the Activity was started with an Intent that included a Domain object
-        System.out.println("wwwww");
         if(getIntent().hasExtra("Domain")) {
             domain = (Domain) getIntent().getExtras().get("Domain");
             activityName = domain.getName();
             quiz = (Quiz) domain;
-            System.out.println("lal");
             setupQuiz();
-            System.out.println("lel");
             
         }        
     }
@@ -111,13 +108,35 @@ public class QuizActivity extends MuldvarpActivity{
                         nextQuestionButton.setText(R.string.quizGoToResultsButtonText);
                     }
                 } else if (currentQuestionNumber >= quiz.getQuestions().size()-1){
-                    Intent quizResultsIntent = new Intent(getApplicationContext(), QuizResultActivity.class);
-                    quizResultsIntent.putExtra("Quiz", quiz);
-                    startActivity(quizResultsIntent);
-                    finish(); //end the quizactivity 
+                    
+                    if(checkQuestionsForEmptyAnswers()){
+                        showWarningDialog();
+                    } else {
+                        Intent quizResultsIntent = new Intent(getApplicationContext(), QuizResultActivity.class);
+                        quizResultsIntent.putExtra("Quiz", quiz);
+                        startActivity(quizResultsIntent);
+                        finish(); //end the quizactivity 
+                    }
                 }
             }
         }); 
+    }
+    
+    /**
+     * This method runs through all the questions in the quiz and returns true if there are
+     * unanswered questions.
+     * 
+     * It uses the checkForEmptyAnswers() method in the QuizQuestionFragment.
+     * @return 
+     */
+    public boolean checkQuestionsForEmptyAnswers(){
+        for (int i = 0; i < quiz.getQuestions().size(); i++) {
+            QuizQuestionFragment tempFrag = questionFragments.get(i);
+            if(!tempFrag.checkForEmptyAnswers()){
+                return true;
+            } 
+        }  
+        return false;
     }
 
     @Override
@@ -139,13 +158,6 @@ public class QuizActivity extends MuldvarpActivity{
             }            
         }        
     }    
-    
-    public void emptyQuestionFragmentList(){
-        if(questionFragments != null){
-            questionFragments.clear();
-        }    
-    }
-    
     
     /**
      * Void method containing functionality to construct a dialog.
@@ -173,11 +185,7 @@ public class QuizActivity extends MuldvarpActivity{
     public void showWarningDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.quizUnfilledAnswersWarningText).setTitle(R.string.warning);        
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-           public void onClick(DialogInterface dialog, int id) {
-               //DO NOTHING
-           }
-        });
+        
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
                onBackPressed();

@@ -65,6 +65,18 @@ public class QuizQuestionFragment extends MuldvarpFragment {
         return question;
     }
     
+    /**
+     * This method returns true if there are checked items in the list, and false if not.
+     * @return 
+     */
+    public boolean checkForEmptyAnswers(){
+            if(listView.getCheckedItemCount() > 0){
+                return true;
+            } else {
+                return false;
+            }
+    }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,12 +124,12 @@ public class QuizQuestionFragment extends MuldvarpFragment {
         
         List items = getStringListFromQuestion(question);
         if (items == null) {
-            System.out.println("WARNING WARNING OLD MEN IS NULL");
+            System.out.println("DEBUG: ITEMS NULL");
         } else if (items.isEmpty()){
-            System.out.println("WARNING WARNING OLD MEN isEmpty");
+            System.out.println("DEBUG: ITEMS isEmpty()");
         } else {
-            System.out.println("SER IKKE UT SOM LISTA VAR TOM ELLER NULL");
-            System.out.println("DVS AT STØRRELSEN ER " + items.size() + " OG LEL" );
+            System.out.println("DEBUG: NOT EMPTY");
+            System.out.println("DEBUG: SIZE - " + items.size()  );
         }
         TextView textView = (TextView) fragmentView.findViewById(R.id.QuestionText);
         textView.setText(questionNo +"/"+questionAmount + ": " + question.getName());
@@ -136,23 +148,23 @@ public class QuizQuestionFragment extends MuldvarpFragment {
         }
         return retVal;
     }
-
-    
-    public void makeQuizData(String questionString, List<String> alternatives, String correctAlternative) {
-        ArrayList<Alternative> list = new ArrayList();
-        Alternative correct = null;
-        int i = 0;
-        for (String s : alternatives) {
-            Alternative alt = new Alternative(s);
-            alt.setId(i);
-            if (alt.getName().equalsIgnoreCase(correctAlternative)) {
-                correct = alt;
-            }
-            list.add(alt);
-            i++;
-        }
-        question = new Question(questionString, list, Question.QuestionType.SINGLE);
-    }
+//
+//    
+//    public void makeQuizData(String questionString, List<String> alternatives, String correctAlternative) {
+//        ArrayList<Alternative> list = new ArrayList();
+//        Alternative correct = null;
+//        int i = 0;
+//        for (String s : alternatives) {
+//            Alternative alt = new Alternative(s);
+//            alt.setId(i);
+//            if (alt.getName().equalsIgnoreCase(correctAlternative)) {
+//                correct = alt;
+//            }
+//            list.add(alt);
+//            i++;
+//        }
+//        question = new Question(questionString, list, Question.QuestionType.SINGLE);
+//    }
     
     
 }
