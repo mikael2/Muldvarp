@@ -5,12 +5,9 @@
 package no.hials.muldvarp.v2;
 
 import android.os.Bundle;
-import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.fragments.DetailFragment;
-import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
-import no.hials.muldvarp.v2.fragments.WebzViewFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
 /**
