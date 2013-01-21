@@ -44,7 +44,7 @@ public class Quiz extends Domain {
     public Quiz(JSONObject json) throws JSONException{
         super.id = json.getInt("id");
         super.name = json.getString("name");
-        super.detail = json.getString("description");
+        super.description = json.getString("description");
         if(json.getString("quizType").equalsIgnoreCase(Quiz.QuizType.FEEDBACK.getName())){            
             quizType = QuizType.FEEDBACK;
         } else if(json.getString("quizType").equalsIgnoreCase(Quiz.QuizType.GUIDE.getName())){
