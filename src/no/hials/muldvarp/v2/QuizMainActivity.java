@@ -62,10 +62,12 @@ public class QuizMainActivity extends MuldvarpActivity{
                 quizType.setText(R.string.quizTypeUnknownText);                        
             }           
 
+            TextView quizDescription = (TextView) findViewById(R.id.quizNameDescription);
             if(quiz.getDescription() != null){
-                TextView quizDescription = (TextView) findViewById(R.id.quizNameDescription);
                 quizDescription.setText(quiz.getDescription());
-            } 
+            } else {
+                quizDescription.setText(R.string.nodescription);
+            }
             TextView questionAmount = (TextView) findViewById(R.id.questionAmount);
             questionAmount.setText(R.string.quizNumberOfQuestionsText);
             TextView questionNumber = (TextView) findViewById(R.id.questionAmountNo);
@@ -84,7 +86,7 @@ public class QuizMainActivity extends MuldvarpActivity{
             }
         }        
     }
-    
+        
     public String getQuizStatus(){        
         return getString(R.string.quizResultNotTaken);
     }

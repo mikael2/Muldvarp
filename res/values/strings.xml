@@ -110,6 +110,7 @@
     <string name="cancel">Avbryt</string>
     <string name="warning">Advarsel</string>
     <string name="summary">Oppsummering</string>
+    <string name="nodescription">Ingen beskrivelse.</string>
     <string name="quizStartButtonText">Start Quiz!</string>
     <string name="quizAlreadyTakenText">Du har allerede tatt denne Quiz\'en.</string>
     <string name="quizNumberOfQuestionsText">Antall spørsmål:</string>
