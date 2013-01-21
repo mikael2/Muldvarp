@@ -116,6 +116,10 @@
     <string name="quizTypeText">Type:</string>
     <string name="quizTypeUnknownText">Ukjent</string>
     <string name="quizNoQuestionsText">Denne Quiz\'en har ingen spørsmål.</string>
+    <string name="quizResultText">Resultat:</string>
+    <string name="quizResultFailText">Ikke bestått.</string>
+    <string name="quizResultPassText">Bestått</string>
+    <string name="quizResultNotTaken">Ikke gjennomført.</string>
     <string name="quizBackToMainQuizButtonText">Tilbake til quiz-siden</string>
     <string name="quizNextButtonText">Neste spørsmål</string>
     <string name="quizPreviousButtonText">Forrige spørsmål</string>

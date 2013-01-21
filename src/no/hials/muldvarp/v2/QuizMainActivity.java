@@ -70,6 +70,10 @@ public class QuizMainActivity extends MuldvarpActivity{
             questionAmount.setText(R.string.quizNumberOfQuestionsText);
             TextView questionNumber = (TextView) findViewById(R.id.questionAmountNo);
             questionNumber.setText(String.valueOf(quiz.getQuestions().size()));
+            TextView quizResultText = (TextView) findViewById(R.id.quizResultText);
+            quizResultText.setText(R.string.quizResultText);
+            TextView quizResult = (TextView) findViewById(R.id.quizResultText2);
+            quizResult.setText(getQuizStatus());
             Button startQuizButton = (Button) findViewById(R.id.startQuizButton);
             if (quiz.getQuestions().size() > 0) {
                 startQuizButton.setText(R.string.quizStartButtonText);
@@ -79,6 +83,10 @@ public class QuizMainActivity extends MuldvarpActivity{
                 startQuizButton.setClickable(false);
             }
         }        
+    }
+    
+    public String getQuizStatus(){        
+        return getString(R.string.quizResultNotTaken);
     }
     
     private void setOnClickListeners(){        

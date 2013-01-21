@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Question;
