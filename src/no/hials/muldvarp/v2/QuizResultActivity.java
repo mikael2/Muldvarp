@@ -131,13 +131,12 @@ public class QuizResultActivity extends MuldvarpActivity {
     }
     
     public int getCorrectAnswers(){
-        int correctAnswers = 0;
-        
+        int correctAnswers = 0;        
         for (int i = 0; i < quiz.getQuestions().size(); i++) {
             Question tempQuestion = quiz.getQuestions().get(i);
             boolean isCorrect = true;
             for (int j = 0; j < tempQuestion.getAlternatives().size(); j++) {
-                Alternative tempAlt = tempQuestion.getAlternatives().get(i);
+                Alternative tempAlt = tempQuestion.getAlternatives().get(j);
                 if(tempAlt.isIsChoosen() && !tempAlt.isIsCorrect()){
                     isCorrect = false;
                 } else if(!tempAlt.isIsChoosen() && tempAlt.isIsCorrect()){
@@ -147,8 +146,7 @@ public class QuizResultActivity extends MuldvarpActivity {
             if(isCorrect){
                 correctAnswers++;
             }
-        }
-        
+        }        
         return correctAnswers;
     }
     
