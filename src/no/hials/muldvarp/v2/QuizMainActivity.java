@@ -63,7 +63,9 @@ public class QuizMainActivity extends MuldvarpActivity{
             }           
 
             TextView quizDescription = (TextView) findViewById(R.id.quizNameDescription);
-            if(quiz.getDescription() != null){
+            if((quiz.getDescription() != null) 
+                    && !quiz.getDescription().equalsIgnoreCase("")
+                    && !quiz.getDescription().equalsIgnoreCase("null")){
                 quizDescription.setText(quiz.getDescription());
             } else {
                 quizDescription.setText(R.string.nodescription);
