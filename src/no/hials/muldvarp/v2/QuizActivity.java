@@ -89,7 +89,11 @@ public class QuizActivity extends MuldvarpActivity{
             }
         });
         final Button nextQuestionButton = (Button) findViewById(R.id.quizNextButton);
-        nextQuestionButton.setText(R.string.quizNextButtonText);
+        if (currentQuestionNumber >= quiz.getQuestions().size()-1){
+            nextQuestionButton.setText(R.string.quizGoToResultsButtonText);
+        } else {
+            nextQuestionButton.setText(R.string.quizNextButtonText);
+        }
         nextQuestionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {                
                 if (currentQuestionNumber < (quiz.getQuestions().size() -1)) {
