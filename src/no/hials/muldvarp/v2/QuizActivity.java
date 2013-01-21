@@ -188,7 +188,6 @@ public class QuizActivity extends MuldvarpActivity{
         
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
-               onBackPressed();
            }
         });
         AlertDialog dialog = builder.create();
