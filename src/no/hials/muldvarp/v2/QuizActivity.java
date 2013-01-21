@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Domain;
@@ -34,7 +35,6 @@ public class QuizActivity extends MuldvarpActivity{
     View holderQuizView;
     ListView listView;
     Quiz quiz;
-    List<Question> questions = new ArrayList<Question>();
     int currentQuestionNumber;
     //Fragments
     ArrayList<QuizQuestionFragment> questionFragments;
@@ -148,7 +148,10 @@ public class QuizActivity extends MuldvarpActivity{
     private void fillQuestionFragmentList(){
         //Only fill question fragment list if it hasn't been filled already        
         if(questionFragments.isEmpty()){
-            questionFragments = new ArrayList<QuizQuestionFragment>();            
+            questionFragments = new ArrayList<QuizQuestionFragment>();         
+            if(quiz.isShuffleQuestions()){
+                Collections.shuffle(quiz.getQuestions());
+            }
             for (int i = 0; i < quiz.getQuestions().size(); i++) {
                 Question tempQuestion = quiz.getQuestions().get(i);
                 QuizQuestionFragment tempFrag = new QuizQuestionFragment(tempQuestion);
