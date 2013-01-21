@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import no.hials.muldvarp.v2.QuizActivity;
+import no.hials.muldvarp.v2.QuizMainActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +65,7 @@ public class Quiz extends Domain {
             qList.add(new Question(array.getJSONObject(i)));
         }
         this.questions = qList;
-        this.activity = QuizActivity.class;
+        this.activity = QuizMainActivity.class;
         
     }
     

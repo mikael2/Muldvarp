@@ -109,6 +109,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Avbryt</string>
     <string name="warning">Advarsel</string>
+    <string name="summary">Oppsummering</string>
     <string name="quizStartButtonText">Start Quiz!</string>
     <string name="quizAlreadyTakenText">Du har allerede tatt denne Quiz\'en.</string>
     <string name="quizNumberOfQuestionsText">Antall spørsmål:</string>
@@ -121,7 +122,8 @@
     <string name="quizGoToResultsButtonText">Gå til resultat</string>    
     <string name="quizUnfilledAnswersWarningText">Du har ikke fylt ut alle svarene ennå!</string>   
     <string name="quizResultMainText">Dette er dine svar. Du kan bekrefte de i listen under, og scrolle ned for å vise/sende resultat. Det vil ikke være mulig å gå tilbake etter dette er gjort.</string>
-    <string name="quizResultButtonShowAnswerText">Vis Svar!</string>
+    <string name="quizResultShowAnswerButtonText">Se fasit!</string>
+    <string name="quizResultViewSummaryButtonText">Se oppsummering</string>
     <string name="quizResultButtonSendToServeText">Send dine svar til server.</string>
     <string name="quizResultButtonBackToQuizText">Tilbake til hovedsiden</string>
     <string name="quizResultBackToQuizPrompt">Tilbake til hovedsiden?</string>

@@ -37,6 +37,9 @@
         <activity android:name=".v2.QuizActivity"
                   android:screenOrientation="portrait"
                   android:label="Quiz"/>
+        <activity android:name=".v2.QuizMainActivity"
+                  android:screenOrientation="portrait"
+                  android:label="QuizMain"/>
         <activity android:name=".v2.QuizResultActivity"
                     android:label="QuizResult"/>
         <activity android:name=".v2.MuldvarpPreferenceActivity"

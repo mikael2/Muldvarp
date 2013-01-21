@@ -71,21 +71,24 @@ public class QuizResultActivity extends MuldvarpActivity {
             });
             final Button quizActionButton = (Button) findViewById(R.id.revealAnswerButton);
             if (quiz.getQuizType() == Quiz.QuizType.FEEDBACK) {
-                quizActionButton.setText(R.string.quizResultButtonShowAnswerText);
+                quizActionButton.setText(R.string.quizResultShowAnswerButtonText);
             } else if(quiz.getQuizType() == Quiz.QuizType.REMOTE) {
                 quizActionButton.setText(R.string.quizResultButtonSendToServeText);
             } else {
-                quizActionButton.setText("Se fasit!");
+                quizActionButton.setText(R.string.quizResultShowAnswerButtonText);
             }
             quizActionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 flipit();
-                quizActionButton.setClickable(false);
-                quizActionButton.setActivated(false);
-                quizActionButton.setEnabled(false);
+                Button quizActionButton = (Button) findViewById(R.id.revealAnswerButton);
+                quizActionButton.setText(R.string.quizResultViewSummaryButtonText);
+                quizActionButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        showSummaryDialog();
+                    }
+                });
             }
-        });
-            
+        });            
         }        
     }
     
@@ -139,6 +142,21 @@ public class QuizResultActivity extends MuldvarpActivity {
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
                lel();
+           }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    
+    /**
+     * Void method containing functionality to construct a dialog.
+     */
+    public void showSummaryDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("LEEEELE").setTitle(R.string.summary);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
+               //DO NOTHING
            }
         });
         AlertDialog dialog = builder.create();

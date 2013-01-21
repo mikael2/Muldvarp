@@ -5,7 +5,6 @@
 package no.hials.muldvarp.v2;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,60 +44,19 @@ public class QuizActivity extends MuldvarpActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);                
         //See if the Activity was started with an Intent that included a Domain object
+        System.out.println("wwwww");
         if(getIntent().hasExtra("Domain")) {
             domain = (Domain) getIntent().getExtras().get("Domain");
             activityName = domain.getName();
             quiz = (Quiz) domain;
-            setupMainQuizPage();
+            System.out.println("lal");
+            setupQuiz();
+            System.out.println("lel");
+            
         }        
     }
     
-    private void setupMainQuizPage(){
-        //Set Layout from XML-file
-        LayoutInflater inflator = getLayoutInflater();
-        mainQuizView =  inflator.inflate(R.layout.quiz_activity_main, null, false);
-        mainQuizView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in)); 
-        setContentView(mainQuizView);
-        TextView quizName = (TextView) findViewById(R.id.quizNameText);
-        quizName.setText(quiz.getName());
-
-        TextView quizTypeText = (TextView) findViewById(R.id.quizTypeText);
-        quizTypeText.setText(R.string.quizTypeText);
-        TextView quizType = (TextView) findViewById(R.id.quizTypeText2);
-        if(quiz.getQuizType() != null){
-            quizType.setText(quiz.getQuizType().getName());
-        } else {
-            quizType.setText(R.string.quizTypeUnknownText);                        
-        }           
-
-        if(quiz.getDescription() != null){
-            TextView quizDescription = (TextView) findViewById(R.id.quizNameDescription);
-            quizDescription.setText(quiz.getDescription());
-        } 
-        TextView questionAmount = (TextView) findViewById(R.id.questionAmount);
-        questionAmount.setText(R.string.quizNumberOfQuestionsText);
-        TextView questionNumber = (TextView) findViewById(R.id.questionAmountNo);
-        questionNumber.setText(String.valueOf(quiz.getQuestions().size()));
-        Button startQuizButton = (Button) findViewById(R.id.startQuizButton);
-        if (quiz.getQuestions().size() > 0) {
-            startQuizButton.setText(R.string.quizStartButtonText);
-            setOnClickListeners();
-        } else {                
-            startQuizButton.setText(R.string.quizNoQuestionsText);
-            startQuizButton.setClickable(false);
-        }
-    }
-    
-    private void setOnClickListeners(){        
-        Button startQuizButton = (Button) findViewById(R.id.startQuizButton);
-        startQuizButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startQuiz();
-            }
-        });        
-    }
-    
-    public void startQuiz(){
+    public void setupQuiz(){
         //Change content view with animation
         LayoutInflater inflator = getLayoutInflater();
         holderQuizView =  inflator.inflate(R.layout.activity_quiz_question_holder, null, false);
@@ -156,8 +114,8 @@ public class QuizActivity extends MuldvarpActivity{
                 } else if (currentQuestionNumber >= quiz.getQuestions().size()-1){
                     Intent quizResultsIntent = new Intent(getApplicationContext(), QuizResultActivity.class);
                     quizResultsIntent.putExtra("Quiz", quiz);
-                    setupMainQuizPage();
                     startActivity(quizResultsIntent);
+                    finish(); //end the quizactivity 
                 }
             }
         }); 
@@ -189,6 +147,7 @@ public class QuizActivity extends MuldvarpActivity{
         }    
     }
     
+    
     /**
      * Void method containing functionality to construct a dialog.
      */
@@ -202,7 +161,7 @@ public class QuizActivity extends MuldvarpActivity{
         });
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
-               setupMainQuizPage();       
+               finish(); //end the quizactivity 
            }
         });
         AlertDialog dialog = builder.create();
@@ -222,7 +181,7 @@ public class QuizActivity extends MuldvarpActivity{
         });
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
-               setupMainQuizPage();       
+               onBackPressed();
            }
         });
         AlertDialog dialog = builder.create();

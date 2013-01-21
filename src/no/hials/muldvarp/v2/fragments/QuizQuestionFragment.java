@@ -18,7 +18,6 @@ import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Alternative;
 import no.hials.muldvarp.v2.domain.Question;
-import no.hials.muldvarp.v2.utility.ListAdapter;
 
 /**
  * This fragment defines a single question sheet.
