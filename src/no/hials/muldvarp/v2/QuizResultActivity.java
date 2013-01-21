@@ -19,7 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.adapter.QuizResultAdapter;
+import no.hials.muldvarp.v2.domain.Alternative;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Question;
 import no.hials.muldvarp.v2.domain.Quiz;
 
 /**
@@ -128,6 +130,28 @@ public class QuizResultActivity extends MuldvarpActivity {
         visToInvis.start();
     }
     
+    public int getCorrectAnswers(){
+        int correctAnswers = 0;
+        
+        for (int i = 0; i < quiz.getQuestions().size(); i++) {
+            Question tempQuestion = quiz.getQuestions().get(i);
+            boolean isCorrect = true;
+            for (int j = 0; j < tempQuestion.getAlternatives().size(); j++) {
+                Alternative tempAlt = tempQuestion.getAlternatives().get(i);
+                if(tempAlt.isIsChoosen() && !tempAlt.isIsCorrect()){
+                    isCorrect = false;
+                } else if(!tempAlt.isIsChoosen() && tempAlt.isIsCorrect()){
+                    isCorrect = false;
+                } 
+            }
+            if(isCorrect){
+                correctAnswers++;
+            }
+        }
+        
+        return correctAnswers;
+    }
+    
     /**
      * Void method containing functionality to construct a dialog.
      */
@@ -153,7 +177,7 @@ public class QuizResultActivity extends MuldvarpActivity {
      */
     public void showSummaryDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("LEEEELE").setTitle(R.string.summary);
+        builder.setMessage("Du hadde " + getCorrectAnswers() + " av " + quiz.getQuestions().size() + " riktige.").setTitle(R.string.summary);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
                //DO NOTHING
