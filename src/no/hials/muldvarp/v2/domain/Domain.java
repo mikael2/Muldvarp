@@ -5,7 +5,9 @@
 package no.hials.muldvarp.v2.domain;
 
 import android.content.Context;
+import android.util.Log;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
@@ -13,6 +15,7 @@ import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.WebzViewFragment;
 import no.hials.muldvarp.v2.utility.DummyDataProvider;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,6 +31,7 @@ public class Domain implements Serializable {
     String description;
     int icon;
     Class activity;
+    List<DomainFragment> fragments;
 
     public Domain() {
 
@@ -39,6 +43,19 @@ public class Domain implements Serializable {
         //this.detail = json.getString("detail");
         System.out.println("ID " + id);
         System.out.println("NAME " + name);
+        try {
+            this.fragments = JSONArrayToFragments(json.getJSONArray("fragmentBundle"));
+        } catch(JSONException ex) {
+            Log.e("JSON", "Nullpointer?", ex);
+        }        
+    }
+    
+    public static List<DomainFragment> JSONArrayToFragments(JSONArray jsonArray) throws JSONException {
+        List<DomainFragment> retVal = new ArrayList<DomainFragment>();        
+        for (int i = 0; i < jsonArray.length(); i++) {
+            retVal.add(new DomainFragment(jsonArray.getJSONObject(i)));
+        }        
+        return retVal;
     }
 
     public Domain(String name) {
@@ -108,12 +125,23 @@ public class Domain implements Serializable {
         this.activity = activity;
     }
 
+    public final ArrayList<DomainFragment> parseFragments(JSONArray jArray) throws JSONException {
+        ArrayList<DomainFragment> retVal = new ArrayList<DomainFragment>();
+        for(int i = 0; i < jArray.length(); i++) {
+            JSONObject jsonObject = jArray.getJSONObject(i);
+            DomainFragment t = new DomainFragment(jsonObject);
+            retVal.add(t);
+        }
+        return retVal;
+    }
+    
     /**
      * Populates the fragment view list with class/view/layer specific content
      *
      * @param fragmentList
      * @param context
      */
+    @Deprecated
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
         //Fragments that are considered "default"
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
@@ -126,5 +154,37 @@ public class Domain implements Serializable {
         fragmentList.add(new WebzViewFragment("Opptak", R.drawable.stolen_notes, 35));
         fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, 211));
         fragmentList.add(new WebzViewFragment("Hjelp", R.drawable.stolen_help, 209));
+    }
+    
+    public void constructList(List<MuldvarpFragment> fragmentList, List<DomainFragment> fragments) {
+        fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
+        for(int i = 0; i < fragments.size(); i++) {
+            switch(fragments.get(i).getFragmentType()) {
+                case PROGRAMME:
+                    fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_smsalt, ListFragment.ListType.PROGRAMME));
+                    break;
+                case COURSE:
+                    fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_smsalt, ListFragment.ListType.COURSE));
+                    break;
+                case NEWS:
+                    fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
+                    break;
+                case QUIZ:
+                    fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListFragment.ListType.QUIZ));
+                    break;
+                case ARTICLE:
+                    fragmentList.add(new WebzViewFragment(fragments.get(i).getName(), R.drawable.stolen_contacts, (int)fragments.get(i).getArticleID()));
+                    break;
+            }
+        }
+        
+    }
+
+    public List<DomainFragment> getFragments() {
+        return fragments;
+    }
+
+    public void setFragments(List<DomainFragment> fragments) {
+        this.fragments = fragments;
     }
 }

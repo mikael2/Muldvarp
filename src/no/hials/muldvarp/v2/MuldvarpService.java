@@ -38,6 +38,8 @@ public class MuldvarpService extends Service {
     public static final String ACTION_ALL_UPDATING        = "no.hials.muldvarp.ACTION_ALL_UPDATING";
     public static final String ACTION_VIDEO_UPDATE        = "no.hials.muldvarp.ACTION_VIDEO_UPDATE";
     public static final String ACTION_QUIZ_UPDATE         = "no.hials.muldvarp.ACTION_QUIZ_UPDATE";
+    
+    public static final String ACTION_FRONTPAGE_UPDATE    = "no.hials.muldvarp.ACTION_FRONTPAGE_UPDATE";
 
     private User user;
 
@@ -51,6 +53,7 @@ public class MuldvarpService extends Service {
     public ArrayList<Domain> mNews;
     public Domain mArticle;
     public ArrayList<Programme> mDomainItems;
+    public Domain frontpage;
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -143,6 +146,14 @@ public class MuldvarpService extends Service {
 
     public void setmArticles(ArrayList<Domain> mArticles) {
         this.mArticles = mArticles;
+    }
+
+    public Domain getFrontpage() {
+        return frontpage;
+    }
+
+    public void setFrontpage(Domain frontpage) {
+        this.frontpage = frontpage;
     }
 
     public ArrayList<Domain> getmCourses() {
@@ -247,7 +258,7 @@ public class MuldvarpService extends Service {
      * The request argument indicates which part of the database will be updated.
      * @param requested
      */
-    public enum DataTypes {COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS, QUIZ}
+    public enum DataTypes {COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS, QUIZ, FRONTPAGE}
 
     /**
      * Updates all items related to some other item
@@ -297,6 +308,8 @@ public class MuldvarpService extends Service {
      */
     public void initializeData() {
         initilizeDataCounter = 0;
+        new NewDownloadTask(this,new Intent(ACTION_FRONTPAGE_UPDATE), DataTypes.FRONTPAGE, this)
+                .execute(getUrl(R.string.frontpageResPath)); 
 //        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.COURSES)
 //                .execute(getUrl(R.string.courseResPath));
         new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.PROGRAMS, this)

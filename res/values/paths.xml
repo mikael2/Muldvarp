@@ -14,6 +14,7 @@
     <string name="articleResPath">article/</string>
     <string name="newsResPath">article/news/</string>
     <string name="quizResPath">quiz/</string>
+    <string name="frontpageResPath">frontpage/</string>
     <string name="programmeQuizResPath">programme/quiz/</string>
     <string name="articleViewPath">faces/article.xhtml?articleid=</string>
 

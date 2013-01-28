@@ -77,6 +77,7 @@ public class JSONUtilities {
                 case NEWS:
                     d = new Article(jsonObject);
                     break;
+                case FRONTPAGE:
                 default:
                     d = new Domain(jsonObject);
                     break;
