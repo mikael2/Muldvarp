@@ -176,7 +176,12 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
                     //item = JSONUtilities.JSONtoObject(json, type);
                     items = JSONUtilities.JSONtoList(json, type);
                     items = new ArrayList<Domain>(items);
-                    mService.setFrontpage(items.get(0));
+                    try {
+                        mService.setFrontpage(items.get(0));
+                    } catch (NullPointerException ex) {
+                        Log.e("DOWNLOADTASK", ex.getMessage());
+                    }
+                    
                     break;
             }
             //mds.close();

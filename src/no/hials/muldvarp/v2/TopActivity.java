@@ -73,6 +73,11 @@ public class TopActivity extends MuldvarpActivity{
     }
     
     public void setUpFrontpage() {
+        Intent intent = new Intent(this, MuldvarpService.class);
+        startService(intent);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        
+        
         activityName = getResources().getString(R.string.app_logo_top);
             // We use this to send broadcasts within our local process.
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -106,10 +111,6 @@ public class TopActivity extends MuldvarpActivity{
             }
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
-
-        Intent intent = new Intent(this, MuldvarpService.class);
-        startService(intent);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -154,6 +155,7 @@ public class TopActivity extends MuldvarpActivity{
             else {
                 loginname.setText("ikke innlogget");                            //If there is no logged in user, a default "not logged in" string is displayed in the ribbonmenu
             }
+            mService.initializeData();
         }
 
         @Override
@@ -167,7 +169,8 @@ public class TopActivity extends MuldvarpActivity{
       * Typically used by the activity's fragments.
       * @return MuldvarpService
       */
-     public MuldvarpService getService(){
-         return mService;
-     }
+    @Override
+    public MuldvarpService getService(){
+        return mService;
+    }
 }
