@@ -65,6 +65,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     BroadcastReceiver     mReceiver;
     MenuItem menuItem;
     ImageView refreshView;
+    TextView bottomtext;
 
     @Override
     public void onBackPressed() {
@@ -90,6 +91,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
         loginname = (TextView) findViewById(R.id.loginname);
+        bottomtext = (TextView) findViewById(R.id.bottomtext);
+        
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);

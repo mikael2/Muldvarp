@@ -29,7 +29,6 @@ import no.hials.muldvarp.v2.MuldvarpService.DataTypes;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
-import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
@@ -132,7 +131,7 @@ public class ListFragment extends MuldvarpFragment {
                     service.update(DataTypes.QUIZ, 0);
             }
         }
-
+        
         return fragmentView;
     }
 

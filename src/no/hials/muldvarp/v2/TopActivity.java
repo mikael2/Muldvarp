@@ -18,6 +18,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Domain;
@@ -69,7 +70,7 @@ public class TopActivity extends MuldvarpActivity{
         } else {
             setUpFrontpage();
         }
-                
+        setUpdated();
     }
     
     public void setUpFrontpage() {
@@ -172,5 +173,9 @@ public class TopActivity extends MuldvarpActivity{
     @Override
     public MuldvarpService getService(){
         return mService;
+    }
+
+    private void setUpdated() {
+        bottomtext.setText("Last updated: " + new Date());
     }
 }

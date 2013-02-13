@@ -17,7 +17,7 @@
         android:padding="5dip" >
 
         <TextView
-            android:text="Development Build\nProject Muldvarp - Rodent Corporation - Ålesund University College"
+            android:id="@+id/bottomtext"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="10dp"
