@@ -111,7 +111,6 @@ public class JSONUtilities {
                     break;
                 case DOCUMENTS:
                     d = new Document(jArray.getJSONObject(i));
-                    System.out.println(d);
                     break;
                 case VIDEOS:
                     d = new Video(jArray.getJSONObject(i));

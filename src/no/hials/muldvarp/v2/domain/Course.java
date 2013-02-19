@@ -44,7 +44,7 @@ public class Course extends Domain implements Serializable {
             Article a = new Article(j);
             this.info = a.getId();
         } catch(JSONException ex) {
-            Log.e("JSON", "Nullpointer?", ex);
+            Log.e("MULDVARP", "ingen info id");
             this.info = 0;
         }
         try {
@@ -52,7 +52,7 @@ public class Course extends Domain implements Serializable {
             Article a = new Article(j);
             this.dates = a.getId();
         } catch(JSONException ex) {
-            Log.e("JSON", "Nullpointer?", ex);
+            Log.e("MULDVARP", "ingen dato id");
             this.dates = 0;
         }
         try {
@@ -60,7 +60,7 @@ public class Course extends Domain implements Serializable {
             Article a = new Article(j);
             this.help = a.getId();
         } catch(JSONException ex) {
-            Log.e("JSON", "Nullpointer?", ex);
+            Log.e("MULDVARP", "ingen help id");
             this.help = 0;
         }
     }

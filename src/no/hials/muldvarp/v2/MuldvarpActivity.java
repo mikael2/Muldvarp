@@ -52,7 +52,7 @@ import no.hials.muldvarp.v2.utility.FragmentUtils;
 public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     Bundle savedInstanceState;
     public RibbonMenuView rbmView;
-    private MuldvarpService mService;
+    public MuldvarpService mService;
     boolean mBound = false;
     boolean loggedIn = false;
     TextView loginname;

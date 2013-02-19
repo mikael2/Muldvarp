@@ -46,7 +46,7 @@ public class Domain implements Serializable {
         try {
             this.fragments = JSONArrayToFragments(json.getJSONArray("fragmentBundle"));
         } catch(JSONException ex) {
-            Log.e("JSON", "Nullpointer?", ex);
+            Log.e("MULDVARP", "Ingen fragments");
         }        
     }
     

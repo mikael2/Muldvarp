@@ -7,13 +7,10 @@ package no.hials.muldvarp.v2;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
@@ -34,7 +31,6 @@ import no.hials.muldvarp.v2.utility.FragmentUtils;
  */
 public class TopActivity extends MuldvarpActivity{
     private Activity thisActivity = this;
-    private MuldvarpService mService;
     SpinnerAdapter mSpinnerAdapter = null;
     
     /**
@@ -74,11 +70,6 @@ public class TopActivity extends MuldvarpActivity{
     }
     
     public void setUpFrontpage() {
-        Intent intent = new Intent(this, MuldvarpService.class);
-        startService(intent);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        
-        
         activityName = getResources().getString(R.string.app_logo_top);
             // We use this to send broadcasts within our local process.
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -137,42 +128,6 @@ public class TopActivity extends MuldvarpActivity{
 
     public Domain getDomain() {
         return domain;
-    }
-
-    
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className,
-                IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            MuldvarpService.LocalBinder binder = (MuldvarpService.LocalBinder) service;
-            mService = binder.getService();
-            mBound = true;
-            if(mService.getUser() != null){                                     //Checks if there is a logged in user
-                loginname.setText(mService.getUser().getName());                //Sets the users name in the ribbonmenu
-                updateRBMMenu();                                                //Imports the users shortcuts into the ribbonmenu
-            }
-            else {
-                loginname.setText("ikke innlogget");                            //If there is no logged in user, a default "not logged in" string is displayed in the ribbonmenu
-            }
-            mService.initializeData();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mBound = false;
-        }
-    };
-
-     /**
-      * Returns the Muldvarpservice object reference.
-      * Typically used by the activity's fragments.
-      * @return MuldvarpService
-      */
-    @Override
-    public MuldvarpService getService(){
-        return mService;
     }
 
     private void setUpdated() {
