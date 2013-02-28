@@ -15,7 +15,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Domain;
@@ -56,7 +55,6 @@ public class TopActivity extends MuldvarpActivity{
                     getDropDownMenuOptions(fragmentList));
 
             ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
-
                 @Override
                 public boolean onNavigationItemSelected(int position, long itemId) {
                     return FragmentUtils.changeFragment(thisActivity, fragmentList, position);
@@ -66,7 +64,6 @@ public class TopActivity extends MuldvarpActivity{
         } else {
             setUpFrontpage();
         }
-        setUpdated();
     }
     
     public void setUpFrontpage() {
@@ -81,11 +78,7 @@ public class TopActivity extends MuldvarpActivity{
             public void onReceive(Context context, Intent intent) {
                 domain = mService.getFrontpage();
                 
-                //Add fragments to list if empty:
-                if(fragmentList.isEmpty()) {
-                    domain.constructList(fragmentList, domain.getFragments());
-                }
-                
+                domain.constructList(fragmentList, domain.getFragments());
 
                 //Get dropdown menu using standard menu
                 mSpinnerAdapter = new ArrayAdapter(getBaseContext(),
@@ -93,7 +86,6 @@ public class TopActivity extends MuldvarpActivity{
                 getDropDownMenuOptions(fragmentList));
 
                 ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
-
                     @Override
                     public boolean onNavigationItemSelected(int position, long itemId) {
                         return FragmentUtils.changeFragment(thisActivity, fragmentList, position);
@@ -103,6 +95,7 @@ public class TopActivity extends MuldvarpActivity{
             }
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+        setUpdated();
     }
 
     @Override
@@ -128,9 +121,5 @@ public class TopActivity extends MuldvarpActivity{
 
     public Domain getDomain() {
         return domain;
-    }
-
-    private void setUpdated() {
-        bottomtext.setText("Last updated: " + new Date());
     }
 }

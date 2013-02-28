@@ -38,8 +38,6 @@ import no.hials.muldvarp.v2.utility.ListAdapter;
  * @author johan
  */
 public class ListFragment extends MuldvarpFragment {
-
-    //Global variables
     ProgressDialog progressDialog;
     ListAdapter listAdapter;
     ListView listView;
@@ -128,7 +126,7 @@ public class ListFragment extends MuldvarpFragment {
                 case NEWS:
                     service.update(DataTypes.NEWS, 0);
                 case QUIZ:
-                    service.update(DataTypes.QUIZ, 0);
+//                    service.update(DataTypes.QUIZ, 0);
             }
         }
         
@@ -147,25 +145,29 @@ public class ListFragment extends MuldvarpFragment {
         if(service == null) {
             Log.e("ListFragment","MuldvarpService is null in updateItems");
         } else {
-            items.clear();
             switch(type) {
                 case COURSE:
+                    items.clear();
                     items.addAll(service.mCourses);
                     break;
                 case PROGRAMME:
+                    items.clear();
                     items.addAll(service.mProgrammes);
                     break;
                 case DOCUMENT:
+                    items.clear();
                     items.addAll(service.mDocuments);
                     break;
                 case VIDEO:
+                    items.clear();
                     items.addAll(service.mVideos);
                     break;
                 case NEWS:
+                    items.clear();
                     items.addAll(service.mNews);
                     break;
                 case QUIZ:
-                    items.addAll(service.getQuizzes());
+//                    items.addAll(service.getQuizzes());
                     break;
             } 
         }

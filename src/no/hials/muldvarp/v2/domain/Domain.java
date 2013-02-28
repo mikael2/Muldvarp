@@ -47,6 +47,7 @@ public class Domain implements Serializable {
             this.fragments = JSONArrayToFragments(json.getJSONArray("fragmentBundle"));
         } catch(JSONException ex) {
             Log.e("MULDVARP", "Ingen fragments");
+            Log.e("DOMAIN", ex.getMessage());
         }        
     }
     
@@ -157,6 +158,7 @@ public class Domain implements Serializable {
     }
     
     public void constructList(List<MuldvarpFragment> fragmentList, List<DomainFragment> fragments) {
+        fragmentList.clear();
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
         for(int i = 0; i < fragments.size(); i++) {
             switch(fragments.get(i).getFragmentType()) {
@@ -170,14 +172,13 @@ public class Domain implements Serializable {
                     fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
                     break;
                 case QUIZ:
-                    fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListFragment.ListType.QUIZ));
+                    fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_calculator, fragments.get(i).items, ListFragment.ListType.QUIZ));
                     break;
                 case ARTICLE:
                     fragmentList.add(new WebzViewFragment(fragments.get(i).getName(), R.drawable.stolen_contacts, (int)fragments.get(i).getArticleID()));
                     break;
             }
         }
-        
     }
 
     public List<DomainFragment> getFragments() {

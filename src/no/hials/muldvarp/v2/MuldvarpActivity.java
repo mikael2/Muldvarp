@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.R.anim;
@@ -125,10 +126,11 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     @Override
     protected void onResume() {
         super.onResume();
-        if(getIntent().getIntExtra("tab", 0) > 0)
+        if(getIntent().getIntExtra("tab", 0) > 0) {
             getActionBar().setSelectedNavigationItem(getIntent().getIntExtra("tab", 0));
-        else if(savedInstanceState != null)
+        } else if(savedInstanceState != null) {
             getActionBar().setSelectedNavigationItem(savedInstanceState.getInt("tab"));
+        }
     }
 
     @Override
@@ -152,8 +154,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 refreshView.startAnimation(rotateClockwise);
                 menuItem = item;
                 menuItem.setActionView(refreshView);
-
                 mService.initializeData();
+                setUpdated();
                 return true;
             case R.id.login:
                 showDialog(0);
@@ -270,8 +272,9 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
-                if(rbmView.isMenuVisible())
+                if(rbmView.isMenuVisible()) {
                     rbmView.hideMenu();
+                }
                 return FragmentUtils.changeFragment(activity, fragmentList, position);
             }
         };
@@ -323,4 +326,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      public void updateRBMMenu(){
          rbmView.setMenuItems(mService.getUser().getUserDomains());             //Updates the listitems in the ribbonmenu.
      }
+     
+     public void setUpdated() {
+        bottomtext.setText("Last updated: " + new Date());
+    }
 }

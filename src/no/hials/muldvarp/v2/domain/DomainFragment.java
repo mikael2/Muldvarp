@@ -6,6 +6,9 @@ package no.hials.muldvarp.v2.domain;
 
 import android.util.Log;
 import java.io.Serializable;
+import java.util.List;
+import no.hials.muldvarp.v2.MuldvarpService;
+import no.hials.muldvarp.v2.utility.JSONUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,32 +20,47 @@ public class DomainFragment implements Serializable {
     String name;
     int parentID;
     public enum Type {
-        FRONTPAGE, PROGRAMME, COURSE, NEWS, ARTICLE, QUIZ
+        FRONTPAGE, PROGRAMME, COURSE, NEWS, ARTICLE, QUIZ, DOCUMENT, VIDEO
     }
     Type fragmentType;
     
     long articleID;
-    int programmeID;
     String category;
+    List<Domain> items;
 
     public DomainFragment(JSONObject json) throws JSONException {
         this.name = json.getString("name");
-        this.parentID = json.getInt("parentID");
         this.fragmentType = getBackEnum(json.getString("fragmentType"));
         try {
-            this.articleID = json.getLong("articleID");
+            this.articleID = json.getJSONObject("article").getLong("id");
         } catch(JSONException ex) {
-            Log.e("JSON", "Nullpointer?", ex);
-        }
-        try {
-            this.programmeID = json.getInt("programmeID");
-        } catch(JSONException ex) {
-            Log.e("JSON", "Nullpointer?", ex);
+            Log.e("JSON", "No Article?", ex);
         }
         try {
             this.category = json.getString("category");
         } catch(JSONException ex) {
-            Log.e("JSON", "Nullpointer?", ex);
+            Log.e("JSON", "No category?", ex);
+        }
+        try {
+            switch(fragmentType) {
+                case QUIZ:
+                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("quizzes").toString(), MuldvarpService.DataTypes.QUIZ);
+                    break;
+                case COURSE:
+                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("courses").toString(), MuldvarpService.DataTypes.COURSES);
+                    break;
+                case DOCUMENT:
+                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("documents").toString(), MuldvarpService.DataTypes.COURSES);
+                    break;
+                case NEWS:
+                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("news").toString(), MuldvarpService.DataTypes.COURSES);
+                    break;
+                case VIDEO:
+                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("videos").toString(), MuldvarpService.DataTypes.COURSES);
+                    break;
+            }
+        } catch(JSONException ex) {
+            Log.e("JSON", "No fragments?", ex);
         }
     }
     
@@ -59,6 +77,10 @@ public class DomainFragment implements Serializable {
             return Type.ARTICLE;
         } else if(s.equals("QUIZ")) {
             return Type.QUIZ;
+        } else if(s.equals("DOCUMENT")) {
+            return Type.DOCUMENT;
+        } else if(s.equals("VIDEO")) {
+            return Type.VIDEO;
         }
         return null;
     }
@@ -99,14 +121,6 @@ public class DomainFragment implements Serializable {
 
     public void setArticleID(long articleID) {
         this.articleID = articleID;
-    }
-
-    public int getProgrammeID() {
-        return programmeID;
-    }
-
-    public void setProgrammeID(int programmeID) {
-        this.programmeID = programmeID;
     }
 
     public String getCategory() {
