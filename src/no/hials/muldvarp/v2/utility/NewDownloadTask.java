@@ -109,20 +109,20 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
             List<Domain> items;
             Domain item;
             switch(type) {
-                case COURSES:
-                    items = JSONUtilities.JSONtoList(json, type);
-                    List<Domain> oldCourses;
-                    oldCourses = mService.mCourses;
-                    
-                    mService.setmCourses(new ArrayList<Domain>(items));
-                    
-//
-//                    if(compareOld(oldCourses, items)) {
-//                        for(int i = 0; i < items.size(); i++) {
-//                            mds.insertCourse((Course)items.get(i));
-//                        }
-//                    }
-                    break;
+//                case COURSES:
+//                    items = JSONUtilities.JSONtoList(json, type);
+//                    List<Domain> oldCourses;
+//                    oldCourses = mService.mCourses;
+//                    
+//                    mService.setmCourses(new ArrayList<Domain>(items));
+//                    
+////
+////                    if(compareOld(oldCourses, items)) {
+////                        for(int i = 0; i < items.size(); i++) {
+////                            mds.insertCourse((Course)items.get(i));
+////                        }
+////                    }
+//                    break;
                 case PROGRAMS:
                     items = JSONUtilities.JSONtoList(json, type);
                     mService.setmProgrammes(new ArrayList<Domain>(items));
@@ -133,45 +133,45 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
 //                        }
 //                    }
                     break;
-                case ARTICLE:
-                    item = JSONUtilities.JSONtoObject(json, type);
-                    mService.setmArticle(item);
-//                    mds.insertArticle((Article)item);
-                    break;
-                case DOCUMENTS:
-                    items = JSONUtilities.JSONtoList(json, type);
-                    mService.setmDocuments(new ArrayList<Domain>(items));
-//                    List<Domain> oldDocs = mService.mDocuments;
-//                    if(compareOld(oldDocs, items)) {
-//                        for(int i = 0; i < items.size(); i++) {
-//                            mds.insertDocument((Document)items.get(i));
-//                        }
-//                    }
-                    break;
-                case VIDEOS:
-                    items = JSONUtilities.JSONtoList(json, type);
-                    mService.setmVideos(new ArrayList<Domain>(items));
-//                    List<Domain> oldVideos = mds.getAllVideos();
-//                    if(compareOld(oldVideos, items)) {
-//                        for(int i = 0; i < items.size(); i++) {
-//                            mds.insertVideo((Video)items.get(i));
-//                        }
-//                    }
-                    break;
-                case QUIZ:
-                    items = JSONUtilities.JSONtoList(json, type);
-                    mService.setQuizzes(new ArrayList<Domain>(items));
-                    break;
-                case NEWS:
-                    items = JSONUtilities.JSONtoList(json, type);
-                    mService.setmNews(new ArrayList<Domain>(items));
-//                    List<Domain> oldArticles = mds.getArticlesByCategory("news");
-//                    if(compareOld(oldArticles, items)) {
-//                        for(int i = 0; i < items.size(); i++) {
-//                            mds.insertArticle((Article)items.get(i));
-//                        }
-//                    }
-                    break;
+//                case ARTICLE:
+//                    item = JSONUtilities.JSONtoObject(json, type);
+//                    mService.setmArticle(item);
+////                    mds.insertArticle((Article)item);
+//                    break;
+//                case DOCUMENTS:
+//                    items = JSONUtilities.JSONtoList(json, type);
+//                    mService.setmDocuments(new ArrayList<Domain>(items));
+////                    List<Domain> oldDocs = mService.mDocuments;
+////                    if(compareOld(oldDocs, items)) {
+////                        for(int i = 0; i < items.size(); i++) {
+////                            mds.insertDocument((Document)items.get(i));
+////                        }
+////                    }
+//                    break;
+//                case VIDEOS:
+//                    items = JSONUtilities.JSONtoList(json, type);
+//                    mService.setmVideos(new ArrayList<Domain>(items));
+////                    List<Domain> oldVideos = mds.getAllVideos();
+////                    if(compareOld(oldVideos, items)) {
+////                        for(int i = 0; i < items.size(); i++) {
+////                            mds.insertVideo((Video)items.get(i));
+////                        }
+////                    }
+//                    break;
+//                case QUIZ:
+//                    items = JSONUtilities.JSONtoList(json, type);
+//                    mService.setQuizzes(new ArrayList<Domain>(items));
+//                    break;
+//                case NEWS:
+//                    items = JSONUtilities.JSONtoList(json, type);
+//                    mService.setmNews(new ArrayList<Domain>(items));
+////                    List<Domain> oldArticles = mds.getArticlesByCategory("news");
+////                    if(compareOld(oldArticles, items)) {
+////                        for(int i = 0; i < items.size(); i++) {
+////                            mds.insertArticle((Article)items.get(i));
+////                        }
+////                    }
+//                    break;
                 case FRONTPAGE:
                     //item = JSONUtilities.JSONtoObject(json, type);
                     items = JSONUtilities.JSONtoList(json, type);

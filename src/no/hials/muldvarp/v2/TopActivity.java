@@ -46,7 +46,8 @@ public class TopActivity extends MuldvarpActivity{
             
             //Add fragments to list if empty:
             if(fragmentList.isEmpty()) {
-                domain.populateList(fragmentList, this);
+//                domain.populateList(fragmentList, this);
+                domain.constructList(fragmentList, domain.getFragments());
             }
 
             //Get dropdown menu using standard menu
@@ -61,6 +62,21 @@ public class TopActivity extends MuldvarpActivity{
                 }
             };
             getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+            
+            // We use this to send broadcasts within our local process.
+            mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+             // We are going to watch for interesting local broadcasts.
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
+            mReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
+//                    domain = mService.
+                    domain.constructList(fragmentList, domain.getFragments());
+                }
+            };
+            mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         } else {
             setUpFrontpage();
         }

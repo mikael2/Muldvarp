@@ -50,13 +50,13 @@ public class DomainFragment implements Serializable {
                     this.items = JSONUtilities.JSONtoList(json.getJSONArray("courses").toString(), MuldvarpService.DataTypes.COURSES);
                     break;
                 case DOCUMENT:
-                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("documents").toString(), MuldvarpService.DataTypes.COURSES);
+                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("documents").toString(), MuldvarpService.DataTypes.DOCUMENTS);
                     break;
                 case NEWS:
-                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("news").toString(), MuldvarpService.DataTypes.COURSES);
+                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("news").toString(), MuldvarpService.DataTypes.NEWS);
                     break;
                 case VIDEO:
-                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("videos").toString(), MuldvarpService.DataTypes.COURSES);
+                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("videos").toString(), MuldvarpService.DataTypes.VIDEOS);
                     break;
             }
         } catch(JSONException ex) {

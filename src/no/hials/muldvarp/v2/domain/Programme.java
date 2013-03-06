@@ -4,17 +4,8 @@
  */
 package no.hials.muldvarp.v2.domain;
 
-import android.content.Context;
-import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
-import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.fragments.FrontPageFragment;
-import no.hials.muldvarp.v2.fragments.ListFragment;
-import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
-import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
-import no.hials.muldvarp.v2.fragments.WebzViewFragment;
-import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import no.hials.muldvarp.v2.utility.JSONUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,9 +19,6 @@ public class Programme extends Domain {
     String imageurl;
     int revision;
     String programmeId;
-    int info;
-    int dates;
-    int help;
     
     public Programme() {
 
@@ -39,30 +27,6 @@ public class Programme extends Domain {
     public Programme(JSONObject json) throws JSONException {
         super(json);
         courses = JSONUtilities.JSONArrayToCourses(json.getJSONArray("courses"));
-        try {
-            JSONObject j = json.getJSONObject("info");
-            Article a = new Article(j);
-            this.info = a.getId();
-        } catch(JSONException ex) {
-            Log.e("MULDVARP", "ingen info id");
-            this.info = 0;
-        }
-        try {
-            JSONObject j = json.getJSONObject("dates");
-            Article a = new Article(j);
-            this.dates = a.getId();
-        } catch(JSONException ex) {
-            Log.e("MULDVARP", "ingen dato id");
-            this.dates = 0;
-        }
-        try {
-            JSONObject j = json.getJSONObject("help");
-            Article a = new Article(j);
-            this.help = a.getId();
-        } catch(JSONException ex) {
-            Log.e("MULDVARP", "ingen help id");
-            this.help = 0;
-        }
     }
 
     public Programme(String name) {
@@ -109,15 +73,15 @@ public class Programme extends Domain {
         this.programmeId = programmeId;
     }
 
-    @Override
-    public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
-        fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
-        fragmentList.add(new WebzViewFragment("Informasjon", R.drawable.stolen_contacts, info));
-        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
-        fragmentList.add(new ListFragment("Fag", R.drawable.stolen_smsalt, ListFragment.ListType.COURSE));
-        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
-        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
-        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
-        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, dates));
-    }
+//    @Override
+//    public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
+//        fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
+//        fragmentList.add(new WebzViewFragment("Informasjon", R.drawable.stolen_contacts, info));
+//        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
+//        fragmentList.add(new ListFragment("Fag", R.drawable.stolen_smsalt, ListFragment.ListType.COURSE));
+//        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
+//        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
+//        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
+//        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, dates));
+//    }
 }

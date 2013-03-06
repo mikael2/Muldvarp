@@ -29,6 +29,7 @@ import no.hials.muldvarp.v2.MuldvarpService.DataTypes;
 import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.utility.ListAdapter;
 
@@ -125,8 +126,10 @@ public class ListFragment extends MuldvarpFragment {
                     break;
                 case NEWS:
                     service.update(DataTypes.NEWS, 0);
+                    break;
                 case QUIZ:
-//                    service.update(DataTypes.QUIZ, 0);
+                    service.update(DataTypes.QUIZ, 0);
+                    break;
             }
         }
         
@@ -148,19 +151,19 @@ public class ListFragment extends MuldvarpFragment {
             switch(type) {
                 case COURSE:
                     items.clear();
-                    items.addAll(service.mCourses);
+//                    items.addAll(service.mCourses);
+                    Programme p = (Programme)owningActivity.domain;
+                    items.addAll(p.getCourses());
                     break;
                 case PROGRAMME:
                     items.clear();
                     items.addAll(service.mProgrammes);
                     break;
                 case DOCUMENT:
-                    items.clear();
-                    items.addAll(service.mDocuments);
+//                    items.addAll(service.mDocuments);
                     break;
                 case VIDEO:
-                    items.clear();
-                    items.addAll(service.mVideos);
+//                    items.addAll(service.mVideos);
                     break;
                 case NEWS:
                     items.clear();

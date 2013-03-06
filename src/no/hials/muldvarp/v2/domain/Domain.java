@@ -144,17 +144,17 @@ public class Domain implements Serializable {
      */
     @Deprecated
     public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
-        //Fragments that are considered "default"
-        fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
-        fragmentList.add(new WebzViewFragment("Informasjon", R.drawable.stolen_contacts, 148));
-        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
-        fragmentList.add(new ListFragment("Studier", R.drawable.stolen_smsalt, ListFragment.ListType.PROGRAMME));
-        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
-        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListFragment.ListType.QUIZ));
-        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
-        fragmentList.add(new WebzViewFragment("Opptak", R.drawable.stolen_notes, 35));
-        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, 211));
-        fragmentList.add(new WebzViewFragment("Hjelp", R.drawable.stolen_help, 209));
+//        //Fragments that are considered "default"
+//        fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
+//        fragmentList.add(new WebzViewFragment("Informasjon", R.drawable.stolen_contacts, 148));
+//        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
+//        fragmentList.add(new ListFragment("Studier", R.drawable.stolen_smsalt, ListFragment.ListType.PROGRAMME));
+//        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
+//        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListFragment.ListType.QUIZ));
+//        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
+//        fragmentList.add(new WebzViewFragment("Opptak", R.drawable.stolen_notes, 35));
+//        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, 211));
+//        fragmentList.add(new WebzViewFragment("Hjelp", R.drawable.stolen_help, 209));
     }
     
     public void constructList(List<MuldvarpFragment> fragmentList, List<DomainFragment> fragments) {
@@ -165,7 +165,7 @@ public class Domain implements Serializable {
                 case PROGRAMME:
                     fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_smsalt, ListFragment.ListType.PROGRAMME));
                     break;
-                case COURSE:
+                case COURSE:                    
                     fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_smsalt, ListFragment.ListType.COURSE));
                     break;
                 case NEWS:
@@ -173,6 +173,12 @@ public class Domain implements Serializable {
                     break;
                 case QUIZ:
                     fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_calculator, fragments.get(i).items, ListFragment.ListType.QUIZ));
+                    break;
+                case DOCUMENT:
+                    fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_dictonary, fragments.get(i).items, ListFragment.ListType.DOCUMENT));
+                    break;
+                case VIDEO:
+                    fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_youtube, fragments.get(i).items, ListFragment.ListType.VIDEO));
                     break;
                 case ARTICLE:
                     fragmentList.add(new WebzViewFragment(fragments.get(i).getName(), R.drawable.stolen_contacts, (int)fragments.get(i).getArticleID()));

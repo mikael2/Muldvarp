@@ -273,32 +273,32 @@ public class MuldvarpService extends Service {
                     new NewDownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type, id, this)
                             .execute(getUrl(R.string.programmeCourseResPath) + id);
                     break;
-                case VIDEOS:
-                    new NewDownloadTask(this,new Intent(ACTION_VIDEO_UPDATE), type, this)
-                            .execute(getUrl(R.string.videoResPath));
-                    break;
-                case DOCUMENTS:
-                    new NewDownloadTask(this,new Intent(ACTION_LIBRARY_UPDATE), type, this)
-                            .execute(getUrl(R.string.libraryResPath));
-                    break;
-                case PROGRAMS:
-                    new NewDownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type, this)
-                            .execute(getUrl(R.string.programmesResPath));
-                    break;
-                case NEWS:
-                    new NewDownloadTask(this,new Intent(ACTION_NEWS_UPDATE), type, id, this)
-                            .execute(getUrl(R.string.newsResPath));
-                    break;
-                case QUIZ:
-                    new NewDownloadTask(this,new Intent(ACTION_QUIZ_UPDATE), type, id, this)
-                            .execute(getUrl(R.string.quizResPath));
+//                case VIDEOS:
+//                    new NewDownloadTask(this,new Intent(ACTION_VIDEO_UPDATE), type, this)
+//                            .execute(getUrl(R.string.videoResPath));
+//                    break;
+//                case DOCUMENTS:
+//                    new NewDownloadTask(this,new Intent(ACTION_LIBRARY_UPDATE), type, this)
+//                            .execute(getUrl(R.string.libraryResPath));
+//                    break;
+//                case PROGRAMS:
+//                    new NewDownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type, this)
+//                            .execute(getUrl(R.string.programmesResPath));
+//                    break;
+//                case NEWS:
+//                    new NewDownloadTask(this,new Intent(ACTION_NEWS_UPDATE), type, id, this)
+//                            .execute(getUrl(R.string.newsResPath));
+//                    break;
+//                case QUIZ:
+//                    new NewDownloadTask(this,new Intent(ACTION_QUIZ_UPDATE), type, id, this)
+//                            .execute(getUrl(R.string.quizResPath));
 //                    ArrayList<Domain> as = DummyDataProvider.getQuizList();
 //                    for (int i = 0; i < as.size(); i++) {
 //                        mds.open();
 //                        long insertid = mds.insertQuiz((Quiz)as.get(i));
 //                        mds.addTopQuiz(insertid);
 //                    }
-                    break;
+//                    break;
             }
         }
     }
@@ -307,57 +307,53 @@ public class MuldvarpService extends Service {
      * Download/Update frontpage data
      */
     public void initializeData() {
-        initilizeDataCounter = 0;
+//        initilizeDataCounter = 0;
         new NewDownloadTask(this,new Intent(ACTION_FRONTPAGE_UPDATE), DataTypes.FRONTPAGE, this)
                 .execute(getUrl(R.string.frontpageResPath)); 
 //        new DownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.COURSES)
 //                .execute(getUrl(R.string.courseResPath));
-        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.PROGRAMS, this)
+        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATE), DataTypes.PROGRAMS, this)
                 .execute(getUrl(R.string.programmesResPath));
-        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.VIDEOS, this)
-                .execute(getUrl(R.string.videoResPath));
-        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.NEWS, this)
-                .execute(getUrl(R.string.newsResPath));
-        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.DOCUMENTS, this)
-                .execute(getUrl(R.string.libraryResPath));
-        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.DOCUMENTS, this)
-                            .execute(getUrl(R.string.quizResPath));
+//        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.VIDEOS, this)
+//                .execute(getUrl(R.string.videoResPath));
+//        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.NEWS, this)
+//                .execute(getUrl(R.string.newsResPath));
+//        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.DOCUMENTS, this)
+//                .execute(getUrl(R.string.libraryResPath));
+//        new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATING), DataTypes.DOCUMENTS, this)
+//                            .execute(getUrl(R.string.quizResPath));
 
-        // We use this to send broadcasts within our local process.
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
-         // We are going to watch for interesting local broadcasts.
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_ALL_UPDATING);
-        mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
-                initilizeDataCounter++;
-                if(initilizeDataCounter == 4) {
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ACTION_ALL_UPDATE));
-                    initilizeDataCounter = 0;
-                }
-            }
-        };
-        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+//        // We use this to send broadcasts within our local process.
+//        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+//         // We are going to watch for interesting local broadcasts.
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction(ACTION_ALL_UPDATING);
+//        mReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
+//                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ACTION_ALL_UPDATE));
+//            }
+//        };
+//        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
     }
 
-    /**
-     * Downloads/Updates a single domain item
-     *
-     * @param type
-     * @param itemId
-     */
-    public synchronized void updateSingleItem(DataTypes type, int itemId) {
-        if(server.checkServer()) {
-            switch(type) {
-                case ARTICLE:
-                    new DownloadTask(this,new Intent(ACTION_ARTICLE_UPDATE), type)
-                            .execute(getUrl(R.string.articleResPath) + itemId);
-                    break;
-            }
-        }
-    }
+//    /**
+//     * Downloads/Updates a single domain item
+//     *
+//     * @param type
+//     * @param itemId
+//     */
+//    public synchronized void updateSingleItem(DataTypes type, int itemId) {
+//        if(server.checkServer()) {
+//            switch(type) {
+//                case ARTICLE:
+//                    new DownloadTask(this,new Intent(ACTION_ARTICLE_UPDATE), type)
+//                            .execute(getUrl(R.string.articleResPath) + itemId);
+//                    break;
+//            }
+//        }
+//    }
 
     public String getUrl(int resId) {
         return getString(R.string.serverPath) + getString(resId);

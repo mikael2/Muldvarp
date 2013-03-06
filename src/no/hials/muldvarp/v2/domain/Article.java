@@ -30,12 +30,15 @@ public class Article extends Domain implements Serializable {
         System.out.println(json.getString("title"));
         super.id = json.getInt("id");
         super.name = json.getString("title");
-        if(json.getString("ingress") != null)
+        if(json.getString("ingress") != null) {
             super.detail = json.getString("ingress");
-        if(json.getString("text") != null)
+        }
+        if(json.getString("text") != null) {
             this.content = json.getString("text");
-        if(json.getString("category") != null)
+        }
+        if(json.getString("category") != null) {
             this.category = json.getString("category");
+        }
     }
 
     public Article(String name) {
