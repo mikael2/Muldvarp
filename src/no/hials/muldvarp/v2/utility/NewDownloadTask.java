@@ -11,13 +11,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hials.muldvarp.v2.MuldvarpService;
-import no.hials.muldvarp.v2.database.MuldvarpDataSource;
-import no.hials.muldvarp.v2.domain.Article;
 import no.hials.muldvarp.v2.domain.Course;
-import no.hials.muldvarp.v2.domain.Document;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
-import no.hials.muldvarp.v2.domain.Video;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -38,35 +34,25 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
     Context ctx;
     MuldvarpService mService;
     MuldvarpService.DataTypes type;
-    MuldvarpDataSource mds;
     int itemId;
-    boolean withItem;
 
     public NewDownloadTask(Context ctx, Intent intent, MuldvarpService.DataTypes type) {
         this.intent = intent;
         this.ctx = ctx;
         this.type = type;
-        this.withItem = false;
-        mds = new MuldvarpDataSource(ctx);
     }
-    
-    
     
     public NewDownloadTask(Context ctx, Intent intent, MuldvarpService.DataTypes type, MuldvarpService mService) {
         this.intent = intent;
         this.ctx = ctx;
         this.mService = mService;
         this.type = type;
-        this.withItem = false;
-        mds = new MuldvarpDataSource(ctx);
     }
 
     public NewDownloadTask(Context ctx, Intent intent, MuldvarpService.DataTypes type, int itemId) {
         this.intent = intent;
         this.ctx = ctx;
         this.type = type;
-        this.withItem = true;
-        mds = new MuldvarpDataSource(ctx);
         this.itemId = itemId;
     }
     
@@ -75,8 +61,6 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
         this.ctx = ctx;
         this.mService = mService;
         this.type = type;
-        this.withItem = true;
-        mds = new MuldvarpDataSource(ctx);
         this.itemId = itemId;
     }
     
@@ -103,77 +87,26 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(String... params) {
-        mds.open();
         try {
             String json = getData(params[0]);
             List<Domain> items;
-            Domain item;
             switch(type) {
-//                case COURSES:
-//                    items = JSONUtilities.JSONtoList(json, type);
-//                    List<Domain> oldCourses;
-//                    oldCourses = mService.mCourses;
-//                    
-//                    mService.setmCourses(new ArrayList<Domain>(items));
-//                    
-////
-////                    if(compareOld(oldCourses, items)) {
-////                        for(int i = 0; i < items.size(); i++) {
-////                            mds.insertCourse((Course)items.get(i));
-////                        }
-////                    }
-//                    break;
-                case PROGRAMS:
-                    items = JSONUtilities.JSONtoList(json, type);
-                    mService.setmProgrammes(new ArrayList<Domain>(items));
-//                    List<Domain> oldProgs = mService.mProgrammes;
-//                    if(compareOld(oldProgs, items)) {
-//                        for(int i = 0; i < items.size(); i++) {
-//                            mds.insertProgramme((Programme)items.get(i));
-//                        }
-//                    }
+                case COURSES:
+                    if(itemId > 0) {
+                        Course item = (Course)JSONUtilities.JSONtoObject(json, type);
+                        mService.setSelectedCourse(item);
+                    }
                     break;
-//                case ARTICLE:
-//                    item = JSONUtilities.JSONtoObject(json, type);
-//                    mService.setmArticle(item);
-////                    mds.insertArticle((Article)item);
-//                    break;
-//                case DOCUMENTS:
-//                    items = JSONUtilities.JSONtoList(json, type);
-//                    mService.setmDocuments(new ArrayList<Domain>(items));
-////                    List<Domain> oldDocs = mService.mDocuments;
-////                    if(compareOld(oldDocs, items)) {
-////                        for(int i = 0; i < items.size(); i++) {
-////                            mds.insertDocument((Document)items.get(i));
-////                        }
-////                    }
-//                    break;
-//                case VIDEOS:
-//                    items = JSONUtilities.JSONtoList(json, type);
-//                    mService.setmVideos(new ArrayList<Domain>(items));
-////                    List<Domain> oldVideos = mds.getAllVideos();
-////                    if(compareOld(oldVideos, items)) {
-////                        for(int i = 0; i < items.size(); i++) {
-////                            mds.insertVideo((Video)items.get(i));
-////                        }
-////                    }
-//                    break;
-//                case QUIZ:
-//                    items = JSONUtilities.JSONtoList(json, type);
-//                    mService.setQuizzes(new ArrayList<Domain>(items));
-//                    break;
-//                case NEWS:
-//                    items = JSONUtilities.JSONtoList(json, type);
-//                    mService.setmNews(new ArrayList<Domain>(items));
-////                    List<Domain> oldArticles = mds.getArticlesByCategory("news");
-////                    if(compareOld(oldArticles, items)) {
-////                        for(int i = 0; i < items.size(); i++) {
-////                            mds.insertArticle((Article)items.get(i));
-////                        }
-////                    }
-//                    break;
+                case PROGRAMS:
+                    if(itemId > 0) {
+                        Programme item = (Programme)JSONUtilities.JSONtoObject(json, type);
+                        mService.setSelectedProgramme(item);
+                    } else {
+                        items = JSONUtilities.JSONtoList(json, type);
+                        mService.setmProgrammes(new ArrayList<Domain>(items));
+                    }
+                    break;
                 case FRONTPAGE:
-                    //item = JSONUtilities.JSONtoObject(json, type);
                     items = JSONUtilities.JSONtoList(json, type);
                     items = new ArrayList<Domain>(items);
                     try {
@@ -181,17 +114,17 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
                     } catch (NullPointerException ex) {
                         Log.e("DOWNLOADTASK", ex.getMessage());
                     }
-                    
+                    break;
+                default:
+                    System.out.println("ERROR: nothing to do in download task");
                     break;
             }
-            //mds.close();
             return true;
         } catch (JSONException ex) {
             Logger.getLogger(DownloadTask.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(DownloadTask.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //mds.close();
         return false;
     }
 
@@ -200,45 +133,6 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
         if(retVal) {
             LocalBroadcastManager.getInstance(ctx).sendBroadcast(intent);
         }
-    }
-
-//    public static Set<Domain> compareLists(List<Domain> list1, List<Domain> list2) {
-//        Set<Domain> intersect = new HashSet<Domain>(list1);
-//        intersect.retainAll(list2);
-//        return intersect;
-//    }
-
-    public boolean compareOld(List<Domain> oldItems, List<Domain> newItems) {
-        try {
-            for(int i = 0; i < oldItems.size(); i++) {
-                Domain oldItem = oldItems.get(i);
-                boolean found = false;
-                for(int k = 0; k < newItems.size(); k++) {
-                    Domain newProg = newItems.get(k);
-                    if(newProg.getName().equals(oldItem.getName())) {
-                        found = true;
-                        break;
-                    }
-                }
-                if(!found) {
-                    if (oldItem instanceof Programme) {
-                        mService.mProgrammes.remove(i);
-                    } else if (oldItem instanceof Course) {
-                        mService.mCourses.remove(i);
-                    } else if (oldItem instanceof Document) {
-                        mService.mDocuments.remove(i);
-                    } else if (oldItem instanceof Video) {
-                        mService.mVideos.remove(i);
-                    } else if (oldItem instanceof Article) {
-                        mService.mArticles.remove(i);
-                    }
-                }
-            }
-        } catch(NullPointerException ex) {
-            Log.e("dl", "ERROR: " + ex.getMessage());
-            return false;
-        }
-        return true;
     }
 
 }

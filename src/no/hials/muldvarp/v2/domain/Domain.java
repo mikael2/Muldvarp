@@ -14,7 +14,6 @@ import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.WebzViewFragment;
-import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +45,7 @@ public class Domain implements Serializable {
         try {
             this.fragments = JSONArrayToFragments(json.getJSONArray("fragmentBundle"));
         } catch(JSONException ex) {
-            Log.e("MULDVARP", "Ingen fragments");
+            Log.e("MULDVARP", name + " har ingen fragments");
             Log.e("DOMAIN", ex.getMessage());
         }        
     }

@@ -39,7 +39,9 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.R.anim;
 import no.hials.muldvarp.R.layout;
 import no.hials.muldvarp.v2.MuldvarpService.LocalBinder;
+import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
@@ -104,6 +106,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
          // We are going to watch for interesting local broadcasts.
         IntentFilter filter = new IntentFilter();
         filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
+        filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+        filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -154,8 +158,13 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 refreshView.startAnimation(rotateClockwise);
                 menuItem = item;
                 menuItem.setActionView(refreshView);
-                mService.initializeData();
-                setUpdated();
+                if(domain instanceof Course) {
+                    mService.updateSingleItem(MuldvarpService.DataTypes.COURSES, domain.getId());
+                } else if(domain instanceof Programme) {
+                    mService.updateSingleItem(MuldvarpService.DataTypes.PROGRAMS, domain.getId());
+                } else {
+                    mService.initializeData();
+                }
                 return true;
             case R.id.login:
                 showDialog(0);

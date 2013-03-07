@@ -32,16 +32,6 @@ public class DomainFragment implements Serializable {
         this.name = json.getString("name");
         this.fragmentType = getBackEnum(json.getString("fragmentType"));
         try {
-            this.articleID = json.getJSONObject("article").getLong("id");
-        } catch(JSONException ex) {
-            Log.e("JSON", "No Article?", ex);
-        }
-        try {
-            this.category = json.getString("category");
-        } catch(JSONException ex) {
-            Log.e("JSON", "No category?", ex);
-        }
-        try {
             switch(fragmentType) {
                 case QUIZ:
                     this.items = JSONUtilities.JSONtoList(json.getJSONArray("quizzes").toString(), MuldvarpService.DataTypes.QUIZ);
@@ -53,10 +43,22 @@ public class DomainFragment implements Serializable {
                     this.items = JSONUtilities.JSONtoList(json.getJSONArray("documents").toString(), MuldvarpService.DataTypes.DOCUMENTS);
                     break;
                 case NEWS:
+                    try {
+                        this.category = json.getString("category");
+                    } catch(JSONException ex) {
+                        Log.e("JSON", "No category?", ex);
+                    }
                     this.items = JSONUtilities.JSONtoList(json.getJSONArray("news").toString(), MuldvarpService.DataTypes.NEWS);
                     break;
                 case VIDEO:
                     this.items = JSONUtilities.JSONtoList(json.getJSONArray("videos").toString(), MuldvarpService.DataTypes.VIDEOS);
+                    break;
+                case ARTICLE:
+                    try {
+                        this.articleID = json.getJSONObject("article").getLong("id");
+                    } catch(JSONException ex) {
+                        Log.e("JSON", "No Article?", ex);
+                    }
                     break;
             }
         } catch(JSONException ex) {

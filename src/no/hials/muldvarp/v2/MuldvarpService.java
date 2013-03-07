@@ -2,9 +2,7 @@ package no.hials.muldvarp.v2;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
@@ -12,10 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
-import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.*;
-import no.hials.muldvarp.v2.utility.DownloadTask;
-import no.hials.muldvarp.v2.utility.DummyDataProvider;
 import no.hials.muldvarp.v2.utility.NewDownloadTask;
 import no.hials.muldvarp.v2.utility.ServerConnection;
 
@@ -43,16 +38,10 @@ public class MuldvarpService extends Service {
 
     private User user;
 
-    private MuldvarpDataSource mds = new MuldvarpDataSource(this);
     public ArrayList<Domain> mProgrammes;
-    public ArrayList<Domain> mCourses;
-    public ArrayList<Domain> mQuizzes;
-    public ArrayList<Domain> mDocuments;
-    public ArrayList<Domain> mArticles;
-    public ArrayList<Domain> mVideos;
+    public Course selectedCourse;
+    public Programme selectedProgramme;
     public ArrayList<Domain> mNews;
-    public Domain mArticle;
-    public ArrayList<Programme> mDomainItems;
     public Domain frontpage;
 
     // Binder given to clients
@@ -66,25 +55,6 @@ public class MuldvarpService extends Service {
     BroadcastReceiver     mReceiver;
     int initilizeDataCounter;
     ServerConnection server;
-    private String header;
-
-    @Override
-    public void onCreate() {
-        // The service is being created
-        super.onCreate();
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
-        server = new ServerConnection(this);
-        mDomainItems = new ArrayList<Programme>();
-        mNews = new ArrayList<Domain>();
-        mProgrammes = new ArrayList<Domain>();
-        mCourses = new ArrayList<Domain>();
-        mQuizzes = new ArrayList<Domain>();
-        mDocuments = new ArrayList<Domain>();
-        mArticles = new ArrayList<Domain>();
-        mVideos = new ArrayList<Domain>();
-        mNews = new ArrayList<Domain>();
-        mArticle = new Domain();
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -127,26 +97,6 @@ public class MuldvarpService extends Service {
 
         return getString(R.string.youtubeAPIPath) + "users/" + user + "/uploads?alt=json";
     }
-    
-    public ArrayList<Programme> getProgrammes(){
-        return mDomainItems;
-    }
-
-    public Domain getmArticle() {
-        return mArticle;
-    }
-
-    public void setmArticle(Domain mArticle) {
-        this.mArticle = mArticle;
-    }
-
-    public ArrayList<Domain> getmArticles() {
-        return mArticles;
-    }
-
-    public void setmArticles(ArrayList<Domain> mArticles) {
-        this.mArticles = mArticles;
-    }
 
     public Domain getFrontpage() {
         return frontpage;
@@ -154,22 +104,6 @@ public class MuldvarpService extends Service {
 
     public void setFrontpage(Domain frontpage) {
         this.frontpage = frontpage;
-    }
-
-    public ArrayList<Domain> getmCourses() {
-        return mCourses;
-    }
-
-    public void setmCourses(ArrayList<Domain> mCourses) {
-        this.mCourses = mCourses;
-    }
-
-    public ArrayList<Domain> getmDocuments() {
-        return mDocuments;
-    }
-
-    public void setmDocuments(ArrayList<Domain> mDocuments) {
-        this.mDocuments = mDocuments;
     }
 
     public ArrayList<Domain> getmNews() {
@@ -188,27 +122,21 @@ public class MuldvarpService extends Service {
         this.mProgrammes = mProgrammes;
     }
 
-    public ArrayList<Domain> getQuizzes() {
-        if(mQuizzes == null) {
-            mQuizzes = new ArrayList<Domain>();
-        }
-        
-        return mQuizzes;
+    public Course getSelectedCourse() {
+        return selectedCourse;
     }
 
-    public void setQuizzes(ArrayList<Domain> mQuizzes) {
-        this.mQuizzes = mQuizzes;
+    public void setSelectedCourse(Course selectedCourse) {
+        this.selectedCourse = selectedCourse;
     }
 
-    public ArrayList<Domain> getmVideos() {
-        return mVideos;
+    public Programme getSelectedProgramme() {
+        return selectedProgramme;
     }
 
-    public void setmVideos(ArrayList<Domain> mVideos) {
-        this.mVideos = mVideos;
+    public void setSelectedProgramme(Programme selectedProgramme) {
+        this.selectedProgramme = selectedProgramme;
     }
-    
-    
 
     /**
      * Method login, of class MuldvarpService.
@@ -266,42 +194,42 @@ public class MuldvarpService extends Service {
      * @param type
      * @param id
      */
-    public synchronized void update(DataTypes type, int id) {
-        if(true) {
-            switch(type) {
-                case COURSES:
-                    new NewDownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type, id, this)
-                            .execute(getUrl(R.string.programmeCourseResPath) + id);
-                    break;
-//                case VIDEOS:
-//                    new NewDownloadTask(this,new Intent(ACTION_VIDEO_UPDATE), type, this)
-//                            .execute(getUrl(R.string.videoResPath));
+//    public synchronized void update(DataTypes type, int id) {
+//        if(true) {
+//            switch(type) {
+//                case COURSES:
+//                    new NewDownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type, id, this)
+//                            .execute(getUrl(R.string.programmeCourseResPath) + id);
 //                    break;
-//                case DOCUMENTS:
-//                    new NewDownloadTask(this,new Intent(ACTION_LIBRARY_UPDATE), type, this)
-//                            .execute(getUrl(R.string.libraryResPath));
-//                    break;
-//                case PROGRAMS:
-//                    new NewDownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type, this)
-//                            .execute(getUrl(R.string.programmesResPath));
-//                    break;
-//                case NEWS:
-//                    new NewDownloadTask(this,new Intent(ACTION_NEWS_UPDATE), type, id, this)
-//                            .execute(getUrl(R.string.newsResPath));
-//                    break;
-//                case QUIZ:
-//                    new NewDownloadTask(this,new Intent(ACTION_QUIZ_UPDATE), type, id, this)
-//                            .execute(getUrl(R.string.quizResPath));
-//                    ArrayList<Domain> as = DummyDataProvider.getQuizList();
-//                    for (int i = 0; i < as.size(); i++) {
-//                        mds.open();
-//                        long insertid = mds.insertQuiz((Quiz)as.get(i));
-//                        mds.addTopQuiz(insertid);
-//                    }
-//                    break;
-            }
-        }
-    }
+////                case VIDEOS:
+////                    new NewDownloadTask(this,new Intent(ACTION_VIDEO_UPDATE), type, this)
+////                            .execute(getUrl(R.string.videoResPath));
+////                    break;
+////                case DOCUMENTS:
+////                    new NewDownloadTask(this,new Intent(ACTION_LIBRARY_UPDATE), type, this)
+////                            .execute(getUrl(R.string.libraryResPath));
+////                    break;
+////                case PROGRAMS:
+////                    new NewDownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type, this)
+////                            .execute(getUrl(R.string.programmesResPath));
+////                    break;
+////                case NEWS:
+////                    new NewDownloadTask(this,new Intent(ACTION_NEWS_UPDATE), type, id, this)
+////                            .execute(getUrl(R.string.newsResPath));
+////                    break;
+////                case QUIZ:
+////                    new NewDownloadTask(this,new Intent(ACTION_QUIZ_UPDATE), type, id, this)
+////                            .execute(getUrl(R.string.quizResPath));
+////                    ArrayList<Domain> as = DummyDataProvider.getQuizList();
+////                    for (int i = 0; i < as.size(); i++) {
+////                        mds.open();
+////                        long insertid = mds.insertQuiz((Quiz)as.get(i));
+////                        mds.addTopQuiz(insertid);
+////                    }
+////                    break;
+//            }
+//        }
+//    }
 
     /**
      * Download/Update frontpage data
@@ -338,22 +266,26 @@ public class MuldvarpService extends Service {
 //        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
     }
 
-//    /**
-//     * Downloads/Updates a single domain item
-//     *
-//     * @param type
-//     * @param itemId
-//     */
-//    public synchronized void updateSingleItem(DataTypes type, int itemId) {
+    /**
+     * Downloads/Updates a single domain item
+     *
+     * @param type
+     * @param itemId
+     */
+    public synchronized void updateSingleItem(DataTypes type, int itemId) {
 //        if(server.checkServer()) {
-//            switch(type) {
-//                case ARTICLE:
-//                    new DownloadTask(this,new Intent(ACTION_ARTICLE_UPDATE), type)
-//                            .execute(getUrl(R.string.articleResPath) + itemId);
-//                    break;
-//            }
+            switch(type) {
+                case COURSES:
+                    new NewDownloadTask(this,new Intent(ACTION_COURSE_UPDATE), type, itemId, this)
+                            .execute(getUrl(R.string.courseResPath) + itemId);
+                    break;
+                case PROGRAMS:
+                    new NewDownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type, itemId, this)
+                            .execute(getUrl(R.string.programmesResPath) + itemId);
+                    break;
+            }
 //        }
-//    }
+    }
 
     public String getUrl(int resId) {
         return getString(R.string.serverPath) + getString(resId);

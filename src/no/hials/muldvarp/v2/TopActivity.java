@@ -17,7 +17,9 @@ import android.widget.SpinnerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
@@ -44,9 +46,7 @@ public class TopActivity extends MuldvarpActivity{
             domain = (Domain) getIntent().getExtras().get("Domain");
             activityName = domain.getName();
             
-            //Add fragments to list if empty:
             if(fragmentList.isEmpty()) {
-//                domain.populateList(fragmentList, this);
                 domain.constructList(fragmentList, domain.getFragments());
             }
 
@@ -68,12 +68,32 @@ public class TopActivity extends MuldvarpActivity{
              // We are going to watch for interesting local broadcasts.
             IntentFilter filter = new IntentFilter();
             filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
+            filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+            filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
             mReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
-//                    domain = mService.
+                    if(domain instanceof Course) {
+                        domain = mService.selectedCourse;
+                        System.out.println("Domain is a course");
+                    } else if(domain instanceof Programme) {
+                        domain = mService.selectedProgramme;
+                        System.out.println("Domain is a programme");
+                    }
                     domain.constructList(fragmentList, domain.getFragments());
+                    setUpdated();//Get dropdown menu using standard menu
+                mSpinnerAdapter = new ArrayAdapter(getBaseContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                getDropDownMenuOptions(fragmentList));
+
+                ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(int position, long itemId) {
+                        return FragmentUtils.changeFragment(thisActivity, fragmentList, position);
+                    }
+                };
+                getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
                 }
             };
             mLocalBroadcastManager.registerReceiver(mReceiver, filter);

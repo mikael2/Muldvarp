@@ -107,31 +107,31 @@ public class ListFragment extends MuldvarpFragment {
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
 
-        MuldvarpService service = owningActivity.getService();
-        if(service == null) {
-            Log.e("ListFragment","MuldvarpService is null in onCreateView");
-        } else {
-            switch(type) {
-                case COURSE:
-                    service.update(DataTypes.COURSES, owningActivity.domain.getId());
-                    break;
-                case PROGRAMME:
-                    service.update(DataTypes.PROGRAMS, 0);
-                    break;
-                case DOCUMENT:
-                    service.update(DataTypes.DOCUMENTS, 0);
-                    break;
-                case VIDEO:
-                    service.update(DataTypes.VIDEOS, 0);
-                    break;
-                case NEWS:
-                    service.update(DataTypes.NEWS, 0);
-                    break;
-                case QUIZ:
-                    service.update(DataTypes.QUIZ, 0);
-                    break;
-            }
-        }
+//        MuldvarpService service = owningActivity.getService();
+//        if(service == null) {
+//            Log.e("ListFragment","MuldvarpService is null in onCreateView");
+//        } else {
+//            switch(type) {
+//                case COURSE:
+//                    service.update(DataTypes.COURSES, owningActivity.domain.getId());
+//                    break;
+//                case PROGRAMME:
+//                    service.update(DataTypes.PROGRAMS, 0);
+//                    break;
+//                case DOCUMENT:
+//                    service.update(DataTypes.DOCUMENTS, 0);
+//                    break;
+//                case VIDEO:
+//                    service.update(DataTypes.VIDEOS, 0);
+//                    break;
+//                case NEWS:
+//                    service.update(DataTypes.NEWS, 0);
+//                    break;
+//                case QUIZ:
+//                    service.update(DataTypes.QUIZ, 0);
+//                    break;
+//            }
+//        }
         
         return fragmentView;
     }
@@ -151,7 +151,6 @@ public class ListFragment extends MuldvarpFragment {
             switch(type) {
                 case COURSE:
                     items.clear();
-//                    items.addAll(service.mCourses);
                     Programme p = (Programme)owningActivity.domain;
                     items.addAll(p.getCourses());
                     break;
