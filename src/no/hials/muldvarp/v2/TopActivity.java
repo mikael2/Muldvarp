@@ -67,33 +67,36 @@ public class TopActivity extends MuldvarpActivity{
             mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
              // We are going to watch for interesting local broadcasts.
             IntentFilter filter = new IntentFilter();
-            filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
-            filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
-            filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
+            if(domain instanceof Programme) {
+                filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
+            } else if(domain instanceof Course) {
+                filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+            } else {
+                filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
+            }
             mReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
                     if(domain instanceof Course) {
                         domain = mService.selectedCourse;
-                        System.out.println("Domain is a course");
                     } else if(domain instanceof Programme) {
                         domain = mService.selectedProgramme;
-                        System.out.println("Domain is a programme");
                     }
                     domain.constructList(fragmentList, domain.getFragments());
-                    setUpdated();//Get dropdown menu using standard menu
-                mSpinnerAdapter = new ArrayAdapter(getBaseContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                getDropDownMenuOptions(fragmentList));
+                    setUpdated();
+                    //Get dropdown menu using standard menu
+                    mSpinnerAdapter = new ArrayAdapter(getBaseContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    getDropDownMenuOptions(fragmentList));
 
-                ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(int position, long itemId) {
-                        return FragmentUtils.changeFragment(thisActivity, fragmentList, position);
-                    }
-                };
-                getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+                    ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(int position, long itemId) {
+                            return FragmentUtils.changeFragment(thisActivity, fragmentList, position);
+                        }
+                    };
+                    getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
                 }
             };
             mLocalBroadcastManager.registerReceiver(mReceiver, filter);
@@ -104,9 +107,7 @@ public class TopActivity extends MuldvarpActivity{
     
     public void setUpFrontpage() {
         activityName = getResources().getString(R.string.app_logo_top);
-            // We use this to send broadcasts within our local process.
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
-         // We are going to watch for interesting local broadcasts.
         IntentFilter filter = new IntentFilter();
         filter.addAction(MuldvarpService.ACTION_FRONTPAGE_UPDATE);
         mReceiver = new BroadcastReceiver() {
@@ -128,10 +129,10 @@ public class TopActivity extends MuldvarpActivity{
                     }
                 };
                 getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+                setUpdated();
             }
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
-        setUpdated();
     }
 
     @Override

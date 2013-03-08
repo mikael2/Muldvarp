@@ -105,9 +105,13 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
          // We are going to watch for interesting local broadcasts.
         IntentFilter filter = new IntentFilter();
-        filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
-        filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
-        filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
+        if(domain instanceof Programme) {
+            filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
+        } else if(domain instanceof Course) {
+            filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
+        } else {
+            filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
+        }
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -145,8 +149,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = null;
-
         switch (item.getItemId()) {
             case android.R.id.home:
                 rbmView.toggleMenu();
@@ -197,8 +199,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 dialog.setTitle("Login");
                 final Button button;
                 button = (Button) dialog.findViewById(R.id.login);
-                 button.setOnClickListener(new View.OnClickListener() {
-                     public void onClick(View v) {
+                button.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
                         EditText username = (EditText)dialog.findViewById(R.id.username);
                         EditText password = (EditText)dialog.findViewById(R.id.password);
                         if(mService.login(username.getText().toString(), password.getText().toString())){//Sends the logindata to muldvarpservice which authenticates the user, and then stores the user data.
@@ -213,8 +215,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                             toast.show();
                         }
 
-             }
-         });
+                    }
+                });
                 break;
             case 1:
                 dialog.setContentView(R.layout.directory_campus);

@@ -121,9 +121,9 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
             }
             return true;
         } catch (JSONException ex) {
-            Logger.getLogger(DownloadTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewDownloadTask.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(DownloadTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewDownloadTask.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }

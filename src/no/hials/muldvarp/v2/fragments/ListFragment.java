@@ -6,14 +6,10 @@ package no.hials.muldvarp.v2.fragments;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.MuldvarpService;
-import no.hials.muldvarp.v2.MuldvarpService.DataTypes;
 import no.hials.muldvarp.v2.TopActivity;
-import no.hials.muldvarp.v2.database.MuldvarpDataSource;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Video;
@@ -70,76 +64,10 @@ public class ListFragment extends MuldvarpFragment {
 //        progressDialog = new ProgressDialog(owningActivity);
         itemsReady();
         
-        // We use this to send broadcasts within our local process.
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity().getApplicationContext());
-         // We are going to watch for interesting local broadcasts.
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
-        switch(type) {
-            case PROGRAMME:
-                filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
-                break;
-            case COURSE:
-                filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
-                break;
-            case NEWS:
-                filter.addAction(MuldvarpService.ACTION_NEWS_UPDATE);
-                break;
-            case DOCUMENT:
-                filter.addAction(MuldvarpService.ACTION_LIBRARY_UPDATE);
-                break;
-            case VIDEO:
-                filter.addAction(MuldvarpService.ACTION_VIDEO_UPDATE);
-                break;
-            case QUIZ:
-                filter.addAction(MuldvarpService.ACTION_QUIZ_UPDATE);
-                break;
-            default:
-//                progressDialog.dismiss();
-                break;
-        }
-        mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
-                updateItems();
-            }
-        };
-        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
-
-//        MuldvarpService service = owningActivity.getService();
-//        if(service == null) {
-//            Log.e("ListFragment","MuldvarpService is null in onCreateView");
-//        } else {
-//            switch(type) {
-//                case COURSE:
-//                    service.update(DataTypes.COURSES, owningActivity.domain.getId());
-//                    break;
-//                case PROGRAMME:
-//                    service.update(DataTypes.PROGRAMS, 0);
-//                    break;
-//                case DOCUMENT:
-//                    service.update(DataTypes.DOCUMENTS, 0);
-//                    break;
-//                case VIDEO:
-//                    service.update(DataTypes.VIDEOS, 0);
-//                    break;
-//                case NEWS:
-//                    service.update(DataTypes.NEWS, 0);
-//                    break;
-//                case QUIZ:
-//                    service.update(DataTypes.QUIZ, 0);
-//                    break;
-//            }
-//        }
-        
         return fragmentView;
     }
 
     private void updateItems() {
-        MuldvarpDataSource mds = new MuldvarpDataSource(getActivity());
-        mds.open();
-
         Domain d = owningActivity.domain;
         System.out.println("ID " + d.getId());
         System.out.println("NAME " + d.getName());
@@ -158,18 +86,9 @@ public class ListFragment extends MuldvarpFragment {
                     items.clear();
                     items.addAll(service.mProgrammes);
                     break;
-                case DOCUMENT:
-//                    items.addAll(service.mDocuments);
-                    break;
-                case VIDEO:
-//                    items.addAll(service.mVideos);
-                    break;
                 case NEWS:
                     items.clear();
                     items.addAll(service.mNews);
-                    break;
-                case QUIZ:
-//                    items.addAll(service.getQuizzes());
                     break;
             } 
         }
