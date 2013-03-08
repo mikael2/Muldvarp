@@ -82,6 +82,8 @@ public class TopActivity extends MuldvarpActivity{
                         domain = mService.selectedCourse;
                     } else if(domain instanceof Programme) {
                         domain = mService.selectedProgramme;
+                    } else {
+                        domain = mService.getFrontpage();
                     }
                     domain.constructList(fragmentList, domain.getFragments());
                     setUpdated();
@@ -105,7 +107,7 @@ public class TopActivity extends MuldvarpActivity{
         }
     }
     
-    public void setUpFrontpage() {
+    public void setUpFrontpage() {        
         activityName = getResources().getString(R.string.app_logo_top);
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter filter = new IntentFilter();
@@ -114,7 +116,6 @@ public class TopActivity extends MuldvarpActivity{
             @Override
             public void onReceive(Context context, Intent intent) {
                 domain = mService.getFrontpage();
-                
                 domain.constructList(fragmentList, domain.getFragments());
 
                 //Get dropdown menu using standard menu
@@ -130,6 +131,10 @@ public class TopActivity extends MuldvarpActivity{
                 };
                 getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
                 setUpdated();
+                
+                Intent i = new Intent();
+                i.putExtra("Domain", domain);
+                thisActivity.setIntent(i);
             }
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);

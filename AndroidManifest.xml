@@ -26,14 +26,6 @@
                 android:name="android.app.default_searchable"
                 android:value=".SearchActivity" />
         </activity>
-        <activity android:name=".v2.ProgrammeActivity"
-                  android:label="Studieløp"/>
-        <activity android:name=".v2.CourseActivity"
-                  android:label="Fag"/>
-        <activity android:name=".v2.TaskActivity"
-                  android:label="Delemne"/>
-        <activity android:name=".v2.DetailActivity"
-                  android:label="Detaljer"/>
         <activity android:name=".v2.QuizActivity"
                   android:screenOrientation="portrait"
                   android:label="Quiz"/>
@@ -51,8 +43,5 @@
                 <action android:name="no.hials.muldvarp.ACTION_START_ACTIVITY"/>
             </intent-filter>
         </receiver>
-
-
-
     </application>
 </manifest>

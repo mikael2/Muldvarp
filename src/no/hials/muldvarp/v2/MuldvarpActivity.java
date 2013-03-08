@@ -339,6 +339,10 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      }
      
      public void setUpdated() {
-        bottomtext.setText("Last updated: " + new Date());
-    }
+        bottomtext.setText(getVersion() + "\nLast updated: " + new Date());
+     }
+     
+     public String getVersion() {
+         return getString(R.string.version);
+     }
 }

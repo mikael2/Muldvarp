@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HIALS</string>
+    <string name="version">Version 1.0</string>
     <string name="desktop_name">Desktop</string>
     <string name="settings_name">Settings</string>
     <string name="menu_update">Update</string>
