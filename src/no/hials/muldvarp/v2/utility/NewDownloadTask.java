@@ -115,6 +115,10 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
                         Log.e("DOWNLOADTASK", ex.getMessage());
                     }
                     break;
+                case NEWS:
+                    items = JSONUtilities.JSONtoList(json, type);
+                    mService.setmNews(new ArrayList<Domain>(items));
+                    break;
                 default:
                     System.out.println("ERROR: nothing to do in download task");
                     break;

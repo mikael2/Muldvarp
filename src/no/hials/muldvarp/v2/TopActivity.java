@@ -30,7 +30,7 @@ import no.hials.muldvarp.v2.utility.FragmentUtils;
  *
  * @author johan
  */
-public class TopActivity extends MuldvarpActivity{
+public class TopActivity extends MuldvarpActivity {
     private Activity thisActivity = this;
     SpinnerAdapter mSpinnerAdapter = null;
     
@@ -46,22 +46,7 @@ public class TopActivity extends MuldvarpActivity{
             domain = (Domain) getIntent().getExtras().get("Domain");
             activityName = domain.getName();
             
-            if(fragmentList.isEmpty()) {
-                domain.constructList(fragmentList, domain.getFragments());
-            }
-
-            //Get dropdown menu using standard menu
-            mSpinnerAdapter = new ArrayAdapter(this,
-                    android.R.layout.simple_spinner_dropdown_item,
-                    getDropDownMenuOptions(fragmentList));
-
-            ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
-                @Override
-                public boolean onNavigationItemSelected(int position, long itemId) {
-                    return FragmentUtils.changeFragment(thisActivity, fragmentList, position);
-                }
-            };
-            getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+            setUpFragmentList();
             
             // We use this to send broadcasts within our local process.
             mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -77,7 +62,7 @@ public class TopActivity extends MuldvarpActivity{
             mReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
+                    System.out.println("TopActivity Got onReceive in BroadcastReceiver " + intent.getAction());
                     if(domain instanceof Course) {
                         domain = mService.selectedCourse;
                     } else if(domain instanceof Programme) {
@@ -85,20 +70,8 @@ public class TopActivity extends MuldvarpActivity{
                     } else {
                         domain = mService.getFrontpage();
                     }
-                    domain.constructList(fragmentList, domain.getFragments());
-                    setUpdated();
-                    //Get dropdown menu using standard menu
-                    mSpinnerAdapter = new ArrayAdapter(getBaseContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    getDropDownMenuOptions(fragmentList));
-
-                    ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
-                        @Override
-                        public boolean onNavigationItemSelected(int position, long itemId) {
-                            return FragmentUtils.changeFragment(thisActivity, fragmentList, position);
-                        }
-                    };
-                    getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+                    setUpFragmentList();
+                    postUpdateStuff();
                 }
             };
             mLocalBroadcastManager.registerReceiver(mReceiver, filter);
@@ -107,7 +80,9 @@ public class TopActivity extends MuldvarpActivity{
         }
     }
     
-    public void setUpFrontpage() {        
+    public void setUpFrontpage() {
+        System.out.println("Setting up frontpage");
+        
         activityName = getResources().getString(R.string.app_logo_top);
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter filter = new IntentFilter();
@@ -116,28 +91,30 @@ public class TopActivity extends MuldvarpActivity{
             @Override
             public void onReceive(Context context, Intent intent) {
                 domain = mService.getFrontpage();
-                domain.constructList(fragmentList, domain.getFragments());
-
-                //Get dropdown menu using standard menu
-                mSpinnerAdapter = new ArrayAdapter(getBaseContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                getDropDownMenuOptions(fragmentList));
-
-                ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(int position, long itemId) {
-                        return FragmentUtils.changeFragment(thisActivity, fragmentList, position);
-                    }
-                };
-                getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
-                setUpdated();
-                
-                Intent i = new Intent();
-                i.putExtra("Domain", domain);
-                thisActivity.setIntent(i);
+                setUpFragmentList();
+                getIntent().putExtra("Domain", domain);
+                postUpdateStuff();
             }
         };
-        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+        mLocalBroadcastManager.registerReceiver(mReceiver, filter);        
+    }
+    
+    public void setUpFragmentList() {
+        domain.constructList(fragmentList, domain.getFragments());
+
+        //Get dropdown menu using standard menu
+        mSpinnerAdapter = new ArrayAdapter(getBaseContext(),
+        android.R.layout.simple_spinner_dropdown_item,
+        getDropDownMenuOptions(fragmentList));
+
+        ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
+            @Override
+            public boolean onNavigationItemSelected(int position, long itemId) {
+                getIntent().putExtra("tab", position);
+                return FragmentUtils.changeFragment(thisActivity, fragmentList, position);
+            }
+        };
+        getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
     }
 
     @Override
@@ -159,9 +136,5 @@ public class TopActivity extends MuldvarpActivity{
             retVal.add(fragmentList.get(i).getFragmentTitle());
         }
         return retVal;
-    }
-
-    public Domain getDomain() {
-        return domain;
     }
 }

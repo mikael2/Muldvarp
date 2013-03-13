@@ -48,7 +48,7 @@ public class DomainFragment implements Serializable {
                     } catch(JSONException ex) {
                         Log.e("JSON", "No category?", ex);
                     }
-                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("news").toString(), MuldvarpService.DataTypes.NEWS);
+//                    this.items = JSONUtilities.JSONtoList(json.getJSONArray("news").toString(), MuldvarpService.DataTypes.NEWS);
                     break;
                 case VIDEO:
                     this.items = JSONUtilities.JSONtoList(json.getJSONArray("videos").toString(), MuldvarpService.DataTypes.VIDEOS);

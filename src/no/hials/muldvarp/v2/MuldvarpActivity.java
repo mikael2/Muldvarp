@@ -72,13 +72,11 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
 
     @Override
     public void onBackPressed() {
-        if(rbmView.isMenuVisible()){
+        if(rbmView.isMenuVisible()) {
             rbmView.hideMenu();
-        }
-        else if(getActionBar().getSelectedNavigationIndex() > 0){
+        } else if(getActionBar().getSelectedNavigationIndex() > 0) {
             getActionBar().setSelectedNavigationItem(0);
-        }
-        else{
+        } else {
 //            showDialog(2);
             super.onBackPressed();
         }
@@ -89,7 +87,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         super.onCreate(savedInstanceState);
         System.out.println(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
-
+        
         setContentView(R.layout.main);
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
@@ -100,44 +98,33 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getActionBar().setDisplayShowTitleEnabled(false);
-
-        // We use this to send broadcasts within our local process.
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
-         // We are going to watch for interesting local broadcasts.
-        IntentFilter filter = new IntentFilter();
-        if(domain instanceof Programme) {
-            filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
-        } else if(domain instanceof Course) {
-            filter.addAction(MuldvarpService.ACTION_COURSE_UPDATE);
-        } else {
-            filter.addAction(MuldvarpService.ACTION_ALL_UPDATE);
-        }
-        mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                System.out.println("Got onReceive in BroadcastReceiver " + intent.getAction());
-                if(refreshView != null) {
-                    refreshView.clearAnimation();
-                }
-                if(menuItem != null) {
-                    menuItem.setActionView(null);
-                }
-            }
-        };
-        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
-
+        
         Intent intent = new Intent(this, MuldvarpService.class);
         startService(intent);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+    
+    public void navigateToLastUsedFragment() {
+        System.out.println("NAVIGATING BR BR");
         if(getIntent().getIntExtra("tab", 0) > 0) {
             getActionBar().setSelectedNavigationItem(getIntent().getIntExtra("tab", 0));
         } else if(savedInstanceState != null) {
             getActionBar().setSelectedNavigationItem(savedInstanceState.getInt("tab"));
+        }
+    }
+    
+    public void postUpdateStuff() {
+        navigateToLastUsedFragment();
+        stopAnimation();
+        setUpdated();
+    }
+    
+    public void stopAnimation() {
+        if(refreshView != null) {
+            refreshView.clearAnimation();
+        }
+        if(menuItem != null) {
+            menuItem.setActionView(null);
         }
     }
 
@@ -158,6 +145,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 refreshView = (ImageView) inflater.inflate(layout.refresh_icon, null);
                 Animation rotateClockwise = AnimationUtils.loadAnimation(this, anim.rotate);
                 refreshView.startAnimation(rotateClockwise);
+                
                 menuItem = item;
                 menuItem.setActionView(refreshView);
                 if(domain instanceof Course) {

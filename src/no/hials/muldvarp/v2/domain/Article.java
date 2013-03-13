@@ -4,7 +4,6 @@
  */
 package no.hials.muldvarp.v2.domain;
 
-import android.content.Context;
 import java.io.Serializable;
 import java.util.List;
 import no.hials.muldvarp.R;
@@ -27,7 +26,6 @@ public class Article extends Domain implements Serializable {
     }
 
     public Article(JSONObject json) throws JSONException {
-        System.out.println(json.getString("title"));
         super.id = json.getInt("id");
         super.name = json.getString("title");
         if(json.getString("ingress") != null) {
@@ -79,8 +77,7 @@ public class Article extends Domain implements Serializable {
     }
 
     @Override
-    public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
-        System.out.println("ID IS: " + id);
+    public void constructList(List<MuldvarpFragment> fragmentList, List<DomainFragment> fragments) {
         fragmentList.add(new WebzViewFragment(" ", R.drawable.stolen_smsalt, id));
     }
 }

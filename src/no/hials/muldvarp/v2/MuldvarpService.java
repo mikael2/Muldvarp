@@ -24,6 +24,7 @@ public class MuldvarpService extends Service {
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
     public static final String ACTION_ALL_UPDATE          = "no.hials.muldvarp.ACTION_ALL_UPDATE";
     public static final String ACTION_FRONTPAGE_UPDATE    = "no.hials.muldvarp.ACTION_FRONTPAGE_UPDATE";
+    public static final String ACTION_NEWS_UPDATE         = "no.hials.muldvarp.ACTION_NEWS_UPDATE";
 
     private User user;
 
@@ -53,6 +54,7 @@ public class MuldvarpService extends Service {
     public void onCreate() {
         super.onCreate();
         initializeData();
+        System.out.println("Service created");
     }
 
     @Override
@@ -66,16 +68,16 @@ public class MuldvarpService extends Service {
         return mAllowRebind;
     }
 
-    @Override
-    public void onRebind(Intent intent) {
-        // A client is binding to the service with bindService(),
-        // after onUnbind() has already been called
-    }
-
-    @Override
-    public void onDestroy() {
-        // The service is no longer used and is being destroyed
-    }
+//    @Override
+//    public void onRebind(Intent intent) {
+//        // A client is binding to the service with bindService(),
+//        // after onUnbind() has already been called
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        // The service is no longer used and is being destroyed
+//    }
 
     /**
      * Class for clients to access. Because we know this service always runs in
@@ -184,6 +186,8 @@ public class MuldvarpService extends Service {
                 .execute(getUrl(R.string.frontpageResPath));
         new NewDownloadTask(this,new Intent(ACTION_ALL_UPDATE), DataTypes.PROGRAMS, this)
                 .execute(getUrl(R.string.programmesResPath));
+        new NewDownloadTask(this,new Intent(ACTION_NEWS_UPDATE), DataTypes.NEWS, this)
+                            .execute(getUrl(R.string.newsResPath));
     }
 
     /**

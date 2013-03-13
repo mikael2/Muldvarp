@@ -40,13 +40,13 @@ public class Domain implements Serializable {
         this.id = json.getInt("id");
         this.name = json.getString("name");
         //this.detail = json.getString("detail");
-        System.out.println("ID " + id);
-        System.out.println("NAME " + name);
+//        System.out.println("ID " + id);
+//        System.out.println("NAME " + name);
         try {
             this.fragments = JSONArrayToFragments(json.getJSONArray("fragmentBundle"));
         } catch(JSONException ex) {
-            Log.e("MULDVARP", name + " har ingen fragments");
-            Log.e("DOMAIN", ex.getMessage());
+//            Log.e("MULDVARP", name + " har ingen fragments");
+//            Log.e("DOMAIN", ex.getMessage());
         }        
     }
     
