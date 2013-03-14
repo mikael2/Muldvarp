@@ -297,6 +297,13 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             else {
                 loginname.setText("ikke innlogget");                            //If there is no logged in user, a default "not logged in" string is displayed in the ribbonmenu
             }
+            
+            // Stygg løsning av ikkje innlastnings av data buggen på framsida etter å ha backa ut av appen
+            if(domain instanceof Course || domain instanceof Programme) {
+                
+            } else {
+                mService.initializeData();
+            }
         }
 
         @Override
@@ -332,5 +339,5 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      
      public String getVersion() {
          return getString(R.string.version);
-     }
+     }     
 }

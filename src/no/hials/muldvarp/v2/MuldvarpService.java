@@ -53,7 +53,7 @@ public class MuldvarpService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        initializeData();
+//        initializeData();
         System.out.println("Service created");
     }
 
