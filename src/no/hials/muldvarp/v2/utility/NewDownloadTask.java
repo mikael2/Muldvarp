@@ -126,8 +126,10 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
             return true;
         } catch (JSONException ex) {
             Logger.getLogger(NewDownloadTask.class.getName()).log(Level.SEVERE, null, ex);
+            LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(MuldvarpService.ACTION_UPDATE_FAILED));
         } catch (IOException ex) {
             Logger.getLogger(NewDownloadTask.class.getName()).log(Level.SEVERE, null, ex);
+            LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(MuldvarpService.ACTION_UPDATE_FAILED));
         }
         return false;
     }

@@ -58,6 +58,9 @@ public class ListAdapter extends ArrayAdapter {
         Domain domain = (Domain)items.get(position);
 
         holder.name.setText(domain.getName());
+        if(domain.getName().length() > 30) {
+            holder.name.setTextSize(18);
+        }
 
         if (showdetails) {
             holder.detail.setText(domain.getDetail().substring(0, 200) + " ...");

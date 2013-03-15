@@ -10,7 +10,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -69,6 +68,8 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     MenuItem menuItem;
     ImageView refreshView;
     TextView bottomtext;
+    boolean isFrontpage = false;
+    ProgressDialog progress;
 
     @Override
     public void onBackPressed() {
@@ -105,7 +106,6 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     }
     
     public void navigateToLastUsedFragment() {
-        System.out.println("NAVIGATING BR BR");
         if(getIntent().getIntExtra("tab", 0) > 0) {
             getActionBar().setSelectedNavigationItem(getIntent().getIntExtra("tab", 0));
         } else if(savedInstanceState != null) {
@@ -117,6 +117,9 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         navigateToLastUsedFragment();
         stopAnimation();
         setUpdated();
+        if(progress != null) {
+            progress.dismiss();
+        }
     }
     
     public void stopAnimation() {
@@ -141,6 +144,9 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 rbmView.toggleMenu();
                 return true;
             case R.id.refresh:
+                progress = new ProgressDialog(this);
+                progress.show();
+                
                 LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                 refreshView = (ImageView) inflater.inflate(layout.refresh_icon, null);
                 Animation rotateClockwise = AnimationUtils.loadAnimation(this, anim.rotate);
@@ -298,10 +304,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 loginname.setText("ikke innlogget");                            //If there is no logged in user, a default "not logged in" string is displayed in the ribbonmenu
             }
             
-            // Stygg løsning av ikkje innlastnings av data buggen på framsida etter å ha backa ut av appen
-            if(domain instanceof Course || domain instanceof Programme) {
-                
-            } else {
+            if(isFrontpage) {
                 mService.initializeData();
             }
         }

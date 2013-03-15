@@ -54,7 +54,10 @@ public class FrontPageFragment extends MuldvarpFragment {
         TextView headerTitle = (TextView) retVal.findViewById(R.id.textview);   
         
         fragmentTitle = owningActivity.activityName;
-        headerTitle.setText(fragmentTitle);      
+        headerTitle.setText(fragmentTitle);
+        if(fragmentTitle.length() > 30) {
+            headerTitle.setTextSize(20);
+        }
     
         adapter = new FrontPageFragment.ImageAdapter(getActivity());
         gridview.setAdapter(adapter);
@@ -114,6 +117,9 @@ public class FrontPageFragment extends MuldvarpFragment {
                 retVal = li.inflate(R.layout.desktop_icon, null);
                 ImageView imageView = (ImageView) retVal.findViewById(R.id.grid_item_image);
                 TextView  textView  = (TextView) retVal.findViewById(R.id.grid_item_label);
+                if(currentFragmentList.get(position).getFragmentTitle().length() > 14) {
+                    textView.setTextSize(10);
+                }
              
                 imageView.setImageResource(currentFragmentList.get(position).getIconResourceID());
                 textView.setText(currentFragmentList.get(position).getFragmentTitle());

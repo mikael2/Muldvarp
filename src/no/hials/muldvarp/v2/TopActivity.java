@@ -6,6 +6,7 @@ package no.hials.muldvarp.v2;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
@@ -41,6 +43,23 @@ public class TopActivity extends MuldvarpActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MuldvarpService.ACTION_UPDATE_FAILED);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                System.out.println("TopActivity Got onReceive in BroadcastReceiver " + intent.getAction());
+                if(progress != null) {
+                    postUpdateStuff();
+                    Toast t = Toast.makeText(getApplicationContext(), "Kunne ikke koble til serveren. \nEr du koblet til internett?", Toast.LENGTH_LONG);
+                    t.show();
+                }
+            }
+        };
+        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+        
         //See if the Activity was started with an Intent that included a Domain object
         if(getIntent().hasExtra("Domain")) {
             domain = (Domain) getIntent().getExtras().get("Domain");
@@ -51,7 +70,7 @@ public class TopActivity extends MuldvarpActivity {
             // We use this to send broadcasts within our local process.
             mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
              // We are going to watch for interesting local broadcasts.
-            IntentFilter filter = new IntentFilter();
+            filter = new IntentFilter();
             if(domain instanceof Programme) {
                 filter.addAction(MuldvarpService.ACTION_PROGRAMMES_UPDATE);
             } else if(domain instanceof Course) {
@@ -81,7 +100,10 @@ public class TopActivity extends MuldvarpActivity {
     }
     
     public void setUpFrontpage() {
+        progress = new ProgressDialog(this);
+        progress.show();
         System.out.println("Setting up frontpage");
+        isFrontpage = true;
         
         activityName = getResources().getString(R.string.app_logo_top);
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
