@@ -120,7 +120,10 @@ public class JSONUtilities {
                     break;
                  case QUIZ:
                     d = new Quiz(jArray.getJSONObject(i));
-                    break;   
+                    break;
+                 case TIMEEDIT:
+                     d = new TimeEdit(jArray.getJSONObject(i));
+                     break;
                 default:
                     d = new Domain(jArray.getJSONObject(i));
                     break;

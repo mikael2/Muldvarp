@@ -17,7 +17,4 @@
     <item android:id="@+id/about"
           android:iconifiedByDefault="false"
           android:title="Om oss"/>
-    <item android:id="@+id/deletedatabase"
-          android:iconifiedByDefault="false"
-          android:title="Slett databasen"/>
 </menu>

@@ -17,11 +17,13 @@ import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
+import no.hials.muldvarp.v2.domain.TimeEdit;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
@@ -118,7 +120,51 @@ public class TopActivity extends MuldvarpActivity {
                 postUpdateStuff();
             }
         };
-        mLocalBroadcastManager.registerReceiver(mReceiver, filter);        
+        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+        
+        // TimeEdit example
+        activityName = getResources().getString(R.string.app_logo_top);
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+        filter = new IntentFilter();
+        filter.addAction(MuldvarpService.ACTION_TIMEEDIT_UPDATE);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                TimeEdit t = null;
+                for(int i = 0; i < mService.getTimeEdit().size(); i++ ) {
+                    TimeEdit tt = (TimeEdit)mService.getTimeEdit().get(i);
+                    Date currentDate = new Date();
+                    if(Integer.parseInt(tt.getDate().substring(0, 2)) == currentDate.getDate()) {
+                        t = (TimeEdit)mService.getTimeEdit().get(i);
+                        break;
+                    }
+                }
+                String s = "";
+                if(t != null) {
+                    s = "\n"
+                        + "Dagens timer:"
+                        + "\n"
+                        + t.getDay() + " "
+                        + t.getDate()
+                        + "\n";
+                    for(TimeEdit.Course c : t.getCourses()) {
+                        s += "\n" 
+                            + c.getCourse()
+                            + "\n" 
+                            + c.getTime()
+                            + "\n"
+                            + c.getRoom()
+                            + "\n"
+                            + c.getTeacher()
+                            + "\n"
+                            ;
+                    }
+                }
+                
+                timeeditText.setText(s);
+            }
+        };
+        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
     }
     
     public void setUpFragmentList() {

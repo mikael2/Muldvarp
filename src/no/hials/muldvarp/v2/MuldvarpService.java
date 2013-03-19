@@ -25,6 +25,7 @@ public class MuldvarpService extends Service {
     public static final String ACTION_ALL_UPDATE          = "no.hials.muldvarp.ACTION_ALL_UPDATE";
     public static final String ACTION_FRONTPAGE_UPDATE    = "no.hials.muldvarp.ACTION_FRONTPAGE_UPDATE";
     public static final String ACTION_NEWS_UPDATE         = "no.hials.muldvarp.ACTION_NEWS_UPDATE";
+    public static final String ACTION_TIMEEDIT_UPDATE     = "no.hials.muldvarp.ACTION_TIMEEDIT_UPDATE";
 
     private User user;
 
@@ -33,6 +34,7 @@ public class MuldvarpService extends Service {
     public Programme selectedProgramme;
     public ArrayList<Domain> mNews;
     public Domain frontpage;
+    public ArrayList<Domain> timeEdit;
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -94,46 +96,6 @@ public class MuldvarpService extends Service {
         return getString(R.string.youtubeAPIPath) + "users/" + user + "/uploads?alt=json";
     }
 
-    public Domain getFrontpage() {
-        return frontpage;
-    }
-
-    public void setFrontpage(Domain frontpage) {
-        this.frontpage = frontpage;
-    }
-
-    public ArrayList<Domain> getmNews() {
-        return mNews;
-    }
-
-    public void setmNews(ArrayList<Domain> mNews) {
-        this.mNews = mNews;
-    }
-
-    public ArrayList<Domain> getmProgrammes() {
-        return mProgrammes;
-    }
-
-    public void setmProgrammes(ArrayList<Domain> mProgrammes) {
-        this.mProgrammes = mProgrammes;
-    }
-
-    public Course getSelectedCourse() {
-        return selectedCourse;
-    }
-
-    public void setSelectedCourse(Course selectedCourse) {
-        this.selectedCourse = selectedCourse;
-    }
-
-    public Programme getSelectedProgramme() {
-        return selectedProgramme;
-    }
-
-    public void setSelectedProgramme(Programme selectedProgramme) {
-        this.selectedProgramme = selectedProgramme;
-    }
-
     /**
      * Method login, of class MuldvarpService.
      * This method is used to login to the server remotely. Input the username and password, and the method returns a boolean which is true if the info is correct.
@@ -176,7 +138,7 @@ public class MuldvarpService extends Service {
         return user;
     }
 
-    public enum DataTypes {COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS, QUIZ, FRONTPAGE}
+    public enum DataTypes {COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS, QUIZ, FRONTPAGE, TIMEEDIT}
 
     /**
      * Download/Update frontpage data
@@ -188,6 +150,8 @@ public class MuldvarpService extends Service {
                 .execute(getUrl(R.string.programmesResPath));
         new NewDownloadTask(this,new Intent(ACTION_NEWS_UPDATE), DataTypes.NEWS, this)
                             .execute(getUrl(R.string.newsResPath));
+        new NewDownloadTask(this,new Intent(ACTION_TIMEEDIT_UPDATE), DataTypes.TIMEEDIT, this)
+                            .execute(getUrl(R.string.timeeditPath) + "183000");
     }
 
     /**
@@ -215,4 +179,51 @@ public class MuldvarpService extends Service {
         return getString(R.string.serverPath) + getString(resId);
     }
     
+    public Domain getFrontpage() {
+        return frontpage;
+    }
+
+    public void setFrontpage(Domain frontpage) {
+        this.frontpage = frontpage;
+    }
+
+    public ArrayList<Domain> getmNews() {
+        return mNews;
+    }
+
+    public void setmNews(ArrayList<Domain> mNews) {
+        this.mNews = mNews;
+    }
+
+    public ArrayList<Domain> getmProgrammes() {
+        return mProgrammes;
+    }
+
+    public void setmProgrammes(ArrayList<Domain> mProgrammes) {
+        this.mProgrammes = mProgrammes;
+    }
+
+    public Course getSelectedCourse() {
+        return selectedCourse;
+    }
+
+    public void setSelectedCourse(Course selectedCourse) {
+        this.selectedCourse = selectedCourse;
+    }
+
+    public Programme getSelectedProgramme() {
+        return selectedProgramme;
+    }
+
+    public void setSelectedProgramme(Programme selectedProgramme) {
+        this.selectedProgramme = selectedProgramme;
+    }
+
+    public ArrayList<Domain> getTimeEdit() {
+        return timeEdit;
+    }
+
+    public void setTimeEdit(ArrayList<Domain> timeEdit) {
+        this.timeEdit = timeEdit;
+    }
 }

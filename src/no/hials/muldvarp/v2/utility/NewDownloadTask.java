@@ -119,6 +119,10 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
                     items = JSONUtilities.JSONtoList(json, type);
                     mService.setmNews(new ArrayList<Domain>(items));
                     break;
+                case TIMEEDIT:
+                    items = JSONUtilities.JSONtoList(json, type);
+                    mService.setTimeEdit(new ArrayList<Domain>(items));
+                    break;
                 default:
                     System.out.println("ERROR: nothing to do in download task");
                     break;

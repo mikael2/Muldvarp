@@ -70,6 +70,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
     TextView bottomtext;
     boolean isFrontpage = false;
     ProgressDialog progress;
+    TextView timeeditText;
 
     @Override
     public void onBackPressed() {
@@ -93,6 +94,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
         loginname = (TextView) findViewById(R.id.loginname);
+        timeeditText = (TextView) findViewById(R.id.timeedittext);
         bottomtext = (TextView) findViewById(R.id.bottomtext);
         
         getActionBar().setHomeButtonEnabled(true);
@@ -337,7 +339,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
      }
      
      public void setUpdated() {
-        bottomtext.setText(getVersion() + "\nLast updated: " + new Date());
+        bottomtext.setText(getVersion() + "\nSist oppdatert: " + new Date());
      }
      
      public String getVersion() {
