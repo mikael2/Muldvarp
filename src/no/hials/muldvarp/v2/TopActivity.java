@@ -68,6 +68,7 @@ public class TopActivity extends MuldvarpActivity {
             activityName = domain.getName();
             
             setUpFragmentList();
+            TimeEditContent();
             
             // We use this to send broadcasts within our local process.
             mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -96,6 +97,7 @@ public class TopActivity extends MuldvarpActivity {
                 }
             };
             mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+            TimeEditImpl();
         } else {
             setUpFrontpage();
         }
@@ -106,6 +108,7 @@ public class TopActivity extends MuldvarpActivity {
         progress.show();
         System.out.println("Setting up frontpage");
         isFrontpage = true;
+        TimeEditContent();
         
         activityName = getResources().getString(R.string.app_logo_top);
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -122,49 +125,61 @@ public class TopActivity extends MuldvarpActivity {
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         
+        TimeEditImpl();
+    }
+    
+    public void TimeEditImpl() {
         // TimeEdit example
         activityName = getResources().getString(R.string.app_logo_top);
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
-        filter = new IntentFilter();
+        IntentFilter filter = new IntentFilter();
         filter.addAction(MuldvarpService.ACTION_TIMEEDIT_UPDATE);
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                TimeEdit t = null;
-                for(int i = 0; i < mService.getTimeEdit().size(); i++ ) {
-                    TimeEdit tt = (TimeEdit)mService.getTimeEdit().get(i);
-                    Date currentDate = new Date();
-                    if(Integer.parseInt(tt.getDate().substring(0, 2)) == currentDate.getDate()) {
-                        t = (TimeEdit)mService.getTimeEdit().get(i);
-                        break;
-                    }
-                }
-                String s = "";
-                if(t != null) {
-                    s = "\n"
-                        + "Dagens timer:"
-                        + "\n"
-                        + t.getDay() + " "
-                        + t.getDate()
-                        + "\n";
-                    for(TimeEdit.Course c : t.getCourses()) {
-                        s += "\n" 
-                            + c.getCourse()
-                            + "\n" 
-                            + c.getTime()
-                            + "\n"
-                            + c.getRoom()
-                            + "\n"
-                            + c.getTeacher()
-                            + "\n"
-                            ;
-                    }
-                }
-                
-                timeeditText.setText(s);
+                TimeEditContent();
             }
         };
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+    }
+    
+    public void TimeEditContent() {
+        if(mService != null) {
+            TimeEdit t = null;
+            for(int i = 0; i < mService.getTimeEdit().size(); i++ ) {
+                TimeEdit tt = (TimeEdit)mService.getTimeEdit().get(i);
+                Date currentDate = new Date();
+                if(Integer.parseInt(tt.getDate().substring(0, 2)) == currentDate.getDate()) {
+                    t = (TimeEdit)mService.getTimeEdit().get(i);
+                    break;
+                }
+            }
+            String s = "";
+            if(t != null) {
+                s = "\n"
+                    + "Dagens timer:"
+                    + "\n"
+                    + t.getDay() + " "
+                    + t.getDate()
+                    + "\n";
+                for(TimeEdit.Course c : t.getCourses()) {
+                    s += "\n" 
+                        + c.getCourse()
+                        + "\n" 
+                        + c.getTime()
+                        + "\n"
+                        + c.getRoom()
+                        + "\n"
+                        + c.getTeacher()
+                        + "\n"
+                        ;
+                }
+            }
+
+            timeeditText.setText(s);
+        } else {
+            timeeditText.setText("Oppdater for å se timeplan");
+        }
     }
     
     public void setUpFragmentList() {
