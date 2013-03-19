@@ -130,7 +130,6 @@ public class TopActivity extends MuldvarpActivity {
     
     public void TimeEditImpl() {
         // TimeEdit example
-        activityName = getResources().getString(R.string.app_logo_top);
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(MuldvarpService.ACTION_TIMEEDIT_UPDATE);

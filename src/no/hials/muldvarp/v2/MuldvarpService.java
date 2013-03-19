@@ -150,8 +150,6 @@ public class MuldvarpService extends Service {
                 .execute(getUrl(R.string.programmesResPath));
         new NewDownloadTask(this,new Intent(ACTION_NEWS_UPDATE), DataTypes.NEWS, this)
                             .execute(getUrl(R.string.newsResPath));
-        new NewDownloadTask(this,new Intent(ACTION_TIMEEDIT_UPDATE), DataTypes.TIMEEDIT, this)
-                            .execute(getUrl(R.string.timeeditPath) + "183000");
     }
 
     /**
@@ -173,6 +171,11 @@ public class MuldvarpService extends Service {
                     break;
             }
 //        }
+    }
+    
+    public void updateTimeEdit() {
+        new NewDownloadTask(this,new Intent(ACTION_TIMEEDIT_UPDATE), DataTypes.TIMEEDIT, this)
+                            .execute(getUrl(R.string.timeeditPath) + "183000");
     }
 
     public String getUrl(int resId) {

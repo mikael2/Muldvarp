@@ -163,6 +163,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 } else {
                     mService.initializeData();
                 }
+                mService.updateTimeEdit();
                 return true;
             case R.id.login:
                 showDialog(0);
