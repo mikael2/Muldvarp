@@ -118,6 +118,7 @@
     <string name="quizTypeText">Type:</string>
     <string name="quizTypeUnknownText">Ukjent</string>
     <string name="quizNoQuestionsText">Denne Quiz\'en har ingen spørsmål.</string>
+    <string name="quizInvalidFormatText">Quiz\'en er feil formatert.</string>
     <string name="quizResultText">Resultat:</string>
     <string name="quizResultFailText">Ikke bestått.</string>
     <string name="quizResultPassText">Bestått</string>

@@ -104,7 +104,8 @@ public class QuizQuestionFragment extends MuldvarpFragment {
                     
                     if (question.getQuestionType() == Question.QuestionType.MULTIPLE) {
                         question.getAlternative(arg2).toggleChosen();
-                    } else if(question.getQuestionType() == Question.QuestionType.SINGLE) {
+                    } else if(question.getQuestionType() == Question.QuestionType.SINGLE ||
+                            question.getQuestionType() == null) {
                         for (int i = 0; i < question.getAlternatives().size(); i++) {
                             if(i == arg2){
                                 question.getAlternative(i).setIsChoosen(true);
@@ -147,24 +148,5 @@ public class QuizQuestionFragment extends MuldvarpFragment {
             retVal.add(alternatives.get(i).getName());
         }
         return retVal;
-    }
-//
-//    
-//    public void makeQuizData(String questionString, List<String> alternatives, String correctAlternative) {
-//        ArrayList<Alternative> list = new ArrayList();
-//        Alternative correct = null;
-//        int i = 0;
-//        for (String s : alternatives) {
-//            Alternative alt = new Alternative(s);
-//            alt.setId(i);
-//            if (alt.getName().equalsIgnoreCase(correctAlternative)) {
-//                correct = alt;
-//            }
-//            list.add(alt);
-//            i++;
-//        }
-//        question = new Question(questionString, list, Question.QuestionType.SINGLE);
-//    }
-    
-    
+    }    
 }

@@ -44,6 +44,7 @@ public class Domain implements Serializable {
 //        System.out.println("NAME " + name);
         try {
             this.fragments = JSONArrayToFragments(json.getJSONArray("fragmentBundle"));
+            System.out.println("fragments size:" + fragments.size());
         } catch(JSONException ex) {
 //            Log.e("MULDVARP", name + " har ingen fragments");
 //            Log.e("DOMAIN", ex.getMessage());
@@ -133,6 +134,16 @@ public class Domain implements Serializable {
             retVal.add(t);
         }
         return retVal;
+    }
+    /**
+     * This method validates the format of the Domain class, checking if the essential parameters are set.
+     * Returns false if the format is not properly set, and returns true if else.
+     * Override in your extended domain class.
+     * @return boolean 
+     */
+    public boolean validateFormat(){
+        //NYI
+        return true;
     }
     
     /**

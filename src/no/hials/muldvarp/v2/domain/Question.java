@@ -17,7 +17,7 @@ import org.json.JSONObject;
  * 
  * @author johan
  */
-public class Question implements Serializable{
+public class Question extends Domain implements Serializable{
     public enum QuestionType {
         SINGLE("Single"),
         MULTIPLE("Multiple"),
@@ -31,8 +31,6 @@ public class Question implements Serializable{
         }
     }
     //Global variables
-    long id;
-    String name;
     QuestionType questionType;    
     List<Alternative> alternatives;
     boolean shuffleAlternatives;
@@ -90,13 +88,26 @@ public class Question implements Serializable{
         this.name = name;
         this.alternatives = alternatives;
     }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
+    
+    /**
+     * This method validates the format of the Questions class, checking if the essential parameters are set.
+     * Currently these are QuestionType, name, ArrayList<Alternative>, and all the alternatives must also be formatted properly. 
+     * Returns false if the format is not properly set, and returns true if else.
+     * @return boolean 
+     */
+    @Override
+    public boolean validateFormat(){
+        if(questionType == null
+                || alternatives == null 
+                || name == null){
+            return false;
+        } 
+        for(Alternative a : alternatives){
+            if(!a.validateFormat()){
+                return false;
+            }
+        }
+        return true;
     }
 
     public QuestionType getQuestionType() {
@@ -119,14 +130,6 @@ public class Question implements Serializable{
         }
     }
     
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void addAlternative(Alternative newAlternative) {
         alternatives.add(newAlternative);
     }

@@ -4,6 +4,8 @@
  */
 package no.hials.muldvarp.v2;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -79,14 +81,33 @@ public class QuizMainActivity extends MuldvarpActivity{
             TextView quizResult = (TextView) findViewById(R.id.quizResultText2);
             quizResult.setText(getQuizStatus());
             Button startQuizButton = (Button) findViewById(R.id.startQuizButton);
-            if (quiz.getQuestions().size() > 0) {
+            if (quiz.validateFormat()) {
                 startQuizButton.setText(R.string.quizStartButtonText);
                 setOnClickListeners();
-            } else {                
-                startQuizButton.setText(R.string.quizNoQuestionsText);
+            } else if (quiz.getQuestions() != null){
+                if(quiz.getQuestions().size() < 0)
+                showErrorDialog(getString(R.string.quizNoQuestionsText));
+                startQuizButton.setClickable(false);
+            } else {
+                showErrorDialog(getString(R.string.quizInvalidFormatText));
                 startQuizButton.setClickable(false);
             }
         }        
+    }
+    
+    /**
+     * Void method containing functionality to construct a dialog.
+     */
+    public void showErrorDialog(String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
+               finish();
+           }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
         
     public String getQuizStatus(){        

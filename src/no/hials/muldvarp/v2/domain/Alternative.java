@@ -5,7 +5,6 @@
 package no.hials.muldvarp.v2.domain;
 
 import java.io.Serializable;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,9 +38,7 @@ public class Alternative extends Domain implements Serializable {
         name = json.getString("name");        
         if (json.getString("isCorrect").equals("true")) {
             this.isCorrect = true;
-        } else {
-            this.isCorrect = false;
-        }        
+        } 
         
     }
     
@@ -61,6 +58,21 @@ public class Alternative extends Domain implements Serializable {
         this.isCorrect = isCorrect;
         isChoosen = false;
         
+    }
+    
+    /**
+     * This method validates the format of the Alternative class, checking if the essential parameters are set.
+     * Currently these are enum AlternativeType and String name.
+     * Returns false if the format is not properly set, and returns true if else.
+     * @return boolean 
+     */
+    @Override
+    public boolean validateFormat(){
+        if(alternativeType != null 
+                || name == null){
+            return false;
+        } 
+        return true;
     }
 
     public boolean isIsCorrect() {

@@ -118,6 +118,29 @@ public class Quiz extends Domain {
             Collections.shuffle(questions);
         }
     }
+    
+    /**
+     * This method validates the format of the Quiz class, checking if the essential parameters are set.
+     * Currently these are QuizType, ArrayList<Question>, and all the questions must also be formatted properly. 
+     * Returns false if the format is not properly set, and returns true if else.
+     * @return boolean 
+     */
+    @Override
+    public boolean validateFormat(){
+        System.out.println("WARNIGN WRANING");
+        System.out.println("validating  quizzzes");
+        //Check type
+        if(quizType == null
+                || questions == null){
+            return false;
+        }         
+        for(Question q : questions){
+            if(!q.validateFormat()){
+                return false;
+            }
+        }
+        return true;
+    }
 
 
     public List<Question> getQuestions() {        
@@ -149,4 +172,5 @@ public class Quiz extends Domain {
     public void setQuizType(QuizType quizType) {
         this.quizType = quizType;
     }
+    
 }
