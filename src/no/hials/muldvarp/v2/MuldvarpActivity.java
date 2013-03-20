@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.slidingmenu.lib.SlidingMenu;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -91,11 +92,30 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         this.savedInstanceState = savedInstanceState;
         
         setContentView(R.layout.main);
+    
+        
+        
+        
         rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
         rbmView.setMenuClickCallback(this);
         loginname = (TextView) findViewById(R.id.loginname);
         timeeditText = (TextView) findViewById(R.id.timeedittext);
         bottomtext = (TextView) findViewById(R.id.bottomtext);
+        
+                        // configure the SlidingMenu
+        SlidingMenu menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+//        menu.setShadowWidthRes(R.dimen.shadow_width);
+//        menu.setShadowDrawable(R.drawable.shadow);
+//        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setBehindOffset(120);
+        menu.setShadowDrawable(R.drawable.stolen_youtube);
+        menu.setFadeDegree(0.0f);
+//        menu.setFadeEnabled(false);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setMenu(R.layout.quiz_activity_main);
+        
         
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);

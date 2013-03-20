@@ -43,7 +43,7 @@ public class TopActivity extends MuldvarpActivity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);        
         
         
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
