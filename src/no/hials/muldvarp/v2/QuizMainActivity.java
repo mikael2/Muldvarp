@@ -80,14 +80,15 @@ public class QuizMainActivity extends MuldvarpActivity{
             quizResultText.setText(R.string.quizResultText);
             TextView quizResult = (TextView) findViewById(R.id.quizResultText2);
             quizResult.setText(getQuizStatus());
-            Button startQuizButton = (Button) findViewById(R.id.startQuizButton);
-            if (quiz.validateFormat()) {
+            Button startQuizButton = (Button) findViewById(R.id.startQuizButton);           
+            
+            if (quiz.getQuestions() != null
+                    && quiz.getQuestions().isEmpty()) {
+                showErrorDialog(getString(R.string.quizNoQuestionsText));                startQuizButton.setClickable(false);
+                
+            } else if (quiz.validateFormat()){
                 startQuizButton.setText(R.string.quizStartButtonText);
                 setOnClickListeners();
-            } else if (quiz.getQuestions() != null){
-                if(quiz.getQuestions().size() < 0)
-                showErrorDialog(getString(R.string.quizNoQuestionsText));
-                startQuizButton.setClickable(false);
             } else {
                 showErrorDialog(getString(R.string.quizInvalidFormatText));
                 startQuizButton.setClickable(false);
@@ -99,8 +100,9 @@ public class QuizMainActivity extends MuldvarpActivity{
      * Void method containing functionality to construct a dialog.
      */
     public void showErrorDialog(String message){
+        System.out.println("showing dialog with message " + message);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(message);
+        builder.setMessage(message).setTitle(R.string.warning);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
                finish();

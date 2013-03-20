@@ -127,18 +127,21 @@ public class Quiz extends Domain {
      */
     @Override
     public boolean validateFormat(){
-        System.out.println("WARNIGN WRANING");
-        System.out.println("validating  quizzzes");
         //Check type
-        if(quizType == null
-                || questions == null){
+        if(quizType == null){
+            System.out.println("DOMAINQUIZ: VALIDATION FAILED - QuizType not set.");
             return false;
-        }         
+        } else if(questions == null){
+            System.out.println("DOMAINQUIZ: VALIDATION FAILED - Questions not set.");
+            return false;
+        }
+        System.out.println("DOMAINQUIZ: Size of Question Array: " + questions.size());
         for(Question q : questions){
             if(!q.validateFormat()){
                 return false;
             }
         }
+        System.out.println("DOMAINQUIZ: VALIDATION OK.");
         return true;
     }
 

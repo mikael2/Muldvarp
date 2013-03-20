@@ -97,9 +97,14 @@ public class Question extends Domain implements Serializable{
      */
     @Override
     public boolean validateFormat(){
-        if(questionType == null
-                || alternatives == null 
-                || name == null){
+        if(questionType == null){
+            System.out.println("DOMAINQUESTION: VALIDATION FAILED - QuestionType not set.");
+            return false;
+        } else if(alternatives == null ) {
+            System.out.println("DOMAINQUESTION: VALIDATION FAILED - Alternatives not set.");
+            return false;
+        } else if (name == null){
+            System.out.println("DOMAINQUESTION: VALIDATION FAILED - Name not set.");
             return false;
         } 
         for(Alternative a : alternatives){
@@ -107,6 +112,7 @@ public class Question extends Domain implements Serializable{
                 return false;
             }
         }
+        System.out.println("QUESTIONDOMAIN: VALIDATION OK");
         return true;
     }
 
