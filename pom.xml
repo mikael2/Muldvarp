@@ -17,6 +17,36 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>2.3.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.9.1.0</version>
+            <scope>test</scope>
+        </dependency>   
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbyclient</artifactId>
+            <version>10.9.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>3.5</version>
@@ -25,12 +55,22 @@
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>6.0</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14</version>
+                <configuration>
+                    <classpathDependencyExcludes>
+                        <!-- exclude code absent api -->
+                        <classpathDependencyExclude>javax:javaee-api</classpathDependencyExclude>
+                        <classpathDependencyExclude>javax:javaee-web-api</classpathDependencyExclude>
+                    </classpathDependencyExcludes>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -84,6 +124,11 @@
             <id>PrimeFaces-maven-lib</id>
             <layout>default</layout>
             <name>Repository for library PrimeFaces-maven-lib</name>
+        </repository>
+        <repository>
+            <id>EclipseLink Repo</id>
+            <name>EclipseLink Repository</name>
+            <url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
         </repository>
     </repositories>
 </project>

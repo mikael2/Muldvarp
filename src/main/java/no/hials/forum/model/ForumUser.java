@@ -20,6 +20,10 @@ public class ForumUser implements Serializable {
         name = "";
     }
 
+    public ForumUser(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
