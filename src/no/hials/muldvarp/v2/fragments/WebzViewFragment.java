@@ -14,11 +14,18 @@ import no.hials.muldvarp.R;
 public class WebzViewFragment extends MuldvarpFragment{
     View fragmentView;
     int id;
+    String URL;
 
     public WebzViewFragment(String title, int iconResourceID, int id) {
         super.fragmentTitle = title;
         super.iconResourceID = iconResourceID;
         this.id = id;
+    }
+    
+    public WebzViewFragment(String title, String URL, int id) {
+        super.fragmentTitle = title;
+        super.iconResourceID = iconResourceID;
+        this.URL = URL;
     }
 
     @Override

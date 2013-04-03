@@ -7,7 +7,6 @@ package no.hials.muldvarp.v2.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import no.hials.muldvarp.v2.QuizActivity;
 import no.hials.muldvarp.v2.QuizMainActivity;
 import org.json.JSONArray;
 import org.json.JSONException;

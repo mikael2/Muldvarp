@@ -19,6 +19,8 @@ public class Programme extends Domain {
     String imageurl;
     int revision;
     String programmeId;
+    String webLink;
+    String programmeCode;
     
     public Programme() {
 
@@ -26,6 +28,7 @@ public class Programme extends Domain {
 
     public Programme(JSONObject json) throws JSONException {
         super(json);
+        webLink = json.getString("weblink");
         courses = JSONUtilities.JSONArrayToCourses(json.getJSONArray("courses"));
     }
 
@@ -49,6 +52,22 @@ public class Programme extends Domain {
         getCourses().remove(c);
     }
 
+    public String getWebLink() {
+        return webLink;
+    }
+
+    public void setWebLink(String webLink) {
+        this.webLink = webLink;
+    }
+
+    public String getProgrammeCode() {
+        return programmeCode;
+    }
+
+    public void setProgrammeCode(String programmeCode) {
+        this.programmeCode = programmeCode;
+    }
+    
     public String getImageurl() {
         return imageurl;
     }
@@ -72,16 +91,4 @@ public class Programme extends Domain {
     public void setProgrammeId(String programmeId) {
         this.programmeId = programmeId;
     }
-
-//    @Override
-//    public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
-//        fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
-//        fragmentList.add(new WebzViewFragment("Informasjon", R.drawable.stolen_contacts, info));
-//        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
-//        fragmentList.add(new ListFragment("Fag", R.drawable.stolen_smsalt, ListFragment.ListType.COURSE));
-//        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
-//        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
-//        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
-//        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, dates));
-//    }
 }
