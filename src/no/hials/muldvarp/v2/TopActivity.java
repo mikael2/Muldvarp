@@ -148,7 +148,9 @@ public class TopActivity extends MuldvarpActivity {
             for(int i = 0; i < mService.getTimeEdit().size(); i++ ) {
                 TimeEdit tt = (TimeEdit)mService.getTimeEdit().get(i);
                 Date currentDate = new Date();
-                if(Integer.parseInt(tt.getDate().substring(0, 2)) == currentDate.getDate()) {
+                String date = tt.getDate();
+                date = date.replaceAll("[a-zA-Z ]", "");
+                if(Integer.parseInt(date) == currentDate.getDate()) {
                     t = (TimeEdit)mService.getTimeEdit().get(i);
                     break;
                 }
