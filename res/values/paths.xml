@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="serverPath">http://eapp-ub.uials.no/muldvarp/services/</string>
-    <string name="serverPath2">http://158.38.195.98:8080/muldvarp/services/</string>
-    <string name="articlePath">http://eapp-ub.uials.no/muldvarp/faces/article.xhtml?articleid=</string>
+    <string name="serverPath">http://eapp.uials.no/hials/services/</string>
+    <string name="serverPath2">http://158.38.101.115:8080/muldvarp/services/</string>
+    <string name="articlePath">http://eapp.uials.no/hials/faces/article.xhtml?articleid=</string>
     <string name="videoResPath">video/</string>
     <string name="videoStudResPath">video/stud</string>
     <string name="videoCourseResPath">course/videos/</string>
