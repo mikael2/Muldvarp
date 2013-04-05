@@ -99,4 +99,9 @@ public class ListAdapter extends ArrayAdapter {
 
         notifyDataSetChanged();
     }
+
+    @Override
+    public Object getItem(int position) {
+        return items.get(position);
+    }
 }
