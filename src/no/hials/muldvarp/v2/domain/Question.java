@@ -46,9 +46,9 @@ public class Question extends Domain implements Serializable{
         } else {
             this.shuffleAlternatives = false;
         }
-        if(json.getString("questionType").equals(Question.QuestionType.SINGLE.getName())){
+        if(json.getString("questionType").equalsIgnoreCase(Question.QuestionType.SINGLE.getName())){
             questionType = QuestionType.SINGLE;
-        } else if (json.getString("questionType").equals(Question.QuestionType.MULTIPLE.getName())) {
+        } else if (json.getString("questionType").equalsIgnoreCase(Question.QuestionType.MULTIPLE.getName())) {
             questionType = QuestionType.MULTIPLE;
         }
         List<Alternative> aList= new ArrayList<Alternative>();
