@@ -77,6 +77,9 @@ public class JSONUtilities {
                 case NEWS:
                     d = new Article(jsonObject);
                     break;
+                case FRONTER:
+                    d = new Fronter(jsonObject);
+                    break;
                 case FRONTPAGE:
                 default:
                     d = new Domain(jsonObject);
@@ -118,12 +121,15 @@ public class JSONUtilities {
                 case NEWS:
                     d = new Article(jArray.getJSONObject(i));
                     break;
-                 case QUIZ:
+                case QUIZ:
                     d = new Quiz(jArray.getJSONObject(i));
                     break;
-                 case TIMEEDIT:
-                     d = new TimeEdit(jArray.getJSONObject(i));
-                     break;
+                case TIMEEDIT:
+                    d = new TimeEdit(jArray.getJSONObject(i));
+                    break;
+                case BIBSYS:
+                    d = new BibSys(jArray.getJSONObject(i));
+                    break;
                 default:
                     d = new Domain(jArray.getJSONObject(i));
                     break;

@@ -330,7 +330,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             if(isFrontpage) {
                 mService.initializeData();
             }
-            mService.updateTimeEdit();
+            //////////////////////mService.updateTimeEdit();
         }
 
         @Override

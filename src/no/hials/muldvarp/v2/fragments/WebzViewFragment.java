@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import no.hials.muldvarp.R;
 
-public class WebzViewFragment extends MuldvarpFragment{
+public class WebzViewFragment extends MuldvarpFragment {
     View fragmentView;
     int id;
 

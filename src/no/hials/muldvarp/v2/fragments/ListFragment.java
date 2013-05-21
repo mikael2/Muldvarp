@@ -73,25 +73,30 @@ public class ListFragment extends MuldvarpFragment {
         System.out.println("NAME " + d.getName());
 
         MuldvarpService service = owningActivity.getService();
-        if(service == null) {
-            Log.e("ListFragment","MuldvarpService is null in updateItems");
-        } else {
-            switch(type) {
-                case COURSE:
-                    items.clear();
-                    Programme p = (Programme)owningActivity.domain;
-                    items.addAll(p.getCourses());
-                    break;
-                case PROGRAMME:
-                    items.clear();
-                    items.addAll(service.mProgrammes);
-                    break;
-                case NEWS:
-                    items.clear();
-                    items.addAll(service.mNews);
-                    break;
-            } 
+        try {
+            if(service == null) {
+                Log.e("ListFragment","MuldvarpService is null in updateItems");
+            } else {
+                switch(type) {
+                    case COURSE:
+                        items.clear();
+                        Programme p = (Programme)owningActivity.domain;
+                        items.addAll(p.getCourses());
+                        break;
+                    case PROGRAMME:
+                        items.clear();
+                        items.addAll(service.mProgrammes);
+                        break;
+                    case NEWS:
+                        items.clear();
+                        items.addAll(service.mNews);
+                        break;
+                } 
+            }
+        } catch (NullPointerException ex) {
+            Log.e("ListFragment", "Lista er tom");
         }
+        
 
         if(listAdapter != null) {
             listAdapter.notifyDataSetChanged();

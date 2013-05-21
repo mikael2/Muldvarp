@@ -5,12 +5,13 @@
 package no.hials.muldvarp.v2.domain;
 
 import android.content.Context;
-import android.util.Log;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.fragments.BibSysFragment;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
+import no.hials.muldvarp.v2.fragments.FronterFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.WebzViewFragment;
@@ -193,8 +194,15 @@ public class Domain implements Serializable {
                 case ARTICLE:
                     fragmentList.add(new WebzViewFragment(fragments.get(i).getName(), R.drawable.stolen_contacts, (int)fragments.get(i).getArticleID()));
                     break;
+                case BIBSYS:
+                    fragmentList.add(new BibSysFragment("Søk i biblioteket", R.drawable.bibsys, 0));
+                    break;
+                case FRONTER:
+                    fragmentList.add(new FronterFragment("Fronter", R.drawable.fronter, 0));
+                    break;
             }
         }
+        
     }
 
     public List<DomainFragment> getFragments() {

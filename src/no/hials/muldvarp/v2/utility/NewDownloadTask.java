@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import no.hials.muldvarp.v2.MuldvarpService;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
+import no.hials.muldvarp.v2.domain.Fronter;
 import no.hials.muldvarp.v2.domain.Programme;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -123,6 +124,14 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
                     items = JSONUtilities.JSONtoList(json, type);
                     mService.setTimeEdit(new ArrayList<Domain>(items));
                     break;
+                case BIBSYS:
+                    items = JSONUtilities.JSONtoList(json, type);
+                    mService.setBibSys(new ArrayList<Domain>(items));
+                    break;
+                case FRONTER:
+                    Fronter item = (Fronter)JSONUtilities.JSONtoObject(json, type);
+                    mService.setFronter(item);
+                    break;
                 default:
                     System.out.println("ERROR: nothing to do in download task");
                     break;
@@ -132,6 +141,9 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
             Logger.getLogger(NewDownloadTask.class.getName()).log(Level.SEVERE, null, ex);
             LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(MuldvarpService.ACTION_UPDATE_FAILED));
         } catch (IOException ex) {
+            Logger.getLogger(NewDownloadTask.class.getName()).log(Level.SEVERE, null, ex);
+            LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(MuldvarpService.ACTION_UPDATE_FAILED));
+        } catch (StackOverflowError ex) {
             Logger.getLogger(NewDownloadTask.class.getName()).log(Level.SEVERE, null, ex);
             LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(MuldvarpService.ACTION_UPDATE_FAILED));
         }

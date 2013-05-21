@@ -186,8 +186,6 @@ public class TopActivity extends MuldvarpActivity {
     public void setUpFragmentList() {
         if(fragmentList != null){
             System.out.println("fragmentList size: " + fragmentList.size());
-        } else {
-            System.out.println("FANE ASODFAOFJDSIFIODSJFIOSIODJFIOSDJFIOSDJFIOSDJ");
         }
         domain.constructList(fragmentList, domain.getFragments());
 

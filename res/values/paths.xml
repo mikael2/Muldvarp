@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="serverPath">http://eapp.uials.no:8080/hials/services/</string>
+    <string name="serverPath">http://eapp.uials.no/services/</string>
     <string name="serverPath2">http://158.38.101.115:8080/muldvarp/services/</string>
-    <string name="articlePath">http://eapp.uials.no:8080/hials/faces/article.xhtml?articleid=</string>
+    <string name="articlePath">http://eapp.uials.no/faces/article.xhtml?articleid=</string>
     <string name="videoResPath">video/</string>
     <string name="videoStudResPath">video/stud</string>
     <string name="videoCourseResPath">course/videos/</string>
@@ -18,6 +18,8 @@
     <string name="programmeQuizResPath">programme/quiz/</string>
     <string name="articleViewPath">faces/article.xhtml?articleid=</string>
     <string name="timeeditPath">timeedit/</string>
+    <string name="bibsysPath">bibsys/</string>
+    <string name="fronterPath">fronter/dummy</string>
 
     <string name="youtubeAPIPath">http://gdata.youtube.com/feeds/api/</string>
     <string name="youtubeHialsUser">HogskoleniAalesund</string>
