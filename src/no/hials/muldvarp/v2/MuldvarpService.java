@@ -177,9 +177,9 @@ public class MuldvarpService extends Service {
 //        }
     }
     
-    public void updateTimeEdit() {
+    public void updateTimeEditByClass(String classcode) {
         new NewDownloadTask(this,new Intent(ACTION_TIMEEDIT_UPDATE), DataTypes.TIMEEDIT, this)
-                            .execute(getUrl(R.string.timeeditPath) + "183000");
+                            .execute(getUrl(R.string.timeeditPath) + classcode);
     }
     
     public void updateFronter() {

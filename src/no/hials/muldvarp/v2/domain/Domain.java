@@ -195,14 +195,13 @@ public class Domain implements Serializable {
                     fragmentList.add(new WebzViewFragment(fragments.get(i).getName(), R.drawable.stolen_contacts, (int)fragments.get(i).getArticleID()));
                     break;
                 case BIBSYS:
-                    fragmentList.add(new BibSysFragment("Søk i biblioteket", R.drawable.bibsys, 0));
+                    fragmentList.add(new BibSysFragment(fragments.get(i).getName(), R.drawable.bibsys, 0));
                     break;
                 case FRONTER:
-                    fragmentList.add(new FronterFragment("Fronter", R.drawable.fronter, 0));
+                    fragmentList.add(new FronterFragment(fragments.get(i).getName(), R.drawable.fronter, 0));
                     break;
             }
         }
-        
     }
 
     public List<DomainFragment> getFragments() {

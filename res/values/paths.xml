@@ -17,9 +17,9 @@
     <string name="frontpageResPath">frontpage/</string>
     <string name="programmeQuizResPath">programme/quiz/</string>
     <string name="articleViewPath">faces/article.xhtml?articleid=</string>
-    <string name="timeeditPath">timeedit/</string>
+    <string name="timeeditPath">timeedit/classcode/</string>
     <string name="bibsysPath">bibsys/</string>
-    <string name="fronterPath">fronter/dummy</string>
+    <string name="fronterPath">fronter/room/123</string>
 
     <string name="youtubeAPIPath">http://gdata.youtube.com/feeds/api/</string>
     <string name="youtubeHialsUser">HogskoleniAalesund</string>

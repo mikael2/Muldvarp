@@ -183,7 +183,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
                 } else {
                     mService.initializeData();
                 }
-                mService.updateTimeEdit();
+                mService.updateTimeEditByClass("DA1");
                 return true;
             case R.id.login:
                 showDialog(0);
@@ -330,7 +330,7 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
             if(isFrontpage) {
                 mService.initializeData();
             }
-            //////////////////////mService.updateTimeEdit();
+            mService.updateTimeEditByClass("DA1");
         }
 
         @Override

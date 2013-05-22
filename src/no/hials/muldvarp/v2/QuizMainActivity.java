@@ -90,8 +90,8 @@ public class QuizMainActivity extends MuldvarpActivity{
                 startQuizButton.setText(R.string.quizStartButtonText);
                 setOnClickListeners();
             } else {
-                showErrorDialog(getString(R.string.quizInvalidFormatText));
-                startQuizButton.setClickable(false);
+//                showErrorDialog(getString(R.string.quizInvalidFormatText));
+//                startQuizButton.setClickable(false);
             }
         }        
     }

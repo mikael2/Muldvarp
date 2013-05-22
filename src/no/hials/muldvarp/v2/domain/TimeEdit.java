@@ -18,88 +18,22 @@ import org.json.JSONObject;
 public class TimeEdit extends Domain implements Serializable {
     String day;
     String date;
-    List<Course> courses = new ArrayList<Course>();
+    List<ScheduleLecture> lectures;
     
     public TimeEdit(JSONObject json) throws JSONException {
         this.day = json.getString("day");
         this.date = json.getString("date");
-        this.courses = JSONArrayToCourses(json.getJSONArray("courses"));
+        this.lectures = JSONArrayToLectures(json.getJSONArray("lectures"));
     }
     
-    public static List<Course> JSONArrayToCourses(JSONArray jsonArray) throws JSONException {
-        List<Course> retVal = new ArrayList<Course>();        
+    public static List<ScheduleLecture> JSONArrayToLectures(JSONArray jsonArray) throws JSONException {
+        List<ScheduleLecture> retVal = new ArrayList<ScheduleLecture>();        
         for (int i = 0; i < jsonArray.length(); i++) {
-            retVal.add(new Course(jsonArray.getJSONObject(i)));
+            retVal.add(new ScheduleLecture(jsonArray.getJSONObject(i)));
         }        
         return retVal;
     }
     
-    public static class Course {
-        String time;
-        String course;
-        String type;
-        String mClass;
-        String teacher;
-        String room;
-
-        private Course(JSONObject jsonObject) throws JSONException {
-            this.time = jsonObject.getString("time");
-            this.course = jsonObject.getString("course");
-            this.type = jsonObject.getString("type");
-            this.mClass = jsonObject.getString("mClass");
-            this.teacher = jsonObject.getString("teacher");
-            this.room = jsonObject.getString("room");
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-
-        public String getCourse() {
-            return course;
-        }
-
-        public void setCourse(String course) {
-            this.course = course;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getmClass() {
-            return mClass;
-        }
-
-        public void setmClass(String mClass) {
-            this.mClass = mClass;
-        }
-
-        public String getTeacher() {
-            return teacher;
-        }
-
-        public void setTeacher(String teacher) {
-            this.teacher = teacher;
-        }
-
-        public String getRoom() {
-            return room;
-        }
-
-        public void setRoom(String room) {
-            this.room = room;
-        }
-    }
-
     public String getDay() {
         return day;
     }
@@ -116,11 +50,135 @@ public class TimeEdit extends Domain implements Serializable {
         this.date = date;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public List<ScheduleLecture> getLectures() {
+        return lectures;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setLectures(List<ScheduleLecture> lectures) {
+        this.lectures = lectures;
+    }
+    
+    public static class ScheduleLecture{
+        String lectureStart;
+        String lectureEnd;
+        String type;
+        String classId;
+        String room;
+        String teachers;
+        String comment;
+        List<ScheduleCourse> courses;
+
+        public ScheduleLecture(JSONObject json) throws JSONException {
+            this.lectureStart = json.getString("lectureStart");
+            this.lectureEnd = json.getString("lectureEnd");
+            this.type = json.getString("type");
+            this.classId = json.getString("classId");
+            this.room = json.getString("room");
+            this.teachers = json.getString("teachers");
+            this.comment = json.getString("comment");
+            this.courses = JSONArrayToCourses(json.getJSONArray("courses"));
+        }
+        
+        public static List<ScheduleCourse> JSONArrayToCourses(JSONArray jsonArray) throws JSONException {
+            List<ScheduleCourse> retVal = new ArrayList<ScheduleCourse>();        
+            for (int i = 0; i < jsonArray.length(); i++) {
+                retVal.add(new ScheduleCourse(jsonArray.getJSONObject(i)));
+            }        
+            return retVal;
+        }
+
+        public String getLectureStart() {
+            return lectureStart;
+        }
+
+        public void setLectureStart(String lectureStart) {
+            this.lectureStart = lectureStart;
+        }
+
+        public String getLectureEnd() {
+            return lectureEnd;
+        }
+
+        public void setLectureEnd(String lectureEnd) {
+            this.lectureEnd = lectureEnd;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getClassId() {
+            return classId;
+        }
+
+        public void setClassId(String classId) {
+            this.classId = classId;
+        }
+
+        public String getRoom() {
+            return room;
+        }
+
+        public void setRoom(String room) {
+            this.room = room;
+        }
+
+        public String getTeachers() {
+            return teachers;
+        }
+
+        public void setTeachers(String teachers) {
+            this.teachers = teachers;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
+
+        public List<ScheduleCourse> getCourses() {
+            return courses;
+        }
+
+        public void setCourses(List<ScheduleCourse> courses) {
+            this.courses = courses;
+        }
+    }
+    
+    public static class ScheduleCourse {
+        String courseName;
+        String courseID;
+
+        public ScheduleCourse(JSONObject json) throws JSONException {
+            this.courseName = json.getString("courseName");
+            this.courseID = json.getString("courseID");
+        }
+
+        private ScheduleCourse(String courseName) {
+            this.courseName = courseName;
+        }
+        
+        public String getCourseID() {
+            return courseID;
+        }
+
+        public void setCourseID(String courseID) {
+            this.courseID = courseID;
+        }
+
+        public String getCourseName() {
+            return courseName;
+        }
+
+        public void setCourseName(String courseName) {
+            this.courseName = courseName;
+        }
     }
 }
