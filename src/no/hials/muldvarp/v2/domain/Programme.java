@@ -19,6 +19,7 @@ public class Programme extends Domain {
     String imageurl;
     int revision;
     String programmeId;
+    String structure;
     
     public Programme() {
 
@@ -27,6 +28,18 @@ public class Programme extends Domain {
     public Programme(JSONObject json) throws JSONException {
         super(json);
         courses = JSONUtilities.JSONArrayToCourses(json.getJSONArray("courses"));
+        if(json.getString("description") != null) {
+            this.description = json.getString("description");
+        }
+        if(json.getString("detail") != null) {
+            this.detail = json.getString("detail");
+        }
+        if(json.getString("programCode") != null) {
+            this.programmeId = json.getString("programCode");
+        }
+        if(json.getString("pstructure") != null) {
+            this.structure = json.getString("pstructure");
+        }
     }
 
     public Programme(String name) {
@@ -84,4 +97,12 @@ public class Programme extends Domain {
 //        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
 //        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, dates));
 //    }
+
+    public String getStructure() {
+        return structure;
+    }
+
+    public void setStructure(String structure) {
+        this.structure = structure;
+    }
 }

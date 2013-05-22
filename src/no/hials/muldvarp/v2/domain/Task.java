@@ -4,7 +4,8 @@
  */
 package no.hials.muldvarp.v2.domain;
 
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -14,14 +15,13 @@ public class Task extends Domain {
     Boolean done = false;
     String content_url;
     String contentType;
-    List<Question> questions;
 
-    public Task(){
-
-    }
-
-    public Task(String name) {
-        super(name);
+    public Task(JSONObject json) throws JSONException {
+        this.id = json.getInt("id");
+        this.name = json.getString("name");
+        this.done = json.getBoolean("done");
+        this.contentType = json.getString("contentType");
+        this.content_url = json.getString("content_url");
     }
 
     public void acceptTask() {
@@ -51,13 +51,4 @@ public class Task extends Domain {
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
-
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
-
 }

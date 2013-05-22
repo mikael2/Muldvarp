@@ -4,57 +4,36 @@
  */
 package no.hials.muldvarp.v2.domain;
 
-import java.util.Date;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
  * @author kristoffer
  */
 public class ObligatoryTask extends Task {
-//    Date dueDate;
-//    Date acceptedDate;
-    Long dueDate;
-    Long acceptedDate;
+    String dueDate;
+    String acceptedDate;
 
-    public ObligatoryTask(String name) {
-        super(name);
-    }
-    
-    @Override
-    public void acceptTask() {
-        super.acceptTask();
-        acceptedDate = new Date().getTime();
+    public ObligatoryTask(JSONObject json) throws JSONException {
+        super(json);
+        this.dueDate = json.getString("dueDate");
+        this.acceptedDate = json.getString("acceptedDate");
     }
 
-//    public Date getAcceptedDate() {
-//        return acceptedDate;
-//    }
-//
-//    public void setAcceptedDate(Date acceptedDate) {
-//        this.acceptedDate = acceptedDate;
-//    }
-//
-//    public Date getDueDate() {
-//        return dueDate;
-//    }
-//
-//    public void setDueDate(Date dueDate) {
-//        this.dueDate = dueDate;
-//    }
-
-    public Long getAcceptedDate() {
-        return acceptedDate;
-    }
-
-    public void setAcceptedDate(Long acceptedDate) {
-        this.acceptedDate = acceptedDate;
-    }
-
-    public Long getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Long dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getAcceptedDate() {
+        return acceptedDate;
+    }
+
+    public void setAcceptedDate(String acceptedDate) {
+        this.acceptedDate = acceptedDate;
     }
 }

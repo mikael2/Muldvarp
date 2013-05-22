@@ -17,18 +17,13 @@ public class Course extends Domain implements Serializable {
     ArrayList<Topic> themes;
     ArrayList<ObligatoryTask> obligatoryTasks;
     ArrayList<Exam> exams;
-    public Course() {
-
-    }
 
     public Course(JSONObject json) throws JSONException {
         super(json);
         this.themes = parseThemes(json.getJSONArray("themes"));
+        this.exams = parseExams(json.getJSONArray("exams"));
+        this.obligatoryTasks = parseObligTasks(json.getJSONArray("obligatoryTasks"));
         this.revision = json.getInt("revision");
-    }
-
-    public Course(String name) {
-        super(name);
     }
 
     public Course(String name, String detail, String url) {
@@ -40,8 +35,25 @@ public class Course extends Domain implements Serializable {
     public final ArrayList<Topic> parseThemes(JSONArray jArray) throws JSONException {
         ArrayList<Topic> retVal = new ArrayList<Topic>();
         for(int i = 0; i < jArray.length(); i++) {
-            JSONObject jsonObject = jArray.getJSONObject(i);
-            Topic t = new Topic(jsonObject);
+            Topic t = new Topic(jArray.getJSONObject(i));
+            retVal.add(t);
+        }
+        return retVal;
+    }
+    
+    private ArrayList<Exam> parseExams(JSONArray jsonArray) throws JSONException {
+        ArrayList<Exam> retVal = new ArrayList<Exam>();
+        for(int i = 0; i < jsonArray.length(); i++) {
+            Exam t = new Exam(jsonArray.getJSONObject(i));
+            retVal.add(t);
+        }
+        return retVal;
+    }
+
+    private ArrayList<ObligatoryTask> parseObligTasks(JSONArray jsonArray) throws JSONException {
+        ArrayList<ObligatoryTask> retVal = new ArrayList<ObligatoryTask>();
+        for(int i = 0; i < jsonArray.length(); i++) {
+            ObligatoryTask t = new ObligatoryTask(jsonArray.getJSONObject(i));
             retVal.add(t);
         }
         return retVal;
@@ -106,4 +118,6 @@ public class Course extends Domain implements Serializable {
 //        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
 //        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, dates));
 //    }    
+
+    
 }
