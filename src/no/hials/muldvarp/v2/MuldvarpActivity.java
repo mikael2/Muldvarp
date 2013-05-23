@@ -102,19 +102,19 @@ public class MuldvarpActivity extends Activity implements iRibbonMenuCallback {
         timeeditText = (TextView) findViewById(R.id.timeedittext);
         bottomtext = (TextView) findViewById(R.id.bottomtext);
         
-                        // configure the SlidingMenu
-        SlidingMenu menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-//        menu.setShadowWidthRes(R.dimen.shadow_width);
-//        menu.setShadowDrawable(R.drawable.shadow);
-//        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        menu.setBehindOffset(120);
-        menu.setShadowDrawable(R.drawable.stolen_youtube);
-        menu.setFadeDegree(0.0f);
-//        menu.setFadeEnabled(false);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        menu.setMenu(R.layout.quiz_activity_main);
+//                        // configure the SlidingMenu
+//        SlidingMenu menu = new SlidingMenu(this);
+//        menu.setMode(SlidingMenu.LEFT);
+//        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+////        menu.setShadowWidthRes(R.dimen.shadow_width);
+////        menu.setShadowDrawable(R.drawable.shadow);
+////        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+//        menu.setBehindOffset(120);
+//        menu.setShadowDrawable(R.drawable.stolen_youtube);
+//        menu.setFadeDegree(0.0f);
+////        menu.setFadeEnabled(false);
+//        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+//        menu.setMenu(R.layout.quiz_activity_main);
         
         
         getActionBar().setHomeButtonEnabled(true);
