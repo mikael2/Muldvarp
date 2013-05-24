@@ -12,6 +12,7 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.fragments.BibSysFragment;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
 import no.hials.muldvarp.v2.fragments.FronterFragment;
+import no.hials.muldvarp.v2.fragments.InfoFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.WebzViewFragment;
@@ -172,9 +173,9 @@ public class Domain implements Serializable {
         fragmentList.clear();
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
         if(this instanceof Course) {
-            fragmentList.add(new FronterFragment("Informasjon", R.drawable.stolen_notes, 0));
+//            fragmentList.add(new InfoFragment("Informasjon", R.drawable.stolen_notes, 0));
         } else if(this instanceof Programme) {
-            fragmentList.add(new FronterFragment("Informasjon", R.drawable.stolen_notes, 0));
+            fragmentList.add(new InfoFragment("Informasjon", R.drawable.stolen_notes, 0));
         }
         for(int i = 0; i < fragments.size(); i++) {
             switch(fragments.get(i).getFragmentType()) {

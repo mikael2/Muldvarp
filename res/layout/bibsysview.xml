@@ -36,7 +36,6 @@
         android:id="@+id/displaytext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines = "25"
         android:scrollbars = "vertical" />
  
 </LinearLayout>

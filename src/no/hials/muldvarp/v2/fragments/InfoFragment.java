@@ -5,6 +5,7 @@
 package no.hials.muldvarp.v2.fragments;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,34 +43,37 @@ public class InfoFragment extends MuldvarpFragment {
             if(owningActivity.domain instanceof Programme) {
                 Programme p = (Programme)owningActivity.domain;
                 
-                s += "Beskrivelse:\n" + p.getDescription() + "\n\n";
-                s += "Struktur???:\n" + p.getStructure() + "\n\n";
+                s += "<br />" + p.getDescription() + "<br /><br />";
+                s += "<br />" + p.getStructure() + "<br /><br />";
             } else if(owningActivity.domain instanceof Course) {
                 Course c = (Course)owningActivity.domain;
                 
-                s += "Temaer:\n";
+                s += "<h1>Temaer:</h1>";
                 for(Topic t : c.getTopics()) {
-                    s += t.getName() + "\n\n";
-                    s += "Oppgaver:\n";
+                    s += "<h2>" + t.getName() + "</h2>";
+                    s += "<h3>Oppgaver:</h3>";
                     for(Task tt : t.getTasks()) {
-                        s += tt.getName();
+                        s += "<div style='margin:10px;'>" + tt.getName() + "</div>";
                     }
-                    s += "\n\n";
                 }
-                s += "\n";
                 
-                s += "Obligatoriske Innleveringer:\n\n";
+                s += "<h1>Obligatoriske Innleveringer:</h1>";
                 for(ObligatoryTask ot : c.getObligatoryTasks()) {
-                    s += ot.getName() + "     Status: " + ot.getDone() + "\n";
+                    s += ot.getName() + "     Status: ";
+                    if(ot.getDone()) {
+                        s += "Godkjent";
+                    } else {
+                        s += "Ikke Godkjent";
+                    }
+                    s += "<br />";
                 }
-                s += "\n";
-                s += "Eksamener\n";
+                s += "<h1>Eksamener:</h1>";
                 for(Exam e : c.getExams()) {
-                    s += e.getName() + "     Rom: " + e.getRoom() + "      Dato:" + e.getExamDate() + "\n";
+                    s += e.getName() + "     Rom: " + e.getRoom() + "      Dato:" + e.getExamDate() + "<br />";
                 }
             }
             
-            displayText.setText(s);
+            displayText.setText(Html.fromHtml(s));
         }
         
         return fragmentView;
