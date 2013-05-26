@@ -19,8 +19,7 @@ public class Programme extends Domain {
     String imageurl;
     int revision;
     String programmeId;
-    String webLink;
-    String programmeCode;
+    String structure;
     
     public Programme() {
 
@@ -30,6 +29,18 @@ public class Programme extends Domain {
         super(json);
         webLink = json.getString("weblink");
         courses = JSONUtilities.JSONArrayToCourses(json.getJSONArray("courses"));
+        if(json.getString("description") != null) {
+            this.description = json.getString("description");
+        }
+        if(json.getString("detail") != null) {
+            this.detail = json.getString("detail");
+        }
+        if(json.getString("programCode") != null) {
+            this.programmeId = json.getString("programCode");
+        }
+        if(json.getString("pstructure") != null) {
+            this.structure = json.getString("pstructure");
+        }
     }
 
     public Programme(String name) {
@@ -90,5 +101,25 @@ public class Programme extends Domain {
 
     public void setProgrammeId(String programmeId) {
         this.programmeId = programmeId;
+    }
+
+//    @Override
+//    public void populateList(List<MuldvarpFragment> fragmentList, Context context) {
+//        fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
+//        fragmentList.add(new WebzViewFragment("Informasjon", R.drawable.stolen_contacts, info));
+//        fragmentList.add(new ListFragment("Nyheter", R.drawable.stolen_tikl, ListFragment.ListType.NEWS));
+//        fragmentList.add(new ListFragment("Fag", R.drawable.stolen_smsalt, ListFragment.ListType.COURSE));
+//        fragmentList.add(new ListFragment("Video", R.drawable.stolen_youtube, ListFragment.ListType.VIDEO));
+//        fragmentList.add(new ListFragment("Quiz", R.drawable.stolen_calculator, DummyDataProvider.getQuizList(), ListType.QUIZ));
+//        fragmentList.add(new ListFragment("Dokumenter", R.drawable.stolen_dictonary, ListFragment.ListType.DOCUMENT));
+//        fragmentList.add(new WebzViewFragment("Datoer", R.drawable.stolen_calender, dates));
+//    }
+
+    public String getStructure() {
+        return structure;
+    }
+
+    public void setStructure(String structure) {
+        this.structure = structure;
     }
 }

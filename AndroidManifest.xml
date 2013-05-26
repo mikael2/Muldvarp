@@ -38,6 +38,8 @@
                     android:label="QuizResult"/>
         <activity android:name=".v2.MuldvarpPreferenceActivity"
                     android:label="Preferences"/>
+        <activity android:name=".v2.DetailActivity"
+                    android:label="Preferences"/>
         <service android:name=".v2.MuldvarpService" />
 
        <receiver android:name=".v2.testClasses.MuldvarpService" android:enabled="true">

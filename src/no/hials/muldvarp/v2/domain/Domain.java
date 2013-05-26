@@ -9,7 +9,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import no.hials.muldvarp.R;
+import no.hials.muldvarp.v2.fragments.BibSysFragment;
 import no.hials.muldvarp.v2.fragments.FrontPageFragment;
+import no.hials.muldvarp.v2.fragments.FronterFragment;
+import no.hials.muldvarp.v2.fragments.InfoFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.fragments.WebzViewFragment;
@@ -169,6 +172,11 @@ public class Domain implements Serializable {
     public void constructList(List<MuldvarpFragment> fragmentList, List<DomainFragment> fragments) {
         fragmentList.clear();
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
+        if(this instanceof Course) {
+//            fragmentList.add(new InfoFragment("Informasjon", R.drawable.stolen_notes, 0));
+        } else if(this instanceof Programme) {
+            fragmentList.add(new InfoFragment("Informasjon", R.drawable.stolen_notes, 0));
+        }
         for(int i = 0; i < fragments.size(); i++) {
             switch(fragments.get(i).getFragmentType()) {
                 case PROGRAMME:
@@ -191,6 +199,12 @@ public class Domain implements Serializable {
                     break;
                 case ARTICLE:
                     fragmentList.add(new WebzViewFragment(fragments.get(i).getName(), R.drawable.stolen_contacts, (int)fragments.get(i).getArticleID()));
+                    break;
+                case BIBSYS:
+                    fragmentList.add(new BibSysFragment(fragments.get(i).getName(), R.drawable.bibsys, 0));
+                    break;
+                case FRONTER:
+                    fragmentList.add(new FronterFragment(fragments.get(i).getName(), R.drawable.fronter, 0));
                     break;
             }
         }

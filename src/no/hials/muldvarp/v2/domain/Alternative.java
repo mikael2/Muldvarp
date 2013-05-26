@@ -67,14 +67,15 @@ public class Alternative extends Domain implements Serializable {
      * @return boolean 
      */
     @Override
-    public boolean validateFormat(){
-        if(alternativeType == null){
-            System.out.println("DOMAINALTERNATIVE: VALIDATION FAILED - AlternativeType not set.");
-            return false;
-        } else if(name == null){
+    public boolean validateFormat() {
+//        if(alternativeType == null){
+//            System.out.println("DOMAINALTERNATIVE: VALIDATION FAILED - AlternativeType not set.");
+//            return false;
+//        } 
+        if (name == null) {
             System.out.println("DOMAINALTERNATIVE: VALIDATION FAILED - Name not set.");
             return false;
-        } 
+        }
         return true;
     }
 

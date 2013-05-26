@@ -20,7 +20,7 @@ public class DomainFragment implements Serializable {
     String name;
     int parentID;
     public enum Type {
-        FRONTPAGE, PROGRAMME, COURSE, NEWS, ARTICLE, QUIZ, DOCUMENT, VIDEO
+        FRONTPAGE, PROGRAMME, COURSE, NEWS, ARTICLE, QUIZ, DOCUMENT, VIDEO, BIBSYS, FRONTER
     }
     Type fragmentType;
     
@@ -83,6 +83,10 @@ public class DomainFragment implements Serializable {
             return Type.DOCUMENT;
         } else if(s.equals("VIDEO")) {
             return Type.VIDEO;
+        }  else if(s.equals("BIBSYS")) {
+            return Type.BIBSYS;
+        }  else if(s.equals("FRONTER")) {
+            return Type.FRONTER;
         }
         return null;
     }

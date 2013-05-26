@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:text="Her kan du søke etter bøker i skolens bibliotek."
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+ 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+ 
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="400px"
+            android:layout_height="wrap_content" >
+
+            <requestFocus />
+
+        </EditText>
+
+        <Button
+         android:id="@+id/button"
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         android:text="Søk" />
+
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/displaytext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars = "vertical" />
+ 
+</LinearLayout>
+

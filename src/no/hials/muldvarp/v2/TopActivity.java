@@ -148,10 +148,17 @@ public class TopActivity extends MuldvarpActivity {
             for(int i = 0; i < mService.getTimeEdit().size(); i++ ) {
                 TimeEdit tt = (TimeEdit)mService.getTimeEdit().get(i);
                 Date currentDate = new Date();
-                if(Integer.parseInt(tt.getDate().substring(0, 2)) == currentDate.getDate()) {
+                String date = tt.getDate();
+                date = date.replaceAll("[a-zA-Z ]", "");
+                if(Integer.parseInt(date) == currentDate.getDate()) {
                     t = (TimeEdit)mService.getTimeEdit().get(i);
                     break;
                 }
+                
+                // For demonstrasjonsformål slett ditta for å få vanlig funksjon
+                t = (TimeEdit)mService.getTimeEdit().get(0);
+                
+                
             }
             String s = "";
             if(t != null) {
@@ -161,15 +168,16 @@ public class TopActivity extends MuldvarpActivity {
                     + t.getDay() + " "
                     + t.getDate()
                     + "\n";
-                for(TimeEdit.Course c : t.getCourses()) {
-                    s += "\n" 
-                        + c.getCourse()
-                        + "\n" 
-                        + c.getTime()
-                        + "\n"
+                for(TimeEdit.ScheduleLecture c : t.getLectures()) {
+                    s += "\n"
+                        + c.getLectureStart() + " - " + c.getLectureEnd();
+                    for(TimeEdit.ScheduleCourse sc : c.getCourses()) {
+                        s += "\n" + sc.getCourseName();
+                    }
+                    s += "\n"
                         + c.getRoom()
                         + "\n"
-                        + c.getTeacher()
+                        + c.getTeachers()
                         + "\n"
                         ;
                 }
@@ -184,8 +192,6 @@ public class TopActivity extends MuldvarpActivity {
     public void setUpFragmentList() {
         if(fragmentList != null){
             System.out.println("fragmentList size: " + fragmentList.size());
-        } else {
-            System.out.println("FANE ASODFAOFJDSIFIODSJFIOSIODJFIOSDJFIOSDJFIOSDJ");
         }
         domain.constructList(fragmentList, domain.getFragments());
 

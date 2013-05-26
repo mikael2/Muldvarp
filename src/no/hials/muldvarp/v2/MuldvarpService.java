@@ -26,6 +26,8 @@ public class MuldvarpService extends Service {
     public static final String ACTION_FRONTPAGE_UPDATE    = "no.hials.muldvarp.ACTION_FRONTPAGE_UPDATE";
     public static final String ACTION_NEWS_UPDATE         = "no.hials.muldvarp.ACTION_NEWS_UPDATE";
     public static final String ACTION_TIMEEDIT_UPDATE     = "no.hials.muldvarp.ACTION_TIMEEDIT_UPDATE";
+    public static final String ACTION_BIBSYS_UPDATE       = "no.hials.muldvarp.ACTION_BIBSYS_UPDATE";
+    public static final String ACTION_FRONTER_UPDATE      = "no.hials.muldvarp.ACTION_FRONTER_UPDATE";
 
     private User user;
 
@@ -35,6 +37,8 @@ public class MuldvarpService extends Service {
     public ArrayList<Domain> mNews;
     public Domain frontpage;
     public ArrayList<Domain> timeEdit;
+    public ArrayList<Domain> bibSys;
+    public Domain fronter;
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -138,7 +142,7 @@ public class MuldvarpService extends Service {
         return user;
     }
 
-    public enum DataTypes {COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS, QUIZ, FRONTPAGE, TIMEEDIT}
+    public enum DataTypes {COURSES, VIDEOS, DOCUMENTS, PROGRAMS, ARTICLE, NEWS, QUIZ, FRONTPAGE, TIMEEDIT, BIBSYS, FRONTER}
 
     /**
      * Download/Update frontpage data
@@ -173,9 +177,19 @@ public class MuldvarpService extends Service {
 //        }
     }
     
-    public void updateTimeEdit() {
+    public void updateTimeEditByClass(String classcode) {
         new NewDownloadTask(this,new Intent(ACTION_TIMEEDIT_UPDATE), DataTypes.TIMEEDIT, this)
-                            .execute(getUrl(R.string.timeeditPath) + "183000");
+                            .execute(getUrl(R.string.timeeditPath) + classcode);
+    }
+    
+    public void updateFronter() {
+        new NewDownloadTask(this,new Intent(ACTION_FRONTER_UPDATE), DataTypes.FRONTER, this)
+                            .execute(getUrl(R.string.fronterPath));
+    }
+    
+    public void updateBibSys(String searchString) {
+        new NewDownloadTask(this,new Intent(ACTION_BIBSYS_UPDATE), DataTypes.BIBSYS, this)
+                            .execute(getUrl(R.string.bibsysPath) + searchString);
     }
 
     public String getUrl(int resId) {
@@ -228,5 +242,21 @@ public class MuldvarpService extends Service {
 
     public void setTimeEdit(ArrayList<Domain> timeEdit) {
         this.timeEdit = timeEdit;
+    }
+
+    public ArrayList<Domain> getBibSys() {
+        return bibSys;
+    }
+
+    public void setBibSys(ArrayList<Domain> bibSys) {
+        this.bibSys = bibSys;
+    }
+
+    public Domain getFronter() {
+        return fronter;
+    }
+
+    public void setFronter(Domain fronter) {
+        this.fronter = fronter;
     }
 }

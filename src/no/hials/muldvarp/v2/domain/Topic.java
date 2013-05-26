@@ -5,6 +5,7 @@
 package no.hials.muldvarp.v2.domain;
 
 import java.util.ArrayList;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,12 +16,19 @@ import org.json.JSONObject;
 public class Topic extends Domain {
     ArrayList<Task> tasks;
 
-    public Topic() {
-
-    }
-
     public Topic(JSONObject json) throws JSONException {
-        super(json);
+        this.id = json.getInt("id");
+        this.name = json.getString("name");
+        this.tasks = parseTasks(json.getJSONArray("tasks"));
+    }
+    
+    public final ArrayList<Task> parseTasks(JSONArray jArray) throws JSONException {
+        ArrayList<Task> retVal = new ArrayList<Task>();
+        for(int i = 0; i < jArray.length(); i++) {
+            Task t = new Task(jArray.getJSONObject(i));
+            retVal.add(t);
+        }
+        return retVal;
     }
 
     public Integer getCompletion() {

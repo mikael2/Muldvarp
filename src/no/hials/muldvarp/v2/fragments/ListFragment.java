@@ -73,25 +73,30 @@ public class ListFragment extends MuldvarpFragment {
         System.out.println("NAME " + d.getName());
 
         MuldvarpService service = owningActivity.getService();
-        if(service == null) {
-            Log.e("ListFragment","MuldvarpService is null in updateItems");
-        } else {
-            switch(type) {
-                case COURSE:
-                    items.clear();
-                    Programme p = (Programme)owningActivity.domain;
-                    items.addAll(p.getCourses());
-                    break;
-                case PROGRAMME:
-                    items.clear();
-                    items.addAll(service.mProgrammes);
-                    break;
-                case NEWS:
-                    items.clear();
-                    items.addAll(service.mNews);
-                    break;
-            } 
+        try {
+            if(service == null) {
+                Log.e("ListFragment","MuldvarpService is null in updateItems");
+            } else {
+                switch(type) {
+                    case COURSE:
+                        items.clear();
+                        Programme p = (Programme)owningActivity.domain;
+                        items.addAll(p.getCourses());
+                        break;
+                    case PROGRAMME:
+                        items.clear();
+                        items.addAll(service.mProgrammes);
+                        break;
+                    case NEWS:
+                        items.clear();
+                        items.addAll(service.mNews);
+                        break;
+                } 
+            }
+        } catch (NullPointerException ex) {
+            Log.e("ListFragment", "Lista er tom");
         }
+        
 
         if(listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -127,7 +132,7 @@ public class ListFragment extends MuldvarpFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //The idea is that one click should start a corresponding activity.
-                Domain selectedItem = items.get(position);
+                Domain selectedItem = (Domain)listAdapter.getItem(position);
 
                 if(selectedItem instanceof Video) {
                     Video v = (Video)selectedItem;
@@ -154,7 +159,7 @@ public class ListFragment extends MuldvarpFragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {   //triggers if a listitem is pressed and held.
-                Domain selectedItem = items.get(pos);                                       //Saves the clicked item in the selectedItem variable.
+                Domain selectedItem = (Domain)listAdapter.getItem(pos);                                       //Saves the clicked item in the selectedItem variable.
                 if(owningActivity.getLoggedIn() && selectedItem instanceof Domain){         //If the long-clicked item is a course, it is added to the users list of courses.
                     Domain domain = (Domain) selectedItem;
                     createDialog(domain);                                                   //Creates a new alertDialog asking whether the user wants to add the course to his/her favourites.
