@@ -188,24 +188,12 @@ public class SectionedListAdapter extends BaseAdapter implements SectionIndexer,
             convertView.setTag(holder);
         }
            
-//
-//            TextView lName = (TextView) res.findViewById(R.id.lName);
-//            TextView lYear = (TextView) res.findViewById(R.id.lYear);
-//
-//            Composer composer = getItem(position);
-//            lName.setTextV(composer.name);
-//            lYear.setText(composer.year);
+        final int section = getSectionForPosition(position);
+        boolean displaySectionHeaders = (getPositionForSection(section) == position);
 
-//            if (position == getCount() - 1 && automaticNextPageLoading) {
-//                    onNextPageRequested(page + 1);
-//            }
+        bindSectionHeader(convertView, position, displaySectionHeaders);
 
-            final int section = getSectionForPosition(position);
-            boolean displaySectionHeaders = (getPositionForSection(section) == position);
-
-            bindSectionHeader(convertView, position, displaySectionHeaders);
-
-            return convertView;
+        return convertView;
     }
         
     /**
@@ -218,7 +206,7 @@ public class SectionedListAdapter extends BaseAdapter implements SectionIndexer,
             TextView sectionHeader = (TextView)header;
             sectionHeader.setText(getSections()[getSectionForPosition(position)]);
             //Hvit bakgrunnsfarge, må endres
-            sectionHeader.setBackgroundColor(alpha << 24 | (0xffffff));
+            sectionHeader.setBackgroundColor(alpha << 24 | (0xcccccc));
             //FADE IT AWAY
             sectionHeader.setTextColor(alpha << 24 | (0x000000));
     }
