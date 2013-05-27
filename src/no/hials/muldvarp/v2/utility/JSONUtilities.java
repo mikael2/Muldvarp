@@ -125,7 +125,7 @@ public class JSONUtilities {
                     d = new Quiz(jArray.getJSONObject(i));
                     break;
                 case TIMEEDIT:
-                    d = new TimeEdit(jArray.getJSONObject(i));
+                    d = new ScheduleDay(jArray.getJSONObject(i));
                     break;
                 case BIBSYS:
                     d = new BibSys(jArray.getJSONObject(i));

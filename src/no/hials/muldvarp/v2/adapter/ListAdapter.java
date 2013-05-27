@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hials.muldvarp.v2.utility;
+package no.hials.muldvarp.v2.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

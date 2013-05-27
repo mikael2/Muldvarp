@@ -23,7 +23,9 @@ import no.hials.muldvarp.R;
 import no.hials.muldvarp.v2.domain.Course;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
-import no.hials.muldvarp.v2.domain.TimeEdit;
+import no.hials.muldvarp.v2.domain.ScheduleCourse;
+import no.hials.muldvarp.v2.domain.ScheduleDay;
+import no.hials.muldvarp.v2.domain.ScheduleLecture;
 import no.hials.muldvarp.v2.fragments.MuldvarpFragment;
 import no.hials.muldvarp.v2.utility.FragmentUtils;
 
@@ -144,34 +146,34 @@ public class TopActivity extends MuldvarpActivity {
     
     public void TimeEditContent() {
         if(mService != null) {
-            TimeEdit t = null;
-            for(int i = 0; i < mService.getTimeEdit().size(); i++ ) {
-                TimeEdit tt = (TimeEdit)mService.getTimeEdit().get(i);
+            ScheduleDay day = null;
+            for(int i = 0; i < mService.getTimeEditDays().size(); i++ ) {
+                ScheduleDay scheduleDay = (ScheduleDay)mService.getTimeEditDays().get(i);
                 Date currentDate = new Date();
-                String date = tt.getDate();
+                String date = scheduleDay.getDate();
                 date = date.replaceAll("[a-zA-Z ]", "");
                 if(Integer.parseInt(date) == currentDate.getDate()) {
-                    t = (TimeEdit)mService.getTimeEdit().get(i);
+                    day = (ScheduleDay)mService.getTimeEditDays().get(i);
                     break;
                 }
                 
                 // For demonstrasjonsformål slett ditta for å få vanlig funksjon
-                t = (TimeEdit)mService.getTimeEdit().get(0);
+                day = (ScheduleDay)mService.getTimeEditDays().get(0);
                 
                 
             }
             String s = "";
-            if(t != null) {
+            if(day != null) {
                 s = "\n"
                     + "Dagens timer:"
                     + "\n"
-                    + t.getDay() + " "
-                    + t.getDate()
+                    + day.getDayName() + " "
+                    + day.getDate()
                     + "\n";
-                for(TimeEdit.ScheduleLecture c : t.getLectures()) {
+                for(ScheduleLecture c : day.getLectures()) {
                     s += "\n"
                         + c.getLectureStart() + " - " + c.getLectureEnd();
-                    for(TimeEdit.ScheduleCourse sc : c.getCourses()) {
+                    for(ScheduleCourse sc : c.getCourses()) {
                         s += "\n" + sc.getCourseName();
                     }
                     s += "\n"

@@ -122,7 +122,7 @@ public class NewDownloadTask extends AsyncTask<String, Void, Boolean> {
                     break;
                 case TIMEEDIT:
                     items = JSONUtilities.JSONtoList(json, type);
-                    mService.setTimeEdit(new ArrayList<Domain>(items));
+                    mService.setTimeEditDays(new ArrayList<Domain>(items));
                     break;
                 case BIBSYS:
                     items = JSONUtilities.JSONtoList(json, type);

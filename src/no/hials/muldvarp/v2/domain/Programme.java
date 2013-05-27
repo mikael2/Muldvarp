@@ -27,7 +27,6 @@ public class Programme extends Domain {
 
     public Programme(JSONObject json) throws JSONException {
         super(json);
-        webLink = json.getString("weblink");
         courses = JSONUtilities.JSONArrayToCourses(json.getJSONArray("courses"));
         if(json.getString("description") != null) {
             this.description = json.getString("description");
@@ -62,23 +61,6 @@ public class Programme extends Domain {
     public void removeCourse(Course c) {
         getCourses().remove(c);
     }
-
-    public String getWebLink() {
-        return webLink;
-    }
-
-    public void setWebLink(String webLink) {
-        this.webLink = webLink;
-    }
-
-    public String getProgrammeCode() {
-        return programmeCode;
-    }
-
-    public void setProgrammeCode(String programmeCode) {
-        this.programmeCode = programmeCode;
-    }
-    
     public String getImageurl() {
         return imageurl;
     }

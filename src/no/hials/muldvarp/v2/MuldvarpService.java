@@ -20,12 +20,12 @@ import no.hials.muldvarp.v2.utility.ServerConnection;
 public class MuldvarpService extends Service {
     public static final String ACTION_COURSE_UPDATE       = "no.hials.muldvarp.ACTION_COURSE_UPDATE";
     public static final String ACTION_PROGRAMMES_UPDATE   = "no.hials.muldvarp.ACTION_PROGRAMMES_UPDATE";
+    public static final String ACTION_TIMEEDIT_UPDATE   = "no.hials.muldvarp.ACTION_TIMEEDIT_UPDATE";
     public static final String ACTION_UPDATE_FAILED       = "no.hials.muldvarp.ACTION_UPDATE_FAILED";
     public static final String SERVER_NOT_AVAILABLE       = "no.hials.muldvarp.SERVER_NOT_AVAILABLE";
     public static final String ACTION_ALL_UPDATE          = "no.hials.muldvarp.ACTION_ALL_UPDATE";
     public static final String ACTION_FRONTPAGE_UPDATE    = "no.hials.muldvarp.ACTION_FRONTPAGE_UPDATE";
     public static final String ACTION_NEWS_UPDATE         = "no.hials.muldvarp.ACTION_NEWS_UPDATE";
-    public static final String ACTION_TIMEEDIT_UPDATE     = "no.hials.muldvarp.ACTION_TIMEEDIT_UPDATE";
     public static final String ACTION_BIBSYS_UPDATE       = "no.hials.muldvarp.ACTION_BIBSYS_UPDATE";
     public static final String ACTION_FRONTER_UPDATE      = "no.hials.muldvarp.ACTION_FRONTER_UPDATE";
 
@@ -34,9 +34,10 @@ public class MuldvarpService extends Service {
     public ArrayList<Domain> mProgrammes;
     public Course selectedCourse;
     public Programme selectedProgramme;
+    public TimeEditSchedule selectedSchedule;
     public ArrayList<Domain> mNews;
     public Domain frontpage;
-    public ArrayList<Domain> timeEdit;
+    public ArrayList<Domain> timeEditDays;
     public ArrayList<Domain> bibSys;
     public Domain fronter;
 
@@ -173,6 +174,7 @@ public class MuldvarpService extends Service {
                     new NewDownloadTask(this,new Intent(ACTION_PROGRAMMES_UPDATE), type, itemId, this)
                             .execute(getUrl(R.string.programmesResPath) + itemId);
                     break;
+                    
             }
 //        }
     }
@@ -236,12 +238,20 @@ public class MuldvarpService extends Service {
         this.selectedProgramme = selectedProgramme;
     }
 
-    public ArrayList<Domain> getTimeEdit() {
-        return timeEdit;
+    public TimeEditSchedule getSelectedSchedule() {
+        return selectedSchedule;
     }
 
-    public void setTimeEdit(ArrayList<Domain> timeEdit) {
-        this.timeEdit = timeEdit;
+    public void setSelectedSchedule(TimeEditSchedule selectedSchedule) {
+        this.selectedSchedule = selectedSchedule;
+    }
+    
+    public ArrayList<Domain> getTimeEditDays() {
+        return timeEditDays; 
+    }
+
+    public void setTimeEditDays(ArrayList<Domain> timeEdit) {
+        this.timeEditDays = timeEdit;
     }
 
     public ArrayList<Domain> getBibSys() {

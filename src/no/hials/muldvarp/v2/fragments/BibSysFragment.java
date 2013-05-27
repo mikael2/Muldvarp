@@ -82,4 +82,5 @@ public class BibSysFragment extends MuldvarpFragment {
         
         return fragmentView;
     }
+    
 }

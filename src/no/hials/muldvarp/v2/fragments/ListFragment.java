@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -25,7 +26,10 @@ import no.hials.muldvarp.v2.TopActivity;
 import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Programme;
 import no.hials.muldvarp.v2.domain.Video;
-import no.hials.muldvarp.v2.utility.ListAdapter;
+import no.hials.muldvarp.v2.adapter.ListAdapter;
+import no.hials.muldvarp.v2.adapter.SectionedListAdapter;
+import no.hials.muldvarp.v2.domain.ScheduleDay;
+import no.hials.muldvarp.v2.view.SectionHeaderView;
 
 /**
  * This class defines a fragment containing a list of specified ListItems.
@@ -34,12 +38,13 @@ import no.hials.muldvarp.v2.utility.ListAdapter;
  */
 public class ListFragment extends MuldvarpFragment {
     ProgressDialog progressDialog;
-    ListAdapter listAdapter;
+    BaseAdapter listAdapter;
     ListView listView;
+    SectionHeaderView headerView;
     View fragmentView;
     List<Domain> items = new ArrayList<Domain>();
     Class destination;
-    public enum ListType {COURSE, PROGRAMME, DOCUMENT, VIDEO, NEWS, QUIZ, TOPIC};
+    public enum ListType {COURSE, PROGRAMME, DOCUMENT, VIDEO, NEWS, QUIZ, TOPIC, TIMEEDIT};
     ListType type;
 
     public ListFragment(String fragmentTitle, int iconResourceID, ListType type) {
@@ -57,9 +62,15 @@ public class ListFragment extends MuldvarpFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(fragmentView == null) {
-            fragmentView = inflater.inflate(R.layout.layout_listview, container, false);
-            listView = (ListView)fragmentView.findViewById(R.id.layoutlistview);
+        if(fragmentView == null) {            
+            if(type == ListType.TIMEEDIT) {
+                fragmentView = inflater.inflate(R.layout.layout_timeedit_listview, container, false);
+                headerView = (SectionHeaderView)fragmentView.findViewById(R.id.layoutSectionHeaderView);
+                headerView.setPinnedHeaderView(inflater.inflate(R.layout.layout_timeedit_listitem_day_header, headerView, false));
+            } else {
+                fragmentView = inflater.inflate(R.layout.layout_listview, container, false);
+                listView = (ListView)fragmentView.findViewById(R.id.layoutlistview);
+            }
         }
 //        progressDialog = new ProgressDialog(owningActivity);
         itemsReady();
@@ -91,6 +102,11 @@ public class ListFragment extends MuldvarpFragment {
                         items.clear();
                         items.addAll(service.mNews);
                         break;
+                    case TIMEEDIT:
+                        items.clear();
+                        items.addAll(service.timeEditDays);
+                        break;
+                        
                 } 
             }
         } catch (NullPointerException ex) {
@@ -118,17 +134,35 @@ public class ListFragment extends MuldvarpFragment {
 
 //        showProgressDialog();
         updateItems();
-
-        listView.setAdapter(new ListAdapter(
+        if(type == ListType.TIMEEDIT){
+            List<ScheduleDay> castList = (List<ScheduleDay>)(List<?>) items;
+            
+//            listView.setAdapter(new TimeEditListAdapter(
+//                    fragmentView.getContext(),
+//                    R.layout.layout_timeedit_listitem,
+//                    R.id.text,
+//                    castList)
+//            );
+            if (headerView == null) {
+                System.out.println("JANFSNFOSFUDS");
+            }
+            headerView.setAdapter(new SectionedListAdapter(
+                    fragmentView.getContext(),
+                    R.layout.layout_timeedit_listitem,
+                    R.id.text,
+                    castList));
+            
+            listAdapter = (SectionedListAdapter) headerView.getAdapter();
+        } else {
+            listView.setAdapter(new ListAdapter(
                     fragmentView.getContext(),
                     R.layout.layout_listitem,
                     R.id.text,
                     items,
                     false)
             );
-        listAdapter = (ListAdapter) listView.getAdapter();
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            listAdapter = (ListAdapter) listView.getAdapter();
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //The idea is that one click should start a corresponding activity.
@@ -170,11 +204,15 @@ public class ListFragment extends MuldvarpFragment {
                 }
             }
         });
+        }        
     }
 
     @Override
     public void queryText(String text){
-        listAdapter.filter(text);
+        if(listAdapter instanceof ListAdapter) {
+//            listAdapter.filter(text);
+        }
+        
     }
 
     public void createDialog(final Domain d){

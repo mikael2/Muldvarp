@@ -28,7 +28,7 @@ import no.hials.muldvarp.v2.domain.Domain;
 import no.hials.muldvarp.v2.domain.Video;
 import no.hials.muldvarp.v2.fragments.ListFragment;
 import no.hials.muldvarp.v2.fragments.ListFragment.ListType;
-import no.hials.muldvarp.v2.utility.ListAdapter;
+import no.hials.muldvarp.v2.adapter.ListAdapter;
 
 public class RibbonMenuView extends LinearLayout {
 
