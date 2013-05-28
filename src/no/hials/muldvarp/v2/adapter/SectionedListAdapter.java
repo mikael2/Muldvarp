@@ -57,7 +57,7 @@ public class SectionedListAdapter extends BaseAdapter implements SectionIndexer,
         for(int i = 0; i < dayList.size(); i++){
             
             retVal.add(new Pair<String, List<ScheduleLecture>>(
-                    dayList.get(i).getDayName(),
+                    dayList.get(i).getDayName() + "" + dayList.get(i).getDate(),
                     dayList.get(i).getLectures()));
         }
         return retVal;
@@ -117,17 +117,6 @@ public class SectionedListAdapter extends BaseAdapter implements SectionIndexer,
             return null;
     }
 
-//    @Override
-//    public ScheduleLecture getItem(int position) {
-//            int count = 0;
-//            for (int i = 0; i < items.size(); i++) {
-//                    if (position >= count && position < count + items.get(i).second.size()) {
-//                            return items.get(i).second.get(position - count).second;
-//                    }
-//                    count += items.get(i).second.size();
-//            }
-//            return null;
-//    }
 
     @Override
     public long getItemId(int position) {

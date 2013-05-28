@@ -143,9 +143,6 @@ public class ListFragment extends MuldvarpFragment {
 //                    R.id.text,
 //                    castList)
 //            );
-            if (headerView == null) {
-                System.out.println("JANFSNFOSFUDS");
-            }
             headerView.setAdapter(new SectionedListAdapter(
                     fragmentView.getContext(),
                     R.layout.layout_timeedit_listitem,
@@ -211,8 +208,7 @@ public class ListFragment extends MuldvarpFragment {
     public void queryText(String text){
         if(listAdapter instanceof ListAdapter) {
 //            listAdapter.filter(text);
-        }
-        
+        }        
     }
 
     public void createDialog(final Domain d){
@@ -236,7 +232,6 @@ public class ListFragment extends MuldvarpFragment {
         AlertDialog alert = builder.create();
         alert.show();
     }
-
 
     public void showProgressDialog(){
 

@@ -171,17 +171,9 @@ public class Domain implements Serializable {
     }
     
     public void constructList(List<MuldvarpFragment> fragmentList, List<DomainFragment> fragments) {
-        fragmentList.clear();
-        List test = new ArrayList();
-        test.add("derr");
-        test.add("derr");
-        test.add("derr");
-        test.add("derr");
-        test.add("derr");
-        test.add("derr");
-        
+        fragmentList.clear();        
         fragmentList.add(new FrontPageFragment("Startside", R.drawable.stolen_smsalt));
-        fragmentList.add(new ListFragment("Timeplan", R.drawable.stolen_smsalt, ListFragment.ListType.TIMEEDIT));
+        fragmentList.add(new ListFragment("Timeplan", R.drawable.timeedit, ListFragment.ListType.TIMEEDIT));
         if(this instanceof Course) {
 //            fragmentList.add(new InfoFragment("Informasjon", R.drawable.stolen_notes, 0));
         } else if(this instanceof Programme) {
