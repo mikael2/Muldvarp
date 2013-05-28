@@ -207,7 +207,8 @@ public class ListFragment extends MuldvarpFragment {
     @Override
     public void queryText(String text){
         if(listAdapter instanceof ListAdapter) {
-//            listAdapter.filter(text);
+            ListAdapter t = (ListAdapter)listAdapter;
+            t.filter(text);
         }        
     }
 
