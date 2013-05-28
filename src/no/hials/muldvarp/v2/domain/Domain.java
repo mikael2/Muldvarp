@@ -203,7 +203,7 @@ public class Domain implements Serializable {
                     fragmentList.add(new WebzViewFragment(fragments.get(i).getName(), R.drawable.stolen_contacts, (int)fragments.get(i).getArticleID()));
                     break;
                 case TIMEEDIT:
-                    fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.stolen_smsalt, ListFragment.ListType.COURSE));
+                    fragmentList.add(new ListFragment(fragments.get(i).getName(), R.drawable.timeedit, ListFragment.ListType.TIMEEDIT));
                     break;
                 case BIBSYS:
                     fragmentList.add(new BibSysFragment(fragments.get(i).getName(), R.drawable.bibsys, 0));
