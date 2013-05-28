@@ -57,7 +57,7 @@ public class SectionedListAdapter extends BaseAdapter implements SectionIndexer,
         for(int i = 0; i < dayList.size(); i++){
             
             retVal.add(new Pair<String, List<ScheduleLecture>>(
-                    dayList.get(i).getDayName() + "" + dayList.get(i).getDate(),
+                    dayList.get(i).getDayName() + " " + dayList.get(i).getDate(),
                     dayList.get(i).getLectures()));
         }
         return retVal;
